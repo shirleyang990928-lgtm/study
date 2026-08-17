@@ -683,20 +683,35 @@ function placeAt(el,rect){
 }
 // 滚动时收起浮层，避免错位
 window.addEventListener('scroll',()=>{pop.style.display='none';markMenu.style.display='none'},{passive:true});
+function showSelPopup(){
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed){pop.style.display='none';return}
+  const text=sel.toString().replace(/\s+/g,' ').trim();
+  const node=sel.anchorNode;const anchor=node&&(node.nodeType===3?node.parentElement:node);
+  const en=anchor&&anchor.closest?anchor.closest('.en'):null;
+  if(!en||text.length<2){pop.style.display='none';return}
+  const sec=en.closest('section');
+  let rect;try{rect=sel.getRangeAt(0).getBoundingClientRect()}catch(e){return}
+  curSel={text:text,sec:sec?sec.id:'',rect:rect};
+  placeAt(pop,curSel.rect);
+}
 document.addEventListener('mouseup',e=>{
   if(pop.contains(e.target)||dictCard.contains(e.target)||markMenu.contains(e.target))return;
-  setTimeout(()=>{
-    const sel=window.getSelection();
-    if(sel.isCollapsed){pop.style.display='none';return}
-    const text=sel.toString().replace(/\s+/g,' ').trim();
-    const node=sel.anchorNode;const anchor=node&&(node.nodeType===3?node.parentElement:node);
-    const en=anchor&&anchor.closest?anchor.closest('.en'):null;
-    if(!en||text.length<2){pop.style.display='none';return}
-    const sec=en.closest('section');
-    curSel={text:text,sec:sec?sec.id:'',rect:sel.getRangeAt(0).getBoundingClientRect()};
-    placeAt(pop,curSel.rect);
-  },10);
+  setTimeout(showSelPopup,10);
 });
+let touchSelTimer=null,isTouch=false;
+document.addEventListener('touchstart',()=>{isTouch=true},{passive:true});
+document.addEventListener('selectionchange',()=>{
+  if(!isTouch)return;
+  clearTimeout(touchSelTimer);
+  touchSelTimer=setTimeout(showSelPopup,450);
+});
+document.addEventListener('touchend',e=>{
+  if(!isTouch)return;
+  if(pop.contains(e.target)||dictCard.contains(e.target)||markMenu.contains(e.target))return;
+  clearTimeout(touchSelTimer);
+  touchSelTimer=setTimeout(showSelPopup,350);
+},{passive:true});
 function doHighlight(withNote){
   if(!curSel)return;
   window.getSelection().removeAllRanges();
