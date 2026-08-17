@@ -162,6 +162,19 @@ mark.has-note::after{content:"📝";font-size:10px;margin-left:1px}
 .para .en{font-family:-apple-system,'PingFang SC','Microsoft YaHei','Noto Serif SC',serif;font-size:16px;color:#28403E;line-height:1.9}
 .quote .en{font-size:15.5px}
 .zh-t{display:block;font-size:.5em;color:#6B8480;margin-top:8px;font-weight:400}
+
+#sync-modal{position:fixed;inset:0;z-index:130;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.4);backdrop-filter:blur(3px)}
+#sync-modal.open{display:flex}
+#sync-modal .box{width:420px;max-width:92vw;background:#fff;border-radius:18px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+#sync-modal .sync-inp{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13.5px;background:#FBFDFC;margin-top:3px}
+#sync-modal .sync-inp:focus{outline:none;border-color:var(--teal)}
+#sync-modal .row{display:flex;gap:8px;flex-wrap:wrap}
+#sync-modal .row button{flex:1;min-width:90px;border-radius:10px;padding:9px;font-size:13.5px;cursor:pointer;border:none}
+#sync-modal .row .ok{background:var(--teal);color:#fff}
+#sync-modal .row .no{background:#EEF2F1;color:#5D7975}
+.cloud-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#C9B0AA;margin-right:5px;vertical-align:1px}
+.cloud-dot.on{background:#4F9E7A}
+
 /* notes */
 .note-area{margin-top:14px}
 .note-area textarea{width:100%;min-height:64px;border:1.5px dashed #B9CBC7;border-radius:10px;padding:10px 12px;font-size:14px;font-family:-apple-system,'PingFang SC',sans-serif;background:#FFFDF4;color:#4A4632;resize:vertical}
@@ -222,6 +235,7 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
 
 <div class="toolbar ui">
   <button class="btn" id="drawer-btn">📒 术语本 · 划线 · 笔记</button>
+  <button class="btn" id="sync-btn"><span class="cloud-dot"></span>☁️ 同步</button>
   <button class="btn gold" id="export-btn">📤 导出学习笔记</button>
   <span class="save-state" id="save-state">已就绪</span>
 </div>
@@ -557,24 +571,73 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
   </div>
 </div>
 
+<div id="sync-modal" class="ui">
+  <div class="box">
+    <h3 style="color:var(--teal);margin-bottom:6px">☁️ 多设备同步设置</h3>
+    <p style="font-size:12.5px;color:#6B8480;line-height:1.7;margin-bottom:12px">填入你的 <b>Gist ID</b> 和 <b>GitHub Token</b>，划线/笔记就会存到云端。在每台设备上填同一组，就能看到相同内容。（留空 = 只用本机保存）</p>
+    <label style="font-size:12px;color:#8CA19D">Gist ID</label>
+    <input id="sync-gist" class="sync-inp" placeholder="例如 3a1b...（那串字母数字）">
+    <label style="font-size:12px;color:#8CA19D;margin-top:8px;display:block">GitHub Token</label>
+    <input id="sync-token" class="sync-inp" type="password" placeholder="ghp_ 或 github_pat_ 开头">
+    <div id="sync-status" style="font-size:12.5px;margin-top:10px;min-height:18px"></div>
+    <div class="row" style="margin-top:12px">
+      <button class="ok" id="sync-save">连接并同步</button>
+      <button class="no" id="sync-clear">断开（只用本机）</button>
+      <button class="no" id="sync-close2">关闭</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
 const NOTE_KEY='reading-talk-notes', HL_KEY='reading-talk-highlights', VC_KEY='reading-talk-vocab';
 let notes={}, highlights=[], vocab=[], saveTimer=null;
 
-// storage layer: artifact window.storage if available, else localStorage
+// ===== 云端同步（GitHub Gist）+ 本地兜底 =====
+const CFG_GIST='__cfg_gist_id', CFG_TOKEN='__cfg_gist_token';
+let gistId=localStorage.getItem(CFG_GIST)||'', gistToken=localStorage.getItem(CFG_TOKEN)||'';
+let cloudCache=null, pushTimer=null, cloudOn=false;
+
+function gistHeaders(){return {'Authorization':'token '+gistToken,'Accept':'application/vnd.github+json'}}
+async function cloudPull(){
+  if(!gistId||!gistToken)return null;
+  const r=await fetch('https://api.github.com/gists/'+gistId,{headers:gistHeaders()});
+  if(!r.ok)throw new Error('pull '+r.status);
+  const j=await r.json();
+  const f=j.files&&j.files['data.json'];
+  cloudCache=f&&f.content?JSON.parse(f.content):{};
+  return cloudCache;
+}
+async function cloudPush(obj){
+  if(!gistId||!gistToken)return;
+  const r=await fetch('https://api.github.com/gists/'+gistId,{
+    method:'PATCH',headers:gistHeaders(),
+    body:JSON.stringify({files:{'data.json':{content:JSON.stringify(obj)}}})
+  });
+  if(!r.ok)throw new Error('push '+r.status);
+}
+
 const store={
   async get(k){
-    if(window.storage&&window.storage.get){try{const r=await window.storage.get(k);return r?r.value:null}catch(e){}}
+    if(cloudOn&&cloudCache&&(k in cloudCache))return cloudCache[k];
     try{return localStorage.getItem(k)}catch(e){return null}
   },
   async set(k,v){
-    let ok=false;
-    if(window.storage&&window.storage.set){try{await window.storage.set(k,v);ok=true}catch(e){}}
-    try{localStorage.setItem(k,v);ok=true}catch(e){}
-    if(!ok)throw new Error('no storage');
+    try{localStorage.setItem(k,v)}catch(e){}
+    if(cloudOn){
+      if(!cloudCache)cloudCache={};
+      cloudCache[k]=v;
+      clearTimeout(pushTimer);
+      pushTimer=setTimeout(async()=>{
+        try{await cloudPush(cloudCache);cloudBadge('✓ 已同步到云端 '+nowT())}
+        catch(e){cloudBadge('⚠ 云端同步失败，已存本地')}
+      },900);
+    }
   }
 };
+function nowT(){return new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})}
+function cloudBadge(t){const s=document.getElementById('save-state');if(s)s.textContent=t}
+
 const state=document.getElementById('save-state');
 const sections=[...document.querySelectorAll('section')];
 
@@ -585,17 +648,19 @@ async function saveAll(){
     await store.set(NOTE_KEY,JSON.stringify(notes));
     await store.set(HL_KEY,JSON.stringify(highlights));
     await store.set(VC_KEY,JSON.stringify(vocab));
-    setState('✓ 已保存 '+new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'}));
+    setState(cloudOn?'✓ 已保存（同步中…）':'✓ 已保存 '+nowT());
   }catch(e){setState('⚠ 保存失败，稍后自动重试');setTimeout(saveAll,3000)}
 }
 async function load(){
+  if(gistId&&gistToken){try{await cloudPull();cloudOn=true}catch(e){cloudOn=false}}
   try{const v=await store.get(NOTE_KEY);if(v)notes=JSON.parse(v)}catch(e){}
   try{const v=await store.get(HL_KEY);if(v)highlights=JSON.parse(v)}catch(e){}
   try{const v=await store.get(VC_KEY);if(v)vocab=JSON.parse(v)}catch(e){}
   const g=document.getElementById('global-note');if(notes.__global)g.value=notes.__global;
   highlights.forEach((h,i)=>{if(!h.id)h.id='h'+Date.now()+'_'+i;applyHighlight(h.sec,h.text,h.id)});refreshMarkNoteStyles();
   renderHlList();renderVocab();markVocabWords();
-  setState(highlights.length||vocab.length||Object.keys(notes).length?'✓ 已恢复你的笔记 · 划线 · 生词':'已就绪');
+  setState(cloudOn?('☁️ 已从云端载入 '+nowT()):(highlights.length||vocab.length||Object.keys(notes).length?'✓ 已恢复你的笔记 · 划线 · 术语':'已就绪'));
+  if(typeof updateCloudBtn==='function')updateCloudBtn();
 }
 
 // notes events
@@ -993,9 +1058,72 @@ const obs=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){li
 sections.forEach(s=>obs.observe(s));
 }
 
+
+// ---- 同步设置 UI 逻辑 ----
+const syncModal=document.getElementById('sync-modal');
+function openSync(){
+  document.getElementById('sync-gist').value=gistId;
+  document.getElementById('sync-token').value=gistToken;
+  document.getElementById('sync-status').innerHTML=cloudOn?'<span class="cloud-dot on"></span>已连接云端':'<span class="cloud-dot"></span>当前仅本机保存';
+  syncModal.classList.add('open');
+}
+document.getElementById('sync-btn').onclick=openSync;
+document.getElementById('sync-close2').onclick=()=>syncModal.classList.remove('open');
+syncModal.addEventListener('click',e=>{if(e.target===syncModal)syncModal.classList.remove('open')});
+document.getElementById('sync-clear').onclick=()=>{
+  localStorage.removeItem(CFG_GIST);localStorage.removeItem(CFG_TOKEN);
+  gistId='';gistToken='';cloudOn=false;cloudCache=null;
+  updateCloudBtn();
+  document.getElementById('sync-status').innerHTML='<span class="cloud-dot"></span>已断开，改用本机保存';
+};
+document.getElementById('sync-save').onclick=async()=>{
+  const gid=document.getElementById('sync-gist').value.trim();
+  const tok=document.getElementById('sync-token').value.trim();
+  const st=document.getElementById('sync-status');
+  if(!gid||!tok){st.textContent='请把两个都填上';return}
+  st.textContent='正在连接…';
+  gistId=gid;gistToken=tok;
+  try{
+    const cloud=await cloudPull();          // 试着拉云端
+    cloudOn=true;
+    localStorage.setItem(CFG_GIST,gid);localStorage.setItem(CFG_TOKEN,tok);
+    // 若云端为空，把本机现有内容推上去（首次上传）
+    const empty=!cloud||Object.keys(cloud).length===0;
+    if(empty){
+      cloudCache={};
+      cloudCache[NOTE_KEY]=localStorage.getItem(NOTE_KEY)||'';
+      cloudCache[HL_KEY]=localStorage.getItem(HL_KEY)||'';
+      cloudCache[VC_KEY]=localStorage.getItem(VC_KEY)||'';
+      await cloudPush(cloudCache);
+      st.innerHTML='<span class="cloud-dot on"></span>已连接，本机内容已上传到云端';
+    }else{
+      st.innerHTML='<span class="cloud-dot on"></span>已连接，正在载入云端内容…';
+    }
+    updateCloudBtn();
+    await reloadFromStore();                 // 重新用云端数据渲染
+    st.innerHTML='<span class="cloud-dot on"></span>同步成功！其它设备填同一组即可看到相同内容';
+    setTimeout(()=>syncModal.classList.remove('open'),1200);
+  }catch(e){
+    cloudOn=false;
+    st.innerHTML='⚠ 连接失败：请检查 Gist ID 和 Token 是否正确（Token 需勾选 gist 权限）';
+  }
+};
+function updateCloudBtn(){
+  const b=document.getElementById('sync-btn');
+  b.innerHTML=(cloudOn?'<span class="cloud-dot on"></span>':'<span class="cloud-dot"></span>')+'☁️ 同步';
+}
+// 清空当前内存并按 store 重新载入（切换云端后刷新界面）
+async function reloadFromStore(){
+  document.querySelectorAll('mark[data-hid]').forEach(mk=>{const p=mk.parentNode;while(mk.firstChild)p.insertBefore(mk.firstChild,mk);p.removeChild(mk);p.normalize()});
+  document.querySelectorAll('span.vocab-mark').forEach(s=>s.replaceWith(document.createTextNode(s.textContent)));
+  notes={};highlights=[];vocab=[];
+  await load();
+}
+
 load();
 })();
 </script>
+
 
 </body>
 </html>
