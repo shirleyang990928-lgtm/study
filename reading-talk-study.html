@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOGG 父母讲堂 · 小学孩子阅读的关键是什么 | 学习笔记本</title>
+<style>
+:root{
+  --ink:#24505B; --ink-deep:#16333B; --teal:#2E5A66; --mist:#E7EFED; --paper:#FBFBF8;
+  --gold:#E8C558; --gold-deep:#B08A1E; --line:#D5DEDC; --zh:#5C7A72; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+input,textarea,select,button{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
+body{font-family:Georgia,'Times New Roman','Songti SC','Noto Serif SC',serif;background:var(--paper);color:var(--ink-deep);line-height:1.75}
+.ui{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
+
+/* layout */
+.wrap{display:flex;max-width:1200px;margin:0 auto;gap:0}
+aside{width:270px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;padding:28px 18px 40px 20px;border-right:1px solid var(--line);background:linear-gradient(180deg,#F2F6F5, var(--paper))}
+main{flex:1;min-width:0;padding:36px 44px 120px}
+@media(max-width:900px){
+  .wrap{flex-direction:column}
+  aside{position:relative;width:100%;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:20px}
+  main{padding:24px 18px 120px}
+}
+
+/* sidebar map */
+.map-title{font-size:12px;letter-spacing:.18em;color:var(--teal);text-transform:uppercase;margin-bottom:4px}
+.map-sub{font-size:12px;color:#7C918D;margin-bottom:18px}
+.map a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:#42605F;font-size:13.5px;padding:7px 8px;border-radius:8px;line-height:1.4}
+.map a:hover{background:var(--mist)}
+.map a.active{background:var(--teal);color:#fff}
+.map a .dot{width:7px;height:7px;border-radius:50%;background:var(--line);flex-shrink:0;transform:translateY(-1px);transition:background .2s}
+.map a.active .dot{background:var(--gold)}
+.map .part{margin:14px 0 4px;font-size:11px;letter-spacing:.14em;color:#9AACA8;text-transform:uppercase}
+
+/* header */
+header{margin-bottom:34px;border-bottom:3px double var(--teal);padding-bottom:26px}
+.eyebrow{font-size:12px;letter-spacing:.22em;color:var(--gold-deep);text-transform:uppercase;margin-bottom:10px}
+h1{font-size:clamp(26px,4vw,40px);color:var(--teal);line-height:1.2;font-weight:600}
+h1 .zh-t{display:block;font-size:.55em;color:#6B8480;margin-top:8px;font-weight:400}
+.meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;font-size:13px;color:#6B8480}
+.meta span::before{content:"— ";color:var(--gold-deep)}
+
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:50;background:rgba(251,251,248,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:0 -44px 30px;padding:10px 44px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+@media(max-width:900px){.toolbar{margin:0 -18px 24px;padding:10px 18px}}
+.btn{border:1.5px solid var(--teal);background:#fff;color:var(--teal);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;transition:.15s}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--teal);color:#fff}
+.btn.gold{border-color:var(--gold-deep);color:var(--gold-deep)}
+.btn.gold.on{background:var(--gold);border-color:var(--gold);color:var(--ink-deep)}
+.save-state{font-size:12px;color:#8AA09C;margin-left:auto}
+
+/* sections */
+section{margin-bottom:46px;scroll-margin-top:70px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.sec-num{font-size:13px;color:var(--gold-deep);letter-spacing:.1em;font-family:Georgia,serif}
+h2{font-size:21px;color:var(--teal);font-weight:600}
+.sec-time{font-size:12px;color:#9AACA8;margin-bottom:12px}
+.keypoints{background:var(--mist);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0 18px;font-size:13.5px}
+.keypoints b{color:var(--teal)}
+.keypoints li{margin-left:18px;margin-top:4px;color:#3B5A57}
+
+/* paragraphs */
+.para{margin-bottom:18px;padding-right:26px}
+.en{font-size:16.5px;color:#22403F}
+.en.hl-mode{cursor:text}
+.sz{display:none}
+.zh-block{display:none;margin-top:8px;padding:10px 14px;background:#F1F5F3;border-left:3px solid var(--zh);border-radius:0 8px 8px 0;color:var(--zh);font-size:14.5px;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;line-height:1.85}
+.zh-block .comment-line{display:block;margin-top:7px;color:#A08A45;font-size:13.5px}
+body.show-zh .zh-block, section.show-zh .zh-block, .para.zh-open .zh-block, .quote.zh-open .zh-block{display:block}
+.quote{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:14px 0;font-style:italic;box-shadow:0 2px 8px rgba(36,80,91,.06);position:relative}
+.quote::before{content:"“";position:absolute;top:-2px;left:10px;font-size:44px;color:var(--gold);font-style:normal;line-height:1}
+.quote .en{font-size:15.5px}
+.tag{display:inline-block;font-size:11px;background:var(--teal);color:#fff;border-radius:4px;padding:2px 8px;margin-bottom:8px;letter-spacing:.05em}
+.tag.before{background:#8A9E9A}
+.tag.after{background:var(--gold-deep)}
+
+/* highlights */
+mark{background:linear-gradient(104deg, rgba(232,197,88,0) 1%, rgba(232,197,88,.85) 3%, rgba(232,197,88,.55) 96%, rgba(232,197,88,0) 99%);padding:1px 2px;border-radius:2px;cursor:pointer}
+mark:hover{outline:1.5px dashed var(--gold-deep)}
+#hl-tip{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink-deep);color:#fff;font-size:12.5px;padding:8px 16px;border-radius:20px;z-index:99;display:none}
+
+/* selection popup */
+#sel-pop{position:fixed;z-index:95;display:none;background:var(--ink-deep);border-radius:10px;padding:5px;box-shadow:0 6px 20px rgba(0,0,0,.25);gap:4px}
+#sel-pop button{border:none;background:transparent;color:#fff;font-size:12.5px;padding:6px 10px;border-radius:7px;cursor:pointer;white-space:nowrap}
+#sel-pop button:hover{background:rgba(255,255,255,.15)}
+#sel-pop .sep{width:1px;background:rgba(255,255,255,.2);margin:4px 0}
+/* dictionary card */
+#dict-card{position:fixed;z-index:96;display:none;width:300px;max-width:92vw;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(22,51,59,.25);padding:18px 18px 14px}
+#dict-card .dw{font-family:Georgia,serif;font-size:21px;color:var(--teal);font-weight:600}
+#dict-card .dp{color:#93A8A4;font-size:13px;margin-left:7px}
+#dict-card .say{border:none;background:var(--mist);border-radius:50%;width:27px;height:27px;cursor:pointer;margin-left:7px;font-size:13px}
+#dict-card .zh-big{font-size:17px;color:var(--ink-deep);margin-top:10px;font-weight:600;line-height:1.6}
+#dict-card .zh-big.loading{color:#9AACA8;font-weight:400;font-size:14px}
+#dict-card .dd{font-size:12px;color:#8CA19D;margin-top:7px;line-height:1.55;max-height:70px;overflow-y:auto}
+#dict-card .dc-row{display:flex;gap:8px;margin-top:13px}
+#dict-card .dc-row button{border-radius:9px;padding:8px;font-size:13px;cursor:pointer;border:none}
+#dict-card .dc-row .add{flex:1;background:var(--teal);color:#fff}
+#dict-card .dc-row .add:hover{background:var(--ink)}
+#dict-card .close-x{position:absolute;top:9px;right:13px;border:none;background:none;color:#AAB9B6;cursor:pointer;font-size:15px}
+/* mark menu */
+#mark-menu{position:fixed;z-index:96;display:none;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 26px rgba(22,51,59,.2);padding:6px;min-width:145px}
+#mark-menu button{display:block;width:100%;text-align:left;border:none;background:none;padding:8px 12px;font-size:13px;color:#3B5A57;cursor:pointer;border-radius:8px}
+#mark-menu button:hover{background:var(--mist)}
+#mark-menu button.danger{color:#B04A3A}
+mark.has-note{border-bottom:2px solid var(--gold-deep)}
+mark.has-note::after{content:"📝";font-size:10px;margin-left:1px}
+.hl-note-inp{width:100%;border:1px dashed #D8C88F;border-radius:7px;margin-top:6px;padding:5px 8px;font-size:12.5px;background:#FFFDF4}
+/* note modal — centered, bright */
+#note-modal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.35);backdrop-filter:blur(2px)}
+#note-modal.open{display:flex}
+#note-modal .box{width:440px;max-width:92vw;background:#fff;border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+#note-modal .quote-ref{font-size:13px;color:#6B8480;background:var(--mist);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:8px 12px;margin-bottom:12px;font-style:italic;max-height:76px;overflow-y:auto}
+#note-modal textarea{width:100%;min-height:110px;border:1.5px solid var(--line);border-radius:12px;padding:12px;font-size:15px;background:#FFFDF4;resize:vertical}
+#note-modal textarea:focus{outline:none;border-color:var(--teal)}
+#note-modal .row{display:flex;gap:10px;margin-top:14px}
+#note-modal .row button{flex:1;border-radius:10px;padding:10px;font-size:14px;cursor:pointer;border:none}
+#note-modal .row .ok{background:var(--teal);color:#fff}
+#note-modal .row .no{background:#EEF2F1;color:#5D7975}
+/* vocab — compact rows */
+.vocab-item{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:9px 11px;margin-bottom:7px;font-size:13px}
+.vocab-item.known{opacity:.5}
+.vocab-item .main{flex:1;min-width:0}
+.vocab-item .w{font-family:Georgia,serif;font-size:15.5px;color:var(--teal);font-weight:600;cursor:pointer}
+.vocab-item .ph{color:#A8B8B4;font-size:11px;margin-left:5px}
+.vocab-item .zh-inline{border:none;background:transparent;width:100%;font-size:13px;color:#4A6360;padding:1px 0;font-family:inherit}
+.vocab-item .zh-inline::placeholder{color:#BCC9C6}
+.vocab-item .zh-inline:focus{outline:none;border-bottom:1px dashed var(--gold-deep)}
+.vocab-item .kbtn{flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-size:14px}
+.vocab-item .kbtn.on{background:var(--teal);border-color:var(--teal)}
+.vocab-item .rm{flex-shrink:0;border:none;background:none;color:#C9B0AA;cursor:pointer;font-size:13px;padding:2px}
+.vocab-stats{display:flex;gap:8px;margin-bottom:12px;font-size:12.5px;color:#6B8480;align-items:center}
+.vocab-stats b{color:var(--gold-deep);font-size:16px;font-family:Georgia,serif}
+.vocab-stats .ok-n{color:var(--teal)}
+.dict-loading{color:#9AACA8;font-size:12px}
+#drawer .tabs{display:flex;gap:6px;margin-bottom:16px}
+#drawer .tabs button{flex:1;border:1.5px solid var(--teal);background:#fff;color:var(--teal);border-radius:9px;padding:7px;font-size:13px;cursor:pointer}
+#drawer .tabs button.on{background:var(--teal);color:#fff}
+#drawer .pane{display:none}#drawer .pane.on{display:block}
+/* vocab words in text — 蓝色系，与金色划线区分 */
+.vocab-mark{background:#DEEAF6;border-bottom:2px dotted #4A7BAA;border-radius:2px;padding:0 1px;cursor:pointer}
+.vocab-mark:hover{background:#CBDFF2}
+/* per-paragraph 中文 toggle */
+.para,.quote{position:relative}
+.zh-btn{position:absolute;right:-6px;top:0;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);background:#fff;color:#8CA19D;font-size:11.5px;cursor:pointer;opacity:.55;transition:.15s;font-family:-apple-system,'PingFang SC',sans-serif;line-height:1}
+.zh-btn:hover{opacity:1;border-color:var(--teal);color:var(--teal)}
+.zh-btn.on{background:var(--teal);border-color:var(--teal);color:#fff;opacity:1}
+.para.zh-open .zh,.quote.zh-open .zh{display:block}
+@media(max-width:900px){.zh-btn{right:0}}
+/* dict card long-selection mode */
+#dict-card .dw.long{font-size:14px;color:#6B8480;font-weight:400;font-family:-apple-system,'PingFang SC',sans-serif}
+#dict-card .orig-small{font-size:12px;color:#9AACA8;margin-top:6px;max-height:64px;overflow-y:auto;font-style:italic;line-height:1.5}
+/* speaker chips */
+.spk{display:inline-block;font-size:12px;font-weight:600;padding:1px 9px;border-radius:12px;margin-right:6px;vertical-align:1px}
+.spk.yc{background:#E3EFEA;color:#2E6B57}
+.spk.ny{background:#EAE6F6;color:#5B4B98}
+.spk.ly{background:#FBEBD8;color:#B0741E}
+.spk.qy{background:#DDEAF6;color:#2E5E8E}
+.para .en{font-family:-apple-system,'PingFang SC','Microsoft YaHei','Noto Serif SC',serif;font-size:16px;color:#28403E;line-height:1.9}
+.quote .en{font-size:15.5px}
+.zh-t{display:block;font-size:.5em;color:#6B8480;margin-top:8px;font-weight:400}
+/* notes */
+.note-area{margin-top:14px}
+.note-area textarea{width:100%;min-height:64px;border:1.5px dashed #B9CBC7;border-radius:10px;padding:10px 12px;font-size:14px;font-family:-apple-system,'PingFang SC',sans-serif;background:#FFFDF4;color:#4A4632;resize:vertical}
+.note-area textarea:focus{outline:none;border-color:var(--gold-deep);border-style:solid}
+.note-label{font-size:12px;color:#9AACA8;margin-bottom:4px}
+
+/* notes drawer */
+#drawer{position:fixed;right:-360px;top:0;width:350px;max-width:92vw;height:100vh;background:#fff;border-left:1px solid var(--line);box-shadow:-8px 0 30px rgba(0,0,0,.08);z-index:90;transition:right .25s;padding:24px 20px;overflow-y:auto}
+#drawer.open{right:0}
+#drawer h3{color:var(--teal);margin-bottom:12px;font-size:16px}
+.hl-item{border-left:3px solid var(--gold);background:#FCF8EA;padding:8px 12px;border-radius:0 8px 8px 0;margin-bottom:10px;font-size:13px;color:#5A5238}
+.hl-item .src{font-size:11px;color:#A09468;display:block;margin-top:3px}
+.hl-item .del{float:right;cursor:pointer;color:#B08A1E;font-size:12px}
+.empty{color:#AAB9B6;font-size:13px;font-style:italic}
+footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:#9AACA8;text-align:center}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<aside class="ui">
+  <div class="map-title">讲座学习地图</div>
+  <div class="map-sub">FOGG 父母讲堂 · 阅读专场 · 2024.08.04</div>
+  <nav class="map" id="map">
+    <div class="part">Part 1 · 为什么读</div>
+    <a href="#s1"><span class="dot"></span>开场 · 三位嘉宾</a>
+    <a href="#s2"><span class="dot"></span>阅读为什么重要</a>
+    <a href="#s3"><span class="dot"></span>别把阅读功利化</a>
+    <a href="#s4"><span class="dot"></span>过犹不及</a>
+    <div class="part">Part 2 · 读什么·怎么理解</div>
+    <a href="#s5"><span class="dot"></span>阅读 vs 补习</a>
+    <a href="#s6"><span class="dot"></span>读了≠读懂·读写困难</a>
+    <a href="#s7"><span class="dot"></span>三种能力·寓教于乐</a>
+    <a href="#s8"><span class="dot"></span>阅读理解·中文难点</a>
+    <a href="#s9"><span class="dot"></span>案例·言外之意</a>
+    <a href="#s10"><span class="dot"></span>案例·迪克比</a>
+    <div class="part">Part 3 · 怎么做</div>
+    <a href="#s11"><span class="dot"></span>选材·环境·身教</a>
+    <a href="#s12"><span class="dot"></span>阅读题·朗读</a>
+    <a href="#s13"><span class="dot"></span>阅读笔记卡片</a>
+    <a href="#s14"><span class="dot"></span>请君入瓮·深层快乐</a>
+    <div class="part">Part 4 · 书单与尾声</div>
+    <a href="#s15"><span class="dot"></span>书单</a>
+    <a href="#s16"><span class="dot"></span>东方vs西方·尾声</a>
+  </nav>
+</aside>
+
+<main>
+<header>
+  <div class="eyebrow ui">FOGG 父母讲堂 · 阅读专场</div>
+  <h1>小学孩子阅读的关键是什么？<span class="zh-t">言词 × 宁宇 × 清滢 × 李洋 — 三位阅读名师的圆桌分享</span></h1>
+  <div class="meta ui">
+    <span>主讲：宁宇 · 清滢 · 李洋（FOGG 趣味中文阅读俱乐部）</span>
+    <span>主持：言词（FOGG 创始人）</span>
+    <span>2024年8月4日 · 约115分钟</span>
+  </div>
+</header>
+
+<div class="toolbar ui">
+  <button class="btn" id="drawer-btn">📒 术语本 · 划线 · 笔记</button>
+  <button class="btn gold" id="export-btn">📤 导出学习笔记</button>
+  <span class="save-state" id="save-state">已就绪</span>
+</div>
+
+<section id="s1">
+  <div class="sec-head"><span class="sec-num">01</span><h2>开场 · 三位嘉宾与 FOGG</h2></div>
+  <div class="sec-time ui">开场</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>FOGG 通识营（新加坡）：假期线下营（昆虫营、原始人盖房子）+ 线上阅读/写作/文学课</li>
+    <li>线上主力：英文精读课 + 中文趣味阅读俱乐部（一至四级书单）</li>
+    <li>三位嘉宾：<b>宁宇老师</b>（阅读推广人、童书译者/作者，理念+理论扎实）、<b>清滢老师</b>（三级书单 9–10 岁中文阅读老师，东西方阅读理论对比）、<b>李洋老师</b>（朗读大赛主持/评委，华东师大儿童阅读博士在读，二级书单 7–9 岁）</li>
+    <li>主持：言词（FOGG 创始人）</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>大家晚上好，欢迎在周末的晚上拿出宝贵时间来参加 FOGG 父母讲堂。今天我们特别荣幸一口气请到了三位各有所长的嘉宾。先简单介绍一下 FOGG：成立于新加坡，假期为孩子提供线下营——比如即将到来的 9 月学校假期，我们有“虫子营”带孩子在农场研究昆虫，还有“给原始人盖房子”，让孩子真的搭帐篷、冰屋、树屋。孩子一边获得鲜活经验，一边为以后的科学学习积累感性经验。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>线上课我们主要集中在阅读、写作和文学，其中有英文精读课和中文精读课。今天这三位嘉宾都是我们中文“趣味中文阅读俱乐部”最核心的团队。宁宇老师是阅读推广人，同时是童书译者和童书作者，他为很多孩子提供阅读课程和帮助，甚至去中国乡村帮助那里的孩子提升阅读——他在阅读方面既有理念又有品位，理论也很扎实。清滢老师是三级书单（9–10 岁）的专职中文阅读老师，对东方和西方的阅读理论有自己的比对和看法。李洋老师很多新加坡朋友都认识，他是朗读大赛的主持人和评委，正在华东师范大学攻读博士，研究方向就是儿童阅读，同时也是我们一级、二级书单（7–9 岁）的授课老师。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>今天前半程我作为主持人，请三位老师做一些主题性分享；后半程我们留更多时间给家长提问。请大家现在就把孩子在阅读上的问题打进聊天室——先告诉我们孩子几岁（多个孩子用逗号分开），我们一会儿来“翻牌子”回答。</p></div>
+</section>
+<section id="s2">
+  <div class="sec-head"><span class="sec-num">02</span><h2>阅读为什么重要？——阅读是复杂的社会行为</h2></div>
+  <div class="sec-time ui">宁宇老师</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>核心命题（宁宇）：阅读不是天生就会的，是需要后天学习掌握的复杂社会行为</b></li>
+    <li>经典演示：一张"青苹果配粉红色文字"的图 → 大脑瞬间判断"错了"，背后调用了生活经验 + 抽象符号识别</li>
+    <li>阅读背后牵涉心理学、教育学、语言学、社会学、认知科学、生物学</li>
+    <li>推论：不是"认字了就能读"，也不是"读多了就会认字"——是两回事</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>我先向老师们提个问题：我们经常听到专家、学校老师强调“阅读很重要”。尤其新加坡是双语学习，中英文两边老师都说阅读重要。那阅读到底为什么这么重要？在小学阶段也这么重要吗？先请宁宇老师分享。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>阅读为什么重要，我想借一个小例子。（共享一张图片）大家看到这张图第一反应是什么？很多人的第一反应是——“错了”。这是一张图文不匹配的图：你从生活经验知道图上是一个青色的苹果，又从文字里读出那个字写的是“粉红色”，于是判断它们不匹配。这个瞬间发生的判断，背后的机制其实非常复杂。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>所以这里就带出一个问题：什么是阅读？大家通常会很模糊地处理——“阅读就是看文字、认字嘛”。其实并不是。你看到苹果，要先从社会经验判断它是苹果（不是生下来就知道的），再从抽象的文字符号里判断出颜色不匹配。所以阅读这个行为背后有非常复杂的机制。</p></div>
+<div class="quote"><span class="tag ui">宁宇老师 · 阅读的定义</span>
+<p class="en">阅读是一个复杂的社会行为。它不是先天就会的，背后有心理学、教育学、语言学、社会学、认知科学、生物学等一系列的东西。它需要通过后天学习、通过生活体验，才能让你有正确的判断和认知。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>所以我们说阅读很重要，而且它不像想象的那么简单。要搞清楚它为什么复杂、背后有哪些机制，一晚上都不够。今天先给大家一个概念：阅读是一件重要的、需要后天学习才能掌握的复杂社会行为。</p></div>
+</section>
+<section id="s3">
+  <div class="sec-head"><span class="sec-num">03</span><h2>不要把阅读功利化——阅读是生活的一部分</h2></div>
+  <div class="sec-time ui">清滢老师</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>清滢的提醒：家长最大的问题不是不重视，而是把阅读看得"过于重要、过于功利"</b></li>
+    <li>常见误区：阅读打卡比拼阅读量、比拼难度（三年级报四五年级的课）、"无电视只有书墙"的家庭优越感</li>
+    <li>灵魂拷问：<b>"你能接受你的孩子这一生都不爱读书吗？"</b></li>
+    <li>看电视/电影 ≠ 洪水猛兽——不必过度过滤筛选，孩子需要"原始"的真实生活环境</li>
+    <li>弟弟的例子：从小不爱读书 → 中学突然爱上鲁迅（求知欲一直在，只是没落在阅读上）</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>宁宇老师从功能和理论方面做了分享。清滢老师怎么看这件事？</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>我基本上是把“阅读很重要”当作已经被广为接受的前提了——我接触的群体都非常重视阅读。反倒是这个问题给我的时候，我在想：大家是怎么理解它的重要性的？给我印象冲击更大的是，很多家长把阅读看得过于重要，重要到有点偏执了。</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>比如有的家长会焦虑：我的孩子读书量是不是没有别人多？有个叫“小花生网”的，上面有阅读打卡，大家把它当成比赛一样，比阅读量、比难度。我的学生家长也是这样——你很少遇到五年级孩子来报四年级的课，但会有源源不断的家长想让三年级的孩子去报四五年级的课。难度在他们这里非常重要。</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>这让我想说：阅读重要已经无需宣传，但我们需要再认知的是——它重要在哪里？它对孩子的意义是什么？它仅仅是一个学术概念吗？我更觉得阅读是生活的一部分，而不仅仅是一个可以指标化的、要去达成的任务。它更重要的是能成为孩子生活的一部分、成为他的乐趣所在。在这个过程中，学术能力是自然而然、水到渠成地随之提高的。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>我帮家长追问一下：所以你的意思是，阅读确实很重要，但不用做得过于功利，让它和生活好好融解、自然地推它？</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>也不是说不必推，而是不必执着于一些表面化的东西。比如有的家庭以“我们家没有电视、只有一面书墙”为荣，在很多家长认知里这是很有品味的家庭。我女儿小时候我家也这样，但我的想法渐渐变了。我觉得看电视、看电影，跟阅读能带给孩子的东西是一样的。就像我不赞同家长在阅读时给孩子做过多的过滤和筛选——特别是把大人的价值判断强加进去（比如曹文轩的作品在中国很多家长那里就很被批判、不想给孩子看）——我也不赞同在生活中给孩子过滤太多。让孩子看电视、电影、综艺，他看到的是最真实的生活状态，反倒能从中更好地汲取营养。</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>就像我大女儿是“照书养”，搞得特别干净；老二我“当猪养”，结果老二身体素质更好，有次聚会大家都中了流感，就我儿子没事。孩子的成长也一样，他需要一个原始的生活环境——无论是阅读环境还是生活环境。</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>我看到有家长留言“为啥我家小孩就是不爱读书”。我想反问：你能不能接受你的孩子这一生都不爱读书？如果他真的这样，你能接受吗？我也拿这个问题问过自己很多次，因为我自己是挺喜欢读书的。</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>我举我弟弟的例子：他从小不爱读书，写作文每次到要交的前一天就躲在被子里哭，我妈把我抓来帮他写完。但到中学之后，不知为什么他突然就喜欢读书了，还读鲁迅，给我回信都是鲁迅那种文风——“生日是早已经不过了的”。我爸妈也没督促他。他从小成长得很自由，他不是麻木的孩子：虽然不爱读书，但有自己的兴趣，对世界的好奇、对知识的求索欲没发生在阅读上，而在别的事情上（比如他看电视很杂，戏曲、桃花扇、昆曲那么慢腾腾的都能坐下来看）。其实里面是共通的东西——读书背后是对世界的好奇，我们通过读书认识世界、更好地认识自己。而认识世界不一定只能通过读书，现在还有很多其他渠道。</p></div>
+</section>
+<section id="s4">
+  <div class="sec-head"><span class="sec-num">04</span><h2>过犹不及——功利心会把孩子推离阅读</h2></div>
+  <div class="sec-time ui">言词 × 清滢</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>言词的归纳：家长重视阅读没错，但"重视的方式过于表面化"就是矫枉过正</li>
+    <li>表面化的表现：只看字数、只看难度、只准读某类书、只准看书不准看电视</li>
+    <li><b>清滢的警告：你的焦虑会投射到孩子身上，让他离你希望他读的书越来越远</b></li>
+    <li>若阅读不出自孩子自己的热爱与自主需求、享受不到快乐 → 那只是"很表面的、不是真正的阅读"</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>谢谢清滢老师。其实老师在讲一种现实：有些孩子完全不读书，家长会担心。宁宇老师说了，阅读脑是需要训练的，而阅读脑的训练对任何科目都起作用，所以“阅读很重要”大家都认同。但清滢老师看到的现实是：家长觉得它重要的方式过于表面化了——我重视字数、重视书的难度、重视孩子只能读某类书、甚至只能看书不能看电视，这就过犹不及、矫枉过正了。他重视的程度和方式出了偏差。这可能也不是一个对孩子健康的状态。</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>对，我为什么特别要提这件事？因为如果因为你的焦虑，你会把它投射到孩子身上，让他跟你希望他读的书越来越远。如果读书这个行为不是出自他自己的爱好、他的热爱，不是出于他自主的需求，他在其中享受不到快乐的话，那它就是很表面的，它不是真正的阅读。我的意思是这个。</p></div>
+</section>
+<section id="s5">
+  <div class="sec-head"><span class="sec-num">05</span><h2>小学阶段：阅读 vs 补习，该怎么选？</h2></div>
+  <div class="sec-time ui">李洋老师</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>李洋：语言习得的自然顺序是"听说读写"，阅读与听说写相辅相成</b></li>
+    <li>小学生对成绩没概念，阅读是"潜移默化"提升语言能力的方式，而非枯燥的技巧训练</li>
+    <li>阅读的两大机制：① 核心高频词在阅读中<b>无痛复现</b>（比死记硬背听写好）；② 在<b>上下文中理解词义</b>（避免死记硬背，不打击积极性）</li>
+    <li>"道与术"：底子（积累）在，考试只需了解题型 → 阅读是慢但后续效果更好的语言学习方式</li>
+    <li>前提：认字/写字的基础由学校专业课程解决，阅读是校外的"非常好的补充"</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>梁（李洋）老师对政府学校体系也很了解。我替家长问个功利一点的问题：小学阶段，阅读和补习您会建议怎么选？阅读真的能提升孩子在两门语言上的考试成绩吗？</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>谢谢。我顺着一位家长的留言来回应——“我们多数家长都会学习，不会狭隘只逼孩子看所谓重要的书”。小学、低年级、学前打基础的阶段，为什么我们更鼓励阅读？首先，语言习得的自然过程是“听、说、读、写”，读和听说写是相辅相成的。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>小孩子一开始对成绩没什么概念，也不知道考试是什么。对小学生，我们要在潜移默化中提升他的成绩和语言能力，而阅读恰恰不是那个枯燥的方式。比起单独学一个生词、听写一个字，阅读让他接触更丰富的语言材料和表达方式，在过程中自然扩大词汇。而且不管哪门语言，常用词也就那么几千个，这些核心词在阅读中不断复现——所以和听写相比，阅读是一种无痛的、复现式的词语学习方式。这是第一点。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>第二，是在上下文的理解中学习词语。如果孩子没有上下文，只学那个词本身，就是死记硬背。但根据上下文，词汇的意思在句子中直观地展示给孩子，他在猜测、推测的过程中就能很顺地理解词义和用法。这比“今天你不背下十个我就抽你”要好得多，也不会打击孩子的积极性。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>李老师，你之前发表过一个观点——小学六年，五年半搞阅读，半年搞补习。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>这就像“道和术”。举个例子：如果我们是中文背景的家长，本身有阅读和语文的积累，现在去考 HSK（中文水平考试），刷一遍试卷、了解题型，大概就能上考场，成绩不会差——因为积淀在那儿了。孩子学一门语言也一样，积累在那儿，最后考试时只要了解新加坡的考试形式、怎么精准回应题目，对他们来讲就很简单。很多国内来新加坡的留学生就是这样：语文底子和素养在那儿了，了解考试形式就够了。基础在哪？在国内“大语文”的积累。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>所以您的观点是：在小学打基础阶段，阅读相比补习是一种“看上去慢、但后续效果更好”的语言学习方式。这里有个前提——认字和写字的基础，我们认为正常学习能力的孩子在学校已经基本打下了。认字写字也很重要，不能单靠阅读解决，需要专业课程；学校做了这部分，阅读是校外非常好的补充。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>其实认字识字在幼儿阶段就开始了。国内有一些分级阅读教材（像《四五快读》那种，相对枯燥），也有《小羊上山》这类靠句子复现的——“今天去采一个蘑菇，明天采两个蘑菇”，一直在句子复现中让孩子自然学会词语。英文其实也是这套概念，而且在分级阅读方面，英文比我们走得早太多了。对英语母语的孩子，学习时也是在不断的英文句子复现中自然学会词语，而不是“这是‘人’，一撇一捺你记下来”。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>这说明阅读本身对识字认字也有很大帮助。为什么我们要把识字单独提出来说？因为太多家长很着急，尤其在中文阅读方面，识字确实是一个门槛——不识字就难以完成阅读，这跟英文不太一样。这也是新加坡双语环境下，中文阅读远远落后于英文的原因：一开始没 catch up，两种语言的阅读不能同时发展，随着孩子长大就越来越不读中文了。</p></div>
+</section>
+<section id="s6">
+  <div class="sec-head"><span class="sec-num">06</span><h2>读了 ≠ 读懂——读写困难与"扬长避短"</h2></div>
+  <div class="sec-time ui">宁宇老师</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>约十分之一的孩子有"读写困难"（读写障碍）</b>：错漏笔划、字母倒写、跳字漏字错字——不是懒，是客观存在（李光耀就是）</li>
+    <li>剩下 90% 里，能力发展也各不相同，有些孩子天生进入阅读状态更慢</li>
+    <li><b>解决"技术问题"前，先解决"概念问题"：为什么读、读来干什么</b></li>
+    <li>警惕把阅读纯当"提高分数的工具"；人是完整的人，不能只用成绩judging</li>
+    <li>"扬长避短"而非"取长补短"——不必让鱼去上树；可用有声阅读等替代方式</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>群里很多家长着急问“怎么读”。我们先笼统回答。有一个观点是“都行啦，读读就行了”——真的吗？只要读就行了吗？请宁宇老师回答。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>在回答之前，我看到有家长表达孩子不喜欢阅读，尤其是中文阅读。我想提醒家长：人群中大概有十分之一的比例会遇到“读写困难”。这是相对特殊但量不少的情况——有些孩子阅读时比别人遇到更多困难，因而对阅读产生畏难情绪。家长可以搜一下读写困难的表现：经常错漏笔划、字母倒写、读的时候跳字漏字错字等等。这是客观存在，无所谓好坏——新加坡前总理李光耀就是读写困难。如果孩子是因为这个客观情况导致畏难，可以给他们提供一些帮助。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>那除了那 10%，剩下 90% 里，孩子能力的发展是不是也不一定？有些人不是读写障碍，但也偏向于没那么爱阅读，或者开始阅读的过程比较困难？</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>一定的。百样人嘛，每个人的特点都不一样。像清滢老师说的“自然而然喜欢上阅读、突然开窍”是比较理想的状态，我认为是特例，我们说的是绝大部分情况。我比较喜欢用数据说话：去年底我读到北师大一份《中国青少年阅读现状与需求调研报告》，调查了全国大概 12 万个学生，可以看到大家对阅读的重视并没有想象的那么乐观。最简单的例子——你身边的人补习补的大多是“技巧”，语文选得少，语文里也多是作文、认字、识字，对“阅读”本身的补习是最少的。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>这里涉及一个概念：家长想了解技术上的问题，但在解决技术问题之前，一定要先解决概念问题——先知道“为什么、是什么”，然后才是“怎么做”。就像我前面讲的，阅读没那么简单：不是认字了就能看书，也不是看多了书就能认字，这是两回事。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>还有一个概念：你阅读的目的是什么？有些家长认为阅读重要是因为能提高成绩——这就是清滢老师说的“过了”，是用特别功利的心把阅读当成提高分数的途径。这是我们不希望提倡的，因为人是完整的人，不能只用成绩去判断一个孩子。再问一句：你希望孩子通过阅读达成什么？如果是希望他快乐，那通过其他方式达成也可以吗？孩子不爱看书，可以看电视、听有声书吗？有读写障碍或本身不喜欢看字的孩子，可以通过有声阅读实现吗？会影响他的技能和社会功能吗？其实不一定。因为每个人都有长处——现在我们不说“取长补短”，我们说“扬长避短”，不是要把所有窟窿都补上、让鱼去上树。这是阅读这件事上一定要厘清的基础：你想通过阅读来干什么。</p></div>
+</section>
+<section id="s7">
+  <div class="sec-head"><span class="sec-num">07</span><h2>寓教于乐 · 决定"要不要读"的三种能力</h2></div>
+  <div class="sec-time ui">宁宇 × 言词</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>寓教于乐是最理想的学习方式（也是言词/FOGG 的核心理念）</li>
+    <li><b>决定一个孩子对一本书的理解，取决于三样东西：① 语言能力 ② 阅读理解能力 ③ 人生阅历</b></li>
+    <li>三者共同影响：读得有没有"快感" → 有快感就愿读下一本，痛苦大于快乐就不想读</li>
+    <li>若旁边还有"强迫因素"，很可能适得其反</li>
+    <li>国内传统教育常用高压快速塞知识；FOGG 主张用较长时间让孩子自发爱上阅读</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>阅读它不是简单的事，具体有哪些小技巧能帮孩子爱上阅读、或减轻阅读困难，今天后半部分老师们会给大家推荐读物和方法，大家不着急。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>宁宇老师其实在试图回答家长的问题：表面看是“孩子不爱阅读”，但背后原因有很多种。要解决，我们要往细里看：可能是认字方面有问题，可能是语言方面有问题。我们之前提到过，决定一个孩子对一本书的理解，第一是他的语言能力，第二是他的阅读理解能力，第三是他的人生阅历。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>都有的东西——三者综合在一起来影响这个孩子。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>对，它们综合起来影响孩子读这本书时有没有快感、喜不喜欢。如果享受到那个快乐，他就愿意读第二本；如果过程中痛苦大于快乐，他就不想再读。如果旁边还有强迫因素，就像清滢老师说的，很可能适得其反。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>是的，寓教于乐肯定是最理想的学习方式。我为什么会参与到 FOGG 的教学研究中来？因为我觉得言词老师的理念特别好——希望通过快乐的方式让孩子喜欢上阅读。这在国内很多传统教育方法中是做不到的，那些方法多是满足家长快速提分的需求，用高压方式在短时间内塞给孩子更多知识，而不是用较长时间让孩子自然而然、自发地喜欢上阅读。而且读的时候不一定要读文字，也可以借助图像、视频等各种方式。所以在让孩子爱上阅读之前，成年人必须先做这件事。</p></div>
+</section>
+<section id="s8">
+  <div class="sec-head"><span class="sec-num">08</span><h2>什么是"阅读理解能力"？中文的特殊难点</h2></div>
+  <div class="sec-time ui">宁宇老师</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>中文 vs 拉丁语系：拉丁语系是拼音文字（不认识也能拼读），中文方块字"不认识就是不认识"</li>
+    <li>偷懒法子：约 80% 是形声字，"认字读半边"；了解甲骨文/字源能帮孩子突破认字</li>
+    <li><b>阅读能力不止认字：所有学科的题目都和阅读相关（读不懂题就无法解题）</b></li>
+    <li>三类常被忽略的阅读材料：① <b>非虚构类</b>（文本与阅读策略与文学类完全不同，FOGG 特别设计）② <b>读图能力</b>（很多爱漫画/游戏的孩子读图极强）</li>
+    <li>面向 AI/ChatGPT 时代：人类优势在情感、意义、批判性阅读——阅读是低成本却能带来幸福感与自我定位的工具</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>刚才提到决定孩子要不要阅读，还有一个“阅读理解能力”。这是我们小学要重点培养的能力吗？如果是，它是些什么样的能力？</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>阅读理解能力在中文考察中不太容易实现。中文和拉丁语系有很大区别：拉丁语系本质是拼音文字，一句话你不认识也能拼读下来，所有字都能用 26 个字母实现。但中文不行，那个字你不认识就是不认识，必须死记硬背记住——这是很多人学中文觉得痛苦、“讨厌方块字”的原因。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>当然也有偷懒的法子：我们 80% 的中文字是形声字，“认字读半边”，一半以上都能读（那半边也还是得认识）。古代中文是“形音义一体化”的，看古文字知道它画的像什么，但变成方块字后就很难联想了——除非有经验的成年人告诉孩子这个字是怎么从“鸟”的形状一笔一划变来的。所以家长可以了解一些甲骨文相关的东西，帮孩子突破认字这一关。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>除了认字，阅读对小学学习的帮助不止一点。想象一道数学题——鸡兔同笼，两只脚四只脚——如果题干读不懂，这道题你根本涉及不到计算。所有的题、所有的学科都和阅读相关，中文英文都如此。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>而阅读能力的提高，不仅需要读日常的小故事、图画书、小说、经典文学，还有一个很重要的地方——非虚构类。这也是 FOGG 教学设计特别提出的：非虚构类的文本和阅读策略，和文学类完全不同，区别非常大。我们工作中看到的绝大部分文本其实都是非虚构类的，并不是生活中看到的都是小说。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>还有一类阅读材料可能和家长想的不一样——不是认字，是“读图能力”。就像我开头那个图片加文字（甚至只有图片）的例子。很多孩子喜欢看漫画、动漫、玩电脑游戏，文字阅读能力不一定强，但读图能力非常强，甚至比很多家长都强。给你一本日本经典漫画，家长可能完全看不懂、不知从哪看起，但孩子很快就读完并告诉你里面讲了什么。这些都是孩子在学习和未来生活中需要应用的能力，而且我们这一代家长小时候面临的环境不一样了。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>环境变化的速度比我们想象的快。今年一个热门话题就是 ChatGPT——自动内容生成。论数据学习和运算速度，人一定比不过电脑。那人类相比机器人、相比未来的超智，优势在哪里？我们以后的孩子怎么找到自己的生存空间？这不光是小学中学的学习问题，也是孩子面对的生存问题。如果这个“意义”的问题不解决，哪怕成绩提高，未来对他们还是茫然的：“我是谁？我以后的竞争对手是机器人，我该怎么办？”</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>这些问题不一定在哪里能找到答案，但如果让孩子去阅读现在非常多精彩的作品，尤其是有经验的成年人能好好和孩子讨论、引导他们思考、培养出批判阅读的能力，就能帮孩子界定“我在这个世界上的定位”。阅读不是唯一的工具，但它是一个非常容易取得、极低成本的工具——不是每家都有高级的视频设备，但家家都能有书，哪怕去图书馆借。所以我们为什么倡导阅读？因为它是一个极低成本、却能让每个人取得幸福感、找到自己价值和定义的便捷工具。</p></div>
+</section>
+<section id="s9">
+  <div class="sec-head"><span class="sec-num">09</span><h2>案例：读懂"言外之意"——同一文本，理解力差异巨大</h2></div>
+  <div class="sec-time ui">清滢 · 李洋 · 言词</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>同龄孩子对同一文本的理解力差异很大；含蓄、文学性强的文本（如陈南/曹文轩式写法）尤其考验</li>
+    <li><b>具体的阅读能力：抓取关键信息、理解文字背后的含义、与人物共情</b></li>
+    <li>天赋有差异，但后天可改变——靠<b>阅读经验的积累</b>（见过"含蓄写死亡"的写法，下次就能联想）+ <b>生活经验</b></li>
+    <li>言词的绘本案例《城市里的小小的你》：13 岁女儿理解力很强，但因没有"放手"的人生体验，把"放手"读成了"放弃"</li>
+    <li><b>金句：书的难度、文字的多少，并不决定这本书的难度。大人也能读绘本，孩子也能读绘本</b></li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>很多家长看到孩子读了这本书，但我们和大量孩子相处后发现：他是“读了信息，没读懂”。比如跟高年级孩子读《成男救世》（夏洛的网）时，那只蜘蛛夏洛其实死了，大家都知道，可当老师课上提到这件事，很多孩子还大吃一惊：“他们两个死了？”——完全没 get 到这个关键情节。因为孩子没读懂潜台词，读不懂人物此时此刻的情绪。李洋老师有个很好的例子。</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>在教孩子的过程中会发现，同样年龄的孩子对同样的文本，理解力差异很大。含蓄、文学性强的文本，孩子需要一些具体的阅读能力：抓取关键信息、理解文字背后的含义、与书中人物共情等等。这些能力和孩子的天赋、生活经验、阅读经验都有关系。有的孩子天生对文字、对语言传达的情谊和美感更敏感，有的不敏感——但后天绝对可以改变，方法就是通过阅读。</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>比如在有人引导的情况下，他读到过类似的情况：这里写一个人死，不是直接说“他死了”，而是通过两个人的谈话、通过叹息和眼泪，很委婉地告诉你发生了不幸。如果他有过这样的阅读经验，下次再遇到类似情况就会立刻联想、能够理解。所以虽然有天赋差异，但后天的阅读经验很关键。生活经验也非常重要——生活在“真空环境”、接触面很狭窄的孩子，理解很多文学作品是很不利的。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>我举个例子。前几天我和清滢老师去参加一个台湾作家的阅读活动，读了《城市里的小小的你》这本绘本，现场有很多童书作家做了很深入的讨论——对我们大人来说，理解它有几个关键环节也并不容易。我回家给 13 岁的女儿讲这本书，她从小接受阅读和写作训练，理解力不错，我们大人讨论很久的点她很快就 get 到了。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>但唯有一个非常重要的点她无论如何理解不了：书最后，那个小孩一路在找丢失的猫，最后没找到；最后一页表达的其实是一种“放手”——“纵然我找不到你，我也相信你可以好好的；我不拥有你了，我也可以好好的”。它用很含蓄的方式表达。我女儿理解不了，她理解成了“放弃”——用尽力气去找这只猫。她不能理解我们大人所说的那种“放手”、那种细腻的情感。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>这就是说：这个孩子有阅读理解能力，但当她的人生阅历不到的时候，她其实很难理解到最深的地方。而且要说明——这是一本绘本，一个 13 岁的孩子都不能完全懂。所以书的难度、文字的多少，并不决定这本书的难度。大人也可以读绘本，孩子也可以读绘本，我们不必过于追求文字的难度。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>我回应一下这个例子。我其实挺羡慕言词老师的女儿——这个年龄段她“不能理解”才是正常的。如果她能理解，她得经历过什么痛苦啊？有时候我们甚至希望孩子一辈子都不要理解，那是上天赐给她的幸运。但重要的是她的理解能力在。我从业 16 年，看到很多学生，生活中在老一辈看来没太大挫折，但在他们眼里就觉得天塌了、世界太黑暗了——其实在于他们对自己和世界的认知只是狭窄的一面。如果孩子的理解能力在，那他遇到问题时联系之前读过的作品，可能一下子就通了。</p></div>
+<div class="quote"><span class="tag ui">李洋老师 · 诗词的用处</span>
+<p class="en">有个网友说“我们从小背的那些诗词有什么用”。一个高赞回答是他高中老师说的：你们现在觉得千难万难要背下来的东西，以后在你们人生遇到千难万难的时候，这些诗句就会来到你们的心里。</p></div>
+</section>
+<section id="s10">
+  <div class="sec-head"><span class="sec-num">10</span><h2>案例：漫画《迪克比》——薄薄一本，80% 孩子没读懂</h2></div>
+  <div class="sec-time ui">李洋老师</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>素材：二级书单《小学生迪克比·作弊大王》（差生迪克比 vs 学霸同桌雷奥尼）</li>
+    <li>这一页四格漫画有<b>两层深意</b>：① 表层——两人拌嘴，"说的和想的是两回事"（言外之意/情商）；② 深层——雷奥尼一边抨击迪克比的"分身术"，自己此刻也在"灵魂出窍/分身"</li>
+    <li><b>约 80% 孩子一开始完全 get 不到那个点；老师用一连串"引导性问题"帮孩子读懂潜台词</b></li>
+    <li>延伸：读图、听话听音、情商、回到生活——很多成绩好的孩子在"人与人交往"处卡壳，是没 get 到交往的点</li>
+    <li>"主题性阅读"：从孩子喜欢的明星/动物/飞机切入，打包配套书籍+纪录片+动画</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>请李洋老师给大家展示一个例子，让家长马上明白什么叫“读了没读懂”，以及我们怎么帮孩子提升阅读理解能力。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>（分享 PPT）大家先看这个漫画，来自二级书单第一本《小学生迪克比·作弊大王》。整个系列讲差生迪克比千方百计作弊、抄他学霸同桌雷奥尼的答案。这个片段里，雷奥尼办了一个只给 90 分以上学生的“50+ club”讲座，迪克比混进去被识破，然后有一段对话——</p></div>
+<div class="quote"><span class="tag ui">《迪克比》片段 · 表层对话</span>
+<p class="en">雷奥尼：“蠢货，你把我的演讲搞砸了，你这个狡猾的小辫子，你怎么能把咱俩的私生活拿出来讲！”迪克比要用“杀手锏”（他被逼入绝境时会“灵魂出窍/分身术”）。雷奥尼：“亮出你的武器吧……”两人真实地在吵，但双方又都“灵魂出窍”了。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>这四格里有两层深意。第一层：他们互相掐架，“我说的和想的是两回事”——从语言就能看出这种似曾相识的感觉。第二层更深：雷奥尼在抨击迪克比“会用分身术做什么”的时候，其实雷奥尼此刻自己也分身出来了、也在用分身术。小朋友一开始完全 get 不到这个点，所以老师设计了很多引导性问题：雷奥尼为什么说他是“蠢货”？“演讲搞砸了”是真实的想法吗？迪克比生气的真正原因是什么（是拿出两人的事来讲）？雷奥尼骂“无可救药的蠢蛋、那你去抄谁的”——背后真实想法又是什么？这里有很多“话外音”。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>这不管是孩子的理解能力、“听话听声、锣鼓听音”，还是情商的提高、读图，都是生活的一部分——我们要回到生活中。你跟人接触时，看人家一个动作、一个脸色、一个表情，能不能读懂背后的含义？我们手底下很多学生成绩很好、很有竞争力，但在人与人交往之间就差点意思、会卡壳，其实是没 get 到交往的点。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>所以回到生活中：看电视也好、看优秀纪录片、甚至抖音上的娱乐内容也好，只要你有思辨能力、分析能力、理解能力，它都是很好的养料。回到阅读，现在很推崇“主题性阅读”：孩子不爱看书，但他是不是喜欢某个动漫人物、明星、女团、奥运明星，甚至喜欢飞机、动物？那我们就结合——喜欢这个明星，就搜他的成长经历、看他代言的品牌故事、看他一步步怎么走到现在、遇到什么困难；喜欢自然科学、动物，就找一系列纪录片、动画片、书籍打包配套。现在很多“声光电”的东西，如果我们把它看作朋友，其实能很好地支持阅读，它和阅读不是相悖的。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>梁老师讲到几个点：一是可以在孩子不同阶段用不同方式吸引他——一开始不阅读时“投其所好、请君入瓮”，读到一定程度再希望他多元化阅读。二是这个案例很好地说明了什么叫“读了没读懂”：《迪克比》只是薄薄一本给低段孩子的漫画，文字量不大，但讨论那个情节时几乎 80% 的孩子不能理解，连回答引导性问题都很难。读懂这个情节之后，孩子才真的觉得有趣——不然只是一段文字刷就过去了。读懂了，他才会说“他们俩关系很复杂很细腻，我在生活里也有共鸣”——这种是特别高级的阅读享受。然后他会对生活有迁移，更好地面对生活中的问题；而处理生活问题、积累阅历，又反过来帮助他阅读。所以阅读和人生互相正向循环、缺一不可。</p></div>
+</section>
+<section id="s11">
+  <div class="sec-head"><span class="sec-num">11</span><h2>怎么做（上）：选对材料 + 布置环境 + 以身作则</h2></div>
+  <div class="sec-time ui">宁宇老师</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>最简单的技巧就是"读"，而选书是最重要的抓手</b></li>
+    <li>书如蔬菜：文字书、图画书、桥梁书、图像小说……"不爱吃菠菜"≠"不爱吃蔬菜"</li>
+    <li>大脑天性偷懒，趋利避害 → 从孩子兴趣入手选材料，别一开始就设很多"门槛/栏"</li>
+    <li><b>环境：以身作则。设一个"阅读时间/角落"，全家都看书；孩子最讲究公平</b></li>
+    <li>亲子阅读推广（宁宇做了 20 年）：和孩子一起看，才知道他在看什么、兴趣点在哪</li>
+    <li>培养一颗成熟的"阅读脑"约需 7–10 年（哈佛认知科学研究）；中文语言能力掌握约 2.5–3 年</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>现在进入家长最想听的话题：知道了阅读重要、要培养能力，我们该怎么做？很多家长说孩子不喜欢看书、只看电视手机；还有很典型的新加坡孩子——小二中文只能读带拼音的书，英文已经能读章节书了，差距非常大。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>我先分享一个学术信息：英文是规则稍复杂的拼音文字，从完全不能阅读到独立阅读，大约需要一年多一点的专业训练；中文规则高度复杂，需要 2.5 到 3 年；而像芬兰语这种规则超简单的拼音文字，只需半年到一年。所以语言本身会影响独立阅读的进程。新加坡孩子同时学中英文，自然有落差，会影响中文阅读——落差一出现，就变成中文只能读简单的“小儿科”书、英文已经能读《哈利波特》。读了《哈利波特》谁还想回去读《迪克比》？落差非常大。我们怎么在孩子起步时推动他？请老师们给一些现在就能用的方法。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>我先说。阅读的技巧没有花哨的，最简单就是“读”。而选书是非常重要的抓手。孩子“不爱看书”这个定语本身有问题——就像我们常听家长说“我们家孩子不爱吃蔬菜”，其实是他某一次吃凉拌菠菜被梗住了，从此不喜欢菠菜，但不能因此说他不爱吃所有蔬菜。书跟蔬菜一样有多种多样的选择：文字书、图画书、桥梁书、图像小说。你会发现英美图书馆和书店里图像小说是一墙一墙的，而且不只给孩子看，也给青少年、成年人；日本更典型，漫画书店很多是成人专区。为什么成年人也借助图像阅读？因为这方式让人觉得简单——大脑最简单的选择就是偷懒，什么能让它偷懒它就最开心。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>但阅读是需要费劲的事，中文阅读比英文还费劲。所以让孩子自由选择时，他趋利避害：要么“你让我看书那我看英文书吧，比中文容易”，要么“算了我去看电视，比看书容易”，再不然“打游戏吧”——游戏公司深谙多巴胺、阶段性奖励之道。那怎么让孩子爱上阅读？最简单就是读，但要给他选合适的材料：根据兴趣爱好来（喜欢哪个明星就看他自传，明星很爱出自传）。至于他喜欢的类型，家长认为“这书不好、不该给小孩看”——就像清滢老师说的，不能看这个不能看那个，其实只要他看你就让他看，因为只要读书，阅读习惯就能维持下去。你把好书准备好放在那，也许有一天他闲着没事就会拿起来看两眼，一发现“哇，这个好书比快餐强多了”——你说有好料理谁要吃快餐呢？快餐一时吃两口挺开心，但不能一直吃。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>所以第一步：帮他准备适合的阅读材料，不要一开始就设很多门槛。孩子不是跨栏运动员——“第一道坎不能看什么书，第二道坎必须看什么，第三道坎必须通过阅读达成什么成绩”——他一遇到这些栏，跑都不想跑，直接就地躺平了。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>第二个也很重要：布置适合的阅读环境。像清滢老师说的“一面书墙、没有电视”当然好，因为那样不是孩子不能看电视，是你也不能看。还有——孩子在那看书，你是不是在旁边刷手机、玩 pad？你说“我在工作”，孩子一会儿看你哈哈一笑、扯到热点新闻去了，骗不了小朋友。所以想让孩子阅读，最好的办法是以身作则，大人也要看书。可以在家设一个阅读角、一个阅读时间，这个时候所有人都必须看书——孩子最讲究公平，“你让我做，你凭什么不做？”</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>我做了 20 年阅读推广，常说我是“亲子阅读推广人”，不单是阅读推广人。因为家长只有跟孩子一起看的时候，才知道孩子在看什么、他感兴趣的点在哪、他不懂或不喜欢的点是因为什么。你不看，就让孩子自己看，看完他想跟你聊你也不知道聊什么，只会“考考他——你读懂没有？这里有哪些道理？”（笑）言传身教非常重要。阅读习惯的培养不是一两天，清滢老师说的 2.5–3 年只是中文语言能力的掌握；而培养一颗成熟的“阅读脑”，哈佛的认知科学专家做过专门研究，大约要 7 到 10 年。</p></div>
+</section>
+<section id="s12">
+  <div class="sec-head"><span class="sec-num">12</span><h2>怎么做（下）：阅读题的"考核" + 朗读的价值</h2></div>
+  <div class="sec-time ui">宁宇 · 李洋</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>身份定位：老师是孩子的"辅助者"，家长是孩子"无条件的爱护者/养育者"——一子而教，不亲自教技能</b></li>
+    <li>阅读理解可被"考核"：如《穿内裤的狼》——狼最先被发现的部位是哪儿？（需读图 + 逻辑推断）；和《三只小猪》的狼比对（需跨文本比较）</li>
+    <li><b>朗读优于默读（初级阶段）</b>：① 家长回应式纠音，不用说"你错了"；② 文字转声音再输入大脑=二次输入巩固；③ 人物性格/语气是"显性、立体、活的"</li>
+    <li>把书"请下神坛"：东也是书西也是书，随手可拿、可画可折——李敖式"剪书法"</li>
+    <li>亲子阅读≠负担，是走进孩子内心、引出话题的机会；讨论时不要 chat/批判/讲道理，做"陪伴和倾听的人"</li>
+    <li>读了一行也没关系——孩子在天马行空、联想、连接生活，比"读了多少字"更有用</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>我们分享一些真的是专业老师的“秘诀”：怎么逗着孩子读书、怎么帮他们提升理解。家长在家留心也能用。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>但一定注意：家长跟老师的身份定位完全不同。老师是孩子的辅助者，家长是孩子无条件的爱护者、养育者，这个定位不能错。所以我们常说“易子而教”，我们自己也不会亲自教自家小朋友的技能，都是互相换着教。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>我们看《穿内裤的狼》里的一个问题：这只狼出现在森林里，最开始被发现的部位是哪儿？图画书上的图讲到了，文字里没写。孩子要答对，一定是看清了图、并理解了狼第一次出现的时机——既要有读图能力，又要有逻辑分析和推断能力。再看稍难的：看完后觉得“穿内裤的狼”和童话《三只小猪》里的狼一样吗？没看过这本书就一定不知道；看完后还要把两个形象进行比对。这两个阅读策略，7–10 岁的孩子都可以掌握。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>由此我们知道，阅读并不是非常容易的事。不是孩子偷懒不爱看书，而是它确实难，孩子才不去读。在有选择的情况下他不主动选，不能赖孩子，只能说我们成年人还没找到吸引他们的方法。所以别着急，慢慢来。哪怕像清滢老师说的“这辈子不看书行不行”——也不是不行；如果他真是这样的孩子，你可以帮他选其他阅读方式：视觉阅读之外，听觉阅读、动态视觉阅读（看外文电影时字幕不也得读懂吗）。我们要给孩子创造各种可能性。每读一本书是打开一扇门，但帮孩子选这本书，家长得多费一些心思。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>李老师首先说：入门时要选适合他文字水平、适合他口味、适合他年龄段认知的书。比如某个年龄段他就喜欢跟屎尿屁有关的书，那是那个孩子的特点，我们不要用大人视角说“这多恶心，你为什么喜欢读这个”。书选对了，就加大了他喜欢阅读、开始阅读的可能。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>我看到有家长说“孩子小二、识字量小、喜欢默读、读带拼音的书四声经常错”。没关系，如果他喜欢默读，家长可以引导他朗读出来。为什么？第一，你替他朗读或回应他朗读时就在纠音，不用说“你这是错的”。比如他把“耳熟能详”读错了，你说“哇你读得真好，真是耳熟能详”，读出正确的，他听到就会自然调整；发现他哪读错，你自然地去回应。第二，朗读一定好过默读（初级阶段——如果后面练快速阅读，默读更好，那是按图片来“拍摄”)。朗读为什么好：它有四声，把文字换成声音再输入大脑，是“二次输入”、是巩固；而且朗读时人物的性格、形象、此时此地为什么用这种语气说这句话，是显性的、立体的、活的，不是单纯的文字。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>而且家长不要觉得“我要孩子阅读，怎么还让我给你读、陪你读”是负担——这其实是走进孩子内心、了解孩子的好机会。我们家长常常没话题（“今天开不开心？上了什么课？作业写没写？”），但书里的内容自然会引出很多话题。不过跟他讨论阅读时，不要 chat 他、否定他、批判他。我有时忍不住要讲道理，但一定提醒自己不要讲道理——我是一个陪伴和倾听的人，在引导他表达。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>两位老师说的“自己孩子没法教”确实——我讲的阅读课所有小朋友都喜欢，就我自己的孩子说“你参加我就不参加”。但现在每天九点他就在房间等着，还问我“为什么还没到阅读时间”。平时我可能对他发火，但阅读的时候我绝对不会——我要让他阅读的时候全都是美好的回忆：“妈妈愿意耐心地听我讲。”哪怕他天马行空，有的家长计划读一页、结果只读了一行——没关系，因为孩子可能在想象、在联想、在跟先辈知识连接、在回想他的生活，这一切要比“今天读了多少个字”更有用。</p></div>
+</section>
+<section id="s13">
+  <div class="sec-head"><span class="sec-num">13</span><h2>工具：阅读笔记卡片（像乐高一样拼）</h2></div>
+  <div class="sec-time ui">李洋老师</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>阅读卡片 vs 抄在本子上：卡片可按主题/话题/描写类型/开头结尾分类，写作时按需检索调取</b></li>
+    <li>类比：郭德纲把好段子抄小纸条放塑料兜、李敖"剪书法"、乐高积木——素材可重组复用</li>
+    <li>低年级：抄喜欢的句子并分类；高年级/IB：按议论文主题、板块分类，写议论文/演讲稿时直接拼</li>
+    <li><b>关键设计：不要强制写"读后感"</b>——真实的读后感是"日后遇到相同情况脑子里叮一下响了"时才自然出现的；卡片只需一个能自己检索的关键词</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>今天本来还想跟大家分享“阅读笔记卡片”。我非常喜欢这种卡片。我们有时也鼓励孩子做阅读笔记，但做完孩子不知道怎么用——拿个本子抄了些好词好句，也不知道怎么用、为什么用。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>用阅读卡片：低年级学生把喜欢的句子抄下来，不同卡片放不同内容，帮他按不同主题、话题分类，或按描写人物、描写对话、按喜欢的开头结尾分类。写作文时，他就能去自己卡片的不同分类里找。包括我今天做分享，就是从不同卡片里拿一些理论、一些方法出来拼；平时我写主持稿、写论文、写很多东西都可以这样拼。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>不只做阅读的老师这样做——郭德纲听到好段子就拿张小纸抄个条放塑料兜里，过一段时间把段子拿出来看怎么顺下来。高年级、政府学校开始写议论文，IB 有不同主题、不同板块，你就按块、按主题分类，写议论文、演讲稿或做作业时都可以这样拼，就像乐高积木——这比“都写在一个本上写满了、也不知道怎么用”要好得多。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>还有一个关键：网上很多阅读卡片有“我喜欢的好词好句”和“读后感”栏。千万不要有“读后感”，因为很多孩子一看到就发怵。我们做卡片分类，他只要觉得“这句好”就放一个关键词——“我就是喜欢”或“我觉得美”或“我觉得哪里能用到”，能让他自己检索就行。真正的读后感，是我们之后遇到相同情况、脑子里那个“叮”响了——“这句话我在书里读过、我懂、我联想到什么”，那时候读后感才是真实地出来，也是写作中能用到的。所以卡片可以根据孩子自己来设计。</p></div>
+</section>
+<section id="s14">
+  <div class="sec-head"><span class="sec-num">14</span><h2>请君入瓮 · 深层快乐 · 社交密码</h2></div>
+  <div class="sec-time ui">言词 · 李洋 · 清滢</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>请君入瓮：读到悬念处"我去上个厕所/接个电话"，把书留给孩子——大概率他会自己翻下去</b></li>
+    <li>FOGG 特点：把学习包装成孩子喜欢的形式；但浅层搞笑只是"把他拉进来"的钩子</li>
+    <li><b>孩子真正最大的快乐，是"智力和情感上的深层挑战与扩展"</b>——刷一天短视频会无聊，看一部刻骨铭心的电影不一样</li>
+    <li>"社交密码"：马小跳、Dogman 等不只是书，是孩子之间流通交换的社交工具；同伴影响巨大（尤其中学）</li>
+    <li>大孩子的书放着他视而不见 → 家长先拿来读、示范"品尝"，多次坚持</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>（回应清滢老师）孩子喜欢搞笑的、能一下让他哈哈大笑的东西——但当他在某本书里见识到从未见识过的东西，那种影响更深远。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>我要特别支持清滢老师：FOGG 的特点就是特别擅长把学习包装成孩子喜欢的形式，把很一本正经严肃的东西搞成孩子觉得像玩一样。但即便如此，我们在无数次跟孩子相处中感受到——孩子最喜欢的是智力和情感上的挑战，那才是给他最大的快乐。那些浅层的玩笑、无厘头、搞笑，都是“把他拉进来、请君入瓮”的办法。真正倾心入瓮之后，他享受到的那个东西才会让他想起来就觉得很享受、很快乐。他经常觉得快乐，但那个快乐是什么他说不出来，我们作为教育者能看到——是智力和情感上深层次的挑战与扩展，那是他们最快乐的时候。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>我回应一下：有时候像马小跳、Dogman 这类，它不仅是书籍本身，其实是孩子们的“社交密码”——很多孩子拿它去跟朋友交换，因为大家都喜欢，它是一个流通的社交工具。包括现在中学课本也选马小跳的文章进来。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>就像清滢老师分享的：孩子看了电视手机就不愿看书了，那我们就给他提供相关的、跟他最近喜欢的内容相关的书，放在那就好。他有一些背景知识、对内容熟悉了，才会去翻书——即使对文字不熟悉，对故事或人物熟悉，他就愿意去了解不同的材料。还有老师身后这排书墙，很多家长（包括我）都很向往，但书墙我们觉得美，孩子会不会从上面拿书下来看？这个时代要把书“请下神坛”——不像我们小时候觉得“万般皆下品惟有读书高”，非得安静的环境、干净的书桌、沐浴更衣焚香那种感觉，那反而有压力。在我看来最好的环境不是书墙，是“东也是书、西也是书、地上也是书、床上也是书、马桶旁边也都是书”——目光所及、随手可拿、可以随便翻随便画随便折的，那个才是。就像李敖读书剪书，正面剪一本反面剪一本——我们是把书“吃进去”，这样才有意义。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>阅读首先，对小小的孩子来说，亲子阅读时间不能省，而且它是非常好的亲子时间。要让他愉快是第一位的，其他读多少、什么能力都是第二位的——在愉快的基础上再提其他要求。对小小的孩子还有一招“请君入瓮”：你帮他读，读到关键悬念点就把书留下——“哎呀我得去上个厕所”或“我必须接个电话”。对那些已经有一点独立阅读能力、却总依赖你读的孩子特别管用：到了悬念处他很想知道后面怎样，你又不读了，大概率他会自己继续翻下去。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>对大一点、正喜欢某个主题的孩子，你把书放那儿他可能一直视而不见，也没用。没关系，家长先拿来读，甚至说“你看这里有个是不是很好玩、是你感兴趣的那个吗”，跟他看一会儿再放下——给他一个“影子”、一个品尝的机会，就像销售让你试吃。尝一次不行、两次不行，你坚持经常让他尝，总有一天他会感兴趣、再来读。对完全不识字的孩子，识字这个功夫肯定要下，平时的阅读也要带——这是要下功夫的地方。</p></div>
+</section>
+<section id="s15">
+  <div class="sec-head"><span class="sec-num">15</span><h2>书单 · 家长最不用担心的事</h2></div>
+  <div class="sec-time ui">宁宇 · 清滢 · 李洋 · 言词</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>FOGG 中文书单约 38–40 本（一到四年级），精选、符合认知程度、类型多元（搞笑+文学性+哲理性）；英文精读书单从 9 岁到中学</b></li>
+    <li><b>宁宇给"家长"的 5 本书</b>：《如何阅读一本书》（艾德勒，阅读四层次：基础/检视/分析/主题阅读）、《朗读手册》三册（含书单，涵盖到中学）、《你当像鸟飞往你的山》</li>
+    <li>朗读手册金句："你或许拥有无限的财宝……但你永远不会比我富有，我有一位读书给我听的妈妈"</li>
+    <li>清滢/李洋：不给统一书单——从孩子兴趣出发、靠同伴影响；珍惜小学阶段你还有影响力的时候</li>
+    <li><b>李洋的进阶技巧</b>：中英互补（英文读熟《哈利波特》→ 放中文音频，靠背景知识"猜读"）；书无高低贵贱，对孩子有用、读出乐趣就有价值</li>
+    <li>言词金句：书单随便一搜都有，能推荐给"你的孩子适合的书"才难——这件事没人比你更擅长</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>已经有家长在问书单。先说 FOGG 自己有书单：中文书单现在约 38–40 本，从一年级到四年级，精心选择、符合孩子认知程度，兼顾各种类型、很多元——有非常搞笑吸引孩子的，也有文学性、哲理性较强的。英文我们也有书单（英文精读课从 9 岁开始，到中学）。有兴趣的家长可以私信我或司马老师领取。不过三位老师也有自己想推荐的，请老师们分享。因为已经超时，每位老师大约两三分钟；很长的书单可以文字发我转发到群里。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>我先分享。我的书单是给家长们的——刚刚很多家长问的都是技术上的问题，希望这几本书能帮到家长。买不到实体书的话，可以在“微信读书”小程序上找电子书。</p></div>
+<div class="quote"><span class="tag ui">宁宇老师 · 给家长的 5 本书</span>
+<p class="en">① 《如何阅读一本书》（阅读专家艾德勒，美国经典）——把阅读分成四个层次：基础阅读、检视阅读、分析阅读、主题阅读；② 《朗读手册》一套三本：第一本讲为什么/怎样给孩子朗读、电视音频对读写能力有害还是有益，第二本是选本（推荐约 48 本书），第三本讲高年级到中学怎么和孩子一起朗读（含《夏洛的网》《杀死一只知更鸟》等课本常见书）；③ 《你当像鸟飞往你的山》（Educated，比尔·盖茨年度书）——解决“重要性”的问题。</p></div>
+<div class="para"><p class="en"><span class="spk ny">宁宇</span>关于朗读我举个自家例子：我女儿很喜欢阅读，一年级就能读《哈利波特》了。但我想推荐她读《魔戒》，于是我在她一年级时把《霍比特人》（《魔戒》前传，几十万字）用嘴巴一口气全部读给她听——那时她自己的阅读能力还不够读这个。读完之后她就爱上了《魔戒》，整套自己看下来了。所以分享一个例子：孩子能力多强都没关系，你读给他听，是他非常享受的亲子阅读时间。《朗读手册》前言里有一句特别打动人——“你或许拥有无限的财宝，一箱箱的珠宝与一柜柜的黄金，但你永远不会比我富有——我有一位读书给我听的妈妈。”</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>我没有具体书单。别人找我要书单时我往往给不了——因为每个孩子情况不一样，有针对性地推荐效果才好，很少有“所有孩子都喜欢/都需要”的书。我的建议是：针对不爱看书的孩子，从他的兴趣出发。我听过一个例子，孩子超级喜欢奥特曼，就一套奥特曼的书把他锁在那，他能坐下来看完。还有同伴影响：我儿子从桥梁书终于进入纯文字阅读，靠的是《舒克和贝塔》（我小时候的英雄）——我推荐过无效，但有一次他几个好朋友聚在一起，说到这本书，一个孩子说“我全部看完了、图书馆就有”，另一个说“我早看过了”，大家都说自己看过，我儿子回来就“那我也看看吧”，家里也有，一翻就被吸引、看完了。</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>中学生同伴影响更大——到中学，你对孩子的影响真的式微不可避免，这时候可以指望他的朋友来带动他，除非你有特别碾压式的强大意志（即便这样他也可能不听你的：“你这书很好，但我就是不想看”)。所以珍惜小学阶段你对孩子还有影响力、他还肯让你给他读书的时候，就享受、就珍惜吧。读什么书，还是要去观察、了解、理解你的孩子，从他个人情况出发找他需要的书。</p></div>
+<div class="quote"><span class="tag ui">清滢老师 · 阅读独有的乐趣</span>
+<p class="en">有家长说得特别好，我也非常同意：当一个作者把作品到达你这里时，其实是把作品分了一半给你——你和作者共同完成了这本书。这是阅读独有的乐趣，和“及时塞给你信息”的方式不一样。如果孩子能品尝到这种乐趣，你就不用为他担心了；但在此之前，你必须拿一些比较浅显、甚至没什么价值的书来吸引他。阅读的自主性一定是第一位的。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>家长真的不要太担心书单——现在 Google 这么发达，书单随便一搜都有；反而是“能推荐给你的孩子适合的书”才不容易，而这件事没有人比你更擅长、更适合。所以书单是大家最不用担心的。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>我快速回应。纽约（宁宇）老师推荐的书已经非常好了，我没有额外推荐的书。关于阅读卡片，有位周自恒朋友想看设计——阅读卡片的设计非常个人化：孩子的阅读也要有实用性。高年级学生可以结合他正在学的科学、物理内容，或做 research 的主题，来做对应主题的阅读卡片。另外网上很多卡片有“读后感”栏，千万不要有——只要一个能自己检索的关键词就够（“我喜欢”“我觉得美”“这里能用到”），真正的读后感是日后遇到相同情况时才自然出来的。</p></div>
+<div class="para"><p class="en"><span class="spk ly">李洋</span>还有家长说“孩子能读很深的中文书了，或这边有很多英文书怎么推荐”。可以中英互补——就像“比较文学”：他英文把《哈利波特》读得很熟，你就放《哈利波特》的中文音频，他有背景知识、了解大概意思，听中文时能猜到那段内容，也愿意去听中文怎么说，就不排斥了。还有——书只要对孩子有用、他这阶段能读、甚至读出了乐趣，那这本书就不能说它没价值。就像我怀孕时看的“孕妇大全”，在那个阶段比任何哲学书都更有价值。所以先别有分别心去分高低贵贱，读书这件“小事”，好好享受它就可以了。</p></div>
+</section>
+<section id="s16">
+  <div class="sec-head"><span class="sec-num">16</span><h2>尾声 · 东方 vs 西方阅读理念（开放式悬念）</h2></div>
+  <div class="sec-time ui">清滢老师</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>清滢的感性观察（声明：仅个人感受、不代表 FOGG）</b></li>
+    <li>西方阅读/写作教学：非常细致的方法论、条条框框、逻辑清晰、步骤精细</li>
+    <li>东方（中国）传统：讲究"整体感知""自己的体悟/感悟"，一个名词从汉代用到清代不断扩展内涵；禅宗式"石头砸竹子的声音就是禅理，你自己去悟"</li>
+    <li>英文老师转述：美国近几十年发展这套阅读理论，整体阅读能力并没有更高提升；希腊的情况反而和中国类似</li>
+    <li><b>清滢的倾向：自主性/自我，可能比具体的方法技巧更重要</b>——把阅读、学习当作一次"散步"（呼应"米亚的散步"），带着灵敏的心去遇见、心有所得</li>
+    <li>言词把它留作开放式悬念，邀请家长自己去体会、思考更倾向哪一种</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>最后给清滢老师一分钟，讲讲你之前准备的——西方阅读和东方阅读两种理念的不同。</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>惭愧，这只是我个人非常感性的一种感受，没有理论支撑，也是我和 FOGG 英文老师交流来的。我发现英文的阅读教学、写作也是这样，有非常细致的方法论、条条框框，每一步骤都非常细致。我就问他“这真的有用吗？我们中国传统做法不是这样的，即使文学批评也很少有那种特别细、逻辑清晰的论述，我们通常一个名词能从汉代一直用到清代，不断扩展它的内涵，每个人感受一下都能说出一些新东西”。</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>就像禅宗到中国之后，石头砸中竹子发出的声音，那就是禅理，你自己去悟。中文阅读更讲究自己的体悟、感悟，或者说“整体感知”，它不崇尚特别细致化的东西。但我也发现西方的这些阅读策略会应用在中国的语文教学里。我问那位英文老师朋友这些到底有用吗，他给我的回答让我印象深刻：他说美国近年的调查表明，这套阅读理论近几十年发展下来，并没有更高地提升整体的阅读能力；他现在生活在希腊，说希腊的情况反倒跟我们中国比较相似。</p></div>
+<div class="para"><p class="en"><span class="spk qy">清滢</span>这让我有一种感觉：读书、学习、阅读这件事，可能“你的自我”“自主性”比那些具体的方法技巧更重要（在我这里，不代表 FOGG 的观点）。我更觉得，你不妨在这个过程中放松一点——把你的人生、把读书学习的过程，当作一次“散步”。我上次去听米亚老师的分享（或看《米亚的散步》），很喜欢这个名字，他说“我就像散步一样，走走看看，看看我能遇到什么”。当然，散步时你不是一个麻木的人——你有过往的经历、思想、情感，当你看到一些东西被触发，只要有一颗灵敏的心、眼睛、感官，去接触你所读、所看的东西，你必定会心有所得，而这个所得是非常独特的，不需要也不能够让别人手把手教你。我觉得这是东方式的一种学习方式吧。</p></div>
+<div class="para"><p class="en"><span class="spk yc">言词</span>谢谢清滢老师。这个观点可能会引发一些人的思考，也可能引发一些争论，我们就把它留在这里作一个开放式的悬念，欢迎家长在群里留言发表看法，也可以在日常带孩子阅读、自己阅读的过程中去体会思考——你更倾向哪一种，或者两边“推一把、留一点”。今天就到这里，非常感谢三位老师精彩的分享，也特别感谢各位爱学习的父母——有你们这样的父母，你们的孩子一定会非常棒。</p></div>
+</section>
+
+<footer class="ui">整理自 2024-08-04 FOGG 父母讲堂·阅读专场 Zoom 转录 · 四位讲者发言经口语清理与主题重组，保留原意 · 供学习参考<br>💡 选中中文 → 弹出「高亮 / 收藏术语 / 高亮+笔记」· 点已有高亮 → 菜单（写笔记 / 删除）· 「📤 导出」一键打包全部笔记</footer>
+</main>
+</div>
+
+<div id="hl-tip" class="ui">🖍 划线模式已开启 —— 选中文字即可高亮，点击已有高亮可删除</div>
+
+<div id="sel-pop" class="ui">
+  <button id="pop-hl">🖍 高亮</button><div class="sep"></div><button id="pop-dict">📖 收藏术语</button><div class="sep"></div><button id="pop-note">📝 高亮+笔记</button>
+</div>
+<div id="dict-card" class="ui">
+  <button class="close-x" id="dc-close">✕</button>
+  <span class="dw" id="dc-word">…</span><span class="dp" id="dc-ph"></span><button class="say" id="dc-say" title="朗读">🔊</button>
+  <div class="zh-big loading" id="dc-zh-big">翻译中…</div>
+  <div class="dd" id="dc-def"></div>
+  <div class="dc-row"><button class="add" id="dc-add">＋ 存入术语本</button></div>
+</div>
+<div id="note-modal" class="ui">
+  <div class="box">
+    <div class="quote-ref" id="nm-quote"></div>
+    <textarea id="nm-text" placeholder="写下你的想法…"></textarea>
+    <div class="row"><button class="ok" id="nm-ok">保存笔记</button><button class="no" id="nm-cancel">取消</button></div>
+  </div>
+</div>
+<div id="mark-menu" class="ui">
+  <button id="mm-note">📝 写/改笔记</button>
+  <button id="mm-dict">📖 收藏这个词</button>
+  <button class="danger" id="mm-del">🗑 删除这条高亮</button>
+</div>
+
+<div id="drawer" class="ui">
+  <div class="tabs">
+    <button data-tab="vocab" class="on">📖 术语本</button>
+    <button data-tab="hl">🖍 划线笔记</button>
+    <button data-tab="note">📝 总笔记</button>
+  </div>
+  <div class="pane on" data-pane="vocab">
+    <div class="vocab-stats">待复习 <b id="vc-unknown">0</b> ・ 已掌握 <b class="ok-n" id="vc-known">0</b> ・ 共 <span id="vc-total">0</span> 条　<span style="margin-left:auto;font-size:11px;color:#A8B8B4">点 ⭕ = 已掌握</span></div>
+    <div id="vocab-list"><p class="empty">还没有术语。选中关键词/概念 → 点「📖 收藏术语」。</p></div>
+  </div>
+  <div class="pane" data-pane="hl">
+    <div id="hl-list"><p class="empty">还没有划线。选中中文 → 点「🖍 高亮」。</p></div>
+  </div>
+  <div class="pane" data-pane="note">
+    <textarea id="global-note" style="width:100%;min-height:260px;border:1.5px solid #DDE6E3;border-radius:12px;padding:14px;font-size:14.5px;line-height:1.8;background:#FFFEF8" placeholder="整场讲座的总结、想放进 course map 的点、要转述给家长的话术……"></textarea>
+  </div>
+</div>
+
+<script>
+(function(){
+const NOTE_KEY='reading-talk-notes', HL_KEY='reading-talk-highlights', VC_KEY='reading-talk-vocab';
+let notes={}, highlights=[], vocab=[], saveTimer=null;
+
+// storage layer: artifact window.storage if available, else localStorage
+const store={
+  async get(k){
+    if(window.storage&&window.storage.get){try{const r=await window.storage.get(k);return r?r.value:null}catch(e){}}
+    try{return localStorage.getItem(k)}catch(e){return null}
+  },
+  async set(k,v){
+    let ok=false;
+    if(window.storage&&window.storage.set){try{await window.storage.set(k,v);ok=true}catch(e){}}
+    try{localStorage.setItem(k,v);ok=true}catch(e){}
+    if(!ok)throw new Error('no storage');
+  }
+};
+const state=document.getElementById('save-state');
+const sections=[...document.querySelectorAll('section')];
+
+function setState(t){state.textContent=t}
+function scheduleSave(){setState('保存中…');clearTimeout(saveTimer);saveTimer=setTimeout(saveAll,700)}
+async function saveAll(){
+  try{
+    await store.set(NOTE_KEY,JSON.stringify(notes));
+    await store.set(HL_KEY,JSON.stringify(highlights));
+    await store.set(VC_KEY,JSON.stringify(vocab));
+    setState('✓ 已保存 '+new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'}));
+  }catch(e){setState('⚠ 保存失败，稍后自动重试');setTimeout(saveAll,3000)}
+}
+async function load(){
+  try{const v=await store.get(NOTE_KEY);if(v)notes=JSON.parse(v)}catch(e){}
+  try{const v=await store.get(HL_KEY);if(v)highlights=JSON.parse(v)}catch(e){}
+  try{const v=await store.get(VC_KEY);if(v)vocab=JSON.parse(v)}catch(e){}
+  const g=document.getElementById('global-note');if(notes.__global)g.value=notes.__global;
+  highlights.forEach((h,i)=>{if(!h.id)h.id='h'+Date.now()+'_'+i;applyHighlight(h.sec,h.text,h.id)});refreshMarkNoteStyles();
+  renderHlList();renderVocab();markVocabWords();
+  setState(highlights.length||vocab.length||Object.keys(notes).length?'✓ 已恢复你的笔记 · 划线 · 生词':'已就绪');
+}
+
+// notes events
+document.addEventListener('input',e=>{
+  if(e.target.id==='global-note'){notes.__global=e.target.value;scheduleSave()}
+});
+
+
+// ---- selection popup ----
+const pop=document.getElementById('sel-pop'),dictCard=document.getElementById('dict-card'),markMenu=document.getElementById('mark-menu');
+let curSel=null,curMark=null,curDict=null,suppressClickUntil=0;
+function placeAt(el,rect){
+  el.style.display=(el.id==='sel-pop')?'flex':'block';
+  const vw=document.documentElement.clientWidth,vh=document.documentElement.clientHeight;
+  const w=el.offsetWidth,h=el.offsetHeight;
+  el.style.left=Math.max(8,Math.min(rect.left+rect.width/2-w/2,vw-w-8))+'px';
+  let top=rect.bottom+10;               // 默认贴在选区正下方
+  if(top+h>vh-8)top=rect.top-h-10;      // 下方放不下才翻到上方
+  el.style.top=Math.max(8,top)+'px';
+}
+// 滚动时收起浮层，避免错位
+window.addEventListener('scroll',()=>{pop.style.display='none';markMenu.style.display='none'},{passive:true});
+document.addEventListener('mouseup',e=>{
+  if(pop.contains(e.target)||dictCard.contains(e.target)||markMenu.contains(e.target))return;
+  setTimeout(()=>{
+    const sel=window.getSelection();
+    if(sel.isCollapsed){pop.style.display='none';return}
+    const text=sel.toString().replace(/\s+/g,' ').trim();
+    const node=sel.anchorNode;const anchor=node&&(node.nodeType===3?node.parentElement:node);
+    const en=anchor&&anchor.closest?anchor.closest('.en'):null;
+    if(!en||text.length<2){pop.style.display='none';return}
+    const sec=en.closest('section');
+    curSel={text:text,sec:sec?sec.id:'',rect:sel.getRangeAt(0).getBoundingClientRect()};
+    placeAt(pop,curSel.rect);
+  },10);
+});
+function doHighlight(withNote){
+  if(!curSel)return;
+  window.getSelection().removeAllRanges();
+  pop.style.display='none';
+  suppressClickUntil=Date.now()+450;
+  const hid='h'+Date.now();
+  if(applyHighlight(curSel.sec,curSel.text,hid)){
+    const h={id:hid,sec:curSel.sec,text:curSel.text,note:''};
+    highlights.push(h);
+    refreshMarkNoteStyles();renderHlList();scheduleSave();
+    if(withNote){
+      openNoteModal(h.text,'',val=>{h.note=val;refreshMarkNoteStyles();renderHlList();scheduleSave()});
+    }
+  }else{
+    setState('⚠ 这段没匹配到（可能跨了段落），试试选短一点');
+  }
+}
+document.getElementById('pop-hl').onclick=()=>doHighlight(false);
+document.getElementById('pop-note').onclick=()=>doHighlight(true);
+document.getElementById('pop-dict').onclick=()=>{
+  if(!curSel)return;
+  const rect=curSel.rect,t=curSel.text,s=curSel.sec;
+  window.getSelection().removeAllRanges();pop.style.display='none';
+  openDict(t,s,rect);
+};
+
+// ---- dictionary card: 中文翻译优先 ----
+async function translateZh(text){
+  try{
+    const r=await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q='+encodeURIComponent(text));
+    if(!r.ok)throw 0;
+    const j=await r.json();
+    return (j[0]||[]).map(x=>x[0]).join('');
+  }catch(e){
+    try{
+      const r=await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair=en|zh-CN');
+      const j=await r.json();
+      return j.responseData&&j.responseData.translatedText||'';
+    }catch(e2){return ''}
+  }
+}
+function openTermCard(text,sec,rect){
+  const t=text.trim().replace(/\s+/g,'');
+  curDict={word:t,sec:sec,phonetic:'',def:'',audio:'',zh:'',long:false};
+  const dw=document.getElementById('dc-word');dw.className='dw';dw.textContent=t.length>16?t.slice(0,16)+'…':t;
+  document.getElementById('dc-ph').textContent='';
+  document.getElementById('dc-say').style.display='none';
+  document.getElementById('dc-add').style.display='';
+  document.getElementById('dc-add').textContent='＋ 存入术语/概念本';
+  const zhBig=document.getElementById('dc-zh-big');zhBig.className='zh-big';zhBig.textContent='';zhBig.style.display='none';
+  const dd=document.getElementById('dc-def');dd.className='dd';dd.textContent='把这个词/概念存进你的术语本，可写上自己的理解或它在讲座里的意思。';
+  const ex=vocab.find(v=>v.word===t);if(ex)curDict.zh=ex.zh||'';
+  placeAt(dictCard,rect);
+}
+function isCJK(s){return /[\u4e00-\u9fa5]/.test(s)}
+async function openDict(text,sec,rect){
+  if(isCJK(text)){return openTermCard(text,sec,rect)}
+  const clean=text.trim();
+  const isLong=clean.length>60;
+  const isPhrase=/\s/.test(clean);
+  const word=isLong?clean:(isPhrase?clean:(clean.match(/[a-zA-Z][a-zA-Z'\-]*/)||[clean])[0].toLowerCase());
+  curDict={word:word,sec:sec,phonetic:'',def:'',audio:'',zh:'',long:isLong};
+  const dw=document.getElementById('dc-word');
+  dw.className=isLong?'dw long':'dw';
+  dw.textContent=isLong?'📖 选段翻译':word;
+  document.getElementById('dc-ph').textContent='';
+  document.getElementById('dc-say').style.display=isLong?'none':'';
+  document.getElementById('dc-add').style.display=isLong?'none':'';
+  const dd=document.getElementById('dc-def');
+  dd.className=isLong?'orig-small':'dd';
+  dd.textContent=isLong?clean:'';
+  const zhBig=document.getElementById('dc-zh-big');
+  zhBig.className='zh-big loading';zhBig.textContent='翻译中…';
+  placeAt(dictCard,rect);
+  const q=clean.slice(0,450);
+  const jobs=[translateZh(q).then(zh=>{
+    if(curDict&&curDict.word===word){
+      curDict.zh=zh;
+      zhBig.className='zh-big';
+      zhBig.textContent=zh||'⚠ 翻译服务连不上（需要联网）';
+    }
+  })];
+  if(!isPhrase&&!isLong){
+    jobs.push((async()=>{
+      try{
+        const res=await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(word));
+        if(!res.ok)return;
+        const e0=(await res.json())[0]||{};
+        if(!curDict||curDict.word!==word)return;
+        curDict.phonetic=e0.phonetic||((e0.phonetics||[]).find(p=>p.text)||{}).text||'';
+        curDict.audio=((e0.phonetics||[]).find(p=>p.audio)||{}).audio||'';
+        const defs=[];
+        (e0.meanings||[]).slice(0,2).forEach(m=>{
+          const d=m.definitions&&m.definitions[0];
+          if(d)defs.push(m.partOfSpeech+'. '+d.definition);
+        });
+        curDict.def=defs.join('　');
+        document.getElementById('dc-ph').textContent=curDict.phonetic;
+        document.getElementById('dc-def').textContent=curDict.def;
+      }catch(e){}
+    })());
+  }
+  await Promise.all(jobs);
+}
+function openDictStored(v,rect){
+  curDict={word:v.word,sec:v.sec,phonetic:v.phonetic||'',def:v.def||'',audio:'',zh:v.zh||'',long:false};
+  const dw=document.getElementById('dc-word');
+  dw.className='dw';dw.textContent=v.word;
+  document.getElementById('dc-ph').textContent=v.phonetic||'';
+  document.getElementById('dc-say').style.display='';
+  document.getElementById('dc-add').style.display='none';
+  const dd=document.getElementById('dc-def');
+  dd.className='dd';dd.textContent=v.def||'';
+  const zhBig=document.getElementById('dc-zh-big');
+  zhBig.className='zh-big';zhBig.textContent=v.zh||'（未填中文，可在生词本里补）';
+  placeAt(dictCard,rect);
+}
+document.getElementById('dc-say').onclick=e=>{
+  e.stopPropagation();
+  if(curDict&&curDict.audio){new Audio(curDict.audio).play().catch(()=>{})}
+  else if(curDict&&window.speechSynthesis){const u=new SpeechSynthesisUtterance(curDict.word);u.lang='en-GB';speechSynthesis.speak(u)}
+};
+document.getElementById('dc-add').onclick=e=>{
+  e.stopPropagation();
+  if(!curDict)return;
+  const ex=vocab.find(v=>v.word===curDict.word);
+  if(ex){ex.zh=curDict.zh||ex.zh;ex.def=curDict.def||ex.def}
+  else vocab.unshift({word:curDict.word,phonetic:curDict.phonetic||'',def:curDict.def||'',zh:curDict.zh||'',known:false,sec:curDict.sec,ts:Date.now()});
+  renderVocab();scheduleSave();
+  dictCard.style.display='none';
+  setState('✓ 已存入术语/概念本');
+  document.getElementById('drawer').classList.add('open');switchTab('vocab');
+};
+document.getElementById('dc-close').onclick=()=>dictCard.style.display='none';
+
+// ---- note modal (centered) ----
+const noteModal=document.getElementById('note-modal');
+let noteCb=null;
+function openNoteModal(quote,initial,cb){
+  document.getElementById('nm-quote').textContent='“'+quote+'”';
+  const ta=document.getElementById('nm-text');
+  ta.value=initial||'';
+  noteCb=cb;
+  noteModal.classList.add('open');
+  setTimeout(()=>ta.focus(),50);
+}
+document.getElementById('nm-ok').onclick=()=>{
+  noteModal.classList.remove('open');
+  if(noteCb)noteCb(document.getElementById('nm-text').value);
+  noteCb=null;
+};
+document.getElementById('nm-cancel').onclick=()=>{noteModal.classList.remove('open');noteCb=null};
+noteModal.addEventListener('click',e=>{if(e.target===noteModal){noteModal.classList.remove('open');noteCb=null}});
+
+// ---- click on a highlight => menu ----
+document.addEventListener('click',e=>{
+  // 来自弹出菜单自身的点击（如「查词」按钮）不算“点外面”，否则刚打开的卡片会被同一下点击关掉
+  if(pop.contains(e.target)||markMenu.contains(e.target)||dictCard.contains(e.target))return;
+  if(e.target.classList&&e.target.classList.contains('vocab-mark')){
+    const v=vocab.find(x=>x.word.toLowerCase()===e.target.textContent.toLowerCase());
+    if(v){openDictStored(v,e.target.getBoundingClientRect());return}
+  }
+  if(e.target.tagName==='MARK'){
+    if(Date.now()<suppressClickUntil)return;
+    curMark=e.target;
+    placeAt(markMenu,e.target.getBoundingClientRect());
+    return;
+  }
+  // 点空白处：全部收起
+  markMenu.style.display='none';
+  dictCard.style.display='none';
+  const drawer=document.getElementById('drawer');
+  if(drawer.classList.contains('open')&&!drawer.contains(e.target)&&e.target.id!=='drawer-btn'&&!e.target.closest('#drawer-btn'))drawer.classList.remove('open');
+});
+function findHl(markEl){
+  return highlights.find(h=>h.id===markEl.dataset.hid);
+}
+document.getElementById('mm-note').onclick=()=>{
+  markMenu.style.display='none';
+  const h=curMark&&findHl(curMark);if(!h)return;
+  openNoteModal(h.text,h.note,val=>{h.note=val;refreshMarkNoteStyles();renderHlList();scheduleSave()});
+};
+document.getElementById('mm-dict').onclick=()=>{
+  markMenu.style.display='none';
+  if(!curMark)return;
+  const sec=curMark.closest('section');
+  openDict(curMark.textContent,sec?sec.id:'',curMark.getBoundingClientRect());
+};
+document.getElementById('mm-del').onclick=()=>{
+  markMenu.style.display='none';
+  const h=curMark&&findHl(curMark);
+  if(h){removeHighlightMarks(h.id);highlights.splice(highlights.indexOf(h),1)}
+  else if(curMark){curMark.outerHTML=curMark.textContent}
+  renderHlList();scheduleSave();
+};
+function refreshMarkNoteStyles(){
+  document.querySelectorAll('mark[data-hid]').forEach(m=>{
+    const h=findHl(m);m.classList.toggle('has-note',!!(h&&h.note));
+  });
+}
+
+
+// ---- 在原文中标出已收藏的生词（蓝色） ----
+function markVocabWords(){
+  document.querySelectorAll('span.vocab-mark').forEach(s=>{s.replaceWith(document.createTextNode(s.textContent))});
+  document.querySelectorAll('.en').forEach(en=>en.normalize());
+  const words=vocab.filter(v=>!v.known).map(v=>v.word).filter(w=>w.length>=2);
+  if(!words.length)return;
+  const re=new RegExp('('+words.map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')','g');
+  document.querySelectorAll('.en').forEach(en=>{
+    const parts=en.innerHTML.split(/(<[^>]+>)/);
+    let changed=false;
+    for(let i=0;i<parts.length;i++){
+      if(parts[i].startsWith('<'))continue;
+      if(re.test(parts[i])){
+        parts[i]=parts[i].replace(re,'<span class="vocab-mark" title="已在生词本，点击复习">$1</span>');
+        changed=true;
+      }
+      re.lastIndex=0;
+    }
+    if(changed)en.innerHTML=parts.join('');
+  });
+}
+
+// ---- vocabulary drawer: compact rows ----
+function renderVocab(){
+  const box=document.getElementById('vocab-list');
+  const unknown=vocab.filter(v=>!v.known).length;
+  document.getElementById('vc-total').textContent=vocab.length;
+  document.getElementById('vc-unknown').textContent=unknown;
+  document.getElementById('vc-known').textContent=vocab.length-unknown;
+  if(!vocab.length){box.innerHTML='<p class="empty">还没有术语。选中关键词 → 点「📖 收藏」。</p>';return}
+  box.innerHTML=vocab.map((v,i)=>{
+    return '<div class="vocab-item'+(v.known?' known':'')+'">'
+      +'<div class="main"><span class="w" data-i="'+i+'" title="点击重新查词">'+v.word+'</span><span class="ph">'+(v.phonetic||'')+'</span>'
+      +'<input class="zh-inline" data-i="'+i+'" placeholder="中文…" value="'+String(v.zh||'').replace(/"/g,'&quot;')+'"></div>'
+      +'<button class="kbtn'+(v.known?' on':'')+'" data-i="'+i+'" title="'+(v.known?'已掌握':'标记为已掌握')+'">'+(v.known?'✅':'⭕')+'</button>'
+      +'<button class="rm" data-i="'+i+'">✕</button>'
+      +'</div>';
+  }).join('');
+  box.querySelectorAll('.kbtn').forEach(b=>b.onclick=()=>{vocab[+b.dataset.i].known=!vocab[+b.dataset.i].known;renderVocab();scheduleSave()});
+  box.querySelectorAll('.rm').forEach(b=>b.onclick=()=>{vocab.splice(+b.dataset.i,1);renderVocab();scheduleSave()});
+  box.querySelectorAll('.zh-inline').forEach(inp=>inp.oninput=()=>{vocab[+inp.dataset.i].zh=inp.value;scheduleSave()});
+  box.querySelectorAll('.w').forEach(w=>w.onclick=e=>{
+    const v=vocab[+w.dataset.i];
+    openDictStored(v,w.getBoundingClientRect());
+    e.stopPropagation();
+  });
+  markVocabWords();
+}
+
+// ---- drawer tabs ----
+function switchTab(name){
+  document.querySelectorAll('#drawer .tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));
+  document.querySelectorAll('#drawer .pane').forEach(p=>p.classList.toggle('on',p.dataset.pane===name));
+}
+document.querySelectorAll('#drawer .tabs button').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+
+function applyHighlight(secId,text,hid){
+  const sec=document.getElementById(secId);if(!sec)return false;
+  const target=text.replace(/\s+/g,' ').trim();
+  const esc=target.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/ /g,'[\\s\\u00a0]+');
+  const re=new RegExp(esc);
+  for(const en of sec.querySelectorAll('.en')){
+    // 收集英文文本节点（跳过隐藏的中文 .sz）
+    const walker=document.createTreeWalker(en,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
+      return n.parentElement&&n.parentElement.closest('.sz,.zh-block')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[];let full='';
+    while(walker.nextNode()){nodes.push({node:walker.currentNode,start:full.length});full+=walker.currentNode.data}
+    const m=re.exec(full);
+    if(!m)continue;
+    const s0=m.index,e0=m.index+m[0].length;
+    // 找出每个文本节点内需要包裹的区间
+    const segs=[];
+    for(const rec of nodes){
+      const ns=rec.start,ne=rec.start+rec.node.data.length;
+      const s=Math.max(s0,ns),e=Math.min(e0,ne);
+      if(s<e)segs.push({node:rec.node,s:s-ns,e:e-ns});
+    }
+    // 倒序包裹，避免 splitText 影响后续偏移
+    for(let i=segs.length-1;i>=0;i--){
+      const g=segs[i];
+      let t=g.node;
+      if(g.s>0)t=t.splitText(g.s);
+      if(g.e-g.s<t.data.length)t.splitText(g.e-g.s);
+      const mk=document.createElement('mark');
+      mk.dataset.hid=hid;
+      t.parentNode.insertBefore(mk,t);
+      mk.appendChild(t);
+    }
+    return true;
+  }
+  return false;
+}
+function removeHighlightMarks(hid){
+  document.querySelectorAll('mark[data-hid="'+hid+'"]').forEach(mk=>{
+    const p=mk.parentNode;
+    while(mk.firstChild)p.insertBefore(mk.firstChild,mk);
+    p.removeChild(mk);p.normalize();
+  });
+}
+function renderHlList(){
+  const box=document.getElementById('hl-list');
+  if(!highlights.length){box.innerHTML='<p class="empty">还没有划线。选中英文 → 点「🖍 高亮」。</p>';return}
+  box.innerHTML=highlights.map((h,i)=>{
+    const title=document.querySelector('#'+h.sec+' h2');
+    return '<div class="hl-item"><span class="del" data-i="'+i+'">✕</span>'+h.text
+      +'<input class="hl-note-inp" data-i="'+i+'" placeholder="📝 给这条划线写笔记…" value="'+String(h.note||'').replace(/"/g,'&quot;')+'">'
+      +'<span class="src">§ '+(title?title.textContent:h.sec)+'</span></div>'
+  }).join('');
+  box.querySelectorAll('.del').forEach(d=>d.onclick=()=>{
+    const h=highlights[+d.dataset.i];
+    if(h.id)removeHighlightMarks(h.id);
+    highlights.splice(+d.dataset.i,1);renderHlList();scheduleSave();
+  });
+  box.querySelectorAll('.hl-note-inp').forEach(inp=>inp.oninput=()=>{highlights[+inp.dataset.i].note=inp.value;refreshMarkNoteStyles();scheduleSave()});
+}
+
+// ---- export study notes ----
+document.getElementById('export-btn').onclick=async()=>{
+  const lines=['# FOGG 父母讲堂·阅读专场 · 我的学习笔记','','导出时间：'+new Date().toLocaleString('zh-CN'),''];
+  if(notes.__global){lines.push('## 总笔记','',notes.__global,'')}
+  const bySec={};
+  highlights.forEach(h=>{(bySec[h.sec]=bySec[h.sec]||[]).push(h)});
+  sections.forEach(s=>{
+    const t=s.querySelector('h2').textContent;
+    const hs=bySec[s.id]||[],n=notes[s.id];
+    if(!hs.length&&!n)return;
+    lines.push('## '+t,'');
+    hs.forEach(h=>{
+      lines.push('- 🖍 “'+h.text+'”');
+      if(h.note)lines.push('  - 📝 '+h.note);
+    });
+    if(n)lines.push('','📝 本节笔记：'+n);
+    lines.push('');
+  });
+  if(vocab.length){
+    lines.push('## 生词本（还不会 '+vocab.filter(v=>!v.known).length+' / 共 '+vocab.length+'）','');
+    vocab.forEach(v=>lines.push('- **'+v.word+'** '+(v.phonetic||'')+' — '+(v.zh||String(v.def||'').split('\n')[0])+(v.known?'　✅已掌握':'　❌还不会')));
+    lines.push('');
+  }
+  const md=lines.join('\n');
+  let copied=false;
+  try{await navigator.clipboard.writeText(md);copied=true}catch(e){}
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([md],{type:'text/markdown'}));
+  a.download='reading-talk-my-notes.md';a.click();
+  setState(copied?'✓ 已复制到剪贴板 + 下载 .md，可直接丢给 Claude':'✓ 已下载 .md，可直接丢给 Claude');
+};
+
+// drawer
+document.getElementById('drawer-btn').onclick=()=>document.getElementById('drawer').classList.toggle('open');
+
+// scroll spy
+const links=[...document.querySelectorAll('.map a')];
+if(window.IntersectionObserver){
+const obs=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+en.target.id))}})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>obs.observe(s));
+}
+
+load();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Louise 家长讲座 · 学习笔记本 | How We Teach Children Writing</title>
+<style>
+:root{
+  --ink:#24505B; --ink-deep:#16333B; --teal:#2E5A66; --mist:#E7EFED; --paper:#FBFBF8;
+  --gold:#E8C558; --gold-deep:#B08A1E; --line:#D5DEDC; --zh:#5C7A72; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+input,textarea,select,button{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
+body{font-family:Georgia,'Times New Roman','Songti SC','Noto Serif SC',serif;background:var(--paper);color:var(--ink-deep);line-height:1.75}
+.ui{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
+
+/* layout */
+.wrap{display:flex;max-width:1200px;margin:0 auto;gap:0}
+aside{width:270px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;padding:28px 18px 40px 20px;border-right:1px solid var(--line);background:linear-gradient(180deg,#F2F6F5, var(--paper))}
+main{flex:1;min-width:0;padding:36px 44px 120px}
+@media(max-width:900px){
+  .wrap{flex-direction:column}
+  aside{position:relative;width:100%;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:20px}
+  main{padding:24px 18px 120px}
+}
+
+/* sidebar map */
+.map-title{font-size:12px;letter-spacing:.18em;color:var(--teal);text-transform:uppercase;margin-bottom:4px}
+.map-sub{font-size:12px;color:#7C918D;margin-bottom:18px}
+.map a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:#42605F;font-size:13.5px;padding:7px 8px;border-radius:8px;line-height:1.4}
+.map a:hover{background:var(--mist)}
+.map a.active{background:var(--teal);color:#fff}
+.map a .dot{width:7px;height:7px;border-radius:50%;background:var(--line);flex-shrink:0;transform:translateY(-1px);transition:background .2s}
+.map a.active .dot{background:var(--gold)}
+.map .part{margin:14px 0 4px;font-size:11px;letter-spacing:.14em;color:#9AACA8;text-transform:uppercase}
+
+/* header */
+header{margin-bottom:34px;border-bottom:3px double var(--teal);padding-bottom:26px}
+.eyebrow{font-size:12px;letter-spacing:.22em;color:var(--gold-deep);text-transform:uppercase;margin-bottom:10px}
+h1{font-size:clamp(26px,4vw,40px);color:var(--teal);line-height:1.2;font-weight:600}
+h1 .zh-t{display:block;font-size:.55em;color:#6B8480;margin-top:8px;font-weight:400}
+.meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;font-size:13px;color:#6B8480}
+.meta span::before{content:"— ";color:var(--gold-deep)}
+
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:50;background:rgba(251,251,248,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:0 -44px 30px;padding:10px 44px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+@media(max-width:900px){.toolbar{margin:0 -18px 24px;padding:10px 18px}}
+.btn{border:1.5px solid var(--teal);background:#fff;color:var(--teal);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;transition:.15s}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--teal);color:#fff}
+.btn.gold{border-color:var(--gold-deep);color:var(--gold-deep)}
+.btn.gold.on{background:var(--gold);border-color:var(--gold);color:var(--ink-deep)}
+.save-state{font-size:12px;color:#8AA09C;margin-left:auto}
+
+/* sections */
+section{margin-bottom:46px;scroll-margin-top:70px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.sec-num{font-size:13px;color:var(--gold-deep);letter-spacing:.1em;font-family:Georgia,serif}
+h2{font-size:21px;color:var(--teal);font-weight:600}
+.sec-time{font-size:12px;color:#9AACA8;margin-bottom:12px}
+.keypoints{background:var(--mist);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0 18px;font-size:13.5px}
+.keypoints b{color:var(--teal)}
+.keypoints li{margin-left:18px;margin-top:4px;color:#3B5A57}
+
+/* paragraphs */
+.para{margin-bottom:18px;padding-right:26px}
+.en{font-size:16.5px;color:#22403F}
+.en.hl-mode{cursor:text}
+.sz{display:none}
+.zh-block{display:none;margin-top:8px;padding:10px 14px;background:#F1F5F3;border-left:3px solid var(--zh);border-radius:0 8px 8px 0;color:var(--zh);font-size:14.5px;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;line-height:1.85}
+.zh-block .comment-line{display:block;margin-top:7px;color:#A08A45;font-size:13.5px}
+body.show-zh .zh-block, section.show-zh .zh-block, .para.zh-open .zh-block, .quote.zh-open .zh-block{display:block}
+.quote{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:14px 0;font-style:italic;box-shadow:0 2px 8px rgba(36,80,91,.06);position:relative}
+.quote::before{content:"“";position:absolute;top:-2px;left:10px;font-size:44px;color:var(--gold);font-style:normal;line-height:1}
+.quote .en{font-size:15.5px}
+.tag{display:inline-block;font-size:11px;background:var(--teal);color:#fff;border-radius:4px;padding:2px 8px;margin-bottom:8px;letter-spacing:.05em}
+.tag.before{background:#8A9E9A}
+.tag.after{background:var(--gold-deep)}
+
+/* highlights */
+mark{background:linear-gradient(104deg, rgba(232,197,88,0) 1%, rgba(232,197,88,.85) 3%, rgba(232,197,88,.55) 96%, rgba(232,197,88,0) 99%);padding:1px 2px;border-radius:2px;cursor:pointer}
+mark:hover{outline:1.5px dashed var(--gold-deep)}
+#hl-tip{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink-deep);color:#fff;font-size:12.5px;padding:8px 16px;border-radius:20px;z-index:99;display:none}
+
+/* selection popup */
+#sel-pop{position:fixed;z-index:95;display:none;background:var(--ink-deep);border-radius:10px;padding:5px;box-shadow:0 6px 20px rgba(0,0,0,.25);gap:4px}
+#sel-pop button{border:none;background:transparent;color:#fff;font-size:12.5px;padding:6px 10px;border-radius:7px;cursor:pointer;white-space:nowrap}
+#sel-pop button:hover{background:rgba(255,255,255,.15)}
+#sel-pop .sep{width:1px;background:rgba(255,255,255,.2);margin:4px 0}
+/* dictionary card */
+#dict-card{position:fixed;z-index:96;display:none;width:300px;max-width:92vw;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(22,51,59,.25);padding:18px 18px 14px}
+#dict-card .dw{font-family:Georgia,serif;font-size:21px;color:var(--teal);font-weight:600}
+#dict-card .dp{color:#93A8A4;font-size:13px;margin-left:7px}
+#dict-card .say{border:none;background:var(--mist);border-radius:50%;width:27px;height:27px;cursor:pointer;margin-left:7px;font-size:13px}
+#dict-card .zh-big{font-size:17px;color:var(--ink-deep);margin-top:10px;font-weight:600;line-height:1.6}
+#dict-card .zh-big.loading{color:#9AACA8;font-weight:400;font-size:14px}
+#dict-card .dd{font-size:12px;color:#8CA19D;margin-top:7px;line-height:1.55;max-height:70px;overflow-y:auto}
+#dict-card .dc-row{display:flex;gap:8px;margin-top:13px}
+#dict-card .dc-row button{border-radius:9px;padding:8px;font-size:13px;cursor:pointer;border:none}
+#dict-card .dc-row .add{flex:1;background:var(--teal);color:#fff}
+#dict-card .dc-row .add:hover{background:var(--ink)}
+#dict-card .close-x{position:absolute;top:9px;right:13px;border:none;background:none;color:#AAB9B6;cursor:pointer;font-size:15px}
+/* mark menu */
+#mark-menu{position:fixed;z-index:96;display:none;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 26px rgba(22,51,59,.2);padding:6px;min-width:145px}
+#mark-menu button{display:block;width:100%;text-align:left;border:none;background:none;padding:8px 12px;font-size:13px;color:#3B5A57;cursor:pointer;border-radius:8px}
+#mark-menu button:hover{background:var(--mist)}
+#mark-menu button.danger{color:#B04A3A}
+mark.has-note{border-bottom:2px solid var(--gold-deep)}
+mark.has-note::after{content:"📝";font-size:10px;margin-left:1px}
+.hl-note-inp{width:100%;border:1px dashed #D8C88F;border-radius:7px;margin-top:6px;padding:5px 8px;font-size:12.5px;background:#FFFDF4}
+/* note modal — centered, bright */
+#note-modal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.35);backdrop-filter:blur(2px)}
+#note-modal.open{display:flex}
+#note-modal .box{width:440px;max-width:92vw;background:#fff;border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+#note-modal .quote-ref{font-size:13px;color:#6B8480;background:var(--mist);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:8px 12px;margin-bottom:12px;font-style:italic;max-height:76px;overflow-y:auto}
+#note-modal textarea{width:100%;min-height:110px;border:1.5px solid var(--line);border-radius:12px;padding:12px;font-size:15px;background:#FFFDF4;resize:vertical}
+#note-modal textarea:focus{outline:none;border-color:var(--teal)}
+#note-modal .row{display:flex;gap:10px;margin-top:14px}
+#note-modal .row button{flex:1;border-radius:10px;padding:10px;font-size:14px;cursor:pointer;border:none}
+#note-modal .row .ok{background:var(--teal);color:#fff}
+#note-modal .row .no{background:#EEF2F1;color:#5D7975}
+/* vocab — compact rows */
+.vocab-item{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:9px 11px;margin-bottom:7px;font-size:13px}
+.vocab-item.known{opacity:.5}
+.vocab-item .main{flex:1;min-width:0}
+.vocab-item .w{font-family:Georgia,serif;font-size:15.5px;color:var(--teal);font-weight:600;cursor:pointer}
+.vocab-item .ph{color:#A8B8B4;font-size:11px;margin-left:5px}
+.vocab-item .zh-inline{border:none;background:transparent;width:100%;font-size:13px;color:#4A6360;padding:1px 0;font-family:inherit}
+.vocab-item .zh-inline::placeholder{color:#BCC9C6}
+.vocab-item .zh-inline:focus{outline:none;border-bottom:1px dashed var(--gold-deep)}
+.vocab-item .kbtn{flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-size:14px}
+.vocab-item .kbtn.on{background:var(--teal);border-color:var(--teal)}
+.vocab-item .rm{flex-shrink:0;border:none;background:none;color:#C9B0AA;cursor:pointer;font-size:13px;padding:2px}
+.vocab-stats{display:flex;gap:8px;margin-bottom:12px;font-size:12.5px;color:#6B8480;align-items:center}
+.vocab-stats b{color:var(--gold-deep);font-size:16px;font-family:Georgia,serif}
+.vocab-stats .ok-n{color:var(--teal)}
+.dict-loading{color:#9AACA8;font-size:12px}
+#drawer .tabs{display:flex;gap:6px;margin-bottom:16px}
+#drawer .tabs button{flex:1;border:1.5px solid var(--teal);background:#fff;color:var(--teal);border-radius:9px;padding:7px;font-size:13px;cursor:pointer}
+#drawer .tabs button.on{background:var(--teal);color:#fff}
+#drawer .pane{display:none}#drawer .pane.on{display:block}
+/* vocab words in text — 蓝色系，与金色划线区分 */
+.vocab-mark{background:#DEEAF6;border-bottom:2px dotted #4A7BAA;border-radius:2px;padding:0 1px;cursor:pointer}
+.vocab-mark:hover{background:#CBDFF2}
+/* per-paragraph 中文 toggle */
+.para,.quote{position:relative}
+.zh-btn{position:absolute;right:-6px;top:0;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);background:#fff;color:#8CA19D;font-size:11.5px;cursor:pointer;opacity:.55;transition:.15s;font-family:-apple-system,'PingFang SC',sans-serif;line-height:1}
+.zh-btn:hover{opacity:1;border-color:var(--teal);color:var(--teal)}
+.zh-btn.on{background:var(--teal);border-color:var(--teal);color:#fff;opacity:1}
+.para.zh-open .zh,.quote.zh-open .zh{display:block}
+@media(max-width:900px){.zh-btn{right:0}}
+/* dict card long-selection mode */
+#dict-card .dw.long{font-size:14px;color:#6B8480;font-weight:400;font-family:-apple-system,'PingFang SC',sans-serif}
+#dict-card .orig-small{font-size:12px;color:#9AACA8;margin-top:6px;max-height:64px;overflow-y:auto;font-style:italic;line-height:1.5}
+/* notes */
+.note-area{margin-top:14px}
+.note-area textarea{width:100%;min-height:64px;border:1.5px dashed #B9CBC7;border-radius:10px;padding:10px 12px;font-size:14px;font-family:-apple-system,'PingFang SC',sans-serif;background:#FFFDF4;color:#4A4632;resize:vertical}
+.note-area textarea:focus{outline:none;border-color:var(--gold-deep);border-style:solid}
+.note-label{font-size:12px;color:#9AACA8;margin-bottom:4px}
+
+/* notes drawer */
+#drawer{position:fixed;right:-360px;top:0;width:350px;max-width:92vw;height:100vh;background:#fff;border-left:1px solid var(--line);box-shadow:-8px 0 30px rgba(0,0,0,.08);z-index:90;transition:right .25s;padding:24px 20px;overflow-y:auto}
+#drawer.open{right:0}
+#drawer h3{color:var(--teal);margin-bottom:12px;font-size:16px}
+.hl-item{border-left:3px solid var(--gold);background:#FCF8EA;padding:8px 12px;border-radius:0 8px 8px 0;margin-bottom:10px;font-size:13px;color:#5A5238}
+.hl-item .src{font-size:11px;color:#A09468;display:block;margin-top:3px}
+.hl-item .del{float:right;cursor:pointer;color:#B08A1E;font-size:12px}
+.empty{color:#AAB9B6;font-size:13px;font-style:italic}
+footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:#9AACA8;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="ui">
+  <div class="map-title">课程学习地图</div>
+  <div class="map-sub">Louise 家长讲座 · 2025.03.28</div>
+  <nav class="map" id="map">
+    <div class="part">Part 1 · 理念</div>
+    <a href="#s1"><span class="dot"></span>讲者与 Inkhead 背景</a>
+    <a href="#s2"><span class="dot"></span>阅读的力量</a>
+    <a href="#s3"><span class="dot"></span>家长如何陪读</a>
+    <div class="part">Part 2 · 方法</div>
+    <a href="#s4"><span class="dot"></span>用文字作画</a>
+    <a href="#s5"><span class="dot"></span>工作坊教学法</a>
+    <a href="#s6"><span class="dot"></span>找到孩子的声音</a>
+    <div class="part">Part 3 · 案例</div>
+    <a href="#s7"><span class="dot"></span>案例：数学男孩</a>
+    <a href="#s8"><span class="dot"></span>从小开始 · 写作即娱乐</a>
+    <a href="#s9"><span class="dot"></span>坚持练习与文体探索</a>
+    <a href="#s10"><span class="dot"></span>风格即真实</a>
+    <a href="#s11"><span class="dot"></span>案例：Renice / Ray / Zoe</a>
+    <div class="part">Part 4 · Q&amp;A</div>
+    <a href="#s12"><span class="dot"></span>Q1 · AI 与儿童写作</a>
+    <a href="#s13"><span class="dot"></span>Q2 · 男孩 vs 女孩</a>
+    <a href="#s14"><span class="dot"></span>Q3 · 竞赛字数限制</a>
+  </nav>
+</aside>
+
+<main>
+<header>
+  <div class="eyebrow ui">FOGG × Inkhead · Parent Talk</div>
+  <h1>How We Teach Children Writing<span class="zh-t">我们如何教孩子写作 —— Inkhead 创意写作教学法家长讲座</span></h1>
+  <div class="meta ui">
+    <span>主讲：Louise（Inkhead 创始人）</span>
+    <span>主持：Yanci</span>
+    <span>2025年3月28日 · 约60分钟</span>
+  </div>
+</header>
+
+<div class="toolbar ui">
+  <button class="btn primary" id="zh-toggle">显示全部中文</button>
+  <button class="btn" id="drawer-btn">📒 生词本 · 划线 · 笔记</button>
+  <button class="btn gold" id="export-btn">📤 导出学习笔记</button>
+  <span class="save-state" id="save-state">已就绪</span>
+</div>
+
+<!-- S1 -->
+<section id="s1">
+  <div class="sec-head"><span class="sec-num">01</span><h2>讲者与 Inkhead 背景</h2></div>
+  <div class="sec-time ui">09:00 – 13:30</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>Louise：20+ 年创意写作教学经验，伦敦 Goldsmiths 大学 Creative &amp; Life Writing 硕士</li>
+    <li>与 FOGG 合作 3 年，专为新加坡/中国市场开发课程</li>
+    <li>公司规模：12 位导师，进驻伦敦 20+ 所学校开设写作俱乐部</li>
+    <li>早期学生成果：16 岁写小说、剑桥写作奖</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Hello, everybody. I was just going to talk to you about how we teach children writing through Inkhead, which is a little bit different from the way it is taught in schools in England.</span><span class="sz">大家好。今天想跟大家聊聊我们在 Inkhead 是如何教孩子写作的——这和英国学校里的教法有些不同。</span></span> <span class="sent"><span class="se">I've been teaching creative writing for over 20 years, and I set up my company after I'd studied creative and life writing at Goldsmiths University in London.</span><span class="sz">我教创意写作已经超过 20 年了，在伦敦 Goldsmiths 大学读完创意与生活写作硕士后，创办了自己的公司。</span></span> <span class="sent"><span class="se">We've been collaborating with Yanci and FOGG for the past three years, and we've developed materials and courses specifically for your market, for the Singaporean and Chinese market — and it's been very successful.</span><span class="sz">过去三年我们一直与 Yanci 和 FOGG 合作，专门为你们的市场——新加坡和中国市场——开发教材和课程，效果非常好。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Before setting up my company I worked as a journalist and editor.</span><span class="sz">创业之前，我做过记者和编辑。</span></span> <span class="sent"><span class="se">I also wrote short stories and poems, and eventually started writing a novel during my MA.</span><span class="sz">我也写短篇小说和诗歌，读硕士时开始写一部小说。</span></span> <span class="sent"><span class="se">But I felt that if I'd been encouraged to write for pleasure and to write fiction when I was still at school, I would have had more confidence and probably taken it further.</span><span class="sz">但我意识到：如果上学时就有人鼓励我'为乐趣而写、写小说'，我会更有自信，也许会走得更远。</span></span> <span class="sent"><span class="se">So I set about designing a workshop-style course for children — which meant I wasn't just standing at the front telling them how to write.</span><span class="sz">所以我着手为孩子设计一种工作坊式的课程——这意味着我不是站在讲台上'教'他们怎么写。</span></span> <span class="sent"><span class="se">I showed them how to build a story bit by bit; they could hear each other's stories; I would encourage them and tell them which parts of their story were good and how they could improve.</span><span class="sz">我一步一步向他们展示如何搭建一个故事；孩子们能听到彼此的故事；我会鼓励他们，指出哪里写得好、哪里可以改进。</span></span> <span class="sent"><span class="se">A collaborative approach.</span><span class="sz">一种协作式的教学。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">I did it as an experiment, and it was very successful.</span><span class="sz">最初只是个实验，结果非常成功。</span></span> <span class="sent"><span class="se">The children loved coming, and the group just grew and grew.</span><span class="sz">孩子们喜欢来，班级越办越大。</span></span> <span class="sent"><span class="se">Now these children are in their twenties — one of them wrote a novel when he was 16, another won a prestigious writing prize at Cambridge University.</span><span class="sz">这批孩子如今都二十多岁了——有一个 16 岁就写了小说，另一个拿了剑桥大学的重量级写作奖。</span></span> <span class="sent"><span class="se">So many of them say how much they loved our courses and how it helped their future.</span><span class="sz">很多人告诉我，他们多么喜欢我们的课程、这段经历如何帮助了他们的人生。</span></span> <span class="sent"><span class="se">Learning to write, and having confidence in your ability to write, will help you whatever you choose to do.</span><span class="sz">学会写作、并对自己的写作能力有信心，无论将来选择什么道路都会受益。</span></span> <span class="sent"><span class="se">Now the company has grown: I employ 12 tutors, we work in over 20 schools in London, and we run regular weekly clubs where the same children keep coming back to work on specific stories.</span><span class="sz">如今公司已经壮大：我雇有 12 位导师，进驻伦敦 20 多所学校，开设每周固定的写作俱乐部——同一批孩子每周回来，持续打磨自己的故事。</span></span> </p></div>
+</section>
+
+<!-- S2 -->
+<section id="s2">
+  <div class="sec-head"><span class="sec-num">02</span><h2>阅读的力量 · Reading for Joy</h2></div>
+  <div class="sec-time ui">13:30 – 18:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>引用 Cressida Cowell（《驯龙高手》作者、前英国童书桂冠作家）："文字是思想的路径"</li>
+    <li>孩子后天成功的两大关键：父母参与教育 + <b>为乐趣而阅读</b></li>
+    <li>"为乐趣而读"的孩子在无意识中吸收词汇（imbibing words），不需要拼写测验</li>
+    <li>同理：为乐趣而写 → 词汇、情节、人物、世界观全面发展</li>
+    <li>Louise 观察：FOGG 的孩子阅读量大、词汇量好（英语作为第二语言而言尤其突出）</li></ul>
+  </div>
+<div class="quote"><span class="tag ui">Cressida Cowell 引文</span>
+<p class="en"><span class="sent"><span class="se">"Words are pathways of thoughts. The more interesting and complicated, and the wider the vocabulary of the child, the more interesting the thought paths they can take.</span><span class="sz">"文字是思想的路径。孩子的词汇越有趣、越复杂、越广博，他们能走的思想路径就越有趣。</span></span> <span class="sent"><span class="se">That's why we want to get them reading — because they unconsciously absorb, in the form of joyful stories, so many words, so many connections.</span><span class="sz">这就是为什么我们要让孩子阅读——因为他们会在快乐的故事中，无意识地吸收大量词汇和联结。</span></span> <span class="sent"><span class="se">The two key factors in a child's later economic success, let alone their happiness and educational success, are parental involvement in education, and reading for the joy of it."</span><span class="sz">决定孩子日后经济成就（更不用说幸福感和学业成功）的两个关键因素是：父母对教育的参与，以及为乐趣而阅读。"</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">And that's the really key thing — the joy of it, not because somebody says so.</span><span class="sz">关键就在'乐趣'二字——不是因为别人要求。</span></span> <span class="sent"><span class="se">Children who read for the joy of it are just imbibing words: taking them on without having to have a spelling test or an explanation of what the word means.</span><span class="sz">为乐趣而读的孩子是在'畅饮'词汇：不需要拼写测验、不需要词义讲解，词汇就自然被吸收了。</span></span> <span class="sent"><span class="se">And I really believe the same thing happens when children are given the opportunity to write for pleasure.</span><span class="sz">我坚信，当孩子有机会为乐趣而写时，同样的事情也会发生。</span></span> <span class="sent"><span class="se">They'll start using their vocabularies, develop wider vocabularies, and they'll have to think about plots and characters, why people do things, and how the world is.</span><span class="sz">他们会开始调用词汇、扩大词汇量，还必须思考情节和人物——人为什么这样做，世界是什么样子。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Children will come to me at the beginning worried that they don't know what to say, how to put together a story — but in a very short time they show they can express themselves really well.</span><span class="sz">孩子们刚来时常担心'不知道写什么'、不会组织故事——但很短时间内，他们就展现出很强的表达能力。</span></span> <span class="sent"><span class="se">And I've noticed that your children, in all the courses I've taught for FOGG, are really good readers.</span><span class="sz">我也注意到，我在 FOGG 教过的所有班级里，你们的孩子都是很棒的读者。</span></span> <span class="sent"><span class="se">They read avidly, and they have really good vocabularies, considering English is their second language.</span><span class="sz">他们如饥似渴地阅读，而且考虑到英语是他们的第二语言，词汇量真的很出色。</span></span> <span class="sent"><span class="se">I'm always really impressed.</span><span class="sz">总是让我印象深刻。</span></span> </p></div>
+</section>
+
+<!-- S3 -->
+<section id="s3">
+  <div class="sec-head"><span class="sec-num">03</span><h2>家长如何陪读 · Active Reading</h2></div>
+  <div class="sec-time ui">18:00 – 21:30</div>
+  <div class="keypoints ui"><b>要点（家长可直接执行）</b><ul>
+    <li>和孩子一起读、让孩子读给你听、对他读的书表现出兴趣</li>
+    <li>生词查词义 → 让孩子把定义抄进笔记本</li>
+    <li>提问模板：你觉得这个角色是好是坏？接下来会发生什么？</li>
+    <li><b>Read between the lines（读懂言外之意）至关重要</b>——英国 11+ 考试即测这个</li>
+    <li>主动阅读 → 孩子学会：人物是复杂、动态的；情节会转折；场景有作用；阅读培养同理心</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">One way to help children develop their vocabulary is to read with them, and ask them to read to you.</span><span class="sz">帮助孩子扩大词汇量的一个方法：陪他们一起读，并请他们读给你听。</span></span> <span class="sent"><span class="se">Ask them questions about the books they're reading — take an interest.</span><span class="sz">就他们正在读的书提问——表现出你的兴趣。</span></span> <span class="sent"><span class="se">If they don't know what some words mean, look up the meanings and get them to write down the definitions in a notebook.</span><span class="sz">遇到不认识的词就查词义，让孩子把定义抄进笔记本。</span></span> <span class="sent"><span class="se">But it's not just about specific words: ask them about the characters.</span><span class="sz">但重点不只是单词：还要问他们书里的人物。</span></span> <span class="sent"><span class="se">What do they think of them? Are they good characters or bad? What's going to happen next in the story?</span><span class="sz">你觉得这个角色怎么样？是好人还是坏人？故事接下来会发生什么？</span></span> <span class="sent"><span class="se">Being able to read between the lines is vital.</span><span class="sz">能'读懂字里行间的言外之意'，是至关重要的。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">In England, in the 11-plus exam, children are asked to read an extract — usually of a Victorian novel, which is quite difficult — and they're tested on whether they can understand the text, read between the lines, predict what's going to happen, and understand the subtle references.</span><span class="sz">在英国的 11+ 考试中，孩子要阅读一段选文——通常是难度不小的维多利亚时代小说——考察的正是能否读懂文本、读出言外之意、预测情节走向、理解微妙的暗示。</span></span> <span class="sent"><span class="se">This kind of active reading, paying close attention, really helps children develop characters and plots in their own stories.</span><span class="sz">这种全神贯注的'主动阅读'，能切实帮助孩子在自己的故事中塑造人物和情节。</span></span> <span class="sent"><span class="se">They pick up that characters and stories are complex, intriguing and dynamic — not flat and one-dimensional; that things twist and turn before they come to a solution; that the setting plays an important role.</span><span class="sz">他们会领悟到：人物和故事是复杂、耐人寻味且动态发展的，不是扁平单薄的；情节会几经转折才走向结局；场景设定有重要作用。</span></span> <span class="sent"><span class="se">Reading also helps children develop empathy: they can understand how other people who are not like them might feel — what it feels like to be different, to be lonely, to be poor — and they can bring all this into their writing.</span><span class="sz">阅读还能培养同理心：孩子能理解与自己不同的人的感受——与众不同、孤独、贫穷是什么滋味——并把这一切带进自己的写作。</span></span> </p></div>
+</section>
+
+<!-- S4 -->
+<section id="s4">
+  <div class="sec-head"><span class="sec-num">04</span><h2>用文字作画 · Painting with Words</h2></div>
+  <div class="sec-time ui">21:30 – 25:00</div>
+  <div class="keypoints ui"><b>要点（核心教学理念）</b><ul>
+    <li>写小说 = 用文字作画，但可调动<b>所有感官</b>：声音、气味、触感、情绪</li>
+    <li>教 simile/metaphor 时讲清"为什么有效、怎么起作用"，而非"用了能拿高分"</li>
+    <li>朗读自己/他人的作品 → 听出文字如何"发光"（sparkle）</li>
+    <li>练习第一/第二/第三人称视角 → 让孩子自己决定"怎么讲这个故事"</li>
+    <li>朗读还能自查：情节是否太复杂、是否变无聊、是否说太多</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">When we come to teach writing, I always begin by saying that writing fiction is like painting with words — but instead of just one sense, you can bring everything into it: the sounds, the smells, what people hear, how they feel.</span><span class="sz">教写作时，我总是先说：写小说就像用文字作画——但不只是一种感官，你可以把一切都放进去：声音、气味、人物听到的、感受到的。</span></span> <span class="sent"><span class="se">You are still trying to paint a picture so that the person reading will want to read it.</span><span class="sz">你始终是在'画一幅画'，让读的人想读下去。</span></span> <span class="sent"><span class="se">And there are techniques to doing this — things like similes and metaphors are very effective.</span><span class="sz">这是有技巧的——比如明喻和暗喻就非常有效。</span></span> <span class="sent"><span class="se">But we try to explain why it's effective, how it works, rather than just saying "you need to use them because you'll get a high mark if you do."</span><span class="sz">但我们会解释清楚"为什么有效、它是怎么起作用的"，而不是只说"你要用，用了就能拿高分"。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">We also encourage them to read their work out loud — or I often get another person in the group to read it — so they can hear their writing and understand how it makes a piece of writing sparkle.</span><span class="sz">我们也鼓励孩子把作品读出来——或者我常让小组里的另一个孩子来读——这样他们能'听到'自己的文字，明白是什么让一篇文章闪闪发光。</span></span> <span class="sent"><span class="se">We get them to practise writing from different points of view: first person, second person, third person, so they understand: how do I want to tell this story?</span><span class="sz">我们还让他们练习不同的叙事视角：第一人称、第二人称、第三人称，让他们思考：我想怎么讲这个故事？</span></span> <span class="sent"><span class="se">From one person's point of view, or with a wider perspective? These are the things writers have to think about.</span><span class="sz">只从一个人的视角，还是展现更广的视野？这些正是作家动笔前要考虑的问题。</span></span> <span class="sent"><span class="se">Allowing a child to form that kind of opinion — "what's best for me, how do I describe it better" — gives them a sense of confidence.</span><span class="sz">让孩子形成这种判断——"什么最适合我？怎么描写更好？"——会给他们信心。</span></span> <span class="sent"><span class="se">It's like they're in charge of this story; they're the ones telling it.</span><span class="sz">就像这个故事由他们做主、由他们来讲。</span></span> <span class="sent"><span class="se">And reading their work aloud shows them if the plot's too complicated, if it's become a bit boring, or if they've said too much.</span><span class="sz">而朗读还能让他们自己发现：情节是不是太复杂、是不是变得有点无聊、是不是说得太多了。</span></span> </p></div>
+</section>
+
+<!-- S5 -->
+<section id="s5">
+  <div class="sec-head"><span class="sec-num">05</span><h2>工作坊教学法 · The Workshop Method</h2></div>
+  <div class="sec-time ui">25:00 – 29:00</div>
+  <div class="keypoints ui"><b>要点（回应家长"看不到分数"的疑虑）</b><ul>
+    <li>听同伴的故事、朗读自己的故事——<b>看起来不像教学，但都是学习</b></li>
+    <li>Fiction 与 Nonfiction 需要不同技能；FOGG 的 essay 课教论证、说服、多角度</li>
+    <li>常见误区：堆砌华丽比喻 → 最好的故事讲得非常清楚（clarity first）</li>
+    <li>方法：拆解名家选段（forensic analysis），让孩子模仿作者的写法</li>
+    <li>问题链：作者第一步做了什么？先写声音？再引入比喻？</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">The workshop method has a lot in it that is teaching children, even when it looks as if it isn't.</span><span class="sz">工作坊教学法里蕴含着大量的教学内容——即便看上去不像在'上课'。</span></span> <span class="sent"><span class="se">I sometimes think that some parents will want a mark, or want feedback, want to know that the child is writing for a long time — but actually they are still learning when they're listening to each other's stories, or when they're reading their stories.</span><span class="sz">有些家长会想要一个分数、想要反馈、想确认孩子写了很长时间——但实际上，孩子在听同伴讲故事、在朗读自己的故事时，也都在学习。</span></span> <span class="sent"><span class="se">They're taking it all in. It is all learning, and that's really important.</span><span class="sz">他们在把这一切吸收进去。这全部都是学习，这一点非常重要。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Fiction and nonfiction require different skills, and we also teach the difference.</span><span class="sz">虚构与非虚构写作需要不同的技能，我们也教这种差别。</span></span> <span class="sent"><span class="se">We have essay courses that FOGG run which are excellent for showing children how to develop an argument, how to write a convincing essay, be persuasive, show other sides of the argument.</span><span class="sz">FOGG 开设的 essay 课程非常出色，教孩子如何展开论证、写有说服力的文章、呈现论点的不同侧面。</span></span> <span class="sent"><span class="se">Learning both ways of writing is really important. It's also really important that the writing is clear and makes sense.</span><span class="sz">两种写作都要学。同样重要的是：文字要清晰、要讲得通。</span></span> <span class="sent"><span class="se">In England a lot of children want to make it really flowery, put in lots of similes and metaphors, but it becomes too heavy.</span><span class="sz">在英国，很多孩子一动笔就想写得辞藻华丽，塞进大量明喻暗喻，结果文字变得臃肿。</span></span> <span class="sent"><span class="se">Over time, if children keep on writing, they realise that the best stories are told very clearly.</span><span class="sz">但只要坚持写下去，孩子们会逐渐明白：最好的故事都讲得非常清楚。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">So we look at good writing. We show children extracts from children's authors, and we break it down and ask them to imitate what the author is doing — which is a very powerful way of showing the craft of writing.</span><span class="sz">所以我们研究好的文字。我们给孩子看童书作家的选段，把它拆解开，让孩子模仿作者的写法——这是展示'写作是一门手艺'的极有力的方式。</span></span> <span class="sent"><span class="se">Writers don't just sit down and write a book and it all comes out perfectly; they're crafting it all the time.</span><span class="sz">作家不是坐下来一挥而就的，他们始终在打磨。</span></span> <span class="sent"><span class="se">We forensically look at different extracts: how has this author written this paragraph? What's the first thing they did?</span><span class="sz">我们像做'法医分析'一样细看不同选段：这位作者是怎么写这一段的？第一步做了什么？</span></span> <span class="sent"><span class="se">They might have started just with a sound, and then they bring in a simile.</span><span class="sz">也许只是先写一个声音，然后才引入一个比喻。</span></span> <span class="sent"><span class="se">These are extracts from authors the children might have read themselves, so it's interesting for them.</span><span class="sz">这些选段往往出自孩子自己读过的作家，所以他们会很感兴趣。</span></span> </p></div>
+</section>
+
+<!-- S6 -->
+<section id="s6">
+  <div class="sec-head"><span class="sec-num">06</span><h2>找到孩子的声音 · Voice &amp; Confidence</h2></div>
+  <div class="sec-time ui">29:00 – 31:30</div>
+  <div class="keypoints ui"><b>要点（教学态度）</b><ul>
+    <li>写作没有像数学那样的"标准答案"——鼓励孩子用自己内心的想象</li>
+    <li><b>认真对待孩子说的每一句话</b>，绝不说"这个不能写"</li>
+    <li>经典示范："青蛙"提问链：这只青蛙会说话吗？它有什么特别的？</li>
+    <li>目标：让孩子相信"任何东西都可以变成故事"</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">We really try and encourage children to use their voice — meaning use what's inside them, use their own imagination.</span><span class="sz">我们非常注重鼓励孩子使用自己的'声音'——也就是用他们内心的东西、他们自己的想象力。</span></span> <span class="sent"><span class="se">There's not a right or wrong way in writing, compared to maths.</span><span class="sz">写作不像数学，没有对错之分。</span></span> <span class="sent"><span class="se">If a child isn't confident about their story, that will stop them from practising and trying things out.</span><span class="sz">如果孩子对自己的故事没信心，就不会去练习、去尝试。</span></span> <span class="sent"><span class="se">So we take everything a child says very seriously, and we don't try and sway them. We never say "no, you can't write about that."</span><span class="sz">所以孩子说的每一句话我们都认真对待，绝不去左右他们，绝不说"不行，这个不能写"。</span></span> <span class="sent"><span class="se">If we do say anything, we'll say "you might find that difficult, because…" — and we keep asking them questions.</span><span class="sz">最多会说"你可能会觉得这个有点难写，因为……"——然后继续用问题引导他们。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">For example, I might ask "who's your main character?" and sometimes children will just say the first thing over the top of their head — something like "a frog" — thinking that you're going to say "no, you can't write a story about a frog."</span><span class="sz">比如我问"你的主角是谁？"，有的孩子会脱口而出——比如"一只青蛙"——心里想着你大概会说"不行，青蛙写不成故事"。</span></span> <span class="sent"><span class="se">But then I just say things like: "Can the frog talk? What's special about him?"</span><span class="sz">但我只会接着问："这只青蛙会说话吗？它有什么特别之处？"</span></span> <span class="sent"><span class="se">So gradually they realise that whatever they say to you, you will show them that they can make a story about it.</span><span class="sz">渐渐地孩子就明白了：无论他们说什么，你都会让他们看到——这个东西可以变成一个故事。</span></span> </p></div>
+</section>
+
+<!-- S7 -->
+<section id="s7">
+  <div class="sec-head"><span class="sec-num">07</span><h2>案例：数学男孩的蜕变</h2></div>
+  <div class="sec-time ui">31:30 – 35:00</div>
+  <div class="keypoints ui"><b>案例价值（course map 可复用）</b><ul>
+    <li>典型画像：数学优等生、不喜欢写作、自认写不好、投入少</li>
+    <li>3–4 周课程后的对比：机械描写 → 沉浸式感官描写</li>
+    <li>点评金句："He heard nothing but his own echo and the humming of insects" —— 用声音写孤独</li>
+    <li>转变本质：<b>"我能做到"的信念</b>（confidence loop）</li></ul>
+  </div>
+<div class="quote"><span class="tag before ui">Before · 起点</span>
+<p class="en"><span class="sent"><span class="se">"I walked out of my house and headed for the park. It was a very big park with a playground.</span><span class="sz">"我走出家门，朝公园走去。那是一个很大的公园，有一个游乐场。</span></span> <span class="sent"><span class="se">Wind blew onto my cheeks as I walked slowly in the park. Birds were singing, and children were playing.</span><span class="sz">我在公园里慢慢走着，风吹在我的脸颊上。鸟儿在唱歌，孩子们在玩耍。</span></span> <span class="sent"><span class="se">I was very bored. It is just a plain day. I sighed as I looked at my house."</span><span class="sz">我觉得很无聊。这只是平淡的一天。我看着我的房子，叹了口气。"</span></span> <span class="sent"><span class="sz comment">（Louise 点评：写是写了，但很机械，没有真正的生命力。）</span></span></p></div>
+<div class="quote"><span class="tag after ui">After · 3–4 周后</span>
+<p class="en"><span class="sent"><span class="se">"He was surprised that he had not even climbed a quarter of the mountain.</span><span class="sz">"他惊讶地发现，自己连四分之一的山都还没爬完。</span></span> <span class="sent"><span class="se">When he reached halfway up the mountain the sun was down.</span><span class="sz">爬到半山腰时，太阳已经落山了。</span></span> <span class="sent"><span class="se">He took a torchlight out of his backpack, but realised it was out of battery. Oh no!</span><span class="sz">他从背包里拿出手电筒，却发现没电了。糟了！</span></span> <span class="sent"><span class="se">Tired and confused, nervous and pale, he looked around, but there was nothing in sight, not even a star.</span><span class="sz">他又累又慌，紧张得脸色发白，环顾四周，什么也看不见，连一颗星星都没有。</span></span> <span class="sent"><span class="se">'Help!' he shouted. He heard nothing but his own echo and the humming of insects.</span><span class="sz">'救命！'他大喊。但他只听见自己的回声和昆虫的嗡鸣。</span></span> <span class="sent"><span class="se">He began to cry, for he was only 15. Every small sound made him jump.</span><span class="sz">他哭了起来，因为他只有 15 岁。任何细小的声音都让他心惊肉跳。</span></span> <span class="sent"><span class="se">He stared at the black night sky."</span><span class="sz">他凝视着漆黑的夜空。"</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">You can see from the second extract that he has now completely put himself into that situation.</span><span class="sz">从第二段可以看出，他已经完全把自己代入了那个情境。</span></span> <span class="sent"><span class="se">He's trying to show how this character feels, and it's really effective — much more alive.</span><span class="sz">他在努力'展示'人物的感受，效果非常好——文字活起来了。</span></span> <span class="sent"><span class="se">"He heard nothing but his own echo and the humming of insects" is fantastic, because he's using the sense of being alone: all he can hear is his echo and the humming of insects. Very powerful.</span><span class="sz">"他只听见自己的回声和昆虫的嗡鸣"这一句尤其精彩：他用声音写出了"孤身一人"的感觉。非常有力量。</span></span> <span class="sent"><span class="se">He started to develop that feeling of: "Oh, I can do this. I can write. It's actually not that difficult — I just have to believe that I can show things the way I want to show them."</span><span class="sz">他开始建立起这样的信念："哦，我能做到。我会写。其实没那么难——我只需要相信自己能用想要的方式把东西展示出来。"</span></span> </p></div>
+</section>
+
+<!-- S8 -->
+<section id="s8">
+  <div class="sec-head"><span class="sec-num">08</span><h2>从小开始 · 写作即娱乐</h2></div>
+  <div class="sec-time ui">35:00 – 37:30</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>低龄开始的好处：学会<b>给想法排序</b>、掌握开头-中间-结尾的故事骨架</li>
+    <li>常见问题："脑子里知道，纸上没写"——信息在脑内 ≠ 传达给读者</li>
+    <li>工具：写作+绘画提示（听描述画人物 → 漏掉细节即刻可见，反证描写的重要）</li>
+    <li>核心觉醒：写作的目的是<b>娱乐读者</b>，不是交作业拿分数</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Often very young children are sent to us on our courses, and I think it's good to start very young, because they will learn how to sequence ideas, and learn how to plot a story from beginning and middle and end.</span><span class="sz">很多年纪很小的孩子被送来上我们的课。我认为从小开始是好事——他们会学会给想法排序，掌握'开头—中间—结尾'的故事结构。</span></span> <span class="sent"><span class="se">A lot of children — even older children and young adults — will have a lot of information in their heads, but getting it on the page is a different matter.</span><span class="sz">很多孩子——甚至包括年纪大些的孩子和年轻人——脑子里有大量信息，但'落到纸上'是另一回事。</span></span> <span class="sent"><span class="se">They'll say, "I know what my character looks like in my head" — but they've forgotten to write it down on the page.</span><span class="sz">他们会说"我脑子里很清楚我的角色长什么样"——却忘了写在纸上。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">So we have writing and drawing prompts for very young children: I will describe a character with a lot of detail and ask them to draw it — and if they've left anything out, it shows how important detail is in your description.</span><span class="sz">所以我们为低龄孩子设计了'写+画'的练习：我会非常详细地描述一个人物，请孩子把它画出来——一旦漏掉了什么，马上就能看出描写中细节的重要性。</span></span> <span class="sent"><span class="se">Another thing children start to understand in our workshops is that writing is to entertain.</span><span class="sz">孩子们在工作坊里还会逐渐领悟另一件事：写作是为了娱乐读者。</span></span> <span class="sent"><span class="se">It's not just a thing you do on your own, get a mark for, and that's the end of it — nobody really wants to read it.</span><span class="sz">写作不是一件'自己写完、拿个分数、就此结束、没人真想读'的事。</span></span> <span class="sent"><span class="se">The point of learning to write fiction well is to entertain.</span><span class="sz">学好虚构写作的意义，就在于娱乐他人。</span></span> <span class="sent"><span class="se">They gradually love reading out to each other, and I'm often amazed at how much they remember of each other's stories.</span><span class="sz">他们会渐渐爱上互相朗读，而我常常惊讶于他们能记住彼此故事的那么多细节。</span></span> <span class="sent"><span class="se">They're teaching each other, and collectively understanding that writing is entertainment.</span><span class="sz">他们在互相教学，共同领悟'写作即娱乐'。</span></span> </p></div>
+</section>
+
+<!-- S9 -->
+<section id="s9">
+  <div class="sec-head"><span class="sec-num">09</span><h2>坚持练习与文体探索</h2></div>
+  <div class="sec-time ui">37:30 – 40:30</div>
+  <div class="keypoints ui"><b>要点（家长价值主张）</b><ul>
+    <li>成为更好写作者的唯一方法：<b>持续地写</b>（同一小组已持续 3 年+）</li>
+    <li>文体广度：旅行写作、回忆录、奇幻、鬼故事……每周固定的"试验场"</li>
+    <li>因材施教：有的孩子看见幽默，有的看见悲剧，有的看见美 → 先写长处，再推新技能</li>
+    <li>案例：想法太多写不完的女孩 → 完成第一个故事后彻底改变自我认知</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">If we do anything regularly we will get better at it — play the piano, we're going to improve — and the only way to become a better writer is to write.</span><span class="sz">任何事情只要定期做就会进步——弹钢琴如此——而成为更好写作者的唯一方法，就是不停地写。</span></span> <span class="sent"><span class="se">That's really what FOGG have been able to offer.</span><span class="sz">这正是 FOGG 能提供给孩子们的。</span></span> <span class="sent"><span class="se">I've had the same group for over three years; they come because they want to develop their writing, they enjoy it, and they've become excellent writers.</span><span class="sz">我的同一个小组已经带了三年多；他们来是因为想提升写作、享受写作，如今都成了出色的小作家。</span></span> <span class="sent"><span class="se">I know they have a lot of homework and they're very busy academically, but by continuing to come, your parents are giving them this gift: a place they can come every week and practise writing, try out different ways of writing, learn about different genres.</span><span class="sz">我知道他们功课很多、学业很忙，但坚持来上课，是各位家长送给孩子的一份礼物：一个每周都能来练笔的地方，可以尝试不同的写法、接触不同的文体。</span></span> <span class="sent"><span class="se">We do courses in travel writing, we've just started memoir writing, we have fantasy writing, ghost stories.</span><span class="sz">我们有旅行写作课，刚开了回忆录写作课，还有奇幻写作、鬼故事。</span></span> <span class="sent"><span class="se">They've come up with so many different characters, stories, worlds. I'm often just blown away at what they produce.</span><span class="sz">孩子们创造出了那么多不同的人物、故事和世界。我常常被他们的作品震撼到。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Every child is different. Some children will see the humour in life, some will notice the tragedy, some will recognise how beautiful the world can be.</span><span class="sz">每个孩子都不一样。有的孩子看见生活中的幽默，有的注意到悲剧，有的能发现世界的美。</span></span> <span class="sent"><span class="se">We encourage them to write to their strengths — but once they've gained confidence, we push them to develop new skills.</span><span class="sz">我们鼓励他们先发挥长处写——而一旦建立了信心，我们就会推动他们发展新技能。</span></span> <span class="sent"><span class="se">I had one student who was always a brilliant writer, but she could never finish a story: fantastic ideas, then she'd get to the middle and run out of steam, her mind brimming with ideas but always wanting to move on to the next one.</span><span class="sz">我有一个学生一直很有才华，但总是写不完故事：想法绝妙，写到中间就泄了气，脑子里满是新点子，总想跳去写下一个。</span></span> <span class="sent"><span class="se">Eventually she completed one story, and that really changed the way she felt about her writing — she realised it was possible, she knew how to finish.</span><span class="sz">后来她终于完整写完了一个故事——这彻底改变了她对自己写作的看法：她意识到'这是可能的'，她知道怎么收尾了。</span></span> <span class="sent"><span class="se">She's just recently written a very effective short story, and a year ago she would not have thought she was capable of that.</span><span class="sz">最近她刚写了一篇非常出色的短篇小说，而一年前她绝不会相信自己能做到。</span></span> <span class="sent"><span class="se">The fact that children can just come and experiment and keep trying and be encouraged by all the tutors is very valuable.</span><span class="sz">孩子们能有这样一个不断实验、不断尝试、被所有导师鼓励的地方，是非常宝贵的。</span></span> </p></div>
+</section>
+
+<!-- S10 -->
+<section id="s10">
+  <div class="sec-head"><span class="sec-num">10</span><h2>风格即真实 · Style Is Truth</h2></div>
+  <div class="sec-time ui">40:30 – 42:30</div>
+  <div class="keypoints ui"><b>要点（讲座立意升华）</b><ul>
+    <li>引用 Zadie Smith 论"风格"：风格不是花哨的句法或蛋糕上的糖霜</li>
+    <li><b>"Style is a writer's way of telling the truth" —— 风格是作家讲真话的方式</b></li>
+    <li>大多数孩子学会写应试作文；极少数有机会"试驾"自己的想法、找到自己的声音</li>
+    <li>写作之声将伴随孩子一生，是他们看世界的独特方式</li></ul>
+  </div>
+<div class="quote"><span class="tag ui">Zadie Smith 引文</span>
+<p class="en"><span class="sent"><span class="se">"A writer's personality is his manner of being in the world; his writing style is the unavoidable trace of that manner.</span><span class="sz">"作家的个性，就是他存在于这个世界的方式；他的写作风格，则是这种方式无可避免留下的痕迹。</span></span> <span class="sent"><span class="se">When you understand style in these terms, you don't think of it merely as a matter of fanciful syntax, or as the flamboyant icing atop a plain literary cake — rather, you see style as a personal necessity, as the only possible expression of a particular human consciousness.</span><span class="sz">当你这样理解风格时，就不会把它仅仅看作花哨的句法，或朴素文学蛋糕上华丽的糖霜——你会把风格视为一种个人的必然，是某个独特人类意识唯一可能的表达。</span></span> <span class="sent"><span class="se">Style is a writer's way of telling the truth."</span><span class="sz">风格，是作家讲真话的方式。"</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Most children will learn how to write essays and pass exams, but very few will have been given this wonderful opportunity, through FOGG and Inkhead, to test-drive their ideas, to be allowed to experiment, to learn how to entertain each other with their writing, and to find their voice.</span><span class="sz">大多数孩子都会学写应试作文、通过考试，但极少数孩子能获得这样宝贵的机会——通过 FOGG 和 Inkhead，去'试驾'自己的想法、被允许去实验、学会用写作娱乐彼此、并找到自己的声音。</span></span> <span class="sent"><span class="se">It's something which will stay with them for the rest of their lives.</span><span class="sz">这将伴随他们一生。</span></span> <span class="sent"><span class="se">The children in my group have each developed this writer's voice, and they will always have that.</span><span class="sz">我小组里的孩子每个人都已经发展出了自己的'作家之声'，而这将永远属于他们。</span></span> <span class="sent"><span class="se">It's unique to them, and it's their way of showing us how they view the world.</span><span class="sz">它独一无二，是他们向我们展示'他们如何看待这个世界'的方式。</span></span> </p></div>
+</section>
+
+<!-- S11 -->
+<section id="s11">
+  <div class="sec-head"><span class="sec-num">11</span><h2>案例：Renice / Ray / Zoe 的成长对照</h2></div>
+  <div class="sec-time ui">42:30 – 47:00</div>
+  <div class="keypoints ui"><b>三组 before/after，三种成长方向</b><ul>
+    <li><b>Renice</b>：事实性流水账 → 精炼的感官场景（学会克制，"说得少但说得准"）</li>
+    <li><b>Ray</b>：真实经历记叙 → 带反讽幽默的神话虚构（找到个人风格：冷面幽默）</li>
+    <li><b>Zoe</b>：话痨式冗余细节 → 浓缩而有情绪重量的描写（学会 condense + convey）</li></ul>
+  </div>
+<div class="quote"><span class="tag before ui">Renice · Before（2024，家族记事）</span>
+<p class="en"><span class="sent"><span class="se">"When my mum was still at a young age, her grandmother died without my mum knowing her.</span><span class="sz">"我妈妈还小的时候，她的外婆就去世了，妈妈从没见过她。</span></span> <span class="sent"><span class="se">My mum was the only child, and since her mother and father worked in the day she would clean the house herself and serve dinner for her parents…</span><span class="sz">妈妈是独生女，因为外公外婆白天都要工作，她只能自己打扫屋子、给父母准备晚饭……</span></span> <span class="sent"><span class="se">However, when my mum had the opportunity to go to school, she accepted it and worked really hard at it, having been one of the top students of her class.</span><span class="sz">不过，当妈妈有机会上学时，她抓住了机会，非常刻苦，成了班里的尖子生。</span></span> <span class="sent"><span class="se">She was awarded a scholarship… and she studied for her doctorate at a young age."</span><span class="sz">她拿到了奖学金……年纪轻轻就攻读了博士学位。"</span></span> <span class="sent"><span class="sz comment">（Louise 点评：更像一份事实性的记述。）</span></span></p></div>
+<div class="quote"><span class="tag after ui">Renice · After（2025，场景描写）</span>
+<p class="en"><span class="sent"><span class="se">"The soft summer breeze sang and whistled in the air, which was flooded with the scent of jasmines and lilies.</span><span class="sz">"柔软的夏日微风在空气中歌唱、呼啸，空气里满溢着茉莉与百合的芬芳。</span></span> <span class="sent"><span class="se">Grass swayed and trees danced in perfect rhythm to each other.</span><span class="sz">青草摇曳，树木共舞，彼此的节奏完美契合。</span></span> <span class="sent"><span class="se">The glassy lake was a mirror that reflected the beaming sapphire blue sky."</span><span class="sz">如镜的湖面倒映着灿烂的宝石蓝天空。"</span></span> <span class="sent"><span class="sz comment">（Louise 点评：她的文字变"松弛"了——说得更少，却说得极其有效。用了动态和气味，学会了克制。）</span></span></p></div>
+<div class="quote"><span class="tag before ui">Ray · Before（2022，真实经历）</span>
+<p class="en"><span class="sent"><span class="se">"In 2022 my father was 24. He and his friends went to a jungle in Malaysia.</span><span class="sz">"2022 年我爸爸 24 岁。他和朋友们去了马来西亚的丛林。</span></span> <span class="sent"><span class="se">On the first day they were walking in a row in the jungle, when suddenly one friend in the front called everyone to run.</span><span class="sz">第一天他们排成一列走在丛林里，走在最前面的朋友突然叫大家快跑。</span></span> <span class="sent"><span class="se">The people at the back did not know what happened… they stopped when they could not run anymore, but the friend just said it was a snake.</span><span class="sz">后面的人不知道发生了什么……直到跑不动了才停下来，那个朋友却只说是一条蛇。</span></span> <span class="sent"><span class="se">At night my father went to the river to take a shower, but when he touched the water he felt a sharp, stinging pain.</span><span class="sz">晚上我爸爸去河里洗澡，手一碰到水就感到一阵刺痛。</span></span> <span class="sent"><span class="se">He ran to the shore, and until now he still doesn't know what caused it."</span><span class="sz">他跑回岸边，直到现在也不知道是什么造成的。"</span></span> <span class="sent"><span class="sz comment">（Louise 点评：真实记述，有动作有悬念，写得不错。）</span></span></p></div>
+<div class="quote"><span class="tag after ui">Ray · After（2023，神话虚构）</span>
+<p class="en"><span class="sent"><span class="se">"I was in the realm of fire, waiting for Lumon to kill me as a lure.</span><span class="sz">"我身处火之国度，作为诱饵等着 Lumon 来杀我。</span></span> <span class="sent"><span class="se">Then I heard a howling, and I knew he was near. The smell of old garbage crept up my nose.</span><span class="sz">然后我听到一声嚎叫，我知道他近了。腐烂垃圾的气味爬进我的鼻腔。</span></span> <span class="sent"><span class="se">Then I saw it: the human-headed, monkey-tailed lion.</span><span class="sz">接着我看见了它：人头猴尾的狮子。</span></span> <span class="sent"><span class="se">Lumon approached and howled. He unsheathed his sword and sprinted towards me.</span><span class="sz">Lumon 逼近、咆哮，拔剑向我冲刺。</span></span> <span class="sent"><span class="se">He cut off my neck, and I enjoyed the most thrilling roller coaster as my head dropped onto the ground.</span><span class="sz">他砍下我的脖子，我的头颅坠向地面时，我享受了最刺激的过山车。</span></span> <span class="sent"><span class="se">There I was, as dead as I can be. The end. *expects applause*"</span><span class="sz">就这样，我死得不能再死了。全剧终。*等待掌声*"</span></span> <span class="sent"><span class="sz comment">（Louise 点评：清晰、简洁、动作感十足；语气充满反讽和幽默——这就是 Ray 的个人风格：冷面幽默。）</span></span></p></div>
+<div class="quote"><span class="tag before ui">Zoe · Before（2022，童年趣事）</span>
+<p class="en"><span class="sent"><span class="se">"I was around 5 to 6, I think, and my day at kindergarten just ended.</span><span class="sz">"我大概五六岁吧，幼儿园放学了。</span></span> <span class="sent"><span class="se">Naturally, like every other kid in the class, I waited for my parents to arrive. I waited and waited and waited until I was the last kid left…</span><span class="sz">和班里其他孩子一样，我等着爸妈来接。我等啊等啊等，直到成了最后一个孩子……</span></span> <span class="sent"><span class="se">It was just me, my backpack, and one more teacher who stayed to watch over me.</span><span class="sz">只剩下我、我的书包，和一位留下来看着我的老师。</span></span> <span class="sent"><span class="se">Looking back, I feel kind of bad, seeing as it would sort of count as overtime… but that's not the point.</span><span class="sz">现在回想起来有点过意不去，毕竟这算她加班了……不过这不是重点。</span></span> <span class="sent"><span class="se">The teacher called my parents… around 6 my parents both came to pick me up along with our helper, which honestly was a bit weird… but that's besides the point."</span><span class="sz">老师打电话给我爸妈……六点左右他们俩带着我们家的帮佣一起来接我，说实话有点奇怪……不过这也不是重点。"</span></span> <span class="sent"><span class="sz comment">（Louise 点评：非常"Zoe"——像在聊天，口语化，塞了很多其实不需要的细节。）</span></span></p></div>
+<div class="quote"><span class="tag after ui">Zoe · After（2023，凤凰之景）</span>
+<p class="en"><span class="sent"><span class="se">"I trembled as I heard the flickering and burning embers emitted from the large Phoenix announcing its arrival.</span><span class="sz">"我颤抖着，听见巨大的凤凰抵达时迸出的忽明忽暗、燃烧的余烬。</span></span> <span class="sent"><span class="se">I felt the dewy grass press into my thighs as the sun slowly went below the horizon, the oranges and pinks painting the trees.</span><span class="sz">太阳缓缓沉入地平线，橙色与粉色涂抹着树影，我感到带露的青草压进大腿。</span></span> <span class="sent"><span class="se">I looked up as its bright red wings passed by my peripheral vision, its loud, uncanny song filling my eardrums.</span><span class="sz">我抬起头，它鲜红的双翼掠过我的余光，那响亮而诡异的歌声灌满我的耳膜。</span></span> <span class="sent"><span class="se">I whimpered, feeling tears roll down my face as leaves slowly began to burn red, the smell of smoke and sharp pine invading my nostrils.</span><span class="sz">我呜咽着，泪水滑落——树叶开始慢慢烧成红色，烟与凛冽松木的气味侵入我的鼻腔。</span></span> <span class="sent"><span class="se">The Phoenix sang in a low tone, a song filled with sorrow.</span><span class="sz">凤凰低声吟唱，歌里满是悲伤。</span></span> <span class="sent"><span class="se">I clenched my eyes shut as it took the dive and swoop, its beak open and its flames filling my sight."</span><span class="sz">它俯冲而下、喙张开、火焰充满我的视野，我死死闭上了眼睛。"</span></span> <span class="sent"><span class="sz comment">（Louise 点评：很美的写作。她把一切都浓缩了——既在"展示"，又传达出悲伤的情绪。）</span></span></p></div>
+</section>
+
+<!-- S12 -->
+<section id="s12">
+  <div class="sec-head"><span class="sec-num">12</span><h2>Q1 · AI 与儿童写作</h2></div>
+  <div class="sec-time ui">47:00 – 53:00 · 提问人：Yanci（代家长提问）</div>
+  <div class="keypoints ui"><b>要点（家长沟通高频问题）</b><ul>
+    <li>Louise 观察证据：用 AI 的孩子被问"这个词什么意思"时常答不上来</li>
+    <li>核心论点：AI 拿走了"必须先自己思考"的第一冲动（人物是谁？发生什么？在哪里？）</li>
+    <li>有限的正面用途：激发灵感、给成人教师提供 prompt 示例</li>
+    <li>结论：<b>AI 无法帮助孩子找到自己的写作之声，反而会削弱它</b></li>
+    <li>类比：AI 画的画是"通用的"，孩子自己的画笔才能画出原创</li>
+    <li>Yanci 补充：好文章不是教学的唯一目的——让孩子有自己的声音、自己的观察与感受才是关键</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se"><b>Yanci:</b> Now it's the AI age. AI can do quite a good job in writing.</span><span class="sz"><b>Yanci：</b>现在是 AI 时代，AI 写东西已经写得相当不错了。</span></span> <span class="sent"><span class="se">So the parents ask: what is your point of view about children using AI to help them when they write?</span><span class="sz">所以家长们想问：第一，您怎么看孩子写作时用 AI 来帮忙？</span></span> <span class="sent"><span class="se">And second: what do you think of parents or teachers using AI to teach children how to write?</span><span class="sz">第二，您怎么看家长或老师用 AI 来教孩子写作？</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se"><b>Louise:</b> It's a really interesting question. Obviously people are going to use it, and it is effective sometimes in sparking ideas.</span><span class="sz"><b>Louise：</b>这是个非常有意思的问题。显然大家一定会用 AI，它有时确实能有效地激发灵感。</span></span> <span class="sent"><span class="se">But I've noticed in some of the groups, when children are using AI, I have taken extracts — even words from what they've written — and asked them what the word means. They often won't be able to answer me.</span><span class="sz">但我在一些班里注意到：当孩子用了 AI，我从他们'写'的内容里挑出一些词，问他们这个词是什么意思——他们常常答不上来。</span></span> <span class="sent"><span class="se">The act of writing your own story, having to use your own brain to think of the plot — I think AI takes away from that, and is actually not helpful at all, because what we want to develop is a child's confidence in their ability to do it themselves.</span><span class="sz">亲手写自己的故事、必须用自己的大脑去构思情节——我认为 AI 恰恰拿走了这个过程，所以实际上完全没有帮助。因为我们要培养的，正是孩子'我自己能做到'的信心。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">What AI does is take away that first impulse to have to think.</span><span class="sz">AI 拿走的，是那个'必须先思考'的第一冲动。</span></span> <span class="sent"><span class="se">You sit down and you have to think: who is the character going to be? What's going to happen to them? Where is this going to happen?</span><span class="sz">你坐下来，必须想：主角是谁？他会遭遇什么？故事发生在哪里？</span></span> <span class="sent"><span class="se">Going straight to AI for help means you never have to use your brain to set things up.</span><span class="sz">一上来就找 AI 帮忙，意味着你永远不需要动用自己的大脑去搭建这些。</span></span> <span class="sent"><span class="se">On the other hand, it can be helpful to give people examples — I sometimes use it myself to help me think of examples of how to develop a writing prompt.</span><span class="sz">另一方面，AI 在'提供范例'上可以有帮助——我自己有时会用它来帮我想一些开发写作提示的例子。</span></span> <span class="sent"><span class="se">So it's a difficult question, but I would say: I don't think AI can help children to write and find their own writing voice. I think it detracts from that.</span><span class="sz">所以这个问题很难回答，但我的结论是：我不认为 AI 能帮助孩子找到自己的写作之声。我认为它反而会削弱这件事。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se"><b>Yanci:</b> I've attended a lot of Louise's classes, so I know her teaching style. A good article is not the only purpose of our teaching.</span><span class="sz"><b>Yanci：</b>我听过很多 Louise 的课，了解她的教学风格。写出一篇好文章并不是我们教学的唯一目的。</span></span> <span class="sent"><span class="se">Having the children find their own voice, have their own observation and feeling of the world — that is critical in writing. AI cannot do this, and may stop this development in children.</span><span class="sz">让孩子找到自己的声音、拥有自己对世界的观察和感受——这才是写作中最关键的。AI 做不到，甚至可能阻碍孩子这方面的发展。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se"><b>Louise:</b> Yes, I agree. You could use the analogy of painting: if AI could paint a picture, it would be a sort of generic picture, whereas a child using their own ideas and paintbrush will produce something much more original.</span><span class="sz"><b>Louise：</b>是的，我同意。可以用画画来类比：AI 画出来的是一种'通用'的画；而孩子用自己的想法和画笔，会创作出原创得多的东西。</span></span> <span class="sent"><span class="se">There's one girl in my group who's incredibly imaginative — whatever prompt I give her, she will automatically look for an unusual and very creative way of achieving it.</span><span class="sz">我组里有个女孩想象力惊人——不管我给什么写作提示，她总会自动去寻找一种不寻常的、极有创意的完成方式。</span></span> <span class="sent"><span class="se">An AI could not do that. She has that ability; it's her way of looking at the world, and she's been able to practise and use that in our classes.</span><span class="sz">AI 做不到这一点。那是她独有的能力，是她看世界的方式，而她能在我们的课堂上不断练习和运用它。</span></span> </p></div>
+</section>
+
+<!-- S13 -->
+<section id="s13">
+  <div class="sec-head"><span class="sec-num">13</span><h2>Q2 · 男孩 vs 女孩的写作差异</h2></div>
+  <div class="sec-time ui">53:00 – 56:30 · 提问人：Maggie（Rocky 妈妈）</div>
+  <div class="keypoints ui"><b>要点（因材施教方法论）</b><ul>
+    <li>家长观察：女儿表达欲强，儿子回避情感表达——是普遍现象吗？</li>
+    <li>Louise：确实常见；<b>策略是"先找孩子的强项"</b></li>
+    <li>逻辑型男孩 → 从 plotting（情节设计）切入："这个情节真聪明，现在怎么让读者觉得有趣？"</li>
+    <li>题材钩子：间谍故事、侦探破案</li>
+    <li>实战案例：爱数学的男孩 → 寻宝解谜故事，每一关解一道数学题</li>
+    <li>原则：把孩子的兴趣带进来 → "任何兴趣都能变成故事"</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se"><b>Maggie:</b> I have a boy and a girl, and I feel like their thinking styles are very different — even in their writing I can tell the difference.</span><span class="sz"><b>Maggie：</b>我有一个儿子一个女儿，我发现他们的思维方式非常不同——连写作里都能看出差别。</span></span> <span class="sent"><span class="se">My girl is very expressive, so keen to express herself. But my boy really refrains from expressions, from finding the emotional connections.</span><span class="sz">女儿表达欲很强，特别渴望表达自己。但儿子很回避表达、回避建立情感连接。</span></span> <span class="sent"><span class="se">Is that really a drastic difference between boys and girls? And how can I help my boy in terms of creative writing?</span><span class="sz">男孩和女孩之间真的有这么大的差异吗？我该怎么在创意写作上帮助我的儿子？</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se"><b>Louise:</b> I think that is quite common — girls generally take to writing more, and write more expressively. Is your son logical? ("Very, very.")</span><span class="sz"><b>Louise：</b>这确实很常见——女孩通常更容易爱上写作，表达也更丰富。你儿子逻辑性强吗？（"非常非常强。"）</span></span> <span class="sent"><span class="se">Then you need to find his strength. If he's very logical, he may be very good at plotting — working out a plot. I often try to play to the child's strength.</span><span class="sz">那你需要找到他的强项。如果他逻辑性很强，他可能非常擅长 plotting——设计情节。我常常顺着孩子的强项来教。</span></span> <span class="sent"><span class="se">So with a boy who wasn't describing much, I'd work on a plot first, and then show him: "This plot is really clever. Now you've got to make it interesting to the person who's going to read it. How can you do that? You have to describe what the main character's like, what's unusual about them."</span><span class="sz">对一个不太会描写的男孩，我会先跟他一起打磨情节，然后告诉他："这个情节设计得真聪明。现在你得让读的人也觉得有趣——怎么做到？你得描写主角是什么样的人、他有什么与众不同。"</span></span> <span class="sent"><span class="se">Boys often love writing things like spy stories or detective stories, where a crime has to be solved.</span><span class="sz">男孩往往很喜欢写间谍故事、侦探故事这类需要破案解谜的题材。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">I'm actually teaching a boy at the moment who loves maths, and he's writing a mystery story where the character has to find a treasure — but at each point he has to solve a maths problem.</span><span class="sz">我现在正好在教一个热爱数学的男孩，他在写一个寻宝解谜故事——主角要找到宝藏，但每到一个关卡都必须解开一道数学题。</span></span> <span class="sent"><span class="se">So I try to get them to bring whatever they are interested in, and show them that they can write about that. You can turn that into a story.</span><span class="sz">所以我的做法是：让孩子把自己感兴趣的任何东西带进来，让他们看到'你可以写这个，这可以变成一个故事'。</span></span> <span class="sent"><span class="se">With your son who's very logical, that might work really well.</span><span class="sz">对你那位逻辑性很强的儿子来说，这个方法可能会非常有效。</span></span> </p></div>
+</section>
+
+<!-- S14 -->
+<section id="s14">
+  <div class="sec-head"><span class="sec-num">14</span><h2>Q3 · 竞赛字数限制下怎么写</h2></div>
+  <div class="sec-time ui">56:30 – 60:00 · 提问人：Maggie</div>
+  <div class="keypoints ui"><b>要点（可直接教学的写作工具）</b><ul>
+    <li>问题：750–800 字内很难安排情节、埋转折</li>
+    <li>方法一：<b>动笔前先做 plot</b>——画一条时间线（开头→小事件→大事件→结尾）</li>
+    <li>方法二：三格盒子（beginning / middle / end），强制精简："角色不能突然飞去墨西哥再回来"</li>
+    <li>方法三（万能故事公式）：<b>主角是谁？他想要什么？什么在阻止他？</b> → 结局 = 他得到了吗</li>
+    <li>Louise："只要问这三个问题，故事就有了。"（对逻辑型孩子尤其有效）</li></ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se"><b>Maggie:</b> About writing competitions — there are usually word limits, like 750 or under 800 words.</span><span class="sz"><b>Maggie：</b>关于写作竞赛——通常都有字数限制，比如 750 字或 800 字以内。</span></span> <span class="sent"><span class="se">I myself find it very difficult to create any plot, or create a surprise, or be very logical in such a short volume.</span><span class="sz">我自己都觉得，在这么短的篇幅里很难设计情节、安排惊喜、还要逻辑严密。</span></span> <span class="sent"><span class="se">How can we inspire kids to fit those competition requirements and write more skilfully?</span><span class="sz">我们怎么启发孩子适应竞赛要求、写得更有技巧？</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se"><b>Louise:</b> You're right, it is difficult to fit in that space. So I often just start with the plot.</span><span class="sz"><b>Louise：</b>你说得对，短篇幅确实很难安排。所以我通常从情节入手。</span></span> <span class="sent"><span class="se">I get them to do a plot in different ways — for example a timeline: draw a line, this is the beginning, that's the end.</span><span class="sz">我让孩子用不同方式先做 plot——比如画一条时间线：画一条线，这头是开头，那头是结尾。</span></span> <span class="sent"><span class="se">If you have one thing happening, then something bigger, and then finally the last thing — you've got to fit these events into a short space.</span><span class="sz">先发生一件小事，然后是更大的事，最后是结局——你必须把这些事件塞进很短的篇幅里。</span></span> <span class="sent"><span class="se">So before they even start writing, they work out what will happen. Or I'll draw a box with a beginning, middle and end.</span><span class="sz">所以在动笔之前，先想清楚'会发生什么'。或者我会画一个'开头—中间—结尾'的三格盒子。</span></span> <span class="sent"><span class="se">And when they start making it really complicated, I'll say: "But you've only got that short space. The character can't suddenly fly to Mexico and come back — because you're then going to have to describe that. You have to keep it very basic and clear."</span><span class="sz">孩子一旦开始把故事搞得很复杂，我就会说："但你只有这么点篇幅。主角不能突然飞去墨西哥再飞回来——因为那样你就得描写整个过程。必须保持故事非常基本、非常清晰。"</span></span> </p></div>
+<div class="quote"><span class="tag ui">万能故事公式 · The Story Formula</span>
+<p class="en"><span class="sent"><span class="se">"One of the things we always used to start off with: think of the character.</span><span class="sz">"我们过去总是用这个来开场：想想你的角色。</span></span> <span class="sent"><span class="se">Who is the main character? What does he want? And what is stopping him getting it?</span><span class="sz">主角是谁？他想要什么？是什么在阻止他得到？</span></span> <span class="sent"><span class="se">If you just ask those questions — that's the story.</span><span class="sz">只要问这三个问题——故事就有了。</span></span> <span class="sent"><span class="se">The story is about someone who wants something, but something or someone is stopping him getting it.</span><span class="sz">故事讲的就是：一个人想要某样东西，但某件事或某个人在阻止他得到。</span></span> <span class="sent"><span class="se">And the end is: how do they get it? Do they get it, or do they not? That's the end."</span><span class="sz">而结局就是：他怎么得到的？他到底得没得到？这就是结尾。"</span></span> <span class="sent"><span class="sz comment">（Louise 点评：Maggie："Wow，太厉害了。" Louise："对你那位逻辑性强的儿子，这个方法可能特别管用。"）</span></span></p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se"><b>Yanci (closing):</b> Thank you, Louise, it's a wonderful speech — a lot of very important, critical ideas about writing.</span><span class="sz"><b>Yanci（结语）：</b>谢谢 Louise，这是一场精彩的演讲——关于写作的许多非常重要、非常关键的理念。</span></span> <span class="sent"><span class="se">Now we know writing is not for the examination, and not only for a good article. It's a very important way for us to develop our children. Thank you, everybody.</span><span class="sz">现在我们明白了：写作不是为了考试，也不只是为了写出一篇好文章。它是我们培养孩子的一条非常重要的路径。谢谢大家。</span></span> </p></div>
+</section>
+
+<footer class="ui">整理自 2025-03-28 FOGG × Inkhead 家长讲座 Zoom 转录 · 英文原文经口语清理，学生作品保留原文 · 中文翻译供学习参考<br>💡 选中英文 → 弹出「高亮 / 查词 / 高亮+笔记」· 点已有高亮 → 菜单（写笔记 / 查词 / 删除）· 「📤 导出」一键打包全部笔记丢给 Claude</footer>
+</main>
+</div>
+
+<div id="hl-tip" class="ui">🖍 划线模式已开启 —— 选中英文文字即可高亮，点击已有高亮可删除</div>
+
+<div id="sel-pop" class="ui">
+  <button id="pop-hl">🖍 高亮</button><div class="sep"></div><button id="pop-dict">📖 查词</button><div class="sep"></div><button id="pop-note">📝 高亮+笔记</button>
+</div>
+<div id="dict-card" class="ui">
+  <button class="close-x" id="dc-close">✕</button>
+  <span class="dw" id="dc-word">…</span><span class="dp" id="dc-ph"></span><button class="say" id="dc-say" title="朗读">🔊</button>
+  <div class="zh-big loading" id="dc-zh-big">翻译中…</div>
+  <div class="dd" id="dc-def"></div>
+  <div class="dc-row"><button class="add" id="dc-add">＋ 存入生词本</button></div>
+</div>
+<div id="note-modal" class="ui">
+  <div class="box">
+    <div class="quote-ref" id="nm-quote"></div>
+    <textarea id="nm-text" placeholder="写下你的想法…"></textarea>
+    <div class="row"><button class="ok" id="nm-ok">保存笔记</button><button class="no" id="nm-cancel">取消</button></div>
+  </div>
+</div>
+<div id="mark-menu" class="ui">
+  <button id="mm-note">📝 写/改笔记</button>
+  <button id="mm-dict">📖 查这个词</button>
+  <button class="danger" id="mm-del">🗑 删除这条高亮</button>
+</div>
+
+<div id="drawer" class="ui">
+  <div class="tabs">
+    <button data-tab="vocab" class="on">📖 生词本</button>
+    <button data-tab="hl">🖍 划线笔记</button>
+    <button data-tab="note">📝 总笔记</button>
+  </div>
+  <div class="pane on" data-pane="vocab">
+    <div class="vocab-stats">还不会 <b id="vc-unknown">0</b> ・ 已掌握 <b class="ok-n" id="vc-known">0</b> ・ 共 <span id="vc-total">0</span> 词　<span style="margin-left:auto;font-size:11px;color:#A8B8B4">点 ⭕ = 已掌握</span></div>
+    <div id="vocab-list"><p class="empty">还没有生词。选中英文单词 → 点「📖 查词收藏」。</p></div>
+  </div>
+  <div class="pane" data-pane="hl">
+    <div id="hl-list"><p class="empty">还没有划线。开启划线模式后选中英文文字试试。</p></div>
+  </div>
+  <div class="pane" data-pane="note">
+    <textarea id="global-note" style="width:100%;min-height:260px;border:1.5px solid #DDE6E3;border-radius:12px;padding:14px;font-size:14.5px;line-height:1.8;background:#FFFEF8" placeholder="整场讲座的总结、想放进 course map 的点、要转述给家长的话术……"></textarea>
+  </div>
+</div>
+
+<script>
+(function(){
+const NOTE_KEY='louise-talk-notes', HL_KEY='louise-talk-highlights', VC_KEY='louise-talk-vocab';
+let notes={}, highlights=[], vocab=[], saveTimer=null;
+
+// storage layer: artifact window.storage if available, else localStorage
+const store={
+  async get(k){
+    if(window.storage&&window.storage.get){try{const r=await window.storage.get(k);return r?r.value:null}catch(e){}}
+    try{return localStorage.getItem(k)}catch(e){return null}
+  },
+  async set(k,v){
+    let ok=false;
+    if(window.storage&&window.storage.set){try{await window.storage.set(k,v);ok=true}catch(e){}}
+    try{localStorage.setItem(k,v);ok=true}catch(e){}
+    if(!ok)throw new Error('no storage');
+  }
+};
+const state=document.getElementById('save-state');
+const sections=[...document.querySelectorAll('section')];
+
+function setState(t){state.textContent=t}
+function scheduleSave(){setState('保存中…');clearTimeout(saveTimer);saveTimer=setTimeout(saveAll,700)}
+async function saveAll(){
+  try{
+    await store.set(NOTE_KEY,JSON.stringify(notes));
+    await store.set(HL_KEY,JSON.stringify(highlights));
+    await store.set(VC_KEY,JSON.stringify(vocab));
+    setState('✓ 已保存 '+new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'}));
+  }catch(e){setState('⚠ 保存失败，稍后自动重试');setTimeout(saveAll,3000)}
+}
+async function load(){
+  try{const v=await store.get(NOTE_KEY);if(v)notes=JSON.parse(v)}catch(e){}
+  try{const v=await store.get(HL_KEY);if(v)highlights=JSON.parse(v)}catch(e){}
+  try{const v=await store.get(VC_KEY);if(v)vocab=JSON.parse(v)}catch(e){}
+  const g=document.getElementById('global-note');if(notes.__global)g.value=notes.__global;
+  highlights.forEach((h,i)=>{if(!h.id)h.id='h'+Date.now()+'_'+i;applyHighlight(h.sec,h.text,h.id)});refreshMarkNoteStyles();
+  renderHlList();renderVocab();markVocabWords();
+  setState(highlights.length||vocab.length||Object.keys(notes).length?'✓ 已恢复你的笔记 · 划线 · 生词':'已就绪');
+}
+
+// notes events
+document.addEventListener('input',e=>{
+  if(e.target.id==='global-note'){notes.__global=e.target.value;scheduleSave()}
+});
+
+// 把每段的逐句中文合并成一个整齐的翻译块
+document.querySelectorAll('.para,.quote').forEach(p=>{
+  const szs=[...p.querySelectorAll('.sz')];
+  if(!szs.length)return;
+  const normal=szs.filter(s=>!s.classList.contains('comment')).map(s=>s.textContent).join('');
+  const comment=szs.filter(s=>s.classList.contains('comment')).map(s=>s.textContent).join('');
+  const d=document.createElement('div');d.className='zh-block';
+  d.textContent=normal;
+  if(comment){const c=document.createElement('span');c.className='comment-line';c.textContent=comment;d.appendChild(c)}
+  p.appendChild(d);
+});
+
+// per-paragraph 中文 toggle buttons
+document.querySelectorAll('.para,.quote').forEach(p=>{
+  if(!p.querySelector('.zh-block'))return;
+  const b=document.createElement('button');
+  b.className='zh-btn';b.textContent='中';b.title='显示/隐藏本段中文';
+  b.onclick=e=>{e.stopPropagation();p.classList.toggle('zh-open');b.classList.toggle('on',p.classList.contains('zh-open'))};
+  p.appendChild(b);
+});
+
+// zh toggles
+const zhBtn=document.getElementById('zh-toggle');
+zhBtn.onclick=()=>{document.body.classList.toggle('show-zh');zhBtn.textContent=document.body.classList.contains('show-zh')?'隐藏全部中文':'显示全部中文';zhBtn.classList.toggle('primary')};
+// per-section: dblclick on section title toggles that section
+sections.forEach(s=>{const h=s.querySelector('h2');h.style.cursor='pointer';h.title='点击：切换本节中文';h.onclick=()=>s.classList.toggle('show-zh')});
+
+// ---- selection popup ----
+const pop=document.getElementById('sel-pop'),dictCard=document.getElementById('dict-card'),markMenu=document.getElementById('mark-menu');
+let curSel=null,curMark=null,curDict=null,suppressClickUntil=0;
+function placeAt(el,rect){
+  el.style.display=(el.id==='sel-pop')?'flex':'block';
+  const vw=document.documentElement.clientWidth,vh=document.documentElement.clientHeight;
+  const w=el.offsetWidth,h=el.offsetHeight;
+  el.style.left=Math.max(8,Math.min(rect.left+rect.width/2-w/2,vw-w-8))+'px';
+  let top=rect.bottom+10;               // 默认贴在选区正下方
+  if(top+h>vh-8)top=rect.top-h-10;      // 下方放不下才翻到上方
+  el.style.top=Math.max(8,top)+'px';
+}
+// 滚动时收起浮层，避免错位
+window.addEventListener('scroll',()=>{pop.style.display='none';markMenu.style.display='none'},{passive:true});
+document.addEventListener('mouseup',e=>{
+  if(pop.contains(e.target)||dictCard.contains(e.target)||markMenu.contains(e.target))return;
+  setTimeout(()=>{
+    const sel=window.getSelection();
+    if(sel.isCollapsed){pop.style.display='none';return}
+    const text=sel.toString().replace(/\s+/g,' ').trim();
+    const node=sel.anchorNode;const anchor=node&&(node.nodeType===3?node.parentElement:node);
+    const en=anchor&&anchor.closest?anchor.closest('.en'):null;
+    if(!en||text.length<2){pop.style.display='none';return}
+    const sec=en.closest('section');
+    curSel={text:text,sec:sec?sec.id:'',rect:sel.getRangeAt(0).getBoundingClientRect()};
+    placeAt(pop,curSel.rect);
+  },10);
+});
+function doHighlight(withNote){
+  if(!curSel)return;
+  window.getSelection().removeAllRanges();
+  pop.style.display='none';
+  suppressClickUntil=Date.now()+450;
+  const hid='h'+Date.now();
+  if(applyHighlight(curSel.sec,curSel.text,hid)){
+    const h={id:hid,sec:curSel.sec,text:curSel.text,note:''};
+    highlights.push(h);
+    refreshMarkNoteStyles();renderHlList();scheduleSave();
+    if(withNote){
+      openNoteModal(h.text,'',val=>{h.note=val;refreshMarkNoteStyles();renderHlList();scheduleSave()});
+    }
+  }else{
+    setState('⚠ 这段没匹配到（可能跨了段落），试试选短一点');
+  }
+}
+document.getElementById('pop-hl').onclick=()=>doHighlight(false);
+document.getElementById('pop-note').onclick=()=>doHighlight(true);
+document.getElementById('pop-dict').onclick=()=>{
+  if(!curSel)return;
+  const rect=curSel.rect,t=curSel.text,s=curSel.sec;
+  window.getSelection().removeAllRanges();pop.style.display='none';
+  openDict(t,s,rect);
+};
+
+// ---- dictionary card: 中文翻译优先 ----
+async function translateZh(text){
+  try{
+    const r=await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q='+encodeURIComponent(text));
+    if(!r.ok)throw 0;
+    const j=await r.json();
+    return (j[0]||[]).map(x=>x[0]).join('');
+  }catch(e){
+    try{
+      const r=await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair=en|zh-CN');
+      const j=await r.json();
+      return j.responseData&&j.responseData.translatedText||'';
+    }catch(e2){return ''}
+  }
+}
+async function openDict(text,sec,rect){
+  const clean=text.trim();
+  const isLong=clean.length>60;
+  const isPhrase=/\s/.test(clean);
+  const word=isLong?clean:(isPhrase?clean:(clean.match(/[a-zA-Z][a-zA-Z'\-]*/)||[clean])[0].toLowerCase());
+  curDict={word:word,sec:sec,phonetic:'',def:'',audio:'',zh:'',long:isLong};
+  const dw=document.getElementById('dc-word');
+  dw.className=isLong?'dw long':'dw';
+  dw.textContent=isLong?'📖 选段翻译':word;
+  document.getElementById('dc-ph').textContent='';
+  document.getElementById('dc-say').style.display=isLong?'none':'';
+  document.getElementById('dc-add').style.display=isLong?'none':'';
+  const dd=document.getElementById('dc-def');
+  dd.className=isLong?'orig-small':'dd';
+  dd.textContent=isLong?clean:'';
+  const zhBig=document.getElementById('dc-zh-big');
+  zhBig.className='zh-big loading';zhBig.textContent='翻译中…';
+  placeAt(dictCard,rect);
+  const q=clean.slice(0,450);
+  const jobs=[translateZh(q).then(zh=>{
+    if(curDict&&curDict.word===word){
+      curDict.zh=zh;
+      zhBig.className='zh-big';
+      zhBig.textContent=zh||'⚠ 翻译服务连不上（需要联网）';
+    }
+  })];
+  if(!isPhrase&&!isLong){
+    jobs.push((async()=>{
+      try{
+        const res=await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(word));
+        if(!res.ok)return;
+        const e0=(await res.json())[0]||{};
+        if(!curDict||curDict.word!==word)return;
+        curDict.phonetic=e0.phonetic||((e0.phonetics||[]).find(p=>p.text)||{}).text||'';
+        curDict.audio=((e0.phonetics||[]).find(p=>p.audio)||{}).audio||'';
+        const defs=[];
+        (e0.meanings||[]).slice(0,2).forEach(m=>{
+          const d=m.definitions&&m.definitions[0];
+          if(d)defs.push(m.partOfSpeech+'. '+d.definition);
+        });
+        curDict.def=defs.join('　');
+        document.getElementById('dc-ph').textContent=curDict.phonetic;
+        document.getElementById('dc-def').textContent=curDict.def;
+      }catch(e){}
+    })());
+  }
+  await Promise.all(jobs);
+}
+function openDictStored(v,rect){
+  curDict={word:v.word,sec:v.sec,phonetic:v.phonetic||'',def:v.def||'',audio:'',zh:v.zh||'',long:false};
+  const dw=document.getElementById('dc-word');
+  dw.className='dw';dw.textContent=v.word;
+  document.getElementById('dc-ph').textContent=v.phonetic||'';
+  document.getElementById('dc-say').style.display='';
+  document.getElementById('dc-add').style.display='none';
+  const dd=document.getElementById('dc-def');
+  dd.className='dd';dd.textContent=v.def||'';
+  const zhBig=document.getElementById('dc-zh-big');
+  zhBig.className='zh-big';zhBig.textContent=v.zh||'（未填中文，可在生词本里补）';
+  placeAt(dictCard,rect);
+}
+document.getElementById('dc-say').onclick=e=>{
+  e.stopPropagation();
+  if(curDict&&curDict.audio){new Audio(curDict.audio).play().catch(()=>{})}
+  else if(curDict&&window.speechSynthesis){const u=new SpeechSynthesisUtterance(curDict.word);u.lang='en-GB';speechSynthesis.speak(u)}
+};
+document.getElementById('dc-add').onclick=e=>{
+  e.stopPropagation();
+  if(!curDict)return;
+  const ex=vocab.find(v=>v.word===curDict.word);
+  if(ex){ex.zh=curDict.zh||ex.zh;ex.def=curDict.def||ex.def;ex.phonetic=curDict.phonetic||ex.phonetic}
+  else vocab.unshift({word:curDict.word,phonetic:curDict.phonetic,def:curDict.def,zh:curDict.zh,known:false,sec:curDict.sec,ts:Date.now()});
+  renderVocab();scheduleSave();
+  dictCard.style.display='none';
+  setState('✓ 已存入生词本');
+};
+document.getElementById('dc-close').onclick=()=>dictCard.style.display='none';
+
+// ---- note modal (centered) ----
+const noteModal=document.getElementById('note-modal');
+let noteCb=null;
+function openNoteModal(quote,initial,cb){
+  document.getElementById('nm-quote').textContent='“'+quote+'”';
+  const ta=document.getElementById('nm-text');
+  ta.value=initial||'';
+  noteCb=cb;
+  noteModal.classList.add('open');
+  setTimeout(()=>ta.focus(),50);
+}
+document.getElementById('nm-ok').onclick=()=>{
+  noteModal.classList.remove('open');
+  if(noteCb)noteCb(document.getElementById('nm-text').value);
+  noteCb=null;
+};
+document.getElementById('nm-cancel').onclick=()=>{noteModal.classList.remove('open');noteCb=null};
+noteModal.addEventListener('click',e=>{if(e.target===noteModal){noteModal.classList.remove('open');noteCb=null}});
+
+// ---- click on a highlight => menu ----
+document.addEventListener('click',e=>{
+  // 来自弹出菜单自身的点击（如「查词」按钮）不算“点外面”，否则刚打开的卡片会被同一下点击关掉
+  if(pop.contains(e.target)||markMenu.contains(e.target)||dictCard.contains(e.target))return;
+  if(e.target.classList&&e.target.classList.contains('vocab-mark')){
+    const v=vocab.find(x=>x.word.toLowerCase()===e.target.textContent.toLowerCase());
+    if(v){openDictStored(v,e.target.getBoundingClientRect());return}
+  }
+  if(e.target.tagName==='MARK'){
+    if(Date.now()<suppressClickUntil)return;
+    curMark=e.target;
+    placeAt(markMenu,e.target.getBoundingClientRect());
+    return;
+  }
+  // 点空白处：全部收起
+  markMenu.style.display='none';
+  dictCard.style.display='none';
+  const drawer=document.getElementById('drawer');
+  if(drawer.classList.contains('open')&&!drawer.contains(e.target)&&e.target.id!=='drawer-btn'&&!e.target.closest('#drawer-btn'))drawer.classList.remove('open');
+});
+function findHl(markEl){
+  return highlights.find(h=>h.id===markEl.dataset.hid);
+}
+document.getElementById('mm-note').onclick=()=>{
+  markMenu.style.display='none';
+  const h=curMark&&findHl(curMark);if(!h)return;
+  openNoteModal(h.text,h.note,val=>{h.note=val;refreshMarkNoteStyles();renderHlList();scheduleSave()});
+};
+document.getElementById('mm-dict').onclick=()=>{
+  markMenu.style.display='none';
+  if(!curMark)return;
+  const sec=curMark.closest('section');
+  openDict(curMark.textContent,sec?sec.id:'',curMark.getBoundingClientRect());
+};
+document.getElementById('mm-del').onclick=()=>{
+  markMenu.style.display='none';
+  const h=curMark&&findHl(curMark);
+  if(h){removeHighlightMarks(h.id);highlights.splice(highlights.indexOf(h),1)}
+  else if(curMark){curMark.outerHTML=curMark.textContent}
+  renderHlList();scheduleSave();
+};
+function refreshMarkNoteStyles(){
+  document.querySelectorAll('mark[data-hid]').forEach(m=>{
+    const h=findHl(m);m.classList.toggle('has-note',!!(h&&h.note));
+  });
+}
+
+
+// ---- 在原文中标出已收藏的生词（蓝色） ----
+function markVocabWords(){
+  document.querySelectorAll('span.vocab-mark').forEach(s=>{s.replaceWith(document.createTextNode(s.textContent))});
+  document.querySelectorAll('.en').forEach(en=>en.normalize());
+  const words=vocab.filter(v=>!v.known&&!/\s/.test(v.word)).map(v=>v.word);
+  if(!words.length)return;
+  const re=new RegExp('\\b('+words.map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')\\b','gi');
+  document.querySelectorAll('.en').forEach(en=>{
+    const parts=en.innerHTML.split(/(<[^>]+>)/);
+    let changed=false;
+    for(let i=0;i<parts.length;i++){
+      if(parts[i].startsWith('<'))continue;
+      if(re.test(parts[i])){
+        parts[i]=parts[i].replace(re,'<span class="vocab-mark" title="已在生词本，点击复习">$1</span>');
+        changed=true;
+      }
+      re.lastIndex=0;
+    }
+    if(changed)en.innerHTML=parts.join('');
+  });
+}
+
+// ---- vocabulary drawer: compact rows ----
+function renderVocab(){
+  const box=document.getElementById('vocab-list');
+  const unknown=vocab.filter(v=>!v.known).length;
+  document.getElementById('vc-total').textContent=vocab.length;
+  document.getElementById('vc-unknown').textContent=unknown;
+  document.getElementById('vc-known').textContent=vocab.length-unknown;
+  if(!vocab.length){box.innerHTML='<p class="empty">还没有生词。选中英文 → 点「📖 查词」→「存入生词本」。</p>';return}
+  box.innerHTML=vocab.map((v,i)=>{
+    return '<div class="vocab-item'+(v.known?' known':'')+'">'
+      +'<div class="main"><span class="w" data-i="'+i+'" title="点击重新查词">'+v.word+'</span><span class="ph">'+(v.phonetic||'')+'</span>'
+      +'<input class="zh-inline" data-i="'+i+'" placeholder="中文…" value="'+String(v.zh||'').replace(/"/g,'&quot;')+'"></div>'
+      +'<button class="kbtn'+(v.known?' on':'')+'" data-i="'+i+'" title="'+(v.known?'已掌握':'标记为已掌握')+'">'+(v.known?'✅':'⭕')+'</button>'
+      +'<button class="rm" data-i="'+i+'">✕</button>'
+      +'</div>';
+  }).join('');
+  box.querySelectorAll('.kbtn').forEach(b=>b.onclick=()=>{vocab[+b.dataset.i].known=!vocab[+b.dataset.i].known;renderVocab();scheduleSave()});
+  box.querySelectorAll('.rm').forEach(b=>b.onclick=()=>{vocab.splice(+b.dataset.i,1);renderVocab();scheduleSave()});
+  box.querySelectorAll('.zh-inline').forEach(inp=>inp.oninput=()=>{vocab[+inp.dataset.i].zh=inp.value;scheduleSave()});
+  box.querySelectorAll('.w').forEach(w=>w.onclick=e=>{
+    const v=vocab[+w.dataset.i];
+    openDictStored(v,w.getBoundingClientRect());
+    e.stopPropagation();
+  });
+  markVocabWords();
+}
+
+// ---- drawer tabs ----
+function switchTab(name){
+  document.querySelectorAll('#drawer .tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));
+  document.querySelectorAll('#drawer .pane').forEach(p=>p.classList.toggle('on',p.dataset.pane===name));
+}
+document.querySelectorAll('#drawer .tabs button').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+
+function applyHighlight(secId,text,hid){
+  const sec=document.getElementById(secId);if(!sec)return false;
+  const target=text.replace(/\s+/g,' ').trim();
+  const esc=target.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/ /g,'[\\s\\u00a0]+');
+  const re=new RegExp(esc);
+  for(const en of sec.querySelectorAll('.en')){
+    // 收集英文文本节点（跳过隐藏的中文 .sz）
+    const walker=document.createTreeWalker(en,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
+      return n.parentElement&&n.parentElement.closest('.sz,.zh-block')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[];let full='';
+    while(walker.nextNode()){nodes.push({node:walker.currentNode,start:full.length});full+=walker.currentNode.data}
+    const m=re.exec(full);
+    if(!m)continue;
+    const s0=m.index,e0=m.index+m[0].length;
+    // 找出每个文本节点内需要包裹的区间
+    const segs=[];
+    for(const rec of nodes){
+      const ns=rec.start,ne=rec.start+rec.node.data.length;
+      const s=Math.max(s0,ns),e=Math.min(e0,ne);
+      if(s<e)segs.push({node:rec.node,s:s-ns,e:e-ns});
+    }
+    // 倒序包裹，避免 splitText 影响后续偏移
+    for(let i=segs.length-1;i>=0;i--){
+      const g=segs[i];
+      let t=g.node;
+      if(g.s>0)t=t.splitText(g.s);
+      if(g.e-g.s<t.data.length)t.splitText(g.e-g.s);
+      const mk=document.createElement('mark');
+      mk.dataset.hid=hid;
+      t.parentNode.insertBefore(mk,t);
+      mk.appendChild(t);
+    }
+    return true;
+  }
+  return false;
+}
+function removeHighlightMarks(hid){
+  document.querySelectorAll('mark[data-hid="'+hid+'"]').forEach(mk=>{
+    const p=mk.parentNode;
+    while(mk.firstChild)p.insertBefore(mk.firstChild,mk);
+    p.removeChild(mk);p.normalize();
+  });
+}
+function renderHlList(){
+  const box=document.getElementById('hl-list');
+  if(!highlights.length){box.innerHTML='<p class="empty">还没有划线。选中英文 → 点「🖍 高亮」。</p>';return}
+  box.innerHTML=highlights.map((h,i)=>{
+    const title=document.querySelector('#'+h.sec+' h2');
+    return '<div class="hl-item"><span class="del" data-i="'+i+'">✕</span>'+h.text
+      +'<input class="hl-note-inp" data-i="'+i+'" placeholder="📝 给这条划线写笔记…" value="'+String(h.note||'').replace(/"/g,'&quot;')+'">'
+      +'<span class="src">§ '+(title?title.textContent:h.sec)+'</span></div>'
+  }).join('');
+  box.querySelectorAll('.del').forEach(d=>d.onclick=()=>{
+    const h=highlights[+d.dataset.i];
+    if(h.id)removeHighlightMarks(h.id);
+    highlights.splice(+d.dataset.i,1);renderHlList();scheduleSave();
+  });
+  box.querySelectorAll('.hl-note-inp').forEach(inp=>inp.oninput=()=>{highlights[+inp.dataset.i].note=inp.value;refreshMarkNoteStyles();scheduleSave()});
+}
+
+// ---- export study notes ----
+document.getElementById('export-btn').onclick=async()=>{
+  const lines=['# Louise 家长讲座 · 我的学习笔记','','导出时间：'+new Date().toLocaleString('zh-CN'),''];
+  if(notes.__global){lines.push('## 总笔记','',notes.__global,'')}
+  const bySec={};
+  highlights.forEach(h=>{(bySec[h.sec]=bySec[h.sec]||[]).push(h)});
+  sections.forEach(s=>{
+    const t=s.querySelector('h2').textContent;
+    const hs=bySec[s.id]||[],n=notes[s.id];
+    if(!hs.length&&!n)return;
+    lines.push('## '+t,'');
+    hs.forEach(h=>{
+      lines.push('- 🖍 “'+h.text+'”');
+      if(h.note)lines.push('  - 📝 '+h.note);
+    });
+    if(n)lines.push('','📝 本节笔记：'+n);
+    lines.push('');
+  });
+  if(vocab.length){
+    lines.push('## 生词本（还不会 '+vocab.filter(v=>!v.known).length+' / 共 '+vocab.length+'）','');
+    vocab.forEach(v=>lines.push('- **'+v.word+'** '+(v.phonetic||'')+' — '+(v.zh||String(v.def||'').split('\n')[0])+(v.known?'　✅已掌握':'　❌还不会')));
+    lines.push('');
+  }
+  const md=lines.join('\n');
+  let copied=false;
+  try{await navigator.clipboard.writeText(md);copied=true}catch(e){}
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([md],{type:'text/markdown'}));
+  a.download='louise-talk-my-notes.md';a.click();
+  setState(copied?'✓ 已复制到剪贴板 + 下载 .md，可直接丢给 Claude':'✓ 已下载 .md，可直接丢给 Claude');
+};
+
+// drawer
+document.getElementById('drawer-btn').onclick=()=>document.getElementById('drawer').classList.toggle('open');
+
+// scroll spy
+const links=[...document.querySelectorAll('.map a')];
+if(window.IntersectionObserver){
+const obs=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+en.target.id))}})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>obs.observe(s));
+}
+
+load();
+})();
+</script>
+</body>
+</html>
