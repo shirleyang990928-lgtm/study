@@ -64,6 +64,49 @@ h1 .zh-t{display:block;font-size:.55em;color:#6B8480;margin-top:8px;font-weight:
 .bm-flash{animation:bmflash 1.2s ease}
 @keyframes bmflash{0%{background:rgba(212,165,74,.35)}100%{background:transparent}}
 
+
+/* —— 划线笔记：干净版 —— */
+.hl-item{position:relative;border-left:3px solid var(--gold);background:#FCF8EA;padding:10px 34px 10px 13px;border-radius:0 10px 10px 0;margin-bottom:9px;font-size:13.5px;line-height:1.7;color:#4A4030;cursor:pointer;transition:background .15s}
+.hl-item:hover{background:#FBF4DF}
+.hl-item .htext{display:block}
+.hl-item .hnote{display:block;margin-top:7px;padding:6px 9px;background:#fff;border-radius:7px;font-size:12.5px;color:#6A5F3E;border:1px solid #EADFB8}
+.hl-item .hnote::before{content:'📝 ';opacity:.7}
+.hl-item .src{font-size:11px;color:#A09468;display:block;margin-top:6px}
+.hl-item .del{position:absolute;top:8px;right:9px;cursor:pointer;color:#C3A24E;font-size:13px;opacity:.5;line-height:1}
+.hl-item .del:hover{opacity:1}
+.hl-item .addnote{margin-top:6px;font-size:11.5px;color:#B0871E;background:none;border:1px dashed #DCC98A;border-radius:7px;padding:3px 9px;cursor:pointer}
+.hl-item .addnote:hover{background:#fff}
+.hl-item .hnoteinp{width:100%;border:1px dashed #D8C88F;border-radius:7px;margin-top:6px;padding:6px 8px;font-size:12.5px;background:#FFFDF4;box-sizing:border-box;font-family:inherit}
+.hl-item .hnoteinp:focus{outline:none;border-color:var(--gold-deep)}
+
+/* —— 顶部统计：防换行错位 —— */
+.vocab-stats{display:flex;flex-wrap:wrap;gap:4px 10px;margin-bottom:12px;font-size:12px;color:#6B8480;align-items:center;line-height:1.4}
+.vocab-stats .stat{white-space:nowrap}
+.vocab-stats b{color:var(--gold-deep);font-size:15px;font-family:Georgia,serif}
+.vocab-stats .ok-n{color:var(--teal)}
+.vocab-stats .hint{white-space:nowrap;color:#A8B8B4;font-size:11px}
+
+/* —— 已掌握折叠区 —— */
+.known-head{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:#8CA19D;margin:6px 0 8px;user-select:none}
+.known-head .caret{transition:transform .15s}
+.known-head.open .caret{transform:rotate(90deg)}
+
+/* —— 分享小卡片 —— */
+#share-modal{position:fixed;inset:0;z-index:150;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.45);backdrop-filter:blur(3px);padding:20px}
+#share-modal.open{display:flex}
+#share-card{width:min(440px,92vw);background:linear-gradient(160deg,#FFFEFA,#F6F1E3);border-radius:20px;padding:30px 28px 22px;box-shadow:0 24px 70px rgba(0,0,0,.35);position:relative}
+#share-card .sc-quote{font-size:19px;line-height:1.75;color:#2C3E3B;font-weight:500}
+#share-card .sc-en{font-family:Georgia,'Noto Serif SC',serif}
+#share-card .sc-zh{font-size:15px;color:#5A7370;margin-top:10px}
+#share-card .sc-note{margin-top:14px;padding:11px 13px;background:#fff;border-radius:10px;font-size:13.5px;color:#5A5238;border:1px solid #EADFB8}
+#share-card .sc-src{margin-top:16px;padding-top:13px;border-top:1px dashed #D8CDB0;font-size:12px;color:#A0937C;display:flex;justify-content:space-between;align-items:center}
+#share-card .sc-brand{font-size:11px;color:#BCae90}
+#share-card .sc-x{position:absolute;top:12px;right:14px;border:none;background:none;font-size:20px;color:#BBB;cursor:pointer;line-height:1}
+#share-actions{display:flex;gap:8px;margin-top:16px}
+#share-actions button{flex:1;border:none;border-radius:10px;padding:10px;font-size:13.5px;cursor:pointer}
+#share-actions .cap{background:var(--teal);color:#fff}
+#share-actions .cls{background:#EEF2F1;color:#5D7975}
+
 /* toolbar */
 .toolbar{position:sticky;top:0;z-index:50;background:rgba(251,251,248,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:0 -44px 30px;padding:10px 44px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 @media(max-width:900px){.toolbar{margin:0 -18px 24px;padding:10px 18px}}
@@ -253,7 +296,7 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
   <button class="btn" id="drawer-btn">📒 生词本 · 划线 · 笔记</button>
   <button class="btn" id="sync-btn"><span class="cloud-dot"></span>☁️ 同步</button>
   <span class="fs-btns"><button class="fs-a1" id="fs-minus" title="缩小字体">A−</button><span class="fs-cur ui" id="fs-cur">标准</span><button class="fs-a2" id="fs-plus" title="放大字体">A+</button></span>
-  <span class="bm-btns"><button class="btn" id="bm-go" title="跳到上次阅读的位置">🔖 上次读到</button><button class="bm-pin" id="bm-pin" title="把当前位置设为书签">📌</button></span>
+  <button class="btn" id="bm-pin" title="把当前位置钉为书签">📌 钉这里</button><button class="btn" id="bm-go" title="跳回你钉的书签位置">🔖 回书签</button>
   <button class="btn gold" id="export-btn">📤 导出学习笔记</button>
   <span class="save-state" id="save-state">已就绪</span>
 </div>
@@ -516,6 +559,16 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
   <button class="danger" id="mm-del">🗑 删除这条高亮</button>
 </div>
 
+<div id="share-modal" class="ui">
+  <div id="share-card">
+    <button class="sc-x" id="sc-x">✕</button>
+    <div class="sc-quote" id="sc-quote"></div>
+    <div class="sc-note" id="sc-note" style="display:none"></div>
+    <div class="sc-src"><span id="sc-src-txt"></span><span class="sc-brand">FOGG 学习笔记</span></div>
+    <div id="share-actions"><button class="cap" id="sc-cap">📸 截图保存</button><button class="cls" id="sc-close">关闭</button></div>
+  </div>
+</div>
+<div id="share-actions-wrap" style="display:none"></div>
 <div id="drawer" class="ui">
   <div class="tabs">
     <button data-tab="vocab" class="on">📖 生词本</button>
@@ -605,6 +658,49 @@ const state=document.getElementById('save-state');
 const sections=[...document.querySelectorAll('section')];
 
 function autoGrow(t){if(!t)return;t.style.height='auto';t.style.height=Math.max(t.scrollHeight,window.innerHeight*0.6)+'px';}
+
+// —— 分享卡片 & 工具 ——
+let vocabKnownOpen=false;
+const SHARE_EN=''; // 占位
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function openShareCard(o){
+  const q=document.getElementById('sc-quote');
+  q.className='sc-quote'+(o.en==='word'||/[a-zA-Z]/.test(o.quote)&&o.en!=='' ? ' sc-en':'');
+  q.innerHTML=escapeHtml(o.quote)+(o.zh?'<div class="sc-zh">'+escapeHtml(o.zh)+'</div>':'');
+  const n=document.getElementById('sc-note');
+  if(o.note){n.style.display='';n.textContent=o.note}else{n.style.display='none'}
+  document.getElementById('sc-src-txt').textContent=o.src||'';
+  document.getElementById('share-modal').classList.add('open');
+}
+(function(){
+  const m=document.getElementById('share-modal');
+  const close=()=>m.classList.remove('open');
+  const x=document.getElementById('sc-x'),c=document.getElementById('sc-close');
+  if(x)x.onclick=close;if(c)c.onclick=close;
+  m.addEventListener('click',e=>{if(e.target===m)close()});
+  const cap=document.getElementById('sc-cap');
+  if(cap)cap.onclick=async()=>{
+    const card=document.getElementById('share-card');
+    const actions=document.getElementById('share-actions');
+    if(typeof html2canvas==='undefined'){
+      // 动态载入截图库
+      await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s)}).catch(()=>{});
+    }
+    if(typeof html2canvas==='undefined'){setState('⚠ 截图组件需要联网，可手动系统截图');return}
+    actions.style.visibility='hidden';
+    try{
+      const canvas=await html2canvas(card,{backgroundColor:null,scale:2});
+      actions.style.visibility='';
+      canvas.toBlob(blob=>{
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');a.href=url;a.download='FOGG笔记卡片.png';a.click();
+        setTimeout(()=>URL.revokeObjectURL(url),1000);
+        setState('📸 卡片已保存为图片');
+      });
+    }catch(err){actions.style.visibility='';setState('⚠ 截图失败，可手动系统截图')}
+  };
+})();
+
 function setState(t){state.textContent=t}
 function scheduleSave(){setState('保存中…');clearTimeout(saveTimer);saveTimer=setTimeout(saveAll,700)}
 async function saveAll(){
@@ -954,28 +1050,40 @@ function markVocabWords(){
 // ---- vocabulary drawer: compact rows ----
 function renderVocab(){
   const box=document.getElementById('vocab-list');
-  const unknown=vocab.filter(v=>!v.known).length;
+  const unknownArr=vocab.filter(v=>!v.known);
+  const knownArr=vocab.filter(v=>v.known);
   document.getElementById('vc-total').textContent=vocab.length;
-  document.getElementById('vc-unknown').textContent=unknown;
-  document.getElementById('vc-known').textContent=vocab.length-unknown;
-  if(!vocab.length){box.innerHTML='<p class="empty">还没有生词。选中英文 → 点「📖 查词」→「存入生词本」。</p>';return}
-  box.innerHTML=vocab.map((v,i)=>{
-    return '<div class="vocab-item'+(v.known?' known':'')+'">'
-      +'<div class="main"><span class="w" data-i="'+i+'" title="点击重新查词">'+v.word+'</span><span class="ph">'+(v.phonetic||'')+'</span>'
-      +'<input class="zh-inline" data-i="'+i+'" placeholder="中文…" value="'+String(v.zh||'').replace(/"/g,'&quot;')+'"></div>'
-      +'<button class="kbtn'+(v.known?' on':'')+'" data-i="'+i+'" title="'+(v.known?'已掌握':'标记为已掌握')+'">'+(v.known?'✅':'⭕')+'</button>'
-      +'<button class="rm" data-i="'+i+'">✕</button>'
+  document.getElementById('vc-unknown').textContent=unknownArr.length;
+  document.getElementById('vc-known').textContent=knownArr.length;
+  if(!vocab.length){box.innerHTML='<p class="empty">还没有术语。选中关键词 → 点「📖 收藏」。</p>';return}
+  function row(v){
+    const gi=vocab.indexOf(v);
+    return '<div class="vocab-item'+(v.known?' known':'')+'" data-i="'+gi+'">'
+      +'<div class="main"><span class="w" data-i="'+gi+'" title="点开看卡片">'+escapeHtml(v.word)+'</span><span class="ph">'+escapeHtml(v.phonetic||'')+'</span>'
+      +'<input class="zh-inline" data-i="'+gi+'" placeholder="中文…" value="'+String(v.zh||'').replace(/"/g,'&quot;')+'"></div>'
+      +'<button class="kbtn'+(v.known?' on':'')+'" data-i="'+gi+'" title="'+(v.known?'点击取消已掌握':'标记为已掌握')+'">'+(v.known?'✅':'⭕')+'</button>'
+      +'<button class="rm" data-i="'+gi+'" title="删除">✕</button>'
       +'</div>';
-  }).join('');
-  box.querySelectorAll('.kbtn').forEach(b=>b.onclick=()=>{vocab[+b.dataset.i].known=!vocab[+b.dataset.i].known;renderVocab();scheduleSave()});
-  box.querySelectorAll('.rm').forEach(b=>b.onclick=()=>{vocab.splice(+b.dataset.i,1);renderVocab();scheduleSave()});
-  box.querySelectorAll('.zh-inline').forEach(inp=>inp.oninput=()=>{vocab[+inp.dataset.i].zh=inp.value;scheduleSave()});
-  box.querySelectorAll('.w').forEach(w=>w.onclick=e=>{
-    const v=vocab[+w.dataset.i];
-    openDictStored(v,w.getBoundingClientRect());
+  }
+  let html=unknownArr.map(row).join('');
+  if(knownArr.length){
+    html+='<div class="known-head'+(vocabKnownOpen?' open':'')+'" id="known-head"><span class="caret">▸</span>已掌握 '+knownArr.length+' 个'+(vocabKnownOpen?'（点击收起）':'（点击展开）')+'</div>';
+    if(vocabKnownOpen)html+='<div id="known-wrap">'+knownArr.map(row).join('')+'</div>';
+  }
+  box.innerHTML=html;
+  const kh=document.getElementById('known-head');
+  if(kh)kh.onclick=()=>{vocabKnownOpen=!vocabKnownOpen;renderVocab()};
+  box.querySelectorAll('.kbtn').forEach(b=>b.onclick=(e)=>{e.stopPropagation();vocab[+b.dataset.i].known=!vocab[+b.dataset.i].known;renderVocab();markVocabWords();scheduleSave()});
+  box.querySelectorAll('.rm').forEach(b=>b.onclick=(e)=>{e.stopPropagation();vocab.splice(+b.dataset.i,1);renderVocab();markVocabWords();scheduleSave()});
+  box.querySelectorAll('.zh-inline').forEach(inp=>{inp.onclick=(e)=>e.stopPropagation();inp.oninput=()=>{vocab[+inp.dataset.i].zh=inp.value;scheduleSave()}});
+  // 点词 → 分享卡片
+  box.querySelectorAll('.w').forEach(w=>w.onclick=(e)=>{
     e.stopPropagation();
+    const v=vocab[+w.dataset.i];
+    const title=document.querySelector('#'+v.sec+' h2');
+    const speaker=SHARE_EN;
+    openShareCard({quote:v.word, zh:v.zh||'', note:'', src:'§ '+(title?title.textContent:(v.sec||'')), en:'word'});
   });
-  markVocabWords();
 }
 
 // ---- drawer tabs ----
@@ -1032,19 +1140,42 @@ function removeHighlightMarks(hid){
 }
 function renderHlList(){
   const box=document.getElementById('hl-list');
-  if(!highlights.length){box.innerHTML='<p class="empty">还没有划线。选中英文 → 点「🖍 高亮」。</p>';return}
+  if(!highlights.length){box.innerHTML='<p class="empty">还没有划线。选中文字 → 点「🖍 高亮」。</p>';return}
   box.innerHTML=highlights.map((h,i)=>{
     const title=document.querySelector('#'+h.sec+' h2');
-    return '<div class="hl-item"><span class="del" data-i="'+i+'">✕</span>'+h.text
-      +'<input class="hl-note-inp" data-i="'+i+'" placeholder="📝 给这条划线写笔记…" value="'+String(h.note||'').replace(/"/g,'&quot;')+'">'
-      +'<span class="src">§ '+(title?title.textContent:h.sec)+'</span></div>'
+    const src=title?title.textContent:h.sec;
+    let inner='<span class="del" data-i="'+i+'" title="删除">✕</span>';
+    inner+='<span class="htext">'+escapeHtml(h.text)+'</span>';
+    if(h.note){inner+='<span class="hnote">'+escapeHtml(h.note)+'</span>';}
+    else{inner+='<button class="addnote" data-i="'+i+'">➕ 写笔记</button>';}
+    inner+='<span class="src">§ '+escapeHtml(src)+'</span>';
+    return '<div class="hl-item" data-i="'+i+'">'+inner+'</div>';
   }).join('');
-  box.querySelectorAll('.del').forEach(d=>d.onclick=()=>{
+  // 点整条 → 分享卡片
+  box.querySelectorAll('.hl-item').forEach(el=>{
+    el.onclick=(e)=>{
+      if(e.target.closest('.del')||e.target.closest('.addnote')||e.target.closest('.hnoteinp'))return;
+      const i=+el.dataset.i;const h=highlights[i];
+      const title=document.querySelector('#'+h.sec+' h2');
+      openShareCard({quote:h.text, zh:'', note:h.note||'', src:'§ '+(title?title.textContent:h.sec), en:''+SHARE_EN});
+    };
+  });
+  box.querySelectorAll('.del').forEach(d=>d.onclick=(e)=>{
+    e.stopPropagation();
     const h=highlights[+d.dataset.i];
     if(h.id)removeHighlightMarks(h.id);
     highlights.splice(+d.dataset.i,1);renderHlList();scheduleSave();
   });
-  box.querySelectorAll('.hl-note-inp').forEach(inp=>inp.oninput=()=>{highlights[+inp.dataset.i].note=inp.value;refreshMarkNoteStyles();scheduleSave()});
+  box.querySelectorAll('.addnote').forEach(b=>b.onclick=(e)=>{
+    e.stopPropagation();
+    const i=+b.dataset.i;
+    const item=b.closest('.hl-item');
+    b.outerHTML='<input class="hnoteinp" data-i="'+i+'" placeholder="写下你的想法…" value="">';
+    const inp=item.querySelector('.hnoteinp');inp.focus();
+    inp.onclick=(ev)=>ev.stopPropagation();
+    inp.oninput=()=>{highlights[i].note=inp.value;refreshMarkNoteStyles();scheduleSave()};
+    inp.onblur=()=>{if(inp.value.trim())renderHlList()};
+  });
 }
 
 // ---- export study notes ----
@@ -1172,34 +1303,11 @@ async function reloadFromStore(){
 })();
 
 
-// ---- 阅读书签（自动记 + 手动钉） ----
+// ---- 阅读书签（钉 / 跳，分开两个按钮） ----
 (function(){
-  const BM_KEY='__bookmark_y', BM_MANUAL='__bookmark_manual';
-  let saveT=null, manual=localStorage.getItem(BM_MANUAL)==='1';
-  // 平时自动记住滚动位置（手动钉过就不再自动覆盖，直到你再滚动阅读）
-  window.addEventListener('scroll',()=>{
-    clearTimeout(saveT);
-    saveT=setTimeout(()=>{
-      localStorage.setItem(BM_KEY,String(Math.round(window.scrollY)));
-      // 用户重新开始滚动阅读，自动模式恢复
-      localStorage.setItem(BM_MANUAL,'0');
-    },600);
-  },{passive:true});
-  const go=document.getElementById('bm-go'), pin=document.getElementById('bm-pin');
-  if(go)go.onclick=()=>{
-    const y=parseInt(localStorage.getItem(BM_KEY));
-    if(isNaN(y)){setState('还没有书签，先读一会儿或点 📌 钉一下');return}
-    window.scrollTo({top:y,behavior:'smooth'});
-    flashAt(y);
-    setState('🔖 已跳到上次阅读的位置');
-  };
-  if(pin)pin.onclick=()=>{
-    const y=Math.round(window.scrollY);
-    localStorage.setItem(BM_KEY,String(y));
-    localStorage.setItem(BM_MANUAL,'1');
-    setState('📌 已把当前位置设为书签');
-  };
-  // 跳转后高亮一下落点的段落，方便你找到眼睛该看哪
+  const BM_KEY='__bookmark_y';
+  const pinBtn=document.getElementById('bm-pin');
+  const goBtn=document.getElementById('bm-go');
   function flashAt(y){
     const mid=y+window.innerHeight*0.35;
     const paras=document.querySelectorAll('.para,.quote,.sec-head');
@@ -1207,6 +1315,17 @@ async function reloadFromStore(){
     paras.forEach(p=>{const r=p.getBoundingClientRect();const top=r.top+window.scrollY;const d=Math.abs(top-mid);if(d<bd){bd=d;best=p}});
     if(best){best.classList.add('bm-flash');setTimeout(()=>best.classList.remove('bm-flash'),1200);}
   }
+  if(pinBtn)pinBtn.onclick=()=>{
+    localStorage.setItem(BM_KEY,String(Math.round(window.scrollY)));
+    setState('📌 已钉书签，之后点「🔖 回书签」就能跳回来');
+  };
+  if(goBtn)goBtn.onclick=()=>{
+    const y=parseInt(localStorage.getItem(BM_KEY));
+    if(isNaN(y)){setState('还没有书签，先点「📌 钉这里」钉一个');return}
+    window.scrollTo({top:y,behavior:'smooth'});
+    flashAt(y);
+    setState('🔖 已跳回书签位置');
+  };
 })();
 
 load();

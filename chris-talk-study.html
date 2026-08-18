@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chris 讲座 · 学习笔记本 | 到底什么是阅读能力</title>
+<style>
+:root{
+  --ink:#24505B; --ink-deep:#16333B; --teal:#2E5A66; --mist:#E7EFED; --paper:#FBFBF8;
+  --gold:#E8C558; --gold-deep:#B08A1E; --line:#D5DEDC; --zh:#5C7A72; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+input,textarea,select,button{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
+body{font-family:Georgia,'Times New Roman','Songti SC','Noto Serif SC',serif;background:var(--paper);color:var(--ink-deep);line-height:1.75}
+.ui{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
+
+/* layout */
+.wrap{display:flex;max-width:1200px;margin:0 auto;gap:0}
+aside{width:270px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;padding:28px 18px 40px 20px;border-right:1px solid var(--line);background:linear-gradient(180deg,#F2F6F5, var(--paper))}
+main{flex:1;min-width:0;padding:36px 44px 120px}
+@media(max-width:900px){
+  .wrap{flex-direction:column}
+  aside{position:relative;width:100%;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:20px}
+  main{padding:24px 18px 120px}
+}
+
+/* sidebar map */
+.map-title{font-size:12px;letter-spacing:.18em;color:var(--teal);text-transform:uppercase;margin-bottom:4px}
+.map-sub{font-size:12px;color:#7C918D;margin-bottom:18px}
+.map a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:#42605F;font-size:13.5px;padding:7px 8px;border-radius:8px;line-height:1.4}
+.map a:hover{background:var(--mist)}
+.map a.active{background:var(--teal);color:#fff}
+.map a .dot{width:7px;height:7px;border-radius:50%;background:var(--line);flex-shrink:0;transform:translateY(-1px);transition:background .2s}
+.map a.active .dot{background:var(--gold)}
+.map .part{margin:14px 0 4px;font-size:11px;letter-spacing:.14em;color:#9AACA8;text-transform:uppercase}
+
+/* header */
+header{margin-bottom:34px;border-bottom:3px double var(--teal);padding-bottom:26px}
+.eyebrow{font-size:12px;letter-spacing:.22em;color:var(--gold-deep);text-transform:uppercase;margin-bottom:10px}
+h1{font-size:clamp(26px,4vw,40px);color:var(--teal);line-height:1.2;font-weight:600}
+h1 .zh-t{display:block;font-size:.55em;color:#6B8480;margin-top:8px;font-weight:400}
+.meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;font-size:13px;color:#6B8480}
+.meta span::before{content:"— ";color:var(--gold-deep)}
+
+
+/* 字体大小调节（微信读书式，5 档，记忆选择） */
+:root{--fs:16.5px}
+.para .en{font-size:var(--fs)}
+.zh-block,.zh-t,.sz .zh{font-size:calc(var(--fs) - 1px)}
+.fs-btns{display:inline-flex;align-items:center;gap:2px;margin-left:2px}
+.fs-btns button{border:1px solid var(--line);background:#fff;color:var(--teal);border-radius:8px;width:34px;height:32px;cursor:pointer;font-weight:600;line-height:1;padding:0}
+.fs-btns button:active{transform:scale(.94)}
+.fs-btns .fs-a1{font-size:12px}
+.fs-btns .fs-a2{font-size:17px}
+.fs-cur{font-size:11px;color:#8CA19D;min-width:30px;text-align:center}
+
+
+/* 书签 */
+.bm-btns{display:inline-flex;align-items:center;gap:4px;margin-left:2px}
+.bm-btns .btn{display:inline-flex;align-items:center;gap:5px}
+.bm-pin{border:1px solid var(--line);background:#fff;color:var(--gold-deep);border-radius:8px;width:34px;height:32px;cursor:pointer;font-size:15px;line-height:1;padding:0}
+.bm-pin:active{transform:scale(.94)}
+.bm-flash{animation:bmflash 1.2s ease}
+@keyframes bmflash{0%{background:rgba(212,165,74,.35)}100%{background:transparent}}
+
+
+/* —— 划线笔记：干净版 —— */
+.hl-item{position:relative;border-left:3px solid var(--gold);background:#FCF8EA;padding:10px 34px 10px 13px;border-radius:0 10px 10px 0;margin-bottom:9px;font-size:13.5px;line-height:1.7;color:#4A4030;cursor:pointer;transition:background .15s}
+.hl-item:hover{background:#FBF4DF}
+.hl-item .htext{display:block}
+.hl-item .hnote{display:block;margin-top:7px;padding:6px 9px;background:#fff;border-radius:7px;font-size:12.5px;color:#6A5F3E;border:1px solid #EADFB8}
+.hl-item .hnote::before{content:'📝 ';opacity:.7}
+.hl-item .src{font-size:11px;color:#A09468;display:block;margin-top:6px}
+.hl-item .del{position:absolute;top:8px;right:9px;cursor:pointer;color:#C3A24E;font-size:13px;opacity:.5;line-height:1}
+.hl-item .del:hover{opacity:1}
+.hl-item .addnote{margin-top:6px;font-size:11.5px;color:#B0871E;background:none;border:1px dashed #DCC98A;border-radius:7px;padding:3px 9px;cursor:pointer}
+.hl-item .addnote:hover{background:#fff}
+.hl-item .hnoteinp{width:100%;border:1px dashed #D8C88F;border-radius:7px;margin-top:6px;padding:6px 8px;font-size:12.5px;background:#FFFDF4;box-sizing:border-box;font-family:inherit}
+.hl-item .hnoteinp:focus{outline:none;border-color:var(--gold-deep)}
+
+/* —— 顶部统计：防换行错位 —— */
+.vocab-stats{display:flex;flex-wrap:wrap;gap:4px 10px;margin-bottom:12px;font-size:12px;color:#6B8480;align-items:center;line-height:1.4}
+.vocab-stats .stat{white-space:nowrap}
+.vocab-stats b{color:var(--gold-deep);font-size:15px;font-family:Georgia,serif}
+.vocab-stats .ok-n{color:var(--teal)}
+.vocab-stats .hint{white-space:nowrap;color:#A8B8B4;font-size:11px}
+
+/* —— 已掌握折叠区 —— */
+.known-head{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:#8CA19D;margin:6px 0 8px;user-select:none}
+.known-head .caret{transition:transform .15s}
+.known-head.open .caret{transform:rotate(90deg)}
+
+/* —— 分享小卡片 —— */
+#share-modal{position:fixed;inset:0;z-index:150;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.45);backdrop-filter:blur(3px);padding:20px}
+#share-modal.open{display:flex}
+#share-card{width:min(440px,92vw);background:linear-gradient(160deg,#FFFEFA,#F6F1E3);border-radius:20px;padding:30px 28px 22px;box-shadow:0 24px 70px rgba(0,0,0,.35);position:relative}
+#share-card .sc-quote{font-size:19px;line-height:1.75;color:#2C3E3B;font-weight:500}
+#share-card .sc-en{font-family:Georgia,'Noto Serif SC',serif}
+#share-card .sc-zh{font-size:15px;color:#5A7370;margin-top:10px}
+#share-card .sc-note{margin-top:14px;padding:11px 13px;background:#fff;border-radius:10px;font-size:13.5px;color:#5A5238;border:1px solid #EADFB8}
+#share-card .sc-src{margin-top:16px;padding-top:13px;border-top:1px dashed #D8CDB0;font-size:12px;color:#A0937C;display:flex;justify-content:space-between;align-items:center}
+#share-card .sc-brand{font-size:11px;color:#BCae90}
+#share-card .sc-x{position:absolute;top:12px;right:14px;border:none;background:none;font-size:20px;color:#BBB;cursor:pointer;line-height:1}
+#share-actions{display:flex;gap:8px;margin-top:16px}
+#share-actions button{flex:1;border:none;border-radius:10px;padding:10px;font-size:13.5px;cursor:pointer}
+#share-actions .cap{background:var(--teal);color:#fff}
+#share-actions .cls{background:#EEF2F1;color:#5D7975}
+
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:50;background:rgba(251,251,248,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:0 -44px 30px;padding:10px 44px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+@media(max-width:900px){.toolbar{margin:0 -18px 24px;padding:10px 18px}}
+.btn{border:1.5px solid var(--teal);background:#fff;color:var(--teal);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;transition:.15s}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--teal);color:#fff}
+.btn.gold{border-color:var(--gold-deep);color:var(--gold-deep)}
+.btn.gold.on{background:var(--gold);border-color:var(--gold);color:var(--ink-deep)}
+.save-state{font-size:12px;color:#8AA09C;margin-left:auto}
+
+/* sections */
+section{margin-bottom:46px;scroll-margin-top:70px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.sec-num{font-size:13px;color:var(--gold-deep);letter-spacing:.1em;font-family:Georgia,serif}
+h2{font-size:21px;color:var(--teal);font-weight:600}
+.sec-time{font-size:12px;color:#9AACA8;margin-bottom:12px}
+.keypoints{background:var(--mist);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0 18px;font-size:13.5px}
+.keypoints b{color:var(--teal)}
+.keypoints li{margin-left:18px;margin-top:4px;color:#3B5A57}
+
+/* paragraphs */
+.para{margin-bottom:18px;padding-right:26px}
+.en{font-size:var(--fs);color:#22403F}
+.en.hl-mode{cursor:text}
+.sz{display:none}
+.zh-block{display:none;margin-top:8px;padding:10px 14px;background:#F1F5F3;border-left:3px solid var(--zh);border-radius:0 8px 8px 0;color:var(--zh);font-size:14.5px;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;line-height:1.85}
+.zh-block .comment-line{display:block;margin-top:7px;color:#A08A45;font-size:13.5px}
+body.show-zh .zh-block, section.show-zh .zh-block, .para.zh-open .zh-block, .quote.zh-open .zh-block{display:block}
+.quote{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:14px 0;font-style:italic;box-shadow:0 2px 8px rgba(36,80,91,.06);position:relative}
+.quote::before{content:"“";position:absolute;top:-2px;left:10px;font-size:44px;color:var(--gold);font-style:normal;line-height:1}
+.quote .en{font-size:calc(var(--fs) - 1px)}
+.tag{display:inline-block;font-size:11px;background:var(--teal);color:#fff;border-radius:4px;padding:2px 8px;margin-bottom:8px;letter-spacing:.05em}
+.tag.before{background:#8A9E9A}
+.tag.after{background:var(--gold-deep)}
+
+/* highlights */
+mark{background:linear-gradient(104deg, rgba(232,197,88,0) 1%, rgba(232,197,88,.85) 3%, rgba(232,197,88,.55) 96%, rgba(232,197,88,0) 99%);padding:1px 2px;border-radius:2px;cursor:pointer}
+mark:hover{outline:1.5px dashed var(--gold-deep)}
+#hl-tip{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink-deep);color:#fff;font-size:12.5px;padding:8px 16px;border-radius:20px;z-index:99;display:none}
+
+/* selection popup */
+#sel-pop{position:fixed;z-index:95;display:none;background:var(--ink-deep);border-radius:10px;padding:5px;box-shadow:0 6px 20px rgba(0,0,0,.25);gap:4px}
+#sel-pop button{border:none;background:transparent;color:#fff;font-size:12.5px;padding:6px 10px;border-radius:7px;cursor:pointer;white-space:nowrap}
+#sel-pop button:hover{background:rgba(255,255,255,.15)}
+#sel-pop .sep{width:1px;background:rgba(255,255,255,.2);margin:4px 0}
+/* dictionary card */
+#dict-card{position:fixed;z-index:96;display:none;width:300px;max-width:92vw;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(22,51,59,.25);padding:18px 18px 14px}
+#dict-card .dw{font-family:Georgia,serif;font-size:21px;color:var(--teal);font-weight:600}
+#dict-card .dp{color:#93A8A4;font-size:13px;margin-left:7px}
+#dict-card .say{border:none;background:var(--mist);border-radius:50%;width:27px;height:27px;cursor:pointer;margin-left:7px;font-size:13px}
+#dict-card .zh-big{font-size:17px;color:var(--ink-deep);margin-top:10px;font-weight:600;line-height:1.6}
+#dict-card .zh-big.loading{color:#9AACA8;font-weight:400;font-size:14px}
+#dict-card .dd{font-size:12px;color:#8CA19D;margin-top:7px;line-height:1.55;max-height:70px;overflow-y:auto}
+#dict-card .dc-row{display:flex;gap:8px;margin-top:13px}
+#dict-card .dc-row button{border-radius:9px;padding:8px;font-size:13px;cursor:pointer;border:none}
+#dict-card .dc-row .add{flex:1;background:var(--teal);color:#fff}
+#dict-card .dc-row .add:hover{background:var(--ink)}
+#dict-card .close-x{position:absolute;top:9px;right:13px;border:none;background:none;color:#AAB9B6;cursor:pointer;font-size:15px}
+/* mark menu */
+#mark-menu{position:fixed;z-index:96;display:none;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 26px rgba(22,51,59,.2);padding:6px;min-width:145px}
+#mark-menu button{display:block;width:100%;text-align:left;border:none;background:none;padding:8px 12px;font-size:13px;color:#3B5A57;cursor:pointer;border-radius:8px}
+#mark-menu button:hover{background:var(--mist)}
+#mark-menu button.danger{color:#B04A3A}
+mark.has-note{border-bottom:2px solid var(--gold-deep)}
+mark.has-note::after{content:"📝";font-size:10px;margin-left:1px}
+.hl-note-inp{width:100%;border:1px dashed #D8C88F;border-radius:7px;margin-top:6px;padding:5px 8px;font-size:12.5px;background:#FFFDF4}
+/* note modal — centered, bright */
+#note-modal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.35);backdrop-filter:blur(2px)}
+#note-modal.open{display:flex}
+#note-modal .box{width:440px;max-width:92vw;background:#fff;border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+#note-modal .quote-ref{font-size:13px;color:#6B8480;background:var(--mist);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:8px 12px;margin-bottom:12px;font-style:italic;max-height:76px;overflow-y:auto}
+#note-modal textarea{width:100%;min-height:110px;border:1.5px solid var(--line);border-radius:12px;padding:12px;font-size:15px;background:#FFFDF4;resize:vertical}
+#note-modal textarea:focus{outline:none;border-color:var(--teal)}
+#note-modal .row{display:flex;gap:10px;margin-top:14px}
+#note-modal .row button{flex:1;border-radius:10px;padding:10px;font-size:14px;cursor:pointer;border:none}
+#note-modal .row .ok{background:var(--teal);color:#fff}
+#note-modal .row .no{background:#EEF2F1;color:#5D7975}
+/* vocab — compact rows */
+.vocab-item{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:9px 11px;margin-bottom:7px;font-size:13px}
+.vocab-item.known{opacity:.5}
+.vocab-item .main{flex:1;min-width:0}
+.vocab-item .w{font-family:Georgia,serif;font-size:15.5px;color:var(--teal);font-weight:600;cursor:pointer}
+.vocab-item .ph{color:#A8B8B4;font-size:11px;margin-left:5px}
+.vocab-item .zh-inline{border:none;background:transparent;width:100%;font-size:13px;color:#4A6360;padding:1px 0;font-family:inherit}
+.vocab-item .zh-inline::placeholder{color:#BCC9C6}
+.vocab-item .zh-inline:focus{outline:none;border-bottom:1px dashed var(--gold-deep)}
+.vocab-item .kbtn{flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-size:14px}
+.vocab-item .kbtn.on{background:var(--teal);border-color:var(--teal)}
+.vocab-item .rm{flex-shrink:0;border:none;background:none;color:#C9B0AA;cursor:pointer;font-size:13px;padding:2px}
+.vocab-stats{display:flex;gap:8px;margin-bottom:12px;font-size:12.5px;color:#6B8480;align-items:center}
+.vocab-stats b{color:var(--gold-deep);font-size:16px;font-family:Georgia,serif}
+.vocab-stats .ok-n{color:var(--teal)}
+.dict-loading{color:#9AACA8;font-size:12px}
+#drawer .tabs{display:flex;gap:6px;margin-bottom:16px}
+#drawer .tabs button{flex:1;border:1.5px solid var(--teal);background:#fff;color:var(--teal);border-radius:9px;padding:7px;font-size:13px;cursor:pointer}
+#drawer .tabs button.on{background:var(--teal);color:#fff}
+#drawer .pane{display:none}#drawer .pane.on{display:block}
+/* vocab words in text — 蓝色系，与金色划线区分 */
+.vocab-mark{background:#DEEAF6;border-bottom:2px dotted #4A7BAA;border-radius:2px;padding:0 1px;cursor:pointer}
+.vocab-mark:hover{background:#CBDFF2}
+/* per-paragraph 中文 toggle */
+.para,.quote{position:relative}
+.zh-btn{position:absolute;right:-6px;top:0;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);background:#fff;color:#8CA19D;font-size:11.5px;cursor:pointer;opacity:.55;transition:.15s;font-family:-apple-system,'PingFang SC',sans-serif;line-height:1}
+.zh-btn:hover{opacity:1;border-color:var(--teal);color:var(--teal)}
+.zh-btn.on{background:var(--teal);border-color:var(--teal);color:#fff;opacity:1}
+.para.zh-open .zh,.quote.zh-open .zh{display:block}
+@media(max-width:900px){.zh-btn{right:0}}
+/* dict card long-selection mode */
+#dict-card .dw.long{font-size:14px;color:#6B8480;font-weight:400;font-family:-apple-system,'PingFang SC',sans-serif}
+#dict-card .orig-small{font-size:12px;color:#9AACA8;margin-top:6px;max-height:64px;overflow-y:auto;font-style:italic;line-height:1.5}
+
+#sync-modal{position:fixed;inset:0;z-index:130;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.4);backdrop-filter:blur(3px)}
+#sync-modal.open{display:flex}
+#sync-modal .box{width:420px;max-width:92vw;background:#fff;border-radius:18px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+#sync-modal .sync-inp{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13.5px;background:#FBFDFC;margin-top:3px}
+#sync-modal .sync-inp:focus{outline:none;border-color:var(--teal)}
+#sync-modal .row{display:flex;gap:8px;flex-wrap:wrap}
+#sync-modal .row button{flex:1;min-width:90px;border-radius:10px;padding:9px;font-size:13.5px;cursor:pointer;border:none}
+#sync-modal .row .ok{background:var(--teal);color:#fff}
+#sync-modal .row .no{background:#EEF2F1;color:#5D7975}
+.cloud-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#C9B0AA;margin-right:5px;vertical-align:1px}
+.cloud-dot.on{background:#4F9E7A}
+
+
+/* 触屏：菜单停靠屏幕底部，放大更好点 */
+#sel-pop.touch-dock,#mark-menu.touch-dock{box-shadow:0 -2px 24px rgba(0,0,0,.28);z-index:9999}
+#sel-pop.touch-dock button,#mark-menu.touch-dock button{font-size:15px;padding:11px 16px}
+#sel-pop.touch-dock::before{content:"已选中 → 选择操作";position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:11px;color:#8CA19D;white-space:nowrap;background:var(--paper);padding:1px 8px;border-radius:8px}
+
+/* notes */
+.note-area{margin-top:14px}
+.note-area textarea{width:100%;min-height:64px;border:1.5px dashed #B9CBC7;border-radius:10px;padding:10px 12px;font-size:14px;font-family:-apple-system,'PingFang SC',sans-serif;background:#FFFDF4;color:#4A4632;resize:vertical}
+.note-area textarea:focus{outline:none;border-color:var(--gold-deep);border-style:solid}
+.note-label{font-size:12px;color:#9AACA8;margin-bottom:4px}
+
+/* notes drawer */
+#drawer{position:fixed;right:-360px;top:0;width:350px;max-width:92vw;height:100vh;background:#fff;border-left:1px solid var(--line);box-shadow:-8px 0 30px rgba(0,0,0,.08);z-index:90;transition:right .25s;padding:24px 20px;overflow-y:auto}
+#drawer.open{right:0}
+#drawer h3{color:var(--teal);margin-bottom:12px;font-size:16px}
+.hl-item{border-left:3px solid var(--gold);background:#FCF8EA;padding:8px 12px;border-radius:0 8px 8px 0;margin-bottom:10px;font-size:13px;color:#5A5238}
+.hl-item .src{font-size:11px;color:#A09468;display:block;margin-top:3px}
+.hl-item .del{float:right;cursor:pointer;color:#B08A1E;font-size:12px}
+.empty{color:#AAB9B6;font-size:13px;font-style:italic}
+footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:#9AACA8;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="ui">
+  <div class="map-title">课程学习地图</div>
+  <div class="map-sub">Chris 老师讲座 · 2025.03.09</div>
+  <nav class="map" id="map">
+    <div class="part">Part 1 · 什么是阅读</div>
+    <a href="#s1"><span class="dot"></span>开场 · Chris 的故事</a>
+    <a href="#s2"><span class="dot"></span>什么是阅读 · 诠释</a>
+    <a href="#s3"><span class="dot"></span>什么不是阅读</a>
+    <div class="part">Part 2 · 为什么读</div>
+    <a href="#s4"><span class="dot"></span>为什么读① 语言</a>
+    <a href="#s5"><span class="dot"></span>为什么读② 做人</a>
+    <a href="#s6"><span class="dot"></span>AI 时代还要读吗</a>
+    <div class="part">Part 3 · 四个难题</div>
+    <a href="#s7"><span class="dot"></span>① 讨厌阅读</a>
+    <a href="#s8"><span class="dot"></span>② 太难 / 太易</a>
+    <a href="#s9"><span class="dot"></span>③ 只读一种书</a>
+    <a href="#s10"><span class="dot"></span>④ 读多没进步</a>
+    <div class="part">Part 4 · 怎么做</div>
+    <a href="#s11"><span class="dot"></span>家长怎么检查</a>
+    <a href="#s12"><span class="dot"></span>自主 vs 引导</a>
+    <a href="#s13"><span class="dot"></span>课程实例</a>
+    <a href="#s14"><span class="dot"></span>Q&amp;A 精华</a>
+  </nav>
+</aside>
+
+<main>
+<header>
+  <div class="eyebrow ui">FOGG 父母讲堂 · Teacher Chris</div>
+  <h1>What Is Reading, Really?<span class="zh-t">到底什么是阅读能力 —— Chris 老师谈"阅读即诠释"</span></h1>
+  <div class="meta ui">
+    <span>主讲：Teacher Chris（FOGG 英文阅读资深导师）</span>
+    <span>主持：言词（Yanci）</span>
+    <span>2025年3月9日 · 约80分钟</span>
+  </div>
+</header>
+
+<div class="toolbar ui">
+  <button class="btn primary" id="zh-toggle">显示全部中文</button>
+  <button class="btn" id="drawer-btn">📒 生词本 · 划线 · 笔记</button>
+  <button class="btn" id="sync-btn"><span class="cloud-dot"></span>☁️ 同步</button>
+  <span class="fs-btns"><button class="fs-a1" id="fs-minus" title="缩小字体">A−</button><span class="fs-cur ui" id="fs-cur">标准</span><button class="fs-a2" id="fs-plus" title="放大字体">A+</button></span>
+  <button class="btn" id="bm-pin" title="把当前位置钉为书签">📌 钉这里</button><button class="btn" id="bm-go" title="跳回你钉的书签位置">🔖 回书签</button>
+  <button class="btn gold" id="export-btn">📤 导出学习笔记</button>
+  <span class="save-state" id="save-state">已就绪</span>
+</div>
+
+<!-- S1 -->
+<section id="s1">
+  <div class="sec-head"><span class="sec-num">01</span><h2>开场 · Chris 的成长故事</h2></div>
+  <div class="sec-time ui">03:42 – 08:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>Chris 出身无学术支持的家庭：父亲没读完初中、母亲高中毕业，家里只有一本书（戈尔巴乔夫《改革》，落灰多年）</li>
+    <li>一年级起作业全靠自己，母亲说"你只能靠自己了"</li>
+    <li>不爱读书、只玩运动和电子游戏，是个拖延、懒散、成绩平平（C）的学生</li>
+    <li>高中最后一年，一两位老师"说对了话、教对了东西"，扭转了他</li>
+    <li><b>核心信息：孩子现在讨厌阅读、成绩差、叛逆，都不是世界末日——他们能改变，往往只差一个契机</b></li>
+    <li>不要逼孩子阅读，要用温和、循序渐进的方式</li>
+</ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Yanci has been asking me to do this talk for three or four years. I've always said no, but she finally exerted enough pressure to get me to say yes.</span><span class="sz">言词请我做这场讲座请了三四年，我一直拒绝，最后她施加了足够的压力，我才答应。</span></span> <span class="sent"><span class="se">The reason I usually say no is because I'm a bad public speaker — so if you get really bored, apologies in advance.</span><span class="sz">我通常拒绝，是因为我不擅长公开演讲——如果你听得很闷，先说声抱歉。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">A little about my background: my parents had almost no education. My father never finished middle school; my mom finished high school, and that was it.</span><span class="sz">先说说我的背景：我父母几乎没受过教育。父亲没读完初中，母亲高中毕业，就到此为止了。</span></span> <span class="sent"><span class="se">I did not grow up in a household with academic support. In my house there were no books — I remember we had one book: Gorbachev's Perestroika.</span><span class="sz">我成长的家庭没有任何学术支持。家里没有书——我记得只有一本：戈尔巴乔夫的《改革》。</span></span> <span class="sent"><span class="se">Why on earth we had it beats me. It collected dust for years. I tried to open it at eight and understood nothing.</span><span class="sz">为什么家里会有这本书，我至今不解。它落灰好多年。我八岁时试着翻开，一个字也没看懂。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">When I was in first grade, the second week, my mom sat down and asked what the problem was. I said I couldn't understand the math. She said, 'Well, you're on your own' — and I never had help after that.</span><span class="sz">一年级第二周，妈妈坐下来问我怎么了。我说数学题看不懂。她说：'那你只能靠自己了'——从那以后我再没得到过帮助。</span></span> <span class="sent"><span class="se">You might think I was into reading, then? Not at all. I did sports — seven days a week. In the summer I played video games all the time. No reading.</span><span class="sz">你也许以为我因此爱上了阅读？完全没有。我搞运动——一周七天。暑假一直打电子游戏。根本不读书。</span></span> <span class="sent"><span class="se">I was a pretty bad student too: a procrastinator, lazy, sometimes disrespectful to teachers. I had a good memory so I could pass tests, but I didn't do homework — so I averaged out to C grades.</span><span class="sz">我也是个差学生：拖延、懒散、有时对老师不礼貌。我记性好，能考试及格，但不做作业——所以平均下来就是 C。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">It wasn't great until my last year of high school, when one particular teacher turned me around a little. They said the right words and taught the right things to shift my thinking — academically and about life in general.</span><span class="sz">直到高中最后一年，一位老师稍微扭转了我。他们说对了话、教对了东西，改变了我的思维——无论是学业上还是对人生的看法。</span></span> </p></div>
+<div class="quote"><span class="tag ui">Chris · 给焦虑家长的话</span>
+<p class="en"><span class="sent"><span class="se">If your kid isn't into reading, hates reading, is obstinate, not academically successful — that's not the end of the world. It doesn't mean they can't turn around.</span><span class="sz">如果你的孩子不爱阅读、讨厌阅读、固执、学业不成功——这不是世界末日。不代表他们无法扭转。</span></span> <span class="sent"><span class="se">It doesn't mean your kid is guaranteed a lifetime of hating reading or academic failure. They can change. For me it was one or two teachers near the end of high school.</span><span class="sz">不代表你的孩子注定一辈子讨厌阅读、注定学业失败。他们能改变。对我来说，就是高中快结束时的一两位老师。</span></span> <span class="sent"><span class="se">So if they're not living up to your hopes as a parent, it might just be a matter of time. We don't want to pressure kids into reading — we want to do it in a nice, gradual way.</span><span class="sz">所以如果孩子还没达到你的期望，也许只是时间问题。我们不该逼孩子阅读——要用温和、循序渐进的方式。</span></span> </p></div>
+</section>
+
+<!-- S2 -->
+<section id="s2">
+  <div class="sec-head"><span class="sec-num">02</span><h2>什么是阅读 · Reading = Interpretation</h2></div>
+  <div class="sec-time ui">08:00 – 15:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>核心命题：阅读的本质是"诠释"（interpretation），不是把眼睛扫过文字</b></li>
+    <li>牛津词典：reading = 诠释书面文字的能力；引英王阿尔弗雷德（约公元890年）——他用来指"诠释"的那个词，后来演变成了 "read"</li>
+    <li><b>诠释小说的四个层次（由浅入深）：</b></li>
+    <li>① <b>情节</b>：事件的时间顺序与因果（多数孩子没问题；追问"为什么发生"能测出理解深度）</li>
+    <li>② <b>人物</b>：性格特质如何影响言行、动机是什么、如何随时间改变、改变的意义（连接真实生活中的人，把直觉变成自觉）</li>
+    <li>③ <b>主题</b>：先找"话题"（友情/爱/战争/死亡），再问"作者对这个话题似乎持什么看法"——答案就是主题</li>
+    <li>④ <b>作者的选择</b>：像看画一样，作者在词汇、句式、结构、信息呈现上的选择——最微妙的一层</li>
+</ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">It might seem boring, but let's look at the dictionary. The Oxford English Dictionary tells us reading is interpretation — to interpret, or be able to interpret, the written form. The key word is interpretation.</span><span class="sz">也许有点枯燥，但我们看看词典。《牛津英语词典》告诉我们：阅读就是诠释——诠释、或有能力诠释书面文字。关键词是'诠释'。</span></span> <span class="sent"><span class="se">I've pulled a quote from King Alfred, around 890 AD. Explaining why he translated a text from Latin into English, he said nobody understands Latin but everybody can interpret written English — and the word he uses for 'interpret' is the very word that becomes 'to read'.</span><span class="sz">我引一句英王阿尔弗雷德的话，约公元890年。他解释为何把一部拉丁文翻成英文时说：没人懂拉丁文，但人人都能诠释书面英文——而他表示'诠释'用的那个词，正是后来演变成 'read（阅读）' 的词。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">So when we read a text — fiction, nonfiction, a graphic novel, even in a way when we watch a film — we need to be interpreting, thinking about the input we're receiving.</span><span class="sz">所以当我们读一个文本——小说、非虚构、漫画，某种意义上甚至看电影——我们都需要在诠释，思考我们接收到的输入。</span></span> <span class="sent"><span class="se">How do we interpret fiction? At the basic level, it's the chronology and causality of the plot: what events happen, why, and in what order. Most kids don't struggle with this. If you ask 'what happened,' they can tell you. To challenge them, ask 'why did those things happen?'</span><span class="sz">怎么诠释小说？最基础的层次是情节的时间顺序和因果：发生了哪些事、为什么、按什么顺序。多数孩子没问题。你问'发生了什么'，他们能答。想挑战他们，就问'这些事为什么会发生？'</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">At a deeper level, we want awareness of characters: their traits and qualities, how those affect how they speak and behave, their motivations, how they change over time and why, and the significance of those changes.</span><span class="sz">更深一层，我们要关注人物：他们的性格特质、这些特质如何影响言行、他们的动机、如何随时间改变、为什么改变、这些改变有何意义。</span></span> <span class="sent"><span class="se">It's not so hard if we connect it to the real world — everybody lives with other people, so we're intuitively aware of these things. The job is to bring that intuition to the forefront and make kids cognizant of it.</span><span class="sz">如果连接到真实世界，这并不难——每个人都和他人共同生活，所以我们对这些是有直觉的。要做的是把这种直觉推到台前，让孩子有意识地觉察。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">The next level is themes — the big ideas, the message, the point of the book. Here's how I teach it: first identify the topic in a word or two — friends, love, war, death, poverty. Then ask: what does the writer seem to believe about that topic? The answer to that is the theme. And then: how do we know that? That's the interpretation.</span><span class="sz">再上一层是主题——大观念、要传达的信息、这本书的用意。我这样教：先用一两个词找出话题——友情、爱、战争、死亡、贫穷。然后问：作者对这个话题似乎持什么看法？这个答案就是主题。接着问：我们怎么知道的？——这就是诠释。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">The last one, done more subtly, is appreciating authorial choices. In any text — even nonfiction — the writer has made specific choices in vocabulary, sentence structure, organization, what information to present. It's like looking at art: why did the painter use certain colors, strokes, composition? The same works for writing.</span><span class="sz">最后一层、也更微妙，是欣赏'作者的选择'。任何文本——包括非虚构——作者都在词汇、句式、结构、呈现哪些信息上做了具体选择。就像看画：画家为什么用这些颜色、笔触、构图？写作也一样。</span></span> </p></div>
+</section>
+
+<!-- S3 -->
+<section id="s3">
+  <div class="sec-head"><span class="sec-num">03</span><h2>什么"不是"阅读</h2></div>
+  <div class="sec-time ui">15:00 – 18:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>"超人式"扫读不是阅读</b>：飞快翻页、眼睛扫过每行，但什么都没进脑子——因为没有诠释</li>
+    <li>进阶一点的问题读法：能抓到要点细节，但答不出"这有什么意义"</li>
+    <li>"交易式"阅读：只为找一个答案，其余一概不管——比纯扫读好一点，但仍缺整体诠释</li>
+    <li><b>一切都在语境（context）中，必须能理解语境</b></li>
+</ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">What reading is NOT — you might recognize this in your kids or yourself. It's not 'check, read that book,' flipping pages as fast as possible. Have you ever seen a kid finish a book impossibly fast, say 'I'm just a fast reader,' and then be unable to talk about it? That's because they didn't really read.</span><span class="sz">什么'不是'阅读——你可能在孩子或自己身上见过。不是'打勾、读完这本书'、飞快翻页。你有没有见过孩子快得离谱地读完一本书，说'我就是读得快'，然后却说不出书里讲了什么？那是因为他们没有真正在读。</span></span> <span class="sent"><span class="se">Flipping pages like Superman, eyes moving across the line but nothing sinking in — that is not reading, because it's a lack of interpretation.</span><span class="sz">像超人一样翻页，眼睛扫过每一行但什么都没沉进去——那不是阅读，因为缺乏诠释。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Some students do one up: they get the main points and details, but they can't answer 'so what does it really mean? what's the significance?' They can say this happened, this happened — but not why it matters to the story or to our lives. At least we're on the right path there.</span><span class="sz">有些学生高一档：他们能抓到要点和细节，但答不出'那这到底意味着什么？有什么意义？'他们能说这发生了、那发生了——但说不出对故事、对我们的生活为何重要。至少这条路走对了。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Another problem is making reading transactional: reading only to answer a question. 'I find the answer, I don't care about anything else.' That's a little better — they've interpreted a prompt and deciphered the correct information — but it's still lacking an overall interpretation. Everything comes into a context, and we need to understand the context.</span><span class="sz">另一个问题是把阅读变成'交易'：读只为回答一个问题。'我找到答案就行，别的不管。'这稍好一点——他们诠释了题目、辨识出正确信息——但仍缺整体诠释。一切都存在于语境中，我们必须理解语境。</span></span> </p></div>
+</section>
+
+<!-- S4 -->
+<section id="s4">
+  <div class="sec-head"><span class="sec-num">04</span><h2>为什么要读（一）· 语言发展</h2></div>
+  <div class="sec-time ui">18:00 – 26:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>你无法学会从未接触过的东西</b>——词汇也一样。日常口语词汇很有限（几百到几千），丰富词汇存在于"书面语"中</li>
+    <li>书面语有高"词汇密度"（lexical density）、更广的词域、不同语域（register）</li>
+    <li>书面语是"组织过"的：可以推敲词序、句式变化，创造美感、强调重点</li>
+    <li><b>读—写的正反馈循环</b>：读得多才能写得好；写得多又反过来提升阅读时对技巧的敏感（引 Stephen King："不读书就写不出来"）</li>
+    <li>《了不起的盖茨比》实例：inessential、pandering、transitory enchanted moment、commensurate——这些词与五层复杂句，只有阅读才能接触到</li>
+    <li>语言力几乎对所有职业都重要（凡需说服、销售、打动人的工作，都靠对语言力量的理解）</li>
+</ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Reading is important for language development, particularly vocabulary. You can't learn words — or anything — you've never been exposed to. Most people's everyday vocabulary is quite limited: a few hundred, maybe a couple thousand words. Extensive vocabulary is found in writing, which has high lexical density — a wider range and various registers of words. So kids gotta read.</span><span class="sz">阅读对语言发展很重要，尤其是词汇。你无法学会从未接触过的词——任何东西都一样。多数人的日常词汇很有限：几百个，也许上千个。丰富的词汇存在于书面语中，它有很高的'词汇密度'——更广的词域和不同的语域。所以孩子必须读。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Because written language is organized and not on-the-spot, we can play with words and word order, sentence variety. Most people speak subject-verb-object: 'I went to the market.' Written language uses techniques to increase beauty or accentuate a point. If we want students to express themselves beautifully and concisely in writing, they need to see beautiful, concise writing.</span><span class="sz">因为书面语是组织过的、不是即兴的，我们可以推敲词语和词序、句式的变化。大多数人说话是主谓宾：'我去了市场。'而书面语用各种技巧来增加美感、强调重点。如果我们希望学生能在书面上优美而凝练地表达自己，他们就需要看到优美、凝练的写作。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">This becomes passive through exposure to writing, and active through speaking and writing. I read vocabulary and language, and over time I can replicate and reproduce it. A lot of the vocabulary you use, you didn't learn from your parents or friends — you learned it in school, from reading and writing.</span><span class="sz">这些通过接触写作被动地内化，再通过说和写主动地输出。我读到词汇和语言，久而久之就能复现和再生产它。你用的很多词汇，不是从父母或朋友那里学的——是在学校、通过读和写学到的。</span></span> <span class="sent"><span class="se">Reading and writing create a feedback loop: to write well I have to read a lot, and by writing I improve my reading. Stephen King says: if you don't read, you can't write. If you don't read, you lack the extensive vocabulary and the tools to create effective writing.</span><span class="sz">读和写形成一个正反馈循环：要写得好，我必须大量阅读；而通过写作，我又提升了阅读。斯蒂芬·金说：不读书，就写不出来。不读，你就缺乏丰富的词汇，也缺乏写出有效文字的工具。</span></span> </p></div>
+<div class="quote"><span class="tag ui">实例 · 《了不起的盖茨比》</span>
+<p class="en"><span class="sent"><span class="se">Here's vocabulary you wouldn't use in everyday life: 'inessential houses,' 'pandering in whispers to the last and greatest of all human dreams,' a 'transitory, enchanted moment,' 'commensurate to his capacity for wonder.' You can only be exposed to this through reading.</span><span class="sz">这是些日常绝不会用的词汇：'非必要的房子'、'向人类最后也最伟大的梦想低声献媚'、'一个转瞬即逝、令人心醉的时刻'、'与他惊叹的能力相称'。这些只能通过阅读接触到。</span></span> <span class="sent"><span class="se">Look at the sentence structure: a subordinate clause, then the main clause, a prepositional phrase modifying it, a restrictive relative clause — five parts, in an order you'd never use in speech, but it makes it so much more beautiful. 'As the moon rose higher, the inessential houses began to melt away.' We read to develop this sensitivity to language.</span><span class="sz">再看句式：一个从句、接主句、修饰主句的介词短语、一个限定性关系从句——五个部分，顺序是你说话绝不会用的，却让它美得多。'当月亮升得更高，那些非必要的房子开始融化消失。'我们阅读，正是为了培养这种对语言的敏感。</span></span> </p></div>
+</section>
+
+<!-- S5 -->
+<section id="s5">
+  <div class="sec-head"><span class="sec-num">05</span><h2>为什么要读（二）· 成为更好的人</h2></div>
+  <div class="sec-time ui">26:00 – 33:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>即便孩子将来当数学家/物理学家，阅读仍让人成为"更好的人"</li>
+    <li><b>阅读帮我们建立四种"联结"（connections）：</b>文本↔文本、文本↔自己的生活、文本↔认识的他人（培养共情）、文本↔更广阔的世界</li>
+    <li>实例《Wonder（奇迹男孩）》中引《霍比特人》的段落：主角 August 面部畸形、第一天上学被霸凌，回家心碎；霍比特人的箭失效、困在看不到尽头的森林=他无处可藏的处境</li>
+    <li><b>阅读让孩子提前经历、理解那些他们作为小孩还无法亲历的人生经验（被霸凌、他人的痛苦）</b></li>
+    <li>"每个人都背着自己的十字架"——世界残酷不公，但我们至少能不让苦难延续下去</li>
+</ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Reading helps us be better humans. We talk about four connections: text to another text (the most straightforward); more importantly, text to our own lived lives; text to other people we know — this builds empathy, understanding others' viewpoints, putting ourselves in their shoes; and text to the wider world — what can I understand about the world I live in?</span><span class="sz">阅读让我们成为更好的人。我们谈'四种联结'：文本与另一个文本（最直接的）；更重要的是，文本与我们自己亲历的生活；文本与我们认识的他人——这培养共情，理解他人的观点，设身处地；以及文本与更广阔的世界——我能通过文本理解我所生活的世界什么？</span></span> <span class="sent"><span class="se">Even if you become a mathematician or physicist, you still live in a world of humans. You need awareness of yourself, of those around you, and of the world you live in — unless you want to be a hermit.</span><span class="sz">即使你成为数学家或物理学家，你仍生活在人的世界里。你需要觉察自己、觉察周围的人、觉察你所生活的世界——除非你想当隐士。</span></span> </p></div>
+<div class="quote"><span class="tag ui">实例 · 《Wonder》引《霍比特人》</span>
+<p class="en"><span class="sent"><span class="se">Our main character, August, has just had his first day of school and was bullied. He goes home feeling wrecked. A lot of us can relate — most of us have been bullied at some point.</span><span class="sz">主角 August 刚上完第一天学，被霸凌了。他回到家，心力交瘁。我们很多人都能共鸣——大多数人一生中都曾在某个时刻被霸凌过。</span></span> <span class="sent"><span class="se">The passage is metaphorical: the hobbits use arrows to defend, but they're useless; they're stuck in a forest with no end in sight, no hope. That relates directly to August — his usual way of defending himself is to hide behind long hair and silence, but it didn't stop the bullying, and it's only the first day.</span><span class="sz">那段文字充满隐喻：霍比特人用箭防御，却毫无用处；他们困在一片看不到尽头的森林里，毫无希望。这正对应 August——他一贯的自我保护方式是用长发和沉默把自己藏起来，但这次没能挡住霸凌，而这才只是第一天。</span></span> <span class="sent"><span class="se">August was born with a facial abnormality. But a lot of people are born different. Everybody has their own cross to bear. The world is cruel and unfair — but at our own scale, we don't have to make suffering carry on. We can stop the chain of suffering a little.</span><span class="sz">August 天生面部畸形。但很多人生来就与众不同。每个人都背着自己的十字架。世界残酷不公——但在我们自己的尺度上，我们不必让苦难延续。我们能稍微斩断苦难的链条。</span></span> </p></div>
+</section>
+
+<!-- S6 -->
+<section id="s6">
+  <div class="sec-head"><span class="sec-num">06</span><h2>AI 时代，还要读写吗？</h2></div>
+  <div class="sec-time ui">33:00 – 40:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>AI 影响巨大但走向完全不可预测——正因不可预测，不该把所有鸡蛋放一个篮子</li>
+    <li><b>换个科学角度：阅读本身就是一种"AI"</b>——把巨大的数据集读入、处理、诠释，正是语言模型在做的事</li>
+    <li><b>再长的 AI 链条，最开始和最末端都必须是"人"</b>：起始用户要会给出好的输入（弱输入→弱输出），末端用户要能读懂并评估输出</li>
+    <li>实例：给 ChatGPT 一句"我们土木公司业绩下滑，怎么办"，得到又长又泛的空话（品牌重塑、内容营销……）——弱输入必然弱输出</li>
+    <li>真实人际互动充满"话里有话"的模糊性，需要"读出言外之意"——阅读慢而从容，正好练这种诠释力</li>
+</ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">You might say: ChatGPT, DeepSeek — we don't need reading or writing anymore. But AI's impact is completely unpredictable. Because it's unpredictable, we shouldn't put all our eggs in one basket. What if we can't feed the energy needs of AI? Where are you then, if you never practiced reading and writing?</span><span class="sz">你可能会说：有了 ChatGPT、DeepSeek——我们不再需要读写了。但 AI 的影响完全不可预测。正因为不可预测，我们不该把所有鸡蛋放进一个篮子。万一我们喂不起 AI 的能耗呢？如果你从没练过读写，那时你在哪儿？</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Even with ChatGPT, reading is still important. Think scientifically: what is reading? A gigantic data set we read, process, and interpret — that's exactly what language models do. So reading itself is a kind of AI.</span><span class="sz">即便有了 ChatGPT，阅读依然重要。科学地想：什么是阅读？一个巨大的数据集，我们读入、处理、诠释——这正是语言模型在做的事。所以阅读本身就是一种 AI。</span></span> <span class="sent"><span class="se">And even if we use AI, there has to be a starting user and an end user who's human. You need to know what input to provide — the output is only as good as the input. And the end user still has to read and interpret the output. We might cut out a lot of steps, but the first and last steps remain human.</span><span class="sz">而且即使我们用 AI，也必须有一个'起始用户'和一个'末端用户'是人。你得知道该提供什么输入——输出的质量取决于输入。末端用户仍要读懂并诠释输出。我们也许省掉了很多步骤，但最初和最末的步骤仍然是人。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">I put a weak input into ChatGPT: 'Our civil engineering firm has a downward trend, what should we do?' It gave a giant, very general spiel: strengthen business development, rebrand, content marketing, improve SEO. Thanks — I could never have figured that out. Weak input, weak output. I still need cognitive skills to know what to put in and to evaluate what I get out.</span><span class="sz">我给 ChatGPT 一个很弱的输入：'我们土木公司业绩下滑，该怎么办？'它给了我一大段非常笼统的空话：加强业务拓展、品牌重塑、内容营销、优化 SEO。谢谢啊——这我可真想不到。弱输入，弱输出。我仍然需要认知能力，来知道该输入什么、并评估我得到了什么。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">In real human interactions there's a lot of ambiguity — a lot is said without being said. You've got to read between the lines. Reading isn't spontaneous: students can take time to think and process, developing skills of dealing with ambiguity and interpretation slowly, then bringing those skills into real life.</span><span class="sz">真实的人际互动充满模糊——很多话是'不说而说'的。你得读出字里行间的意思。阅读不是即时的：学生可以花时间思考和消化，慢慢培养处理模糊、进行诠释的能力，再把这些能力带入现实生活。</span></span> </p></div>
+</section>
+
+<!-- S7 -->
+<section id="s7">
+  <div class="sec-head"><span class="sec-num">07</span><h2>问题一 · 孩子讨厌阅读</h2></div>
+  <div class="sec-time ui">40:00 – 45:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>亚里士多德："所有人天生渴望求知"——你的孩子本质上是好奇的、想学东西的，只是不一定想学你要他学的</li>
+    <li>常见原因：阅读"无聊"、坐不住（Chris 自己和大女儿都是好动型）</li>
+    <li><b>对策一 · 利用碎片时间</b>：上学路上、排队、看牙医候诊——把书递给他（Stephen King 随身带书，任何空档都读）</li>
+    <li>关键：给他"他想读的"，而不是你想让他读的（引出下一个问题）</li>
+    <li>Chris 亲历：大女儿6岁突然说"我讨厌阅读"，身为阅读老师的他也懵了</li>
+</ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Aristotle gives us an insight: all people, by their very nature, want to learn. People are inquisitive — that means your child is inquisitive too. Your kid actually wants to learn something. It might not be what you want them to learn, but they want to learn. We use this to our advantage.</span><span class="sz">亚里士多德给了我们一个洞见：所有人，就其本性而言，都渴望求知。人是好奇的——这意味着你的孩子也是好奇的。你的孩子其实想学点什么。也许不是你想让他学的，但他想学。我们要利用这一点。</span></span> <span class="sent"><span class="se">My oldest loved being read to. Then at six I asked what book she wanted, and she said, 'I don't want you to read me any book. I hate reading.' I'm a reading teacher — what the heck?</span><span class="sz">我大女儿本来很爱听我读书。她六岁时，我问她想读哪本，她说：'我不要你给我读任何书。我讨厌阅读。'我可是个阅读老师——这算什么？</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Why might a kid hate reading? It can be boring — you sit and flip pages, not very exciting. I loved sports, was energetic; my oldest is fidgety too. Sitting and reading isn't fun for some kids. So if they'll be bored anyway — give them a book. Going to school on the train, in the car, waiting in line, at the dentist — that's where people read. Give them something to read.</span><span class="sz">孩子为什么会讨厌阅读？它可能很闷——你坐着翻页，没什么刺激。我热爱运动、精力旺盛；我大女儿也坐不住。对有些孩子来说，坐下来读书并不好玩。所以既然反正会无聊——那就把书递给他。坐火车上学、在车里、排队、看牙医候诊——这些正是人们阅读的地方。给他点东西读。</span></span> <span class="sent"><span class="se">I joke with students: if you'd taken the book to the toilet, you'd have finished the reading. Stephen King has a book with him all the time — in the supermarket line, at the street corner. The passive activity of reading is more interesting than the passive activity of waiting.</span><span class="sz">我常跟学生开玩笑：你要是把书带进厕所，早读完了。斯蒂芬·金随身带书——超市排队时、街角等红灯时都读。'读书'这种被动活动，可比'等待'这种被动活动有意思多了。</span></span> <span class="sent"><span class="se">The key is to give them something they WANT to read. Don't give them Feynman's Six Easy Pieces if they won't want it — which brings us to the next problem.</span><span class="sz">关键是给他们'想读'的东西。如果他们不想读，就别塞费曼的《物理学讲义》给他们——这就引出下一个问题。</span></span> </p></div>
+</section>
+
+<!-- S8 -->
+<section id="s8">
+  <div class="sec-head"><span class="sec-num">08</span><h2>问题二 · 太难或太易 · Lexile 方法</h2></div>
+  <div class="sec-time ui">45:00 – 49:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>先"把孩子放第一位"（呼应中文老师讲座）：从孩子的兴趣出发选书，别强迫</li>
+    <li>Chris 的做法：女儿爱"有趣的冷知识"，就买这类书放着、不逼，她自己会来拿</li>
+    <li><b>年龄大但读得吃力 → 找 High-Low（HL）书</b>：话题符合年龄、但语言难度调低（亚马逊书页会标 HL 和 Lexile 分）</li>
+    <li><b>Lexile 分数法找难度</b>：孩子能舒服读的书查出 Lexile（如 800），就找 850–900 的测试；还嫌易就再加 50；反之则往下找</li>
+    <li>HL 书通常在 400–800 之间，按话题浮动</li>
+</ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">First, put the child first — their interest. Find what your kid likes and give books accordingly. My oldest likes silly facts and information, so we bought books like that and just left them there. Eventually she came to them on her own, pulled them off the shelf, and read them by herself. Start with their interest, then work out from there.</span><span class="sz">首先，把孩子放第一位——从他们的兴趣出发。找出孩子喜欢什么，据此给书。我大女儿喜欢有趣的冷知识，我们就买这类书放着、不逼她。最后她自己来找，从架子上抽下来，自己读。先从他们的兴趣入手，再由此向外拓展。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">If your kid is a bit older and struggling, you don't want to give them little kiddie books. Search for 'high-low' books (marked HL). On Amazon, a children's book listing shows the publisher, page count, and lexile score. An HL means an age-appropriate, interesting topic with the language dialed down to be easier. So a kid really into astrophysics can't read a university text — but there are HL books on astrophysics in doable language.</span><span class="sz">如果孩子年龄稍大但读得吃力，你不会想给他们小小孩的书。去找'High-Low（高低）'书（标注 HL）。在亚马逊上，一本儿童书的信息会显示出版社、页数和 Lexile 分。标 HL 就表示：话题有趣、符合年龄，但语言难度被调低、更容易读。所以一个痴迷天体物理的孩子读不了大学教材——但有 HL 版的天体物理书，用他能读的语言写成。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">If the reading is too easy: find a book your child reads comfortably and Google its lexile score — that's just how difficult the language is, in vocabulary and sentence structure. Say it's 800. Then find a book at 850–900 and test them. Still easy? Go up another 50, to 950 or 1000. This helps you find the right level — not too hard, not too easy. It works backwards too: if a 750 book is challenging, look for 700 or 650.</span><span class="sz">如果读起来太容易：找一本孩子能轻松读的书，用 Google 查它的 Lexile 分——那就是语言在词汇和句式上的难度。假设是 800。那就找 850–900 的书来测试他。还嫌容易？再加 50，到 950 或 1000。这能帮你找到合适的难度——不太难，也不太易。反过来也行：如果一本 750 的书就吃力，就去找 700 或 650 的。</span></span> </p></div>
+</section>
+
+<!-- S9 -->
+<section id="s9">
+  <div class="sec-head"><span class="sec-num">09</span><h2>问题三 · 只读一种书（Dogman 现象）</h2></div>
+  <div class="sec-time ui">49:00 – 55:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>孩子只读一类书（如一整柜《Dogman》漫画）——他至少在读，通常会自然长大跨出去</li>
+    <li>两种原因：① 就是"对上了眼"（Chris 小时候只读恐怖故事）；② 变得"舒适"了（像孩子只吃鸡块，不想挑战味蕾）</li>
+    <li><b>破局四招（慢而稳）：</b>① 同作者、不同题材/系列；② 同题材、不同作者（略难一点）；③ 问孩子朋友在读什么；④ 用找书网站</li>
+    <li>三个找书工具：按题材/作者给推荐、"5 books"按主题给5本、"相似作者地图"（越靠边越不同，可顺藤摸瓜慢慢拓展）</li>
+    <li>Chris 亲历：女儿爱 Dogman → 发现她其实爱"漫画"这个形式 → 换成更写实的图像小说 → 再引到"图像小说版经典文学" → 最后读原版经典</li>
+</ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Your kid reads only one book — 1,001 Dog Man. Does this look like anybody's bookshelf? This is hard because your kid IS reading. It's very one-dimensional, especially with comics. But sometimes it's just a phase. When I was a kid I only read scary stories — I borrowed one, loved it, and that was all I read. Eventually I branched out. If they're reading one thing, at least they're reading, and they'll probably grow out of it.</span><span class="sz">你的孩子只读一种书——一千零一本《Dogman》。这像不像谁家的书架？这很棘手，因为孩子'确实在读'。只是太单一，尤其是漫画。但有时这只是个阶段。我小时候只读恐怖故事——借了一本、爱上了，就只读这个。后来我自己拓展开了。如果他们在读一种东西，至少他们在读，而且多半会自己长出去。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">This is usually one of two reasons. Either it just clicks — scary stories clicked with me, I liked the thrill. Or they've become comfortable: they know the language, it's not a challenge, it's comfortable — like a kid who only eats chicken nuggets because it's comfortable food and doesn't want to test their palate.</span><span class="sz">这通常是两个原因之一。要么就是'对上了眼'——恐怖故事对上了我的胃口，我喜欢那种刺激。要么是他们变'舒适'了：语言熟悉、没有挑战、很舒服——就像孩子只吃鸡块，因为那是安心食物，不想挑战自己的味蕾。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Slow and steady is how you break out. If they love these books all by the same author, see if that author wrote something different — a different series, say. Writers write across a spectrum, so you keep the style and language they like but shift the topic. Or the opposite: same topic, different author, a little more challenging. If you have access to their friends, ask what they're reading — kids want to read what their friends read.</span><span class="sz">破局靠慢而稳。如果他们爱的这些书都是同一作者，看看这位作者有没有写过不同的东西——比如另一个系列。作家的写作是有光谱的，所以你保留他们喜欢的风格和语言，只挪动题材。或者反过来：同题材、不同作者，稍微难一点。如果你能接触到他们的朋友，问问他们在读什么——孩子想读朋友在读的书。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">With my daughter I realized she liked comics as a form, not Dave Pilkey specifically. So I bought graphic novels — a little less silly, more realistic — and threw them in the mix without taking Dog Man away. Slowly she read classic literature in graphic-novel format, which I then used to get her to read classic literature in regular format. Slowly but surely.</span><span class="sz">对我女儿，我意识到她喜欢的是'漫画'这个形式，而不是特指 Dave Pilkey。于是我买了图像小说——不那么无厘头、更写实——把它们掺进来，同时没把 Dogman 拿走。慢慢地，她读了图像小说版的经典文学，我再借此把她引向普通版的经典文学。慢，但稳。</span></span> </p></div>
+</section>
+
+<!-- S10 -->
+<section id="s10">
+  <div class="sec-head"><span class="sec-num">10</span><h2>问题四 · 读很多却没进步 → 缺引导</h2></div>
+  <div class="sec-time ui">55:00 – 57:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>孩子读很多、但英语课没起色、看不到成长——原因往往是"缺乏引导（guidance）"</li>
+    <li>吉他类比：13岁想要电吉他，爸爸买了吉他+一本教材就走了→他从没学会。多数人需要有人带一程</li>
+    <li><b>孩子可能读得很多，但没"读对"——没有深入地、诠释性地读</b>，只是"打勾式"翻过</li>
+    <li>呼应中文老师："阅读不是天生的，是一种需要学习的技能"——少数有天赋不用教，多数人需要帮助</li>
+    <li>帮助来源：先是家长，其次是老师</li>
+</ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">What if your kid is a voracious reader across the board, but doesn't do well in English class, or does decently with no real progress? That's because he lacks guidance. Quick example: at 13 I asked my dad for an electric guitar. He bought me one and a book about playing it, then said 'bye bye.' I never learned. Some people have the aptitude and become Jimi Hendrix — that's not most people. Most need someone to help them along.</span><span class="sz">如果你的孩子什么书都读、读得很凶，但英语课不行，或者还行却看不到真正的进步呢？那是因为他缺乏引导。举个例子：13 岁我向爸爸要电吉他。他买了一把，加一本弹奏教材，然后说'拜拜'。我从没学会。有些人天生有悟性，能成为吉米·亨德里克斯——但那不是大多数人。多数人需要有人带一程。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">So your kid might read a lot but not read the right way — not deeply and interpretively. He just reads, does the check-check, doesn't really think. As the Chinese teachers said last week: reading is not natural, it's a skill. You have to learn how to read, how to interpret. Some have the aptitude and don't need a teacher, but the majority need help — first from parents, then teachers.</span><span class="sz">所以你的孩子可能读很多，却没'读对'——没有深入地、诠释性地读。他只是读，打勾打勾，并不真正思考。就像中文老师们上周说的：阅读不是天生的，它是一种技能。你必须学会如何阅读、如何诠释。少数人有天赋、不需要老师，但大多数人需要帮助——先是家长，其次是老师。</span></span> </p></div>
+</section>
+
+<!-- S11 -->
+<section id="s11">
+  <div class="sec-head"><span class="sec-num">11</span><h2>家长怎么检查（不用读过原书）</h2></div>
+  <div class="sec-time ui">53:00 – 57:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>家长即使没读过那本书、甚至不说英文，也能用一串问题检查孩子有没有真读懂</b></li>
+    <li>① <b>复述</b>：给我讲讲——最先/接着/然后/最后（first, next, then, last），基础层能理清情节</li>
+    <li>② <b>抓重点</b>：这些事里最重要的一两件是什么？为什么重要？（逼他思考重要性）</li>
+    <li>③ <b>谈人物</b>：主角是谁？什么样的人？有什么事改变了他？（现场想不出，但一追问就会想）</li>
+    <li>④ <b>问主题</b>：这本书想告诉你什么？（孩子常给很表面的答案，可继续往深推）</li>
+    <li>⑤ <b>谈喜好</b>：你喜欢这本书吗？喜欢/不喜欢哪里？——故事结构、人物、语言、语气？</li>
+    <li>关键：这些问题可以用中文问、孩子用中文答，也不需要你读过原书</li>
+</ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Even if you're not a strong reader, or don't speak English, you can still check. Yanci posted some of these questions on WeChat — she stole them from me. First: give me a summary — a shortened version. If the kid goes blah blah, I say: what happened first, then, next, last? That guides them at a basic level. You don't have to have read the story; take them at their word.</span><span class="sz">即使你不是很强的读者，或者不说英文，你仍然能检查。言词在微信上发过其中一些问题——她'偷'了我的。第一：给我讲个梗概——一个缩短的版本。如果孩子支支吾吾，我就问：最先发生了什么？接着？然后？最后？这在基础层引导他们。你不必读过这个故事；姑且信他们说的。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">If they can do that, push further: of all that, what were the one, two, three most important things? The number doesn't matter. They'll say 'that time John did this was important.' Ask why. You haven't read it — take them at their word — but you're making them think about importance.</span><span class="sz">如果他们能做到，就再往前推：这些当中，最重要的一件、两件、三件事是什么？数字不重要。他们会说'约翰做那件事的时候很重要'。追问为什么。你没读过——姑且信他们——但你在逼他们思考'重要性'。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Go deeper: tell me about the characters — who's the main character, what's he like, did anything change him? They won't think of it on the spot, but if you press, they start to. If they can't tell you, recommend they go back and reread. Then, really deep: what was the point of the book, what was it trying to show you? Kids give something superficial like 'Voldemort is a bad guy and you defeat evil.' You're not wrong — but how does that apply to our real lives? Push a little there.</span><span class="sz">再深一层：跟我讲讲人物——主角是谁、他是什么样的人、有没有什么改变了他？他们当场想不出，但你一逼，他们就会开始想。如果他们答不上来，就建议他们回去重读。然后，真正深的：这本书的用意是什么、它想让你看到什么？孩子会给很表面的答案，比如'伏地魔是坏人，你要战胜邪恶'。你没说错——但这如何适用于我们的真实生活？在这里推一把。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">The last one isn't hard but kids don't think about it: what did you actually like about this book? Did you like it? What did you like — or not like? Think about the choices: the story structure, the characters, the language, the tone — was it funny? You can ask all of this in Chinese, and your kid can answer in Chinese. And you don't need to have read the book.</span><span class="sz">最后一个不难，但孩子想不到：你到底喜欢这本书哪里？你喜欢它吗？喜欢什么——或不喜欢什么？想想那些选择：故事结构、人物、语言、语气——它好笑吗？这些你都可以用中文问，孩子也可以用中文答。而且你根本不需要读过这本书。</span></span> </p></div>
+</section>
+
+<!-- S12 -->
+<section id="s12">
+  <div class="sec-head"><span class="sec-num">12</span><h2>自主阅读 vs 引导阅读</h2></div>
+  <div class="sec-time ui">57:00 – 63:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>自主阅读的好处</b>：读自己想读的、没有节奏压力、快慢自便→培养"阅读的乐趣"</li>
+    <li><b>自主阅读的坏处</b>：容易只读一类、读太快/太慢（太慢会丢失线索）、没人提问→阅读变得很浅、错过关键；除非天赋异禀，否则难以完整发展阅读技能</li>
+    <li>烹饪类比：给一堆食材让孩子自己做饭，他也许能摸索出来，但缺信息缺技能，远不如有人教</li>
+    <li><b>引导阅读的坏处</b>："我不喜欢这本书"（但现实/职场本就要读不喜欢的东西）、有进度压力（正好逼练时间管理）、周复一周易变成"苦差"</li>
+    <li><b>引导阅读的好处</b>：什么都读（在家可能挑食）、节奏平稳、一起深入讨论、教文学分析技巧、更重要的是建立"人际联结"→ 追求整体性理解</li>
+</ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Pros of independent reading: they read what they want, at their own pace — no pressure — which makes it pleasurable and develops the joy of reading. But cons: they might read only one kind of book and burn out; read too quickly, or too slowly (and lose the thread); and since no one asks questions or helps, the reading can get really shallow — they miss the important stuff, why the writer wrote it. Unless they have a natural aptitude, they won't fully develop reading skills.</span><span class="sz">自主阅读的好处：读自己想读的、按自己的节奏——没有压力——这让阅读愉快，培养阅读的乐趣。但坏处：他们可能只读一类书然后倦怠；读得太快，或太慢（丢失线索）；而且因为没人提问、没人帮忙，阅读会变得很浅——他们错过重要的东西，错过作者为何而写。除非天赋异禀，否则无法完整发展阅读技能。</span></span> <span class="sent"><span class="se">It's like handing a kid a bunch of ingredients and saying 'cook dinner.' They might figure it out with time — but with a lot of missing information and skills. They won't cook as well as if they'd been taught.</span><span class="sz">这就像给孩子一堆食材说'做晚饭吧'。他们也许能慢慢摸索出来——但缺很多信息和技能。远不如有人教出来做得好。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Guided reading has negatives too: 'I don't like the book.' Well, sometimes you have to read things you don't like — at school, at work. How many of you only read what you like, versus what the boss requires, no matter how boring? Guided reading also has expectations — read this much each week, hit these points — which adds pressure. Kids aren't good at time management, so they need to develop it. And week after week it can become a chore.</span><span class="sz">引导阅读也有负面：'我不喜欢这本书。'可是有时你就得读不喜欢的东西——在学校、在职场。你们当中有多少人只读自己喜欢的，而不是老板要求的、再无聊也得读的？引导阅读也有要求——每周读这么多、要讲到这些点——这会带来压力。孩子不擅长时间管理，所以正好需要培养。而周复一周，它可能变成苦差。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">The pros of guided reading: we read everything — at home you might not. I pace it, keep consistent expectations, and the whole point is discussing together, going deeper, teaching literary analysis. But more importantly, making those interpersonal connections. We want a holistic understanding. We read fantasy, nonfiction (watch for certain things), realistic fiction, verse poetry (complex, a real workout), drama (helps with films), short stories, graphic novels — so whatever text they meet at school or in life, they've learned to analyze it.</span><span class="sz">引导阅读的好处：我们什么都读——在家你可能做不到。我把控节奏、保持一致的要求，而核心就是一起讨论、往深处走、教文学分析。但更重要的是，建立那些人际联结。我们追求整体性的理解。我们读奇幻、非虚构（要留意某些套路）、写实小说、诗歌（很复杂，是真正的锻炼）、戏剧（帮助理解电影）、短篇、图像小说——这样无论他们在学校或生活中遇到什么文本，都已学会分析它。</span></span> </p></div>
+</section>
+
+<!-- S13 -->
+<section id="s13">
+  <div class="sec-head"><span class="sec-num">13</span><h2>课程实例 · 技能怎么教</h2></div>
+  <div class="sec-time ui">63:00 – 67:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>课程约 10 个级别，同一技能在不同级别反复练、逐级加深</li>
+    <li><b>故事结构</b>：从"故事的基本部件及其关系"到"英雄之旅"等各种情节模型；非虚构则学"作者如何组织文本（主旨+支撑信息）"→ 迁移到自己如何组织思路/写作/大纲/摘要</li>
+    <li><b>语气与情绪（Tone & Mood）</b>：Tone=人物/作者的感受，Mood=读者的感受；即便非虚构，也能从语言看出作者的真实立场</li>
+    <li>实例：一篇讲"爱达荷州农民减少"的文章，学生起初以为作者"中立无观点"；细读语言和例子后发现——作者其实立场鲜明，在做一种"未言明的说服"</li>
+    <li><b>作者的选择</b>：训练"读出言外之意/潜台词（subtext）"、推断（inference）——很多学生把一切都按字面理解，需要老师引导看到"字面之下"</li>
+</ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Our course has about 10 levels, and we practice one skill at multiple levels, getting deeper. We start with basic story structure — the parts of a story and their relationships — then more complex ones like the hero's journey. With nonfiction, we learn how writers organize a text: a main topic supported by information. This helps students organize their own thoughts, writing, outlines, and summaries — good academic and career skills.</span><span class="sz">我们的课程约有 10 个级别，同一个技能会在多个级别练习、逐级加深。我们从基本的故事结构开始——故事的组成部分及其关系——再到更复杂的，比如英雄之旅。非虚构方面，我们学习作者如何组织文本：一个主旨，由信息支撑。这帮助学生组织自己的思路、写作、提纲和摘要——很好的学业和职业技能。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Tone and mood: tone is what the characters or writer feel; mood is what we feel. Even in nonfiction, we look at the writer's language to understand what they actually believe. I taught this passage last week: students read about the decrease of farmers in Idaho and first said the author was neutral, had no opinion. We reread, looked at the language and examples, and discovered he actually has a strong opinion — he's trying to get us on his side. A kind of unstated, persuasive argument.</span><span class="sz">语气与情绪：Tone 是人物或作者的感受；Mood 是我们读者的感受。即便在非虚构里，我们也通过作者的语言来理解他们真正相信什么。上周我教过一篇：学生读一篇关于爱达荷州农民减少的文章，起初说作者是中立的、没有观点。我们重读、细看语言和例子，发现他其实立场鲜明——他在试图把我们拉到他那一边。一种未言明的说服性论证。</span></span> <span class="sent"><span class="se">These traits help us understand and empathize, and with nonfiction they help us avoid bias and manipulation, read critically, and not get duped. I used this with Yanci's son — I gave him a news article and asked his opinion. He discovered it was very opinionated and not scientific, couched in scientific language. Good job to him.</span><span class="sz">这些能力帮我们理解和共情，而在非虚构里，它们帮我们规避偏见和操纵、批判性地阅读、不被蒙骗。我在言词的儿子身上用过这招——我给他一篇新闻，问他的看法。他发现那篇文章立场强烈、并不科学，只是披着科学语言的外衣。他做得很好。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Finally, authorial choices — what the writer does to create an emotional effect, and how we're affected. This develops reading between the lines, understanding subtext: when people choose certain words, what are they really trying to say? A lot of students, even older ones, take everything at face value and fail to see there are implied meanings beneath. With a teacher's help they learn to ask: what could be some alternative, implied meanings here? What can we infer? These inference skills are really helpful in real life.</span><span class="sz">最后是'作者的选择'——作者做了什么来营造情感效果、我们又如何被影响。这训练'读出字里行间'、理解潜台词：当人们选择某些词，他们真正想说的是什么？很多学生，甚至年纪较大的，都把一切按字面理解，看不到字面之下还有言外之意。在老师帮助下，他们学会问：这里可能还有哪些别的、隐含的意思？我们能推断出什么？这些推断能力在现实生活中真的很有用。</span></span> </p></div>
+</section>
+
+<!-- S14 -->
+<section id="s14">
+  <div class="sec-head"><span class="sec-num">14</span><h2>Q&A 精华</h2></div>
+  <div class="sec-time ui">67:00 – 80:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>Q：怎么"骗"孩子读《Horrible Histories》？</b> A：先别逼；若她爱奇幻，就给"历史小说"（真实历史背景+她爱的龙等元素）当中间桥梁，慢慢引到历史</li>
+    <li><b>Q：怎么让孩子放下短视频、去读书？</b> A：先弄清她看哪类短视频（如游戏/音乐/明星）→ 给"相似主题的短篇/中篇/漫画"；如爱看 Taylor Swift 视频→给 Taylor Swift 写的书→再拓展到相关文化（如韩国/日本文学，当下很热门）。不会彻底取代短视频，但能补充</li>
+    <li><b>Q：孩子只爱读小说（fiction）有问题吗？</b> A：短期没问题，小说照样练语言、共情、联结；长期需读非虚构（学会识别作者偏见与论证技巧）。方法同上：给"融入现实元素的小说"（历史小说、偏科学的科幻）当跳板；17岁偏晚要多推，8–12岁则时间充裕、慢慢来</li>
+    <li><b>贯穿始终的方法论：从孩子当下的兴趣出发，用一两本"中间书"当桥，慢而稳地拓展</b></li>
+</ul>
+  </div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Q (Maggie): How can I trick my girl into reading Horrible Histories? A: First, why that specifically? I wouldn't force it — she won't go for it. If she likes fantasy, give her historical fiction: say she likes medieval, castles, dragons — find historical fiction set in a real place and time (England 1300) that features a dragon but incorporates real historical facts. That might make her interested in the history behind it. Then move toward lighter historical texts, maybe with one or two intermediary books.</span><span class="sz">问（Maggie）：怎么'骗'我女儿读《Horrible Histories》？答：首先，为什么非它不可？我不会硬逼——她不会买账。如果她喜欢奇幻，就给她历史小说：假设她喜欢中世纪、城堡、龙——找一本设定在真实时空（英格兰1300年）、有龙但又融入真实历史事实的历史小说。这也许能让她对背后的历史产生兴趣。然后再往更轻的历史文本走，也许用一两本过渡书。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Q (Xu Jun): How do I get her to read instead of watching short videos? A: Hard battle. First find out what kind she watches — my oldest likes gaming videos (Minecraft). That tells you where the interest lies. Then find short-form texts similar to that — a comic, a novella, short stories closely related to her interest. If she watches Taylor Swift videos, Taylor Swift has books — hand her one. From there you might branch out: she likes K-pop → give her Korean literature (very popular now; Japanese literature is the #1 translated literature in the UK right now). It won't break the TikTok habit, but it can supplement it.</span><span class="sz">问（徐军）：怎么让她读书而不是刷短视频？答：这是场硬仗。先弄清她看哪类——我大女儿爱看游戏视频（Minecraft）。这就告诉你兴趣在哪。然后找与之相似的短篇文本——一本漫画、一部中篇、与她兴趣紧密相关的短篇集。如果她看 Taylor Swift 的视频，Taylor Swift 有出书——递一本给她。由此可以向外拓展：她喜欢 K-pop → 给她韩国文学（现在很火；日本文学目前是英国翻译文学第一名）。这不会打破刷视频的习惯，但能作为补充。</span></span> </p></div>
+<div class="para"><p class="en"><span class="sent"><span class="se">Q (Clara): Is it a problem if my child only reads fiction? A: Not really, and maybe problematic only in the long run — in real life she'll have to read nonfiction unless she becomes a writer or editor. For now, fiction is good: it still develops language awareness, empathy, connections. What it lacks is hardcore information and scientific facts. Same approach: give her fiction that incorporates real-world stuff — historical fiction, or the more scientific end of science fiction — as a springboard.</span><span class="sz">问（Clara）：孩子只读小说（fiction）有问题吗？答：其实没什么，只是长远看可能有点问题——现实生活中她终究得读非虚构，除非她当作家或编辑。眼下，小说很好：它照样培养语言意识、共情、联结。它缺的是硬核信息和科学事实。方法相同：给她那种融入了现实内容的小说——历史小说，或更偏科学的那类科幻——当作跳板。</span></span> <span class="sent"><span class="se">Say she reads sci-fi set under the sea and likes it — ask, was it the ocean element you liked? If yes: 'if I gave you a short book about the ocean, would you read it?' She might say yes. A lot of fiction reading skills carry over to nonfiction, so she's not lost — but eventually you want her reading some nonfiction, mainly to learn author bias and argumentative techniques. She's 17, so that's a little late — push more. But at 8, 10, 12 you have lots of time. Slowly but surely.</span><span class="sz">假设她读了一本设定在海底的科幻并且喜欢——就问，你喜欢的是'海洋'这个元素吗？如果是：'如果我给你一本关于海洋的小书，你会读吗？'她可能会说好。很多小说的阅读技能会迁移到非虚构，所以她不算迷路——但你最终仍希望她读些非虚构，主要是为了学会识别作者偏见和论证技巧。她 17 岁了，稍微晚了点——要多推。但在 8 岁、10 岁、12 岁，你有大把时间。慢，但稳。</span></span> </p></div>
+</section>
+
+
+<footer class="ui">整理自 2025-03-09 FOGG 父母讲堂 Teacher Chris Zoom 转录 · 英文原文经口语清理、重组归纳 · 中文翻译供学习参考<br>💡 选中英文 → 弹出「高亮 / 查词 / 高亮+笔记」· 点已有高亮 → 菜单（写笔记 / 查词 / 删除）· 「📤 导出」一键打包全部笔记丢给 Claude</footer>
+</main>
+</div>
+
+<div id="hl-tip" class="ui">🖍 划线模式已开启 —— 选中英文文字即可高亮，点击已有高亮可删除</div>
+
+<div id="sel-pop" class="ui">
+  <button id="pop-hl">🖍 高亮</button><div class="sep"></div><button id="pop-dict">📖 查词</button><div class="sep"></div><button id="pop-note">📝 高亮+笔记</button>
+</div>
+<div id="dict-card" class="ui">
+  <button class="close-x" id="dc-close">✕</button>
+  <span class="dw" id="dc-word">…</span><span class="dp" id="dc-ph"></span><button class="say" id="dc-say" title="朗读">🔊</button>
+  <div class="zh-big loading" id="dc-zh-big">翻译中…</div>
+  <div class="dd" id="dc-def"></div>
+  <div class="dc-row"><button class="add" id="dc-add">＋ 存入生词本</button></div>
+</div>
+<div id="note-modal" class="ui">
+  <div class="box">
+    <div class="quote-ref" id="nm-quote"></div>
+    <textarea id="nm-text" placeholder="写下你的想法…"></textarea>
+    <div class="row"><button class="ok" id="nm-ok">保存笔记</button><button class="no" id="nm-cancel">取消</button></div>
+  </div>
+</div>
+<div id="mark-menu" class="ui">
+  <button id="mm-note">📝 写/改笔记</button>
+  <button id="mm-dict">📖 查这个词</button>
+  <button class="danger" id="mm-del">🗑 删除这条高亮</button>
+</div>
+
+<div id="share-modal" class="ui">
+  <div id="share-card">
+    <button class="sc-x" id="sc-x">✕</button>
+    <div class="sc-quote" id="sc-quote"></div>
+    <div class="sc-note" id="sc-note" style="display:none"></div>
+    <div class="sc-src"><span id="sc-src-txt"></span><span class="sc-brand">FOGG 学习笔记</span></div>
+    <div id="share-actions"><button class="cap" id="sc-cap">📸 截图保存</button><button class="cls" id="sc-close">关闭</button></div>
+  </div>
+</div>
+<div id="share-actions-wrap" style="display:none"></div>
+<div id="drawer" class="ui">
+  <div class="tabs">
+    <button data-tab="vocab" class="on">📖 生词本</button>
+    <button data-tab="hl">🖍 划线笔记</button>
+    <button data-tab="note">📝 总笔记</button>
+  </div>
+  <div class="pane on" data-pane="vocab">
+    <div class="vocab-stats">还不会 <b id="vc-unknown">0</b> ・ 已掌握 <b class="ok-n" id="vc-known">0</b> ・ 共 <span id="vc-total">0</span> 词　<span style="margin-left:auto;font-size:11px;color:#A8B8B4">点 ⭕ = 已掌握</span></div>
+    <div id="vocab-list"><p class="empty">还没有生词。选中英文单词 → 点「📖 查词收藏」。</p></div>
+  </div>
+  <div class="pane" data-pane="hl">
+    <div id="hl-list"><p class="empty">还没有划线。开启划线模式后选中英文文字试试。</p></div>
+  </div>
+  <div class="pane" data-pane="note">
+    <textarea id="global-note" style="width:100%;min-height:60vh;height:auto;border:1.5px solid #DDE6E3;border-radius:12px;padding:14px;font-size:14.5px;line-height:1.8;background:#FFFEF8;resize:vertical;box-sizing:border-box;overflow:hidden" placeholder="整场讲座的总结、想放进 course map 的点、要转述给家长的话术……"></textarea>
+  </div>
+</div>
+
+<div id="sync-modal" class="ui">
+  <div class="box">
+    <h3 style="color:var(--teal);margin-bottom:6px">☁️ 多设备同步设置</h3>
+    <p style="font-size:12.5px;color:#6B8480;line-height:1.7;margin-bottom:12px">填入你的 <b>Gist ID</b> 和 <b>GitHub Token</b>，划线/笔记就会存到云端。在每台设备上填同一组，就能看到相同内容。（留空 = 只用本机保存）</p>
+    <label style="font-size:12px;color:#8CA19D">Gist ID</label>
+    <input id="sync-gist" class="sync-inp" placeholder="例如 3a1b...（那串字母数字）">
+    <label style="font-size:12px;color:#8CA19D;margin-top:8px;display:block">GitHub Token</label>
+    <input id="sync-token" class="sync-inp" type="password" placeholder="ghp_ 或 github_pat_ 开头">
+    <div id="sync-status" style="font-size:12.5px;margin-top:10px;min-height:18px"></div>
+    <div class="row" style="margin-top:12px">
+      <button class="ok" id="sync-save">连接并同步</button>
+      <button class="no" id="sync-clear">断开（只用本机）</button>
+      <button class="no" id="sync-close2">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+const NOTE_KEY='chris-talk-notes', HL_KEY='chris-talk-highlights', VC_KEY='chris-talk-vocab';
+let notes={}, highlights=[], vocab=[], saveTimer=null;
+
+// ===== 云端同步（GitHub Gist）+ 本地兜底 =====
+const CFG_GIST='__cfg_gist_id', CFG_TOKEN='__cfg_gist_token';
+let gistId=localStorage.getItem(CFG_GIST)||'', gistToken=localStorage.getItem(CFG_TOKEN)||'';
+let cloudCache=null, pushTimer=null, cloudOn=false;
+
+function gistHeaders(){return {'Authorization':'token '+gistToken,'Accept':'application/vnd.github+json'}}
+async function cloudPull(){
+  if(!gistId||!gistToken)return null;
+  const r=await fetch('https://api.github.com/gists/'+gistId,{headers:gistHeaders()});
+  if(!r.ok)throw new Error('pull '+r.status);
+  const j=await r.json();
+  const f=j.files&&j.files['data.json'];
+  cloudCache=f&&f.content?JSON.parse(f.content):{};
+  return cloudCache;
+}
+async function cloudPush(obj){
+  if(!gistId||!gistToken)return;
+  const r=await fetch('https://api.github.com/gists/'+gistId,{
+    method:'PATCH',headers:gistHeaders(),
+    body:JSON.stringify({files:{'data.json':{content:JSON.stringify(obj)}}})
+  });
+  if(!r.ok)throw new Error('push '+r.status);
+}
+
+const store={
+  async get(k){
+    if(cloudOn&&cloudCache&&(k in cloudCache))return cloudCache[k];
+    try{return localStorage.getItem(k)}catch(e){return null}
+  },
+  async set(k,v){
+    try{localStorage.setItem(k,v)}catch(e){}
+    if(cloudOn){
+      if(!cloudCache)cloudCache={};
+      cloudCache[k]=v;
+      clearTimeout(pushTimer);
+      pushTimer=setTimeout(async()=>{
+        try{await cloudPush(cloudCache);cloudBadge('✓ 已同步到云端 '+nowT())}
+        catch(e){cloudBadge('⚠ 云端同步失败，已存本地')}
+      },900);
+    }
+  }
+};
+function nowT(){return new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})}
+function cloudBadge(t){const s=document.getElementById('save-state');if(s)s.textContent=t}
+
+const state=document.getElementById('save-state');
+const sections=[...document.querySelectorAll('section')];
+
+function autoGrow(t){if(!t)return;t.style.height='auto';t.style.height=Math.max(t.scrollHeight,window.innerHeight*0.6)+'px';}
+
+// —— 分享卡片 & 工具 ——
+let vocabKnownOpen=false;
+const SHARE_EN=''; // 占位
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function openShareCard(o){
+  const q=document.getElementById('sc-quote');
+  q.className='sc-quote'+(o.en==='word'||/[a-zA-Z]/.test(o.quote)&&o.en!=='' ? ' sc-en':'');
+  q.innerHTML=escapeHtml(o.quote)+(o.zh?'<div class="sc-zh">'+escapeHtml(o.zh)+'</div>':'');
+  const n=document.getElementById('sc-note');
+  if(o.note){n.style.display='';n.textContent=o.note}else{n.style.display='none'}
+  document.getElementById('sc-src-txt').textContent=o.src||'';
+  document.getElementById('share-modal').classList.add('open');
+}
+(function(){
+  const m=document.getElementById('share-modal');
+  const close=()=>m.classList.remove('open');
+  const x=document.getElementById('sc-x'),c=document.getElementById('sc-close');
+  if(x)x.onclick=close;if(c)c.onclick=close;
+  m.addEventListener('click',e=>{if(e.target===m)close()});
+  const cap=document.getElementById('sc-cap');
+  if(cap)cap.onclick=async()=>{
+    const card=document.getElementById('share-card');
+    const actions=document.getElementById('share-actions');
+    if(typeof html2canvas==='undefined'){
+      // 动态载入截图库
+      await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s)}).catch(()=>{});
+    }
+    if(typeof html2canvas==='undefined'){setState('⚠ 截图组件需要联网，可手动系统截图');return}
+    actions.style.visibility='hidden';
+    try{
+      const canvas=await html2canvas(card,{backgroundColor:null,scale:2});
+      actions.style.visibility='';
+      canvas.toBlob(blob=>{
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');a.href=url;a.download='FOGG笔记卡片.png';a.click();
+        setTimeout(()=>URL.revokeObjectURL(url),1000);
+        setState('📸 卡片已保存为图片');
+      });
+    }catch(err){actions.style.visibility='';setState('⚠ 截图失败，可手动系统截图')}
+  };
+})();
+
+function setState(t){state.textContent=t}
+function scheduleSave(){setState('保存中…');clearTimeout(saveTimer);saveTimer=setTimeout(saveAll,700)}
+async function saveAll(){
+  try{
+    await store.set(NOTE_KEY,JSON.stringify(notes));
+    await store.set(HL_KEY,JSON.stringify(highlights));
+    await store.set(VC_KEY,JSON.stringify(vocab));
+    setState(cloudOn?'✓ 已保存（同步中…）':'✓ 已保存 '+nowT());
+  }catch(e){setState('⚠ 保存失败，稍后自动重试');setTimeout(saveAll,3000)}
+}
+async function load(){
+  if(gistId&&gistToken){try{await cloudPull();cloudOn=true}catch(e){cloudOn=false}}
+  try{const v=await store.get(NOTE_KEY);if(v)notes=JSON.parse(v)}catch(e){}
+  try{const v=await store.get(HL_KEY);if(v)highlights=JSON.parse(v)}catch(e){}
+  try{const v=await store.get(VC_KEY);if(v)vocab=JSON.parse(v)}catch(e){}
+  const g=document.getElementById('global-note');if(notes.__global)g.value=notes.__global;autoGrow(g);
+  highlights.forEach((h,i)=>{if(!h.id)h.id='h'+Date.now()+'_'+i;applyHighlight(h.sec,h.text,h.id)});refreshMarkNoteStyles();
+  renderHlList();renderVocab();markVocabWords();
+  setState(cloudOn?('☁️ 已从云端载入 '+nowT()):(highlights.length||vocab.length||Object.keys(notes).length?'✓ 已恢复你的笔记 · 划线 · 术语':'已就绪'));
+  if(typeof updateCloudBtn==='function')updateCloudBtn();
+}
+
+// notes events
+document.addEventListener('input',e=>{
+  if(e.target.id==='global-note'){notes.__global=e.target.value;autoGrow(e.target);scheduleSave()}
+});
+
+// 把每段的逐句中文合并成一个整齐的翻译块
+document.querySelectorAll('.para,.quote').forEach(p=>{
+  const szs=[...p.querySelectorAll('.sz')];
+  if(!szs.length)return;
+  const normal=szs.filter(s=>!s.classList.contains('comment')).map(s=>s.textContent).join('');
+  const comment=szs.filter(s=>s.classList.contains('comment')).map(s=>s.textContent).join('');
+  const d=document.createElement('div');d.className='zh-block';
+  d.textContent=normal;
+  if(comment){const c=document.createElement('span');c.className='comment-line';c.textContent=comment;d.appendChild(c)}
+  p.appendChild(d);
+});
+
+// per-paragraph 中文 toggle buttons
+document.querySelectorAll('.para,.quote').forEach(p=>{
+  if(!p.querySelector('.zh-block'))return;
+  const b=document.createElement('button');
+  b.className='zh-btn';b.textContent='中';b.title='显示/隐藏本段中文';
+  b.onclick=e=>{e.stopPropagation();p.classList.toggle('zh-open');b.classList.toggle('on',p.classList.contains('zh-open'))};
+  p.appendChild(b);
+});
+
+// zh toggles
+const zhBtn=document.getElementById('zh-toggle');
+zhBtn.onclick=()=>{document.body.classList.toggle('show-zh');zhBtn.textContent=document.body.classList.contains('show-zh')?'隐藏全部中文':'显示全部中文';zhBtn.classList.toggle('primary')};
+// per-section: dblclick on section title toggles that section
+sections.forEach(s=>{const h=s.querySelector('h2');h.style.cursor='pointer';h.title='点击：切换本节中文';h.onclick=()=>s.classList.toggle('show-zh')});
+
+// ---- selection popup ----
+const pop=document.getElementById('sel-pop'),dictCard=document.getElementById('dict-card'),markMenu=document.getElementById('mark-menu');
+let curSel=null,curMark=null,curDict=null,suppressClickUntil=0;
+const IS_TOUCH = ('ontouchstart' in window) || navigator.maxTouchPoints>0;
+function placeAt(el,rect){
+  el.style.display=(el.id==='sel-pop')?'flex':'block';
+  const vw=document.documentElement.clientWidth,vh=document.documentElement.clientHeight;
+  const w=el.offsetWidth,h=el.offsetHeight;
+  // 触屏设备：菜单固定在屏幕底部中央，避免被 iPad 系统选择菜单（拷贝/翻译…）挡住
+  if(IS_TOUCH && (el.id==='sel-pop' || el.id==='mark-menu')){
+    el.style.left=Math.max(8,(vw-w)/2)+'px';
+    el.style.top=(vh-h-24)+'px';
+    el.classList.add('touch-dock');
+    return;
+  }
+  el.style.left=Math.max(8,Math.min(rect.left+rect.width/2-w/2,vw-w-8))+'px';
+  let top=rect.bottom+10;               // 默认贴在选区正下方
+  if(top+h>vh-8)top=rect.top-h-10;      // 下方放不下才翻到上方
+  el.style.top=Math.max(8,top)+'px';
+}
+// 滚动时收起浮层，避免错位
+window.addEventListener('scroll',()=>{pop.style.display='none';markMenu.style.display='none'},{passive:true});
+function showSelPopup(){
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed){pop.style.display='none';return}
+  const text=sel.toString().replace(/\s+/g,' ').trim();
+  const node=sel.anchorNode;const anchor=node&&(node.nodeType===3?node.parentElement:node);
+  const en=anchor&&anchor.closest?anchor.closest('.en'):null;
+  if(!en||text.length<2){pop.style.display='none';return}
+  const sec=en.closest('section');
+  let rect;try{rect=sel.getRangeAt(0).getBoundingClientRect()}catch(e){return}
+  curSel={text:text,sec:sec?sec.id:'',rect:rect,range:sel.getRangeAt(0).cloneRange()};
+  placeAt(pop,curSel.rect);
+}
+document.addEventListener('mouseup',e=>{
+  if(pop.contains(e.target)||dictCard.contains(e.target)||markMenu.contains(e.target))return;
+  setTimeout(showSelPopup,10);
+});
+let touchSelTimer=null,isTouch=false;
+document.addEventListener('touchstart',()=>{isTouch=true},{passive:true});
+document.addEventListener('selectionchange',()=>{
+  if(!isTouch)return;
+  clearTimeout(touchSelTimer);
+  touchSelTimer=setTimeout(showSelPopup,450);
+});
+document.addEventListener('touchend',e=>{
+  if(!isTouch)return;
+  if(pop.contains(e.target)||dictCard.contains(e.target)||markMenu.contains(e.target))return;
+  clearTimeout(touchSelTimer);
+  touchSelTimer=setTimeout(showSelPopup,350);
+},{passive:true});
+function wrapRange(range,hid){
+  // 用真实选区包裹，支持任意长度/跨段落。收集选区内的文本节点后逐个包裹。
+  try{
+    const root=range.commonAncestorContainer;
+    const rootEl=root.nodeType===1?root:root.parentElement;
+    const walker=document.createTreeWalker(rootEl,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
+      if(n.parentElement&&n.parentElement.closest('.sz,.zh-block'))return NodeFilter.FILTER_REJECT;
+      if(!range.intersectsNode(n))return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    const targets=[];
+    while(walker.nextNode())targets.push(walker.currentNode);
+    if(!targets.length)return false;
+    let wrapped=false;
+    for(const node of targets){
+      let s=0,e=node.data.length;
+      if(node===range.startContainer)s=range.startOffset;
+      if(node===range.endContainer)e=range.endOffset;
+      if(s>=e)continue;
+      let t=node;
+      if(s>0)t=t.splitText(s);
+      if(e-s<t.data.length)t.splitText(e-s);
+      const mk=document.createElement('mark');mk.dataset.hid=hid;
+      t.parentNode.insertBefore(mk,t);mk.appendChild(t);
+      wrapped=true;
+    }
+    return wrapped;
+  }catch(err){return false}
+}
+function doHighlight(withNote){
+  if(!curSel)return;
+  const savedRange=curSel.range;
+  window.getSelection().removeAllRanges();
+  pop.style.display='none';
+  suppressClickUntil=Date.now()+450;
+  const hid='h'+Date.now();
+  // 优先用真实选区包裹（任意长度都行），失败再退回文本匹配
+  let ok=savedRange?wrapRange(savedRange,hid):false;
+  if(!ok)ok=applyHighlight(curSel.sec,curSel.text,hid);
+  if(ok){
+    const h={id:hid,sec:curSel.sec,text:curSel.text,note:''};
+    highlights.push(h);
+    refreshMarkNoteStyles();renderHlList();scheduleSave();
+    if(withNote){
+      openNoteModal(h.text,'',val=>{h.note=val;refreshMarkNoteStyles();renderHlList();scheduleSave()});
+    }
+  }else{
+    setState('⚠ 这段没能高亮，换个选法再试一次');
+  }
+}
+document.getElementById('pop-hl').onclick=()=>doHighlight(false);
+document.getElementById('pop-note').onclick=()=>doHighlight(true);
+document.getElementById('pop-dict').onclick=()=>{
+  if(!curSel)return;
+  const rect=curSel.rect,t=curSel.text,s=curSel.sec;
+  window.getSelection().removeAllRanges();pop.style.display='none';
+  openDict(t,s,rect);
+};
+
+// ---- dictionary card: 中文翻译优先 ----
+async function translateZh(text){
+  try{
+    const r=await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q='+encodeURIComponent(text));
+    if(!r.ok)throw 0;
+    const j=await r.json();
+    return (j[0]||[]).map(x=>x[0]).join('');
+  }catch(e){
+    try{
+      const r=await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair=en|zh-CN');
+      const j=await r.json();
+      return j.responseData&&j.responseData.translatedText||'';
+    }catch(e2){return ''}
+  }
+}
+async function openDict(text,sec,rect){
+  const clean=text.trim();
+  const isLong=clean.length>120;
+  const isPhrase=/\s/.test(clean);
+  const word=isLong?clean:(isPhrase?clean:(clean.match(/[a-zA-Z][a-zA-Z'\-]*/)||[clean])[0].toLowerCase());
+  curDict={word:word,sec:sec,phonetic:'',def:'',audio:'',zh:'',long:isLong};
+  const dw=document.getElementById('dc-word');
+  dw.className=isLong?'dw long':'dw';
+  dw.textContent=isLong?'📖 选段翻译':word;
+  document.getElementById('dc-ph').textContent='';
+  document.getElementById('dc-say').style.display=isLong?'none':'';
+  document.getElementById('dc-add').style.display=isLong?'none':'';
+  const dd=document.getElementById('dc-def');
+  dd.className=isLong?'orig-small':'dd';
+  dd.textContent=isLong?clean:'';
+  const zhBig=document.getElementById('dc-zh-big');
+  zhBig.className='zh-big loading';zhBig.textContent='翻译中…';
+  placeAt(dictCard,rect);
+  const q=clean.slice(0,450);
+  const jobs=[translateZh(q).then(zh=>{
+    if(curDict&&curDict.word===word){
+      curDict.zh=zh;
+      zhBig.className='zh-big';
+      zhBig.textContent=zh||'⚠ 翻译服务连不上（需要联网）';
+    }
+  })];
+  if(!isPhrase&&!isLong){
+    jobs.push((async()=>{
+      try{
+        const res=await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(word));
+        if(!res.ok)return;
+        const e0=(await res.json())[0]||{};
+        if(!curDict||curDict.word!==word)return;
+        curDict.phonetic=e0.phonetic||((e0.phonetics||[]).find(p=>p.text)||{}).text||'';
+        curDict.audio=((e0.phonetics||[]).find(p=>p.audio)||{}).audio||'';
+        const defs=[];
+        (e0.meanings||[]).slice(0,2).forEach(m=>{
+          const d=m.definitions&&m.definitions[0];
+          if(d)defs.push(m.partOfSpeech+'. '+d.definition);
+        });
+        curDict.def=defs.join('　');
+        document.getElementById('dc-ph').textContent=curDict.phonetic;
+        document.getElementById('dc-def').textContent=curDict.def;
+      }catch(e){}
+    })());
+  }
+  await Promise.all(jobs);
+}
+function openDictStored(v,rect){
+  curDict={word:v.word,sec:v.sec,phonetic:v.phonetic||'',def:v.def||'',audio:'',zh:v.zh||'',long:false};
+  const dw=document.getElementById('dc-word');
+  dw.className='dw';dw.textContent=v.word;
+  document.getElementById('dc-ph').textContent=v.phonetic||'';
+  document.getElementById('dc-say').style.display='';
+  document.getElementById('dc-add').style.display='none';
+  const dd=document.getElementById('dc-def');
+  dd.className='dd';dd.textContent=v.def||'';
+  const zhBig=document.getElementById('dc-zh-big');
+  zhBig.className='zh-big';zhBig.textContent=v.zh||'（未填中文，可在生词本里补）';
+  placeAt(dictCard,rect);
+}
+document.getElementById('dc-say').onclick=e=>{
+  e.stopPropagation();
+  if(curDict&&curDict.audio){new Audio(curDict.audio).play().catch(()=>{})}
+  else if(curDict&&window.speechSynthesis){const u=new SpeechSynthesisUtterance(curDict.word);u.lang='en-GB';speechSynthesis.speak(u)}
+};
+document.getElementById('dc-add').onclick=e=>{
+  e.stopPropagation();
+  if(!curDict)return;
+  const ex=vocab.find(v=>v.word===curDict.word);
+  if(ex){ex.zh=curDict.zh||ex.zh;ex.def=curDict.def||ex.def;ex.phonetic=curDict.phonetic||ex.phonetic}
+  else vocab.unshift({word:curDict.word,phonetic:curDict.phonetic,def:curDict.def,zh:curDict.zh,known:false,sec:curDict.sec,ts:Date.now()});
+  renderVocab();scheduleSave();
+  dictCard.style.display='none';
+  setState('✓ 已存入生词本');
+};
+document.getElementById('dc-close').onclick=()=>dictCard.style.display='none';
+
+// ---- note modal (centered) ----
+const noteModal=document.getElementById('note-modal');
+let noteCb=null;
+function openNoteModal(quote,initial,cb){
+  document.getElementById('nm-quote').textContent='“'+quote+'”';
+  const ta=document.getElementById('nm-text');
+  ta.value=initial||'';
+  noteCb=cb;
+  noteModal.classList.add('open');
+  setTimeout(()=>ta.focus(),50);
+}
+document.getElementById('nm-ok').onclick=()=>{
+  noteModal.classList.remove('open');
+  if(noteCb)noteCb(document.getElementById('nm-text').value);
+  noteCb=null;
+};
+document.getElementById('nm-cancel').onclick=()=>{noteModal.classList.remove('open');noteCb=null};
+noteModal.addEventListener('click',e=>{if(e.target===noteModal){noteModal.classList.remove('open');noteCb=null}});
+
+// ---- click on a highlight => menu ----
+document.addEventListener('click',e=>{
+  // 来自弹出菜单自身的点击（如「查词」按钮）不算“点外面”，否则刚打开的卡片会被同一下点击关掉
+  if(pop.contains(e.target)||markMenu.contains(e.target)||dictCard.contains(e.target))return;
+  if(e.target.classList&&e.target.classList.contains('vocab-mark')){
+    const v=vocab.find(x=>x.word.toLowerCase()===e.target.textContent.toLowerCase());
+    if(v){openDictStored(v,e.target.getBoundingClientRect());return}
+  }
+  if(e.target.tagName==='MARK'){
+    if(Date.now()<suppressClickUntil)return;
+    curMark=e.target;
+    placeAt(markMenu,e.target.getBoundingClientRect());
+    return;
+  }
+  // 点空白处：全部收起
+  markMenu.style.display='none';
+  dictCard.style.display='none';
+  const drawer=document.getElementById('drawer');
+  if(drawer.classList.contains('open')&&!drawer.contains(e.target)&&e.target.id!=='drawer-btn'&&!e.target.closest('#drawer-btn'))drawer.classList.remove('open');
+});
+function findHl(markEl){
+  return highlights.find(h=>h.id===markEl.dataset.hid);
+}
+document.getElementById('mm-note').onclick=()=>{
+  markMenu.style.display='none';
+  const h=curMark&&findHl(curMark);if(!h)return;
+  openNoteModal(h.text,h.note,val=>{h.note=val;refreshMarkNoteStyles();renderHlList();scheduleSave()});
+};
+document.getElementById('mm-dict').onclick=()=>{
+  markMenu.style.display='none';
+  if(!curMark)return;
+  const sec=curMark.closest('section');
+  openDict(curMark.textContent,sec?sec.id:'',curMark.getBoundingClientRect());
+};
+document.getElementById('mm-del').onclick=()=>{
+  markMenu.style.display='none';
+  const h=curMark&&findHl(curMark);
+  if(h){removeHighlightMarks(h.id);highlights.splice(highlights.indexOf(h),1)}
+  else if(curMark){curMark.outerHTML=curMark.textContent}
+  renderHlList();scheduleSave();
+};
+function refreshMarkNoteStyles(){
+  document.querySelectorAll('mark[data-hid]').forEach(m=>{
+    const h=findHl(m);m.classList.toggle('has-note',!!(h&&h.note));
+  });
+}
+
+
+// ---- 在原文中标出已收藏的生词（蓝色） ----
+function markVocabWords(){
+  document.querySelectorAll('span.vocab-mark').forEach(s=>{s.replaceWith(document.createTextNode(s.textContent))});
+  document.querySelectorAll('.en').forEach(en=>en.normalize());
+  const words=vocab.filter(v=>!v.known&&!/\s/.test(v.word)).map(v=>v.word);
+  if(!words.length)return;
+  const re=new RegExp('\\b('+words.map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')\\b','gi');
+  document.querySelectorAll('.en').forEach(en=>{
+    const parts=en.innerHTML.split(/(<[^>]+>)/);
+    let changed=false;
+    for(let i=0;i<parts.length;i++){
+      if(parts[i].startsWith('<'))continue;
+      if(re.test(parts[i])){
+        parts[i]=parts[i].replace(re,'<span class="vocab-mark" title="已在生词本，点击复习">$1</span>');
+        changed=true;
+      }
+      re.lastIndex=0;
+    }
+    if(changed)en.innerHTML=parts.join('');
+  });
+}
+
+// ---- vocabulary drawer: compact rows ----
+function renderVocab(){
+  const box=document.getElementById('vocab-list');
+  const unknownArr=vocab.filter(v=>!v.known);
+  const knownArr=vocab.filter(v=>v.known);
+  document.getElementById('vc-total').textContent=vocab.length;
+  document.getElementById('vc-unknown').textContent=unknownArr.length;
+  document.getElementById('vc-known').textContent=knownArr.length;
+  if(!vocab.length){box.innerHTML='<p class="empty">还没有术语。选中关键词 → 点「📖 收藏」。</p>';return}
+  function row(v){
+    const gi=vocab.indexOf(v);
+    return '<div class="vocab-item'+(v.known?' known':'')+'" data-i="'+gi+'">'
+      +'<div class="main"><span class="w" data-i="'+gi+'" title="点开看卡片">'+escapeHtml(v.word)+'</span><span class="ph">'+escapeHtml(v.phonetic||'')+'</span>'
+      +'<input class="zh-inline" data-i="'+gi+'" placeholder="中文…" value="'+String(v.zh||'').replace(/"/g,'&quot;')+'"></div>'
+      +'<button class="kbtn'+(v.known?' on':'')+'" data-i="'+gi+'" title="'+(v.known?'点击取消已掌握':'标记为已掌握')+'">'+(v.known?'✅':'⭕')+'</button>'
+      +'<button class="rm" data-i="'+gi+'" title="删除">✕</button>'
+      +'</div>';
+  }
+  let html=unknownArr.map(row).join('');
+  if(knownArr.length){
+    html+='<div class="known-head'+(vocabKnownOpen?' open':'')+'" id="known-head"><span class="caret">▸</span>已掌握 '+knownArr.length+' 个'+(vocabKnownOpen?'（点击收起）':'（点击展开）')+'</div>';
+    if(vocabKnownOpen)html+='<div id="known-wrap">'+knownArr.map(row).join('')+'</div>';
+  }
+  box.innerHTML=html;
+  const kh=document.getElementById('known-head');
+  if(kh)kh.onclick=()=>{vocabKnownOpen=!vocabKnownOpen;renderVocab()};
+  box.querySelectorAll('.kbtn').forEach(b=>b.onclick=(e)=>{e.stopPropagation();vocab[+b.dataset.i].known=!vocab[+b.dataset.i].known;renderVocab();markVocabWords();scheduleSave()});
+  box.querySelectorAll('.rm').forEach(b=>b.onclick=(e)=>{e.stopPropagation();vocab.splice(+b.dataset.i,1);renderVocab();markVocabWords();scheduleSave()});
+  box.querySelectorAll('.zh-inline').forEach(inp=>{inp.onclick=(e)=>e.stopPropagation();inp.oninput=()=>{vocab[+inp.dataset.i].zh=inp.value;scheduleSave()}});
+  // 点词 → 分享卡片
+  box.querySelectorAll('.w').forEach(w=>w.onclick=(e)=>{
+    e.stopPropagation();
+    const v=vocab[+w.dataset.i];
+    const title=document.querySelector('#'+v.sec+' h2');
+    const speaker=SHARE_EN;
+    openShareCard({quote:v.word, zh:v.zh||'', note:'', src:'§ '+(title?title.textContent:(v.sec||'')), en:'word'});
+  });
+}
+
+// ---- drawer tabs ----
+function switchTab(name){
+  if(name==='note')setTimeout(()=>autoGrow(document.getElementById('global-note')),20);
+  document.querySelectorAll('#drawer .tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));
+  document.querySelectorAll('#drawer .pane').forEach(p=>p.classList.toggle('on',p.dataset.pane===name));
+}
+document.querySelectorAll('#drawer .tabs button').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+
+function applyHighlight(secId,text,hid){
+  const sec=document.getElementById(secId);if(!sec)return false;
+  const target=text.replace(/\s+/g,' ').trim();
+  const esc=target.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/ /g,'[\\s\\u00a0]+');
+  const re=new RegExp(esc);
+  for(const en of sec.querySelectorAll('.en')){
+    // 收集英文文本节点（跳过隐藏的中文 .sz）
+    const walker=document.createTreeWalker(en,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
+      return n.parentElement&&n.parentElement.closest('.sz,.zh-block')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[];let full='';
+    while(walker.nextNode()){nodes.push({node:walker.currentNode,start:full.length});full+=walker.currentNode.data}
+    const m=re.exec(full);
+    if(!m)continue;
+    const s0=m.index,e0=m.index+m[0].length;
+    // 找出每个文本节点内需要包裹的区间
+    const segs=[];
+    for(const rec of nodes){
+      const ns=rec.start,ne=rec.start+rec.node.data.length;
+      const s=Math.max(s0,ns),e=Math.min(e0,ne);
+      if(s<e)segs.push({node:rec.node,s:s-ns,e:e-ns});
+    }
+    // 倒序包裹，避免 splitText 影响后续偏移
+    for(let i=segs.length-1;i>=0;i--){
+      const g=segs[i];
+      let t=g.node;
+      if(g.s>0)t=t.splitText(g.s);
+      if(g.e-g.s<t.data.length)t.splitText(g.e-g.s);
+      const mk=document.createElement('mark');
+      mk.dataset.hid=hid;
+      t.parentNode.insertBefore(mk,t);
+      mk.appendChild(t);
+    }
+    return true;
+  }
+  return false;
+}
+function removeHighlightMarks(hid){
+  document.querySelectorAll('mark[data-hid="'+hid+'"]').forEach(mk=>{
+    const p=mk.parentNode;
+    while(mk.firstChild)p.insertBefore(mk.firstChild,mk);
+    p.removeChild(mk);p.normalize();
+  });
+}
+function renderHlList(){
+  const box=document.getElementById('hl-list');
+  if(!highlights.length){box.innerHTML='<p class="empty">还没有划线。选中文字 → 点「🖍 高亮」。</p>';return}
+  box.innerHTML=highlights.map((h,i)=>{
+    const title=document.querySelector('#'+h.sec+' h2');
+    const src=title?title.textContent:h.sec;
+    let inner='<span class="del" data-i="'+i+'" title="删除">✕</span>';
+    inner+='<span class="htext">'+escapeHtml(h.text)+'</span>';
+    if(h.note){inner+='<span class="hnote">'+escapeHtml(h.note)+'</span>';}
+    else{inner+='<button class="addnote" data-i="'+i+'">➕ 写笔记</button>';}
+    inner+='<span class="src">§ '+escapeHtml(src)+'</span>';
+    return '<div class="hl-item" data-i="'+i+'">'+inner+'</div>';
+  }).join('');
+  // 点整条 → 分享卡片
+  box.querySelectorAll('.hl-item').forEach(el=>{
+    el.onclick=(e)=>{
+      if(e.target.closest('.del')||e.target.closest('.addnote')||e.target.closest('.hnoteinp'))return;
+      const i=+el.dataset.i;const h=highlights[i];
+      const title=document.querySelector('#'+h.sec+' h2');
+      openShareCard({quote:h.text, zh:'', note:h.note||'', src:'§ '+(title?title.textContent:h.sec), en:''+SHARE_EN});
+    };
+  });
+  box.querySelectorAll('.del').forEach(d=>d.onclick=(e)=>{
+    e.stopPropagation();
+    const h=highlights[+d.dataset.i];
+    if(h.id)removeHighlightMarks(h.id);
+    highlights.splice(+d.dataset.i,1);renderHlList();scheduleSave();
+  });
+  box.querySelectorAll('.addnote').forEach(b=>b.onclick=(e)=>{
+    e.stopPropagation();
+    const i=+b.dataset.i;
+    const item=b.closest('.hl-item');
+    b.outerHTML='<input class="hnoteinp" data-i="'+i+'" placeholder="写下你的想法…" value="">';
+    const inp=item.querySelector('.hnoteinp');inp.focus();
+    inp.onclick=(ev)=>ev.stopPropagation();
+    inp.oninput=()=>{highlights[i].note=inp.value;refreshMarkNoteStyles();scheduleSave()};
+    inp.onblur=()=>{if(inp.value.trim())renderHlList()};
+  });
+}
+
+// ---- export study notes ----
+document.getElementById('export-btn').onclick=async()=>{
+  const lines=['# Chris 讲座《到底什么是阅读能力》· 我的学习笔记','','导出时间：'+new Date().toLocaleString('zh-CN'),''];
+  if(notes.__global){lines.push('## 总笔记','',notes.__global,'')}
+  const bySec={};
+  highlights.forEach(h=>{(bySec[h.sec]=bySec[h.sec]||[]).push(h)});
+  sections.forEach(s=>{
+    const t=s.querySelector('h2').textContent;
+    const hs=bySec[s.id]||[],n=notes[s.id];
+    if(!hs.length&&!n)return;
+    lines.push('## '+t,'');
+    hs.forEach(h=>{
+      lines.push('- 🖍 “'+h.text+'”');
+      if(h.note)lines.push('  - 📝 '+h.note);
+    });
+    if(n)lines.push('','📝 本节笔记：'+n);
+    lines.push('');
+  });
+  if(vocab.length){
+    lines.push('## 生词本（还不会 '+vocab.filter(v=>!v.known).length+' / 共 '+vocab.length+'）','');
+    vocab.forEach(v=>lines.push('- **'+v.word+'** '+(v.phonetic||'')+' — '+(v.zh||String(v.def||'').split('\n')[0])+(v.known?'　✅已掌握':'　❌还不会')));
+    lines.push('');
+  }
+  const md=lines.join('\n');
+  let copied=false;
+  try{await navigator.clipboard.writeText(md);copied=true}catch(e){}
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([md],{type:'text/markdown'}));
+  a.download='chris-talk-my-notes.md';a.click();
+  setState(copied?'✓ 已复制到剪贴板 + 下载 .md，可直接丢给 Claude':'✓ 已下载 .md，可直接丢给 Claude');
+};
+
+// drawer
+document.getElementById('drawer-btn').onclick=()=>document.getElementById('drawer').classList.toggle('open');
+
+// scroll spy
+const links=[...document.querySelectorAll('.map a')];
+if(window.IntersectionObserver){
+const obs=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+en.target.id))}})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>obs.observe(s));
+}
+
+
+// ---- 同步设置 UI 逻辑 ----
+const syncModal=document.getElementById('sync-modal');
+function openSync(){
+  document.getElementById('sync-gist').value=gistId;
+  document.getElementById('sync-token').value=gistToken;
+  document.getElementById('sync-status').innerHTML=cloudOn?'<span class="cloud-dot on"></span>已连接云端':'<span class="cloud-dot"></span>当前仅本机保存';
+  syncModal.classList.add('open');
+}
+document.getElementById('sync-btn').onclick=openSync;
+document.getElementById('sync-close2').onclick=()=>syncModal.classList.remove('open');
+syncModal.addEventListener('click',e=>{if(e.target===syncModal)syncModal.classList.remove('open')});
+document.getElementById('sync-clear').onclick=()=>{
+  localStorage.removeItem(CFG_GIST);localStorage.removeItem(CFG_TOKEN);
+  gistId='';gistToken='';cloudOn=false;cloudCache=null;
+  updateCloudBtn();
+  document.getElementById('sync-status').innerHTML='<span class="cloud-dot"></span>已断开，改用本机保存';
+};
+document.getElementById('sync-save').onclick=async()=>{
+  const gid=document.getElementById('sync-gist').value.trim();
+  const tok=document.getElementById('sync-token').value.trim();
+  const st=document.getElementById('sync-status');
+  if(!gid||!tok){st.textContent='请把两个都填上';return}
+  st.textContent='正在连接…';
+  gistId=gid;gistToken=tok;
+  try{
+    const cloud=await cloudPull();          // 试着拉云端
+    cloudOn=true;
+    localStorage.setItem(CFG_GIST,gid);localStorage.setItem(CFG_TOKEN,tok);
+    // 若云端为空，把本机现有内容推上去（首次上传）
+    const empty=!cloud||Object.keys(cloud).length===0;
+    if(empty){
+      cloudCache={};
+      cloudCache[NOTE_KEY]=localStorage.getItem(NOTE_KEY)||'';
+      cloudCache[HL_KEY]=localStorage.getItem(HL_KEY)||'';
+      cloudCache[VC_KEY]=localStorage.getItem(VC_KEY)||'';
+      await cloudPush(cloudCache);
+      st.innerHTML='<span class="cloud-dot on"></span>已连接，本机内容已上传到云端';
+    }else{
+      st.innerHTML='<span class="cloud-dot on"></span>已连接，正在载入云端内容…';
+    }
+    updateCloudBtn();
+    await reloadFromStore();                 // 重新用云端数据渲染
+    st.innerHTML='<span class="cloud-dot on"></span>同步成功！其它设备填同一组即可看到相同内容';
+    setTimeout(()=>syncModal.classList.remove('open'),1200);
+  }catch(e){
+    cloudOn=false;
+    st.innerHTML='⚠ 连接失败：请检查 Gist ID 和 Token 是否正确（Token 需勾选 gist 权限）';
+  }
+};
+function updateCloudBtn(){
+  const b=document.getElementById('sync-btn');
+  b.innerHTML=(cloudOn?'<span class="cloud-dot on"></span>':'<span class="cloud-dot"></span>')+'☁️ 同步';
+}
+// 清空当前内存并按 store 重新载入（切换云端后刷新界面）
+async function reloadFromStore(){
+  document.querySelectorAll('mark[data-hid]').forEach(mk=>{const p=mk.parentNode;while(mk.firstChild)p.insertBefore(mk.firstChild,mk);p.removeChild(mk);p.normalize()});
+  document.querySelectorAll('span.vocab-mark').forEach(s=>s.replaceWith(document.createTextNode(s.textContent)));
+  notes={};highlights=[];vocab=[];
+  await load();
+}
+
+
+// ---- 字体大小调节 ----
+(function(){
+  const FS_KEY='__fs_level';
+  const LEVELS=[14,15.5,16.5,18.5,21];           // 5 档字号(px)
+  const NAMES=['小','较小','标准','较大','大'];
+  let idx=parseInt(localStorage.getItem(FS_KEY));
+  if(isNaN(idx)||idx<0||idx>4)idx=2;
+  function apply(){
+    document.documentElement.style.setProperty('--fs',LEVELS[idx]+'px');
+    const c=document.getElementById('fs-cur');if(c)c.textContent=NAMES[idx];
+    localStorage.setItem(FS_KEY,idx);
+    if(typeof autoGrow==='function')autoGrow(document.getElementById('global-note'));
+  }
+  const minus=document.getElementById('fs-minus'),plus=document.getElementById('fs-plus');
+  if(minus)minus.onclick=()=>{if(idx>0){idx--;apply()}};
+  if(plus)plus.onclick=()=>{if(idx<4){idx++;apply()}};
+  apply();
+})();
+
+
+// ---- 阅读书签（钉 / 跳，分开两个按钮） ----
+(function(){
+  const BM_KEY='__bookmark_y';
+  const pinBtn=document.getElementById('bm-pin');
+  const goBtn=document.getElementById('bm-go');
+  function flashAt(y){
+    const mid=y+window.innerHeight*0.35;
+    const paras=document.querySelectorAll('.para,.quote,.sec-head');
+    let best=null,bd=1e9;
+    paras.forEach(p=>{const r=p.getBoundingClientRect();const top=r.top+window.scrollY;const d=Math.abs(top-mid);if(d<bd){bd=d;best=p}});
+    if(best){best.classList.add('bm-flash');setTimeout(()=>best.classList.remove('bm-flash'),1200);}
+  }
+  if(pinBtn)pinBtn.onclick=()=>{
+    localStorage.setItem(BM_KEY,String(Math.round(window.scrollY)));
+    setState('📌 已钉书签，之后点「🔖 回书签」就能跳回来');
+  };
+  if(goBtn)goBtn.onclick=()=>{
+    const y=parseInt(localStorage.getItem(BM_KEY));
+    if(isNaN(y)){setState('还没有书签，先点「📌 钉这里」钉一个');return}
+    window.scrollTo({top:y,behavior:'smooth'});
+    flashAt(y);
+    setState('🔖 已跳回书签位置');
+  };
+})();
+
+load();
+})();
+</script>
+
+</body>
+</html>
