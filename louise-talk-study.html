@@ -166,6 +166,12 @@ mark.has-note::after{content:"📝";font-size:10px;margin-left:1px}
 .cloud-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#C9B0AA;margin-right:5px;vertical-align:1px}
 .cloud-dot.on{background:#4F9E7A}
 
+
+/* 触屏：菜单停靠屏幕底部，放大更好点 */
+#sel-pop.touch-dock,#mark-menu.touch-dock{box-shadow:0 -2px 24px rgba(0,0,0,.28);z-index:9999}
+#sel-pop.touch-dock button,#mark-menu.touch-dock button{font-size:15px;padding:11px 16px}
+#sel-pop.touch-dock::before{content:"已选中 → 选择操作";position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:11px;color:#8CA19D;white-space:nowrap;background:var(--paper);padding:1px 8px;border-radius:8px}
+
 /* notes */
 .note-area{margin-top:14px}
 .note-area textarea{width:100%;min-height:64px;border:1.5px dashed #B9CBC7;border-radius:10px;padding:10px 12px;font-size:14px;font-family:-apple-system,'PingFang SC',sans-serif;background:#FFFDF4;color:#4A4632;resize:vertical}
@@ -501,7 +507,7 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
     <div id="hl-list"><p class="empty">还没有划线。开启划线模式后选中英文文字试试。</p></div>
   </div>
   <div class="pane" data-pane="note">
-    <textarea id="global-note" style="width:100%;min-height:260px;border:1.5px solid #DDE6E3;border-radius:12px;padding:14px;font-size:14.5px;line-height:1.8;background:#FFFEF8" placeholder="整场讲座的总结、想放进 course map 的点、要转述给家长的话术……"></textarea>
+    <textarea id="global-note" style="width:100%;min-height:60vh;height:auto;border:1.5px solid #DDE6E3;border-radius:12px;padding:14px;font-size:14.5px;line-height:1.8;background:#FFFEF8;resize:vertical;box-sizing:border-box;overflow:hidden" placeholder="整场讲座的总结、想放进 course map 的点、要转述给家长的话术……"></textarea>
   </div>
 </div>
 
@@ -575,6 +581,7 @@ function cloudBadge(t){const s=document.getElementById('save-state');if(s)s.text
 const state=document.getElementById('save-state');
 const sections=[...document.querySelectorAll('section')];
 
+function autoGrow(t){if(!t)return;t.style.height='auto';t.style.height=Math.max(t.scrollHeight,window.innerHeight*0.6)+'px';}
 function setState(t){state.textContent=t}
 function scheduleSave(){setState('保存中…');clearTimeout(saveTimer);saveTimer=setTimeout(saveAll,700)}
 async function saveAll(){
@@ -590,7 +597,7 @@ async function load(){
   try{const v=await store.get(NOTE_KEY);if(v)notes=JSON.parse(v)}catch(e){}
   try{const v=await store.get(HL_KEY);if(v)highlights=JSON.parse(v)}catch(e){}
   try{const v=await store.get(VC_KEY);if(v)vocab=JSON.parse(v)}catch(e){}
-  const g=document.getElementById('global-note');if(notes.__global)g.value=notes.__global;
+  const g=document.getElementById('global-note');if(notes.__global)g.value=notes.__global;autoGrow(g);
   highlights.forEach((h,i)=>{if(!h.id)h.id='h'+Date.now()+'_'+i;applyHighlight(h.sec,h.text,h.id)});refreshMarkNoteStyles();
   renderHlList();renderVocab();markVocabWords();
   setState(cloudOn?('☁️ 已从云端载入 '+nowT()):(highlights.length||vocab.length||Object.keys(notes).length?'✓ 已恢复你的笔记 · 划线 · 术语':'已就绪'));
@@ -599,7 +606,7 @@ async function load(){
 
 // notes events
 document.addEventListener('input',e=>{
-  if(e.target.id==='global-note'){notes.__global=e.target.value;scheduleSave()}
+  if(e.target.id==='global-note'){notes.__global=e.target.value;autoGrow(e.target);scheduleSave()}
 });
 
 // 把每段的逐句中文合并成一个整齐的翻译块
@@ -632,10 +639,18 @@ sections.forEach(s=>{const h=s.querySelector('h2');h.style.cursor='pointer';h.ti
 // ---- selection popup ----
 const pop=document.getElementById('sel-pop'),dictCard=document.getElementById('dict-card'),markMenu=document.getElementById('mark-menu');
 let curSel=null,curMark=null,curDict=null,suppressClickUntil=0;
+const IS_TOUCH = ('ontouchstart' in window) || navigator.maxTouchPoints>0;
 function placeAt(el,rect){
   el.style.display=(el.id==='sel-pop')?'flex':'block';
   const vw=document.documentElement.clientWidth,vh=document.documentElement.clientHeight;
   const w=el.offsetWidth,h=el.offsetHeight;
+  // 触屏设备：菜单固定在屏幕底部中央，避免被 iPad 系统选择菜单（拷贝/翻译…）挡住
+  if(IS_TOUCH && (el.id==='sel-pop' || el.id==='mark-menu')){
+    el.style.left=Math.max(8,(vw-w)/2)+'px';
+    el.style.top=(vh-h-24)+'px';
+    el.classList.add('touch-dock');
+    return;
+  }
   el.style.left=Math.max(8,Math.min(rect.left+rect.width/2-w/2,vw-w-8))+'px';
   let top=rect.bottom+10;               // 默认贴在选区正下方
   if(top+h>vh-8)top=rect.top-h-10;      // 下方放不下才翻到上方
@@ -652,7 +667,7 @@ function showSelPopup(){
   if(!en||text.length<2){pop.style.display='none';return}
   const sec=en.closest('section');
   let rect;try{rect=sel.getRangeAt(0).getBoundingClientRect()}catch(e){return}
-  curSel={text:text,sec:sec?sec.id:'',rect:rect};
+  curSel={text:text,sec:sec?sec.id:'',rect:rect,range:sel.getRangeAt(0).cloneRange()};
   placeAt(pop,curSel.rect);
 }
 document.addEventListener('mouseup',e=>{
@@ -672,13 +687,46 @@ document.addEventListener('touchend',e=>{
   clearTimeout(touchSelTimer);
   touchSelTimer=setTimeout(showSelPopup,350);
 },{passive:true});
+function wrapRange(range,hid){
+  // 用真实选区包裹，支持任意长度/跨段落。收集选区内的文本节点后逐个包裹。
+  try{
+    const root=range.commonAncestorContainer;
+    const rootEl=root.nodeType===1?root:root.parentElement;
+    const walker=document.createTreeWalker(rootEl,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
+      if(n.parentElement&&n.parentElement.closest('.sz,.zh-block'))return NodeFilter.FILTER_REJECT;
+      if(!range.intersectsNode(n))return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    const targets=[];
+    while(walker.nextNode())targets.push(walker.currentNode);
+    if(!targets.length)return false;
+    let wrapped=false;
+    for(const node of targets){
+      let s=0,e=node.data.length;
+      if(node===range.startContainer)s=range.startOffset;
+      if(node===range.endContainer)e=range.endOffset;
+      if(s>=e)continue;
+      let t=node;
+      if(s>0)t=t.splitText(s);
+      if(e-s<t.data.length)t.splitText(e-s);
+      const mk=document.createElement('mark');mk.dataset.hid=hid;
+      t.parentNode.insertBefore(mk,t);mk.appendChild(t);
+      wrapped=true;
+    }
+    return wrapped;
+  }catch(err){return false}
+}
 function doHighlight(withNote){
   if(!curSel)return;
+  const savedRange=curSel.range;
   window.getSelection().removeAllRanges();
   pop.style.display='none';
   suppressClickUntil=Date.now()+450;
   const hid='h'+Date.now();
-  if(applyHighlight(curSel.sec,curSel.text,hid)){
+  // 优先用真实选区包裹（任意长度都行），失败再退回文本匹配
+  let ok=savedRange?wrapRange(savedRange,hid):false;
+  if(!ok)ok=applyHighlight(curSel.sec,curSel.text,hid);
+  if(ok){
     const h={id:hid,sec:curSel.sec,text:curSel.text,note:''};
     highlights.push(h);
     refreshMarkNoteStyles();renderHlList();scheduleSave();
@@ -686,7 +734,7 @@ function doHighlight(withNote){
       openNoteModal(h.text,'',val=>{h.note=val;refreshMarkNoteStyles();renderHlList();scheduleSave()});
     }
   }else{
-    setState('⚠ 这段没匹配到（可能跨了段落），试试选短一点');
+    setState('⚠ 这段没能高亮，换个选法再试一次');
   }
 }
 document.getElementById('pop-hl').onclick=()=>doHighlight(false);
@@ -909,6 +957,7 @@ function renderVocab(){
 
 // ---- drawer tabs ----
 function switchTab(name){
+  if(name==='note')setTimeout(()=>autoGrow(document.getElementById('global-note')),20);
   document.querySelectorAll('#drawer .tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));
   document.querySelectorAll('#drawer .pane').forEach(p=>p.classList.toggle('on',p.dataset.pane===name));
 }
