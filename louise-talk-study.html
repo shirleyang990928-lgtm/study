@@ -43,6 +43,27 @@ h1 .zh-t{display:block;font-size:.55em;color:#6B8480;margin-top:8px;font-weight:
 .meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;font-size:13px;color:#6B8480}
 .meta span::before{content:"— ";color:var(--gold-deep)}
 
+
+/* 字体大小调节（微信读书式，5 档，记忆选择） */
+:root{--fs:16.5px}
+.para .en{font-size:var(--fs)}
+.zh-block,.zh-t,.sz .zh{font-size:calc(var(--fs) - 1px)}
+.fs-btns{display:inline-flex;align-items:center;gap:2px;margin-left:2px}
+.fs-btns button{border:1px solid var(--line);background:#fff;color:var(--teal);border-radius:8px;width:34px;height:32px;cursor:pointer;font-weight:600;line-height:1;padding:0}
+.fs-btns button:active{transform:scale(.94)}
+.fs-btns .fs-a1{font-size:12px}
+.fs-btns .fs-a2{font-size:17px}
+.fs-cur{font-size:11px;color:#8CA19D;min-width:30px;text-align:center}
+
+
+/* 书签 */
+.bm-btns{display:inline-flex;align-items:center;gap:4px;margin-left:2px}
+.bm-btns .btn{display:inline-flex;align-items:center;gap:5px}
+.bm-pin{border:1px solid var(--line);background:#fff;color:var(--gold-deep);border-radius:8px;width:34px;height:32px;cursor:pointer;font-size:15px;line-height:1;padding:0}
+.bm-pin:active{transform:scale(.94)}
+.bm-flash{animation:bmflash 1.2s ease}
+@keyframes bmflash{0%{background:rgba(212,165,74,.35)}100%{background:transparent}}
+
 /* toolbar */
 .toolbar{position:sticky;top:0;z-index:50;background:rgba(251,251,248,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:0 -44px 30px;padding:10px 44px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 @media(max-width:900px){.toolbar{margin:0 -18px 24px;padding:10px 18px}}
@@ -65,7 +86,7 @@ h2{font-size:21px;color:var(--teal);font-weight:600}
 
 /* paragraphs */
 .para{margin-bottom:18px;padding-right:26px}
-.en{font-size:16.5px;color:#22403F}
+.en{font-size:var(--fs);color:#22403F}
 .en.hl-mode{cursor:text}
 .sz{display:none}
 .zh-block{display:none;margin-top:8px;padding:10px 14px;background:#F1F5F3;border-left:3px solid var(--zh);border-radius:0 8px 8px 0;color:var(--zh);font-size:14.5px;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;line-height:1.85}
@@ -73,7 +94,7 @@ h2{font-size:21px;color:var(--teal);font-weight:600}
 body.show-zh .zh-block, section.show-zh .zh-block, .para.zh-open .zh-block, .quote.zh-open .zh-block{display:block}
 .quote{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:14px 0;font-style:italic;box-shadow:0 2px 8px rgba(36,80,91,.06);position:relative}
 .quote::before{content:"“";position:absolute;top:-2px;left:10px;font-size:44px;color:var(--gold);font-style:normal;line-height:1}
-.quote .en{font-size:15.5px}
+.quote .en{font-size:calc(var(--fs) - 1px)}
 .tag{display:inline-block;font-size:11px;background:var(--teal);color:#fff;border-radius:4px;padding:2px 8px;margin-bottom:8px;letter-spacing:.05em}
 .tag.before{background:#8A9E9A}
 .tag.after{background:var(--gold-deep)}
@@ -231,6 +252,8 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
   <button class="btn primary" id="zh-toggle">显示全部中文</button>
   <button class="btn" id="drawer-btn">📒 生词本 · 划线 · 笔记</button>
   <button class="btn" id="sync-btn"><span class="cloud-dot"></span>☁️ 同步</button>
+  <span class="fs-btns"><button class="fs-a1" id="fs-minus" title="缩小字体">A−</button><span class="fs-cur ui" id="fs-cur">标准</span><button class="fs-a2" id="fs-plus" title="放大字体">A+</button></span>
+  <span class="bm-btns"><button class="btn" id="bm-go" title="跳到上次阅读的位置">🔖 上次读到</button><button class="bm-pin" id="bm-pin" title="把当前位置设为书签">📌</button></span>
   <button class="btn gold" id="export-btn">📤 导出学习笔记</button>
   <span class="save-state" id="save-state">已就绪</span>
 </div>
@@ -763,7 +786,7 @@ async function translateZh(text){
 }
 async function openDict(text,sec,rect){
   const clean=text.trim();
-  const isLong=clean.length>60;
+  const isLong=clean.length>120;
   const isPhrase=/\s/.test(clean);
   const word=isLong?clean:(isPhrase?clean:(clean.match(/[a-zA-Z][a-zA-Z'\-]*/)||[clean])[0].toLowerCase());
   curDict={word:word,sec:sec,phonetic:'',def:'',audio:'',zh:'',long:isLong};
@@ -1127,6 +1150,64 @@ async function reloadFromStore(){
   notes={};highlights=[];vocab=[];
   await load();
 }
+
+
+// ---- 字体大小调节 ----
+(function(){
+  const FS_KEY='__fs_level';
+  const LEVELS=[14,15.5,16.5,18.5,21];           // 5 档字号(px)
+  const NAMES=['小','较小','标准','较大','大'];
+  let idx=parseInt(localStorage.getItem(FS_KEY));
+  if(isNaN(idx)||idx<0||idx>4)idx=2;
+  function apply(){
+    document.documentElement.style.setProperty('--fs',LEVELS[idx]+'px');
+    const c=document.getElementById('fs-cur');if(c)c.textContent=NAMES[idx];
+    localStorage.setItem(FS_KEY,idx);
+    if(typeof autoGrow==='function')autoGrow(document.getElementById('global-note'));
+  }
+  const minus=document.getElementById('fs-minus'),plus=document.getElementById('fs-plus');
+  if(minus)minus.onclick=()=>{if(idx>0){idx--;apply()}};
+  if(plus)plus.onclick=()=>{if(idx<4){idx++;apply()}};
+  apply();
+})();
+
+
+// ---- 阅读书签（自动记 + 手动钉） ----
+(function(){
+  const BM_KEY='__bookmark_y', BM_MANUAL='__bookmark_manual';
+  let saveT=null, manual=localStorage.getItem(BM_MANUAL)==='1';
+  // 平时自动记住滚动位置（手动钉过就不再自动覆盖，直到你再滚动阅读）
+  window.addEventListener('scroll',()=>{
+    clearTimeout(saveT);
+    saveT=setTimeout(()=>{
+      localStorage.setItem(BM_KEY,String(Math.round(window.scrollY)));
+      // 用户重新开始滚动阅读，自动模式恢复
+      localStorage.setItem(BM_MANUAL,'0');
+    },600);
+  },{passive:true});
+  const go=document.getElementById('bm-go'), pin=document.getElementById('bm-pin');
+  if(go)go.onclick=()=>{
+    const y=parseInt(localStorage.getItem(BM_KEY));
+    if(isNaN(y)){setState('还没有书签，先读一会儿或点 📌 钉一下');return}
+    window.scrollTo({top:y,behavior:'smooth'});
+    flashAt(y);
+    setState('🔖 已跳到上次阅读的位置');
+  };
+  if(pin)pin.onclick=()=>{
+    const y=Math.round(window.scrollY);
+    localStorage.setItem(BM_KEY,String(y));
+    localStorage.setItem(BM_MANUAL,'1');
+    setState('📌 已把当前位置设为书签');
+  };
+  // 跳转后高亮一下落点的段落，方便你找到眼睛该看哪
+  function flashAt(y){
+    const mid=y+window.innerHeight*0.35;
+    const paras=document.querySelectorAll('.para,.quote,.sec-head');
+    let best=null,bd=1e9;
+    paras.forEach(p=>{const r=p.getBoundingClientRect();const top=r.top+window.scrollY;const d=Math.abs(top-mid);if(d<bd){bd=d;best=p}});
+    if(best){best.classList.add('bm-flash');setTimeout(()=>best.classList.remove('bm-flash'),1200);}
+  }
+})();
 
 load();
 })();
