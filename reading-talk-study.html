@@ -108,6 +108,28 @@ h1 .zh-t{display:block;font-size:.55em;color:#6B8480;margin-top:8px;font-weight:
 #share-actions .cls{background:#EEF2F1;color:#5D7975}
 
 .toolbar a.home-btn{display:inline-flex;align-items:center;text-decoration:none}
+
+/* —— 朗读 —— */
+.tts-btn{cursor:pointer}
+.tts-bar{position:fixed;left:50%;bottom:0;transform:translateX(-50%);z-index:120;display:none;align-items:center;gap:10px;background:var(--ink-deep);color:#fff;border-radius:14px 14px 0 0;padding:11px 18px;box-shadow:0 -6px 24px rgba(0,0,0,.25);max-width:94vw;flex-wrap:wrap;justify-content:center}
+.tts-bar.on{display:flex}
+.tts-bar button{border:none;background:rgba(255,255,255,.14);color:#fff;border-radius:9px;width:38px;height:38px;font-size:16px;cursor:pointer;flex-shrink:0}
+.tts-bar button.play{background:var(--gold);color:#3A2E0A;width:46px}
+.tts-bar button:active{transform:scale(.93)}
+.tts-bar .seg{display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:9px;padding:3px}
+.tts-bar .seg button{width:auto;height:30px;padding:0 12px;font-size:12.5px;background:transparent;border-radius:7px}
+.tts-bar .seg button.on{background:var(--gold);color:#3A2E0A}
+.tts-bar .rate{display:flex;align-items:center;gap:5px;font-size:12px;color:#CBD8D5}
+.tts-bar .rate button{width:30px;height:30px;font-size:15px}
+.tts-bar .rate .rv{min-width:38px;text-align:center;font-family:Georgia,serif}
+.tts-bar .lang{display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:9px;padding:3px}
+.tts-bar .lang button{width:auto;height:30px;padding:0 11px;font-size:12.5px;background:transparent;border-radius:7px}
+.tts-bar .lang button.on{background:var(--teal)}
+.tts-bar .close{background:transparent;font-size:20px}
+.tts-reading{background:linear-gradient(transparent 60%,rgba(232,197,88,.55) 0)!important;border-radius:3px}
+.sent.tts-reading,.tts-reading{transition:background .1s}
+.tts-sent{cursor:default}
+
 /* toolbar */
 .toolbar{position:sticky;top:0;z-index:50;background:rgba(251,251,248,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:0 -44px 30px;padding:10px 44px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 @media(max-width:900px){.toolbar{margin:0 -18px 24px;padding:10px 18px}}
@@ -311,8 +333,29 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
   <button class="btn" id="sync-btn"><span class="cloud-dot"></span>☁️ 同步</button>
   <span class="fs-btns"><button class="fs-a1" id="fs-minus" title="缩小字体">A−</button><span class="fs-cur ui" id="fs-cur">标准</span><button class="fs-a2" id="fs-plus" title="放大字体">A+</button></span>
   <button class="btn" id="bm-pin" title="把当前位置钉为书签">📌 钉这里</button><button class="btn" id="bm-go" title="跳回你钉的书签位置">🔖 回书签</button>
+  <button class="btn tts-btn" id="tts-trigger" title="朗读">🔊 朗读</button>
   <button class="btn gold" id="export-btn">📤 导出学习笔记</button>
   <span class="save-state" id="save-state">已就绪</span>
+</div>
+
+<div class="tts-bar ui" id="tts-bar">
+  <button class="close" id="tts-x" title="关闭朗读">✕</button>
+  <div class="lang" id="tts-lang">
+    <button data-lang="en" class="on">EN</button>
+    <button data-lang="zh">中文</button>
+  </div>
+  <div class="seg" id="tts-scope">
+    <button data-scope="para" class="on">整篇</button>
+    <button data-scope="from">从这句起</button>
+  </div>
+  <button id="tts-prev" title="上一句">⏮</button>
+  <button class="play" id="tts-play" title="播放/暂停">▶</button>
+  <button id="tts-next" title="下一句">⏭</button>
+  <div class="rate">
+    <button id="tts-slow" title="减速">−</button>
+    <span class="rv" id="tts-rate">1.0×</span>
+    <button id="tts-fast" title="加速">+</button>
+  </div>
 </div>
 
 <section id="s1">
@@ -771,7 +814,7 @@ function openShareCard(o){
 })();
 
 function setState(t){state.textContent=t}
-function scheduleSave(){setState('保存中…');clearTimeout(saveTimer);saveTimer=setTimeout(saveAll,700)}
+function scheduleSave(){setState('保存中…');try{localStorage.setItem('__last_read_reading-talk',Date.now())}catch(e){}clearTimeout(saveTimer);saveTimer=setTimeout(saveAll,700)}
 async function saveAll(){
   try{
     await store.set(NOTE_KEY,JSON.stringify(notes));
@@ -1010,7 +1053,7 @@ document.getElementById('dc-add').onclick=e=>{
   const ex=vocab.find(v=>v.word===curDict.word);
   if(ex){ex.zh=curDict.zh||ex.zh;ex.def=curDict.def||ex.def}
   else vocab.unshift({word:curDict.word,phonetic:curDict.phonetic||'',def:curDict.def||'',zh:curDict.zh||'',known:false,sec:curDict.sec,ts:Date.now()});
-  renderVocab();scheduleSave();
+  renderVocab();markVocabWords();scheduleSave();
   dictCard.style.display='none';
   setState('✓ 已存入术语/概念本');
   document.getElementById('drawer').classList.add('open');switchTab('vocab');
@@ -1385,6 +1428,139 @@ async function reloadFromStore(){
     flashAt(y);
     setState('🔖 已跳回书签位置');
   };
+})();
+
+
+// ================= 朗读 Read-Aloud =================
+(function(){
+  if(!('speechSynthesis' in window)) return;
+  var synth=window.speechSynthesis;
+  var IS_SENT = document.querySelector('.sent')!==null;  // louise/chris vs reading
+
+  // 收集朗读单元：{el, en, zh}
+  var UNITS=[];
+  function buildUnits(){
+    UNITS=[];
+    if(IS_SENT){
+      document.querySelectorAll('.para .sent, .quote .sent').forEach(function(s){
+        var se=s.querySelector('.se'), sz=s.querySelector('.sz');
+        UNITS.push({el:s, en:se?se.textContent.trim():'', zh:sz?sz.textContent.trim():''});
+      });
+    }else{
+      // reading：把每个 p.en 的中文按句号/问号/叹号切句，包成 span.tts-sent
+      document.querySelectorAll('.para p.en, .quote p.en').forEach(function(p){
+        if(p.dataset.ttsReady) return;
+        // 保留说话人 chip
+        var chip=p.querySelector('.spk');
+        var chipHtml=chip?chip.outerHTML:'';
+        var raw=p.textContent;
+        if(chip) raw=raw.replace(chip.textContent,'');
+        raw=raw.trim();
+        var parts=raw.match(/[^。！？]*[。！？]?/g).filter(function(x){return x.trim().length});
+        p.innerHTML=chipHtml+parts.map(function(t){return '<span class="tts-sent">'+t+'</span>';}).join('');
+        p.dataset.ttsReady='1';
+      });
+      document.querySelectorAll('.tts-sent').forEach(function(s){
+        UNITS.push({el:s, en:'', zh:s.textContent.trim()});
+      });
+    }
+  }
+
+  var bar=document.getElementById('tts-bar');
+  var playBtn=document.getElementById('tts-play');
+  var rateEl=document.getElementById('tts-rate');
+  var lang='en', scope='para', rate=1.0, idx=-1, playing=false, stopFlag=false;
+  if(!IS_SENT){ lang='zh'; // 全中文页面默认读中文，并隐藏 EN 选项
+    var le=document.querySelector('#tts-lang button[data-lang="en"]'); if(le)le.style.display='none';
+    var lz=document.querySelector('#tts-lang button[data-lang="zh"]'); if(lz)lz.classList.add('on');
+    var len=document.querySelector('#tts-lang button[data-lang="en"]'); 
+    document.querySelector('#tts-lang button[data-lang="en"]').classList.remove('on');
+  }
+
+  function pickVoice(l){
+    var vs=synth.getVoices();
+    if(l==='zh'){
+      return vs.find(function(v){return /zh|Chinese|普通话|Yue/i.test(v.lang+v.name)}) || null;
+    }
+    return vs.find(function(v){return /en[-_]GB/i.test(v.lang)}) || vs.find(function(v){return /^en/i.test(v.lang)}) || null;
+  }
+
+  function clearHi(){document.querySelectorAll('.tts-reading').forEach(function(e){e.classList.remove('tts-reading')})}
+  function highlight(i){
+    clearHi();
+    if(i<0||i>=UNITS.length) return;
+    var el=UNITS[i].el; el.classList.add('tts-reading');
+    var r=el.getBoundingClientRect();
+    if(r.top<80||r.bottom>window.innerHeight-140){ window.scrollTo({top:window.scrollY+r.top-window.innerHeight*0.4, behavior:'smooth'}); }
+  }
+
+  function textOf(i){ var u=UNITS[i]; if(!u)return ''; return (lang==='zh'? (u.zh||u.en) : (u.en||u.zh)); }
+
+  function speakFrom(i){
+    stopFlag=false;
+    if(i>=UNITS.length){ stop(); return; }
+    idx=i; highlight(i);
+    var txt=textOf(i);
+    if(!txt){ next(); return; }
+    var u=new SpeechSynthesisUtterance(txt);
+    u.rate=rate; u.lang=(lang==='zh'?'zh-CN':'en-GB');
+    var v=pickVoice(lang); if(v)u.voice=v;
+    u.onend=function(){
+      if(stopFlag) return;
+      if(scope==='para'){ if(idx+1<UNITS.length){ speakFrom(idx+1);} else stop(); }
+      else { stop(); } // 单句/从这句起读到结尾同 para；此处 scope=='from' 也连读
+    };
+    u.onerror=function(){ if(!stopFlag){ if(idx+1<UNITS.length)speakFrom(idx+1); else stop(); } };
+    synth.cancel(); synth.speak(u);
+    playing=true; playBtn.textContent='⏸';
+  }
+
+  function play(){
+    buildUnits();
+    if(!UNITS.length) return;
+    bar.classList.add('on');
+    if(synth.paused){ synth.resume(); playing=true; playBtn.textContent='⏸'; return; }
+    var start = idx>=0? idx : 0;
+    speakFrom(start);
+  }
+  function pause(){ if(synth.speaking&&!synth.paused){ synth.pause(); playing=false; playBtn.textContent='▶'; } }
+  function stop(){ stopFlag=true; synth.cancel(); playing=false; playBtn.textContent='▶'; clearHi(); }
+  function next(){ stopFlag=true; synth.cancel(); if(idx+1<UNITS.length) speakFrom(idx+1); }
+  function prev(){ stopFlag=true; synth.cancel(); if(idx-1>=0) speakFrom(idx-1); else speakFrom(0); }
+
+  playBtn.onclick=function(){ if(playing){ pause(); } else { play(); } };
+  document.getElementById('tts-next').onclick=next;
+  document.getElementById('tts-prev').onclick=prev;
+  document.getElementById('tts-x').onclick=function(){ stop(); bar.classList.remove('on'); };
+  document.getElementById('tts-slow').onclick=function(){ rate=Math.max(0.5, Math.round((rate-0.1)*10)/10); rateEl.textContent=rate.toFixed(1)+'×'; };
+  document.getElementById('tts-fast').onclick=function(){ rate=Math.min(2.0, Math.round((rate+0.1)*10)/10); rateEl.textContent=rate.toFixed(1)+'×'; };
+  document.querySelectorAll('#tts-lang button').forEach(function(b){ b.onclick=function(){
+    document.querySelectorAll('#tts-lang button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
+    lang=b.dataset.lang; if(playing){ speakFrom(idx<0?0:idx); }
+  };});
+  document.querySelectorAll('#tts-scope button').forEach(function(b){ b.onclick=function(){
+    document.querySelectorAll('#tts-scope button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
+    scope=b.dataset.scope;
+  };});
+
+  // 点句子 → 从这句开始读（当 scope=从这句起，或任何时候双击）
+  document.addEventListener('click',function(e){
+    var s=e.target.closest('.tts-sent, .sent');
+    if(!s) return;
+    if(scope!=='from') return;      // 只有"从这句起"模式才拦截点击
+    buildUnits();
+    var i=UNITS.findIndex(function(u){return u.el===s;});
+    if(i>=0){ bar.classList.add('on'); speakFrom(i); }
+  });
+
+  // 工具栏 🔊 按钮
+  var trig=document.getElementById('tts-trigger');
+  if(trig)trig.onclick=function(){ bar.classList.toggle('on'); if(bar.classList.contains('on')){ buildUnits(); } else { stop(); } };
+
+  // voices 异步加载
+  if(synth.getVoices().length===0){ synth.onvoiceschanged=function(){}; }
+  // 离开页面停止
+  window.addEventListener('beforeunload',function(){ synth.cancel(); });
 })();
 
 load();

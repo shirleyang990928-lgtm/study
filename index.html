@@ -68,6 +68,7 @@ a.card:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(22,51,59,.1)
       <span>排序</span>
       <button id="sort-new" class="on">最新在前</button>
       <button id="sort-old">最早在前</button>
+      <button id="sort-recent">最近在学</button>
     </div>
   </div>
   <div id="catalog"></div>
@@ -90,14 +91,27 @@ a.card:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(22,51,59,.1)
 </div>
 <script>
 var COURSES = [
-  {file:'reading-talk-study.html', cat:'reading', accent:'#2E6B57', date:'2024-08-04', tagText:'中文阅读专场', title:'小学孩子阅读的关键是什么？', en:'', desc:'言词 × 宁宇 × 清滢 × 李洋 四位老师的圆桌分享：阅读是复杂的社会行为、读了≠读懂、别把阅读功利化、扬长避短、家长怎么陪读。', speaker:'宁宇 · 清滢 · 李洋', length:'约115分钟 · 全中文'},
-  {file:'louise-talk-study.html', cat:'writing', accent:'#B0741E', date:'2025-03-28', tagText:'Inkhead 创意写作', title:'我们如何教孩子写作', en:'How We Teach Children Writing', desc:'Louise（伦敦 Inkhead 创始人）谈：为乐趣而读写、用文字作画、工作坊教学法、找到孩子的声音、风格即真实。', speaker:'Louise', length:'约60分钟 · 中英对照'},
-  {file:'chris-talk-study.html', cat:'reading', accent:'#2E5A66', date:'2025-03-09', tagText:'阅读能力专场', title:'到底什么是阅读能力', en:'What Is Reading, Really?', desc:'Teacher Chris 谈：阅读即诠释、诠释的四个层次、AI 时代还要读吗、四个常见难题（讨厌阅读 / 太难太易 / 只读一种 / 读多没进步）、家长怎么检查。', speaker:'Teacher Chris', length:'约80分钟 · 中英对照'}
+  {file:'reading-talk-study.html', lastKey:'reading-talk', cat:'reading', accent:'#2E6B57', date:'2024-08-04', tagText:'中文阅读专场', title:'小学孩子阅读的关键是什么？', en:'', desc:'言词 × 宁宇 × 清滢 × 李洋 四位老师的圆桌分享：阅读是复杂的社会行为、读了≠读懂、别把阅读功利化、扬长避短、家长怎么陪读。', speaker:'宁宇 · 清滢 · 李洋', length:'约115分钟 · 全中文'},
+  {file:'louise-talk-study.html', lastKey:'louise-talk', cat:'writing', accent:'#B0741E', date:'2025-03-28', tagText:'Inkhead 创意写作', title:'我们如何教孩子写作', en:'How We Teach Children Writing', desc:'Louise（伦敦 Inkhead 创始人）谈：为乐趣而读写、用文字作画、工作坊教学法、找到孩子的声音、风格即真实。', speaker:'Louise', length:'约60分钟 · 中英对照'},
+  {file:'chris-talk-study.html', lastKey:'chris-talk', cat:'reading', accent:'#2E5A66', date:'2025-03-09', tagText:'阅读能力专场', title:'到底什么是阅读能力', en:'What Is Reading, Really?', desc:'Teacher Chris 谈：阅读即诠释、诠释的四个层次、AI 时代还要读吗、四个常见难题（讨厌阅读 / 太难太易 / 只读一种 / 读多没进步）、家长怎么检查。', speaker:'Teacher Chris', length:'约80分钟 · 中英对照'}
 ];
 var CAT_NAMES = {reading:'📖 阅读', writing:'✍️ 写作', other:'📚 其他'};
 var CAT_ORDER = ['reading','writing','other'];
-var sortNewFirst = true;
+var sortMode = "new"; // new | old | recent
 function fmtDate(d){ return d.replace(/-/g,'.'); }
+
+function lastRead(key){ var v=parseInt(localStorage.getItem("__last_read_"+key)); return isNaN(v)?0:v; }
+function agoText(ts){
+  if(!ts) return "还没开始读";
+  var diff=Date.now()-ts, day=86400000;
+  if(diff<3600000) return "刚刚学过";
+  if(diff<day) return "今天学过";
+  if(diff<2*day) return "昨天学过";
+  var d=Math.floor(diff/day);
+  if(d<30) return d+" 天前学过";
+  var mo=Math.floor(d/30); return mo+" 个月前学过";
+}
+
 function render(){
   var box = document.getElementById('catalog');
   box.innerHTML='';
@@ -105,21 +119,30 @@ function render(){
   CAT_ORDER.forEach(function(cat){
     var items = COURSES.filter(function(c){return c.cat===cat;});
     if(!items.length) return;
-    items.sort(function(a,b){ return sortNewFirst ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date); });
+    items.sort(function(a,b){
+      if(sortMode==='recent'){ return lastRead(b.lastKey)-lastRead(a.lastKey); }
+      return sortMode==='old' ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date);
+    });
     var catDiv = document.createElement('div'); catDiv.className='cat';
     var h = document.createElement('div'); h.className='cat-title'; h.textContent = CAT_NAMES[cat] || cat;
     catDiv.appendChild(h);
     items.forEach(function(c){
       var a = document.createElement('a'); a.className='card'; a.href = c.file; a.style.setProperty('--accent', c.accent);
       var enHtml = c.en ? '<div class="en">'+c.en+'</div>' : '';
-      a.innerHTML = '<div class="card-top"><span class="date">'+fmtDate(c.date)+'</span><span class="tag">'+c.tagText+'</span></div>'+'<h2>'+c.title+'</h2>'+ enHtml +'<div class="desc">'+c.desc+'</div>'+'<div class="meta"><span>🎙 '+c.speaker+'</span><span>⏱ '+c.length+'</span></div>'+'<span class="go">进入阅读</span>';
+      a.innerHTML = '<div class="card-top"><span class="date">'+fmtDate(c.date)+'</span><span class="tag">'+c.tagText+'</span></div>'+'<h2>'+c.title+'</h2>'+ enHtml +'<div class="desc">'+c.desc+'</div>'+'<div class="meta"><span>🎙 '+c.speaker+'</span><span>⏱ '+c.length+'</span><span>📖 '+agoText(lastRead(c.lastKey))+'</span></div>'+'<span class="go">进入阅读</span>';
       catDiv.appendChild(a);
     });
     box.appendChild(catDiv);
   });
 }
-document.getElementById('sort-new').onclick=function(){ sortNewFirst=true; this.classList.add('on'); document.getElementById('sort-old').classList.remove('on'); render(); };
-document.getElementById('sort-old').onclick=function(){ sortNewFirst=false; this.classList.add('on'); document.getElementById('sort-new').classList.remove('on'); render(); };
+function setSort(mode,btnId){
+  sortMode=mode;
+  ['sort-new','sort-old','sort-recent'].forEach(function(id){var b=document.getElementById(id);if(b)b.classList.toggle('on',id===btnId);});
+  render();
+}
+document.getElementById('sort-new').onclick=function(){setSort('new','sort-new')};
+document.getElementById('sort-old').onclick=function(){setSort('old','sort-old')};
+document.getElementById('sort-recent').onclick=function(){setSort('recent','sort-recent')};
 render();
 (function(){
   var CFG_GIST='__cfg_gist_id', CFG_TOKEN='__cfg_gist_token';
