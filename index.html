@@ -8,65 +8,145 @@
 :root{--ink:#24505B;--ink-deep:#16333B;--teal:#2E5A66;--paper:#FBFBF8;--gold:#E8C558;--gold-deep:#B08A1E;--line:#D5DEDC}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
-.wrap{max-width:720px;margin:0 auto;padding:56px 22px 80px}
+.wrap{max-width:760px;margin:0 auto;padding:56px 22px 80px}
 .eyebrow{font-size:13px;letter-spacing:.14em;color:var(--gold-deep);font-weight:600;text-transform:uppercase}
 h1{font-size:30px;color:var(--ink-deep);margin:10px 0 8px;font-weight:700}
 h1 .sub{display:block;font-size:15px;color:#6B8480;font-weight:400;margin-top:8px}
-.intro{font-size:14.5px;color:#5A7370;margin:18px 0 34px;padding-bottom:26px;border-bottom:1px solid var(--line)}
-.cards{display:flex;flex-direction:column;gap:16px}
-a.card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px;transition:transform .12s,box-shadow .12s,border-color .12s;position:relative;overflow:hidden}
+.intro{font-size:14.5px;color:#5A7370;margin:18px 0 26px}
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0 22px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:28px}
+.bar .count{font-size:13px;color:#8CA19D}
+.bar .sort{margin-left:auto;display:flex;gap:6px;align-items:center}
+.bar .sort span{font-size:12px;color:#8CA19D}
+.bar .sort button{border:1px solid var(--line);background:#fff;color:var(--teal);border-radius:8px;padding:6px 12px;font-size:12.5px;cursor:pointer}
+.bar .sort button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.cat{margin-bottom:14px}
+.cat-title{font-size:13px;letter-spacing:.08em;color:var(--gold-deep);font-weight:700;margin:26px 0 12px;text-transform:uppercase}
+.cat:first-of-type .cat-title{margin-top:0}
+a.card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px 20px 24px;margin-bottom:14px;transition:transform .12s,box-shadow .12s,border-color .12s;position:relative;overflow:hidden}
 a.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent,var(--teal))}
 a.card:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(22,51,59,.1);border-color:var(--teal)}
-.card .num{font-family:Georgia,serif;font-size:13px;color:var(--gold-deep);letter-spacing:.05em}
-.card h2{font-size:20px;color:var(--ink-deep);margin:6px 0 4px;font-weight:700}
-.card .en{font-family:Georgia,serif;font-size:13.5px;color:#9AAAA6;font-style:italic;margin-bottom:10px}
-.card .desc{font-size:13.5px;color:#5A7370;margin-bottom:12px}
-.card .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:#8CA19D}
+.card-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.card .date{font-family:Georgia,serif;font-size:22px;font-weight:700;color:var(--ink-deep);letter-spacing:.02em;line-height:1}
+.card .tag{font-size:11px;color:#fff;background:var(--accent,var(--teal));border-radius:20px;padding:2px 10px}
+.card h2{font-size:19px;color:var(--ink-deep);margin:9px 0 3px;font-weight:700}
+.card .en{font-family:Georgia,serif;font-size:13px;color:#9AAAA6;font-style:italic;margin-bottom:9px}
+.card .desc{font-size:13px;color:#5A7370;margin-bottom:11px}
+.card .meta{display:flex;flex-wrap:wrap;gap:5px 14px;font-size:12px;color:#8CA19D}
 .card .meta span{white-space:nowrap}
-.card .go{position:absolute;right:22px;bottom:20px;font-size:13px;color:var(--teal);font-weight:600}
+.card .go{position:absolute;right:22px;bottom:18px;font-size:13px;color:var(--teal);font-weight:600}
 .card .go::after{content:' →'}
+.sync-box{margin-top:34px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px}
+.sync-box .sync-title{display:flex;align-items:center;gap:8px;font-size:16px;color:var(--ink-deep);font-weight:700;cursor:pointer}
+.sync-box .sync-title .st-dot{width:9px;height:9px;border-radius:50%;background:#C9B0AA;flex-shrink:0}
+.sync-box .sync-title .st-dot.on{background:#4F9E7A}
+.sync-box .sync-title .caret{margin-left:auto;transition:transform .15s;color:#9AAAA6;font-size:13px}
+.sync-box.open .sync-title .caret{transform:rotate(90deg)}
+.sync-body{display:none;margin-top:14px}
+.sync-box.open .sync-body{display:block}
+.sync-body p{font-size:13px;color:#6B8480;line-height:1.7;margin-bottom:12px}
+.sync-body label{font-size:12px;color:#8CA19D;display:block;margin-top:10px;margin-bottom:3px}
+.sync-body input{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;background:#FBFDFC;font-family:inherit}
+.sync-body input:focus{outline:none;border-color:var(--teal)}
+.sync-body .row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.sync-body .row button{flex:1;min-width:110px;border:none;border-radius:10px;padding:11px;font-size:13.5px;cursor:pointer}
+.sync-body .row .save{background:var(--teal);color:#fff}
+.sync-body .row .clear{background:#EEF2F1;color:#5D7975}
+.sync-status{font-size:12.5px;margin-top:12px;min-height:18px;color:#4F9E7A}
+.sync-status.err{color:#C0392B}
 .foot{margin-top:40px;font-size:12px;color:#A8B8B4;text-align:center;line-height:1.9}
-@media(max-width:520px){.wrap{padding:40px 16px 60px}h1{font-size:25px}.card .go{position:static;display:block;margin-top:10px}}
+@media(max-width:520px){.wrap{padding:40px 16px 60px}h1{font-size:25px}.card .go{position:static;display:block;margin-top:10px}.card .date{font-size:20px}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="eyebrow">FOGG 父母讲堂</div>
-  <h1>学习笔记本 · 目录<span class="sub">三场讲座的可划线、可批注、可同步的精读笔记</span></h1>
-  <p class="intro">选一场讲座进入。每一份都支持划线高亮、写笔记、收藏生词、书签、字体调节，笔记自动同步到云端，电脑和 iPad 通用。三场合起来，是 FOGG 阅读教学观的完整拼图。</p>
-
-  <div class="cards">
-    <a class="card" href="reading-talk-study.html" style="--accent:#2E6B57">
-      <div class="num">01 · 中文阅读专场</div>
-      <h2>小学孩子阅读的关键是什么？</h2>
-      <div class="desc">言词 × 宁宇 × 清滢 × 李洋 四位老师的圆桌分享：阅读是复杂的社会行为、读了≠读懂、别把阅读功利化、扬长避短、家长怎么陪读。</div>
-      <div class="meta"><span>🎙 宁宇 · 清滢 · 李洋</span><span>📅 2024.08.04</span><span>⏱ 约115分钟 · 全中文</span></div>
-      <span class="go">进入阅读</span>
-    </a>
-
-    <a class="card" href="louise-talk-study.html" style="--accent:#B0741E">
-      <div class="num">02 · Inkhead 创意写作</div>
-      <h2>我们如何教孩子写作</h2>
-      <div class="en">How We Teach Children Writing</div>
-      <div class="desc">Louise（伦敦 Inkhead 创始人）谈：为乐趣而读写、用文字作画、工作坊教学法、找到孩子的声音、风格即真实。中英对照。</div>
-      <div class="meta"><span>🎙 Louise</span><span>📅 2025.03.28</span><span>⏱ 约60分钟 · 中英对照</span></div>
-      <span class="go">进入阅读</span>
-    </a>
-
-    <a class="card" href="chris-talk-study.html" style="--accent:#2E5A66">
-      <div class="num">03 · 阅读能力专场</div>
-      <h2>到底什么是阅读能力</h2>
-      <div class="en">What Is Reading, Really?</div>
-      <div class="desc">Teacher Chris 谈：阅读即诠释、诠释的四个层次、AI 时代还要读吗、四个常见难题（讨厌阅读 / 太难太易 / 只读一种 / 读多没进步）、家长怎么检查。中英对照。</div>
-      <div class="meta"><span>🎙 Teacher Chris</span><span>📅 2025.03.09</span><span>⏱ 约80分钟 · 中英对照</span></div>
-      <span class="go">进入阅读</span>
-    </a>
+  <h1>学习笔记本 · 目录<span class="sub">可划线、可批注、可同步的精读笔记库</span></h1>
+  <p class="intro">选一场讲座进入。每份都支持划线、写笔记、收藏生词、书签、字体调节，笔记自动同步到云端，电脑和 iPad 通用。</p>
+  <div class="bar">
+    <span class="count" id="count"></span>
+    <div class="sort">
+      <span>排序</span>
+      <button id="sort-new" class="on">最新在前</button>
+      <button id="sort-old">最早在前</button>
+    </div>
   </div>
-
-  <div class="foot">
-    Shirley 造物日记 · FOGG 学习笔记本<br>
-    划线 · 批注 · 生词 · 书签 · 云端同步 · 一键导出
+  <div id="catalog"></div>
+  <div class="sync-box" id="sync-box">
+    <div class="sync-title" id="sync-title"><span class="st-dot" id="st-dot"></span>☁️ 多设备同步设置<span class="caret">▸</span></div>
+    <div class="sync-body">
+      <p>在这里填一次 Gist ID 和 Token，<b>所有讲座页面就都会自动同步</b>，不用再一个个设置。<br>换新设备（比如 iPad）时，只要在这个首页再填一次就好。</p>
+      <label>Gist ID</label>
+      <input id="gist-id" placeholder="那串字母数字" autocomplete="off">
+      <label>GitHub Token</label>
+      <input id="gist-token" type="password" placeholder="ghp_ 或 github_pat_ 开头" autocomplete="off">
+      <div class="row">
+        <button class="save" id="sync-save">保存并应用到所有页面</button>
+        <button class="clear" id="sync-clear">断开（只用本机）</button>
+      </div>
+      <div class="sync-status" id="sync-status"></div>
+    </div>
   </div>
+  <div class="foot">Shirley 造物日记 · FOGG 学习笔记本<br>划线 · 批注 · 生词 · 书签 · 云端同步 · 一键导出</div>
 </div>
+<script>
+var COURSES = [
+  {file:'reading-talk-study.html', cat:'reading', accent:'#2E6B57', date:'2024-08-04', tagText:'中文阅读专场', title:'小学孩子阅读的关键是什么？', en:'', desc:'言词 × 宁宇 × 清滢 × 李洋 四位老师的圆桌分享：阅读是复杂的社会行为、读了≠读懂、别把阅读功利化、扬长避短、家长怎么陪读。', speaker:'宁宇 · 清滢 · 李洋', length:'约115分钟 · 全中文'},
+  {file:'louise-talk-study.html', cat:'writing', accent:'#B0741E', date:'2025-03-28', tagText:'Inkhead 创意写作', title:'我们如何教孩子写作', en:'How We Teach Children Writing', desc:'Louise（伦敦 Inkhead 创始人）谈：为乐趣而读写、用文字作画、工作坊教学法、找到孩子的声音、风格即真实。', speaker:'Louise', length:'约60分钟 · 中英对照'},
+  {file:'chris-talk-study.html', cat:'reading', accent:'#2E5A66', date:'2025-03-09', tagText:'阅读能力专场', title:'到底什么是阅读能力', en:'What Is Reading, Really?', desc:'Teacher Chris 谈：阅读即诠释、诠释的四个层次、AI 时代还要读吗、四个常见难题（讨厌阅读 / 太难太易 / 只读一种 / 读多没进步）、家长怎么检查。', speaker:'Teacher Chris', length:'约80分钟 · 中英对照'}
+];
+var CAT_NAMES = {reading:'📖 阅读', writing:'✍️ 写作', other:'📚 其他'};
+var CAT_ORDER = ['reading','writing','other'];
+var sortNewFirst = true;
+function fmtDate(d){ return d.replace(/-/g,'.'); }
+function render(){
+  var box = document.getElementById('catalog');
+  box.innerHTML='';
+  document.getElementById('count').textContent = '共 ' + COURSES.length + ' 场讲座';
+  CAT_ORDER.forEach(function(cat){
+    var items = COURSES.filter(function(c){return c.cat===cat;});
+    if(!items.length) return;
+    items.sort(function(a,b){ return sortNewFirst ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date); });
+    var catDiv = document.createElement('div'); catDiv.className='cat';
+    var h = document.createElement('div'); h.className='cat-title'; h.textContent = CAT_NAMES[cat] || cat;
+    catDiv.appendChild(h);
+    items.forEach(function(c){
+      var a = document.createElement('a'); a.className='card'; a.href = c.file; a.style.setProperty('--accent', c.accent);
+      var enHtml = c.en ? '<div class="en">'+c.en+'</div>' : '';
+      a.innerHTML = '<div class="card-top"><span class="date">'+fmtDate(c.date)+'</span><span class="tag">'+c.tagText+'</span></div>'+'<h2>'+c.title+'</h2>'+ enHtml +'<div class="desc">'+c.desc+'</div>'+'<div class="meta"><span>🎙 '+c.speaker+'</span><span>⏱ '+c.length+'</span></div>'+'<span class="go">进入阅读</span>';
+      catDiv.appendChild(a);
+    });
+    box.appendChild(catDiv);
+  });
+}
+document.getElementById('sort-new').onclick=function(){ sortNewFirst=true; this.classList.add('on'); document.getElementById('sort-old').classList.remove('on'); render(); };
+document.getElementById('sort-old').onclick=function(){ sortNewFirst=false; this.classList.add('on'); document.getElementById('sort-new').classList.remove('on'); render(); };
+render();
+(function(){
+  var CFG_GIST='__cfg_gist_id', CFG_TOKEN='__cfg_gist_token';
+  var box=document.getElementById('sync-box'), title=document.getElementById('sync-title'), dot=document.getElementById('st-dot');
+  var gid=document.getElementById('gist-id'), tok=document.getElementById('gist-token'), status=document.getElementById('sync-status');
+  var savedId=localStorage.getItem(CFG_GIST)||'', savedTok=localStorage.getItem(CFG_TOKEN)||'';
+  gid.value=savedId; tok.value=savedTok;
+  function refreshDot(){ var on=!!(localStorage.getItem(CFG_GIST)&&localStorage.getItem(CFG_TOKEN)); dot.className='st-dot'+(on?' on':''); }
+  refreshDot();
+  if(!(savedId&&savedTok))box.classList.add('open');
+  title.onclick=function(){box.classList.toggle('open')};
+  document.getElementById('sync-save').onclick=async function(){
+    var id=gid.value.trim(), t=tok.value.trim();
+    if(!id||!t){status.className='sync-status err';status.textContent='请把 Gist ID 和 Token 都填上';return}
+    status.className='sync-status';status.textContent='正在验证…';
+    try{
+      var r=await fetch('https://api.github.com/gists/'+id,{headers:{'Authorization':'token '+t,'Accept':'application/vnd.github+json'}});
+      if(!r.ok)throw new Error(r.status);
+      localStorage.setItem(CFG_GIST,id); localStorage.setItem(CFG_TOKEN,t); refreshDot();
+      status.className='sync-status'; status.innerHTML='✓ 已保存！现在打开下面任意讲座，都会自动同步。换设备只需在此再填一次。';
+    }catch(e){ status.className='sync-status err'; status.textContent='⚠ 验证失败：请检查 Gist ID 和 Token（Token 需勾选 gist 权限）'; }
+  };
+  document.getElementById('sync-clear').onclick=function(){
+    localStorage.removeItem(CFG_GIST); localStorage.removeItem(CFG_TOKEN); gid.value='';tok.value=''; refreshDot();
+    status.className='sync-status';status.textContent='已断开，改为仅本机保存。';
+  };
+})();
+</script>
 </body>
 </html>
