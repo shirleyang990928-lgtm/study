@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教纲参考页 · 新加坡 MOE 中学文学教纲 | 学习笔记本</title>
+<style>
+:root{
+  --ink:#24505B; --ink-deep:#16333B; --teal:#2E5A66; --mist:#E7EFED; --paper:#FBFBF8;
+  --gold:#E8C558; --gold-deep:#B08A1E; --line:#D5DEDC; --zh:#5C7A72; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+input,textarea,select,button{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
+body{font-family:Georgia,'Times New Roman','Songti SC','Noto Serif SC',serif;background:var(--paper);color:var(--ink-deep);line-height:1.75}
+.ui{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
+
+/* layout */
+.wrap{display:flex;max-width:1200px;margin:0 auto;gap:0}
+aside{width:270px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;padding:28px 18px 40px 20px;border-right:1px solid var(--line);background:linear-gradient(180deg,#F2F6F5, var(--paper))}
+main{flex:1;min-width:0;padding:36px 44px 120px}
+@media(max-width:900px){
+  .wrap{flex-direction:column}
+  aside{position:relative;width:100%;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:20px}
+  main{padding:24px 18px 120px}
+}
+
+/* sidebar map */
+.map-title{font-size:12px;letter-spacing:.18em;color:var(--teal);text-transform:uppercase;margin-bottom:4px}
+.map-sub{font-size:12px;color:#7C918D;margin-bottom:18px}
+.map a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:#42605F;font-size:13.5px;padding:7px 8px;border-radius:8px;line-height:1.4}
+.map a:hover{background:var(--mist)}
+.map a.active{background:var(--teal);color:#fff}
+.map a .dot{width:7px;height:7px;border-radius:50%;background:var(--line);flex-shrink:0;transform:translateY(-1px);transition:background .2s}
+.map a.active .dot{background:var(--gold)}
+.map .part{margin:14px 0 4px;font-size:11px;letter-spacing:.14em;color:#9AACA8;text-transform:uppercase}
+
+/* header */
+header{margin-bottom:34px;border-bottom:3px double var(--teal);padding-bottom:26px}
+.eyebrow{font-size:12px;letter-spacing:.22em;color:var(--gold-deep);text-transform:uppercase;margin-bottom:10px}
+h1{font-size:clamp(26px,4vw,40px);color:var(--teal);line-height:1.2;font-weight:600}
+h1 .zh-t{display:block;font-size:.55em;color:#6B8480;margin-top:8px;font-weight:400}
+.meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;font-size:13px;color:#6B8480}
+.meta span::before{content:"— ";color:var(--gold-deep)}
+
+
+/* 字体大小调节（微信读书式，5 档，记忆选择） */
+:root{--fs:16.5px}
+.para .en{font-size:var(--fs)}
+.zh-block,.zh-t,.sz .zh{font-size:calc(var(--fs) - 1px)}
+.fs-btns{display:inline-flex;align-items:center;gap:2px;margin-left:2px}
+.fs-btns button{border:1px solid var(--line);background:#fff;color:var(--teal);border-radius:8px;width:34px;height:32px;cursor:pointer;font-weight:600;line-height:1;padding:0}
+.fs-btns button:active{transform:scale(.94)}
+.fs-btns .fs-a1{font-size:12px}
+.fs-btns .fs-a2{font-size:17px}
+.fs-cur{font-size:11px;color:#8CA19D;min-width:30px;text-align:center}
+
+
+/* 书签 */
+.bm-btns{display:inline-flex;align-items:center;gap:4px;margin-left:2px}
+.bm-btns .btn{display:inline-flex;align-items:center;gap:5px}
+.bm-pin{border:1px solid var(--line);background:#fff;color:var(--gold-deep);border-radius:8px;width:34px;height:32px;cursor:pointer;font-size:15px;line-height:1;padding:0}
+.bm-pin:active{transform:scale(.94)}
+.bm-flash{animation:bmflash 1.2s ease}
+@keyframes bmflash{0%{background:rgba(212,165,74,.35)}100%{background:transparent}}
+
+
+/* —— 划线笔记：干净版 —— */
+.hl-item{position:relative;border-left:3px solid var(--gold);background:#FCF8EA;padding:10px 34px 10px 13px;border-radius:0 10px 10px 0;margin-bottom:9px;font-size:13.5px;line-height:1.7;color:#4A4030;cursor:pointer;transition:background .15s}
+.hl-item:hover{background:#FBF4DF}
+.hl-item .htext{display:block}
+.hl-item .hnote{display:block;margin-top:7px;padding:6px 9px;background:#fff;border-radius:7px;font-size:12.5px;color:#6A5F3E;border:1px solid #EADFB8}
+.hl-item .hnote::before{content:'📝 ';opacity:.7}
+.hl-item .src{font-size:11px;color:#A09468;display:block;margin-top:6px}
+.hl-item .del{position:absolute;top:8px;right:9px;cursor:pointer;color:#C3A24E;font-size:13px;opacity:.5;line-height:1}
+.hl-item .del:hover{opacity:1}
+.hl-item .addnote{margin-top:6px;font-size:11.5px;color:#B0871E;background:none;border:1px dashed #DCC98A;border-radius:7px;padding:3px 9px;cursor:pointer}
+.hl-item .addnote:hover{background:#fff}
+.hl-item .hnoteinp{width:100%;border:1px dashed #D8C88F;border-radius:7px;margin-top:6px;padding:6px 8px;font-size:12.5px;background:#FFFDF4;box-sizing:border-box;font-family:inherit}
+.hl-item .hnoteinp:focus{outline:none;border-color:var(--gold-deep)}
+
+/* —— 顶部统计：防换行错位 —— */
+.vocab-stats{display:flex;flex-wrap:wrap;gap:4px 10px;margin-bottom:12px;font-size:12px;color:#6B8480;align-items:center;line-height:1.4}
+.vocab-stats .stat{white-space:nowrap}
+.vocab-stats b{color:var(--gold-deep);font-size:15px;font-family:Georgia,serif}
+.vocab-stats .ok-n{color:var(--teal)}
+.vocab-stats .hint{white-space:nowrap;color:#A8B8B4;font-size:11px}
+
+/* —— 已掌握折叠区 —— */
+.known-head{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:#8CA19D;margin:6px 0 8px;user-select:none}
+.known-head .caret{transition:transform .15s}
+.known-head.open .caret{transform:rotate(90deg)}
+
+/* —— 分享小卡片 —— */
+#share-modal{position:fixed;inset:0;z-index:150;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.45);backdrop-filter:blur(3px);padding:20px}
+#share-modal.open{display:flex}
+#share-card{width:min(440px,92vw);background:linear-gradient(160deg,#FFFEFA,#F6F1E3);border-radius:20px;padding:30px 28px 22px;box-shadow:0 24px 70px rgba(0,0,0,.35);position:relative}
+#share-card .sc-quote{font-size:19px;line-height:1.75;color:#2C3E3B;font-weight:500}
+#share-card .sc-en{font-family:Georgia,'Noto Serif SC',serif}
+#share-card .sc-zh{font-size:15px;color:#5A7370;margin-top:10px}
+#share-card .sc-note{margin-top:14px;padding:11px 13px;background:#fff;border-radius:10px;font-size:13.5px;color:#5A5238;border:1px solid #EADFB8}
+#share-card .sc-src{margin-top:16px;padding-top:13px;border-top:1px dashed #D8CDB0;font-size:12px;color:#A0937C;display:flex;justify-content:space-between;align-items:center}
+#share-card .sc-brand{font-size:11px;color:#BCae90}
+#share-card .sc-x{position:absolute;top:12px;right:14px;border:none;background:none;font-size:20px;color:#BBB;cursor:pointer;line-height:1}
+#share-actions{display:flex;gap:8px;margin-top:16px}
+#share-actions button{flex:1;border:none;border-radius:10px;padding:10px;font-size:13.5px;cursor:pointer}
+#share-actions .cap{background:var(--teal);color:#fff}
+#share-actions .cls{background:#EEF2F1;color:#5D7975}
+
+.toolbar a.home-btn{display:inline-flex;align-items:center;text-decoration:none}
+
+/* —— 朗读 —— */
+.tts-btn{cursor:pointer}
+.tts-bar{position:fixed;left:50%;bottom:0;transform:translateX(-50%);z-index:120;display:none;align-items:center;gap:10px;background:var(--ink-deep);color:#fff;border-radius:14px 14px 0 0;padding:11px 18px;box-shadow:0 -6px 24px rgba(0,0,0,.25);max-width:94vw;flex-wrap:wrap;justify-content:center}
+.tts-bar.on{display:flex}
+.tts-bar button{border:none;background:rgba(255,255,255,.14);color:#fff;border-radius:9px;width:38px;height:38px;font-size:16px;cursor:pointer;flex-shrink:0}
+.tts-bar button.play{background:var(--gold);color:#3A2E0A;width:46px}
+.tts-bar button:active{transform:scale(.93)}
+.tts-bar .seg{display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:9px;padding:3px}
+.tts-bar .seg button{width:auto;height:30px;padding:0 12px;font-size:12.5px;background:transparent;border-radius:7px}
+.tts-bar .seg button.on{background:var(--gold);color:#3A2E0A}
+.tts-bar .rate{display:flex;align-items:center;gap:5px;font-size:12px;color:#CBD8D5}
+.tts-bar .rate button{width:30px;height:30px;font-size:15px}
+.tts-bar .rate .rv{min-width:38px;text-align:center;font-family:Georgia,serif}
+.tts-bar .lang{display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:9px;padding:3px}
+.tts-bar .lang button{width:auto;height:30px;padding:0 11px;font-size:12.5px;background:transparent;border-radius:7px}
+.tts-bar .lang button.on{background:var(--teal)}
+.tts-bar .close{background:transparent;font-size:20px}
+.tts-reading{background:linear-gradient(transparent 60%,rgba(232,197,88,.55) 0)!important;border-radius:3px}
+.sent.tts-reading,.tts-reading{transition:background .1s}
+.tts-sent{cursor:default}
+
+
+/* 更多菜单 */
+.more-wrap{position:relative;display:inline-block}
+.more-btn{}
+.more-menu{position:absolute;top:calc(100% + 6px);right:0;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(22,51,59,.15);padding:6px;display:none;flex-direction:column;gap:2px;z-index:60;min-width:170px}
+.more-menu.on{display:flex}
+.more-menu a,.more-menu button{display:flex;align-items:center;gap:8px;text-align:left;text-decoration:none;color:var(--ink);background:none;border:none;border-radius:8px;padding:9px 12px;font-size:13.5px;cursor:pointer;white-space:nowrap;width:100%;font-family:inherit}
+.more-menu a:hover,.more-menu button:hover{background:#F1F5F4}
+.more-menu .gold-txt{color:var(--gold-deep)}
+/* 正在朗读的句子：左竖条 + 高亮，更醒目 */
+.tts-reading{background:linear-gradient(transparent 55%,rgba(232,197,88,.6) 0)!important;border-radius:3px;box-shadow:-8px 0 0 rgba(46,90,102,.9);border-radius:2px}
+
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:50;background:rgba(251,251,248,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:0 -44px 30px;padding:10px 44px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+@media(max-width:900px){.toolbar{margin:0 -18px 24px;padding:10px 18px}}
+.btn{border:1.5px solid var(--teal);background:#fff;color:var(--teal);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;transition:.15s}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--teal);color:#fff}
+.btn.gold{border-color:var(--gold-deep);color:var(--gold-deep)}
+.btn.gold.on{background:var(--gold);border-color:var(--gold);color:var(--ink-deep)}
+.save-state{font-size:12px;color:#8AA09C;margin-left:auto}
+
+/* sections */
+section{margin-bottom:46px;scroll-margin-top:70px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.sec-num{font-size:13px;color:var(--gold-deep);letter-spacing:.1em;font-family:Georgia,serif}
+h2{font-size:21px;color:var(--teal);font-weight:600}
+.sec-time{font-size:12px;color:#9AACA8;margin-bottom:12px}
+.keypoints{background:var(--mist);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0 18px;font-size:13.5px}
+.keypoints b{color:var(--teal)}
+.keypoints li{margin-left:18px;margin-top:4px;color:#3B5A57}
+
+/* paragraphs */
+.para{margin-bottom:18px;padding-right:26px}
+.en{font-size:var(--fs);color:#22403F}
+.en.hl-mode{cursor:text}
+.sz{display:none}
+.zh-block{display:none;margin-top:8px;padding:10px 14px;background:#F1F5F3;border-left:3px solid var(--zh);border-radius:0 8px 8px 0;color:var(--zh);font-size:14.5px;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;line-height:1.85}
+.zh-block .comment-line{display:block;margin-top:7px;color:#A08A45;font-size:13.5px}
+body.show-zh .zh-block, section.show-zh .zh-block, .para.zh-open .zh-block, .quote.zh-open .zh-block{display:block}
+.quote{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:14px 0;font-style:italic;box-shadow:0 2px 8px rgba(36,80,91,.06);position:relative}
+.quote::before{content:"“";position:absolute;top:-2px;left:10px;font-size:44px;color:var(--gold);font-style:normal;line-height:1}
+.quote .en{font-size:calc(var(--fs) - 1px)}
+.tag{display:inline-block;font-size:11px;background:var(--teal);color:#fff;border-radius:4px;padding:2px 8px;margin-bottom:8px;letter-spacing:.05em}
+.tag.before{background:#8A9E9A}
+.tag.after{background:var(--gold-deep)}
+
+/* highlights */
+mark{background:linear-gradient(104deg, rgba(232,197,88,0) 1%, rgba(232,197,88,.85) 3%, rgba(232,197,88,.55) 96%, rgba(232,197,88,0) 99%);padding:1px 2px;border-radius:2px;cursor:pointer}
+mark:hover{outline:1.5px dashed var(--gold-deep)}
+#hl-tip{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink-deep);color:#fff;font-size:12.5px;padding:8px 16px;border-radius:20px;z-index:99;display:none}
+
+/* selection popup */
+#sel-pop{position:fixed;z-index:95;display:none;background:var(--ink-deep);border-radius:10px;padding:5px;box-shadow:0 6px 20px rgba(0,0,0,.25);gap:4px}
+#sel-pop button{border:none;background:transparent;color:#fff;font-size:12.5px;padding:6px 10px;border-radius:7px;cursor:pointer;white-space:nowrap}
+#sel-pop button:hover{background:rgba(255,255,255,.15)}
+#sel-pop .sep{width:1px;background:rgba(255,255,255,.2);margin:4px 0}
+/* dictionary card */
+#dict-card{position:fixed;z-index:96;display:none;width:300px;max-width:92vw;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(22,51,59,.25);padding:18px 18px 14px}
+#dict-card .dw{font-family:Georgia,serif;font-size:21px;color:var(--teal);font-weight:600}
+#dict-card .dp{color:#93A8A4;font-size:13px;margin-left:7px}
+#dict-card .say{border:none;background:var(--mist);border-radius:50%;width:27px;height:27px;cursor:pointer;margin-left:7px;font-size:13px}
+#dict-card .zh-big{font-size:17px;color:var(--ink-deep);margin-top:10px;font-weight:600;line-height:1.6}
+#dict-card .zh-big.loading{color:#9AACA8;font-weight:400;font-size:14px}
+#dict-card .dd{font-size:12px;color:#8CA19D;margin-top:7px;line-height:1.55;max-height:70px;overflow-y:auto}
+#dict-card .dc-row{display:flex;gap:8px;margin-top:13px}
+#dict-card .dc-row button{border-radius:9px;padding:8px;font-size:13px;cursor:pointer;border:none}
+#dict-card .dc-row .add{flex:1;background:var(--teal);color:#fff}
+#dict-card .dc-row .add:hover{background:var(--ink)}
+#dict-card .close-x{position:absolute;top:9px;right:13px;border:none;background:none;color:#AAB9B6;cursor:pointer;font-size:15px}
+/* mark menu */
+#mark-menu{position:fixed;z-index:96;display:none;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 26px rgba(22,51,59,.2);padding:6px;min-width:145px}
+#mark-menu button{display:block;width:100%;text-align:left;border:none;background:none;padding:8px 12px;font-size:13px;color:#3B5A57;cursor:pointer;border-radius:8px}
+#mark-menu button:hover{background:var(--mist)}
+#mark-menu button.danger{color:#B04A3A}
+mark.has-note{border-bottom:2px solid var(--gold-deep)}
+mark.has-note::after{content:"📝";font-size:10px;margin-left:1px}
+.hl-note-inp{width:100%;border:1px dashed #D8C88F;border-radius:7px;margin-top:6px;padding:5px 8px;font-size:12.5px;background:#FFFDF4}
+/* note modal — centered, bright */
+#note-modal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.35);backdrop-filter:blur(2px)}
+#note-modal.open{display:flex}
+#note-modal .box{width:440px;max-width:92vw;background:#fff;border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+#note-modal .quote-ref{font-size:13px;color:#6B8480;background:var(--mist);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:8px 12px;margin-bottom:12px;font-style:italic;max-height:76px;overflow-y:auto}
+#note-modal textarea{width:100%;min-height:110px;border:1.5px solid var(--line);border-radius:12px;padding:12px;font-size:15px;background:#FFFDF4;resize:vertical}
+#note-modal textarea:focus{outline:none;border-color:var(--teal)}
+#note-modal .row{display:flex;gap:10px;margin-top:14px}
+#note-modal .row button{flex:1;border-radius:10px;padding:10px;font-size:14px;cursor:pointer;border:none}
+#note-modal .row .ok{background:var(--teal);color:#fff}
+#note-modal .row .no{background:#EEF2F1;color:#5D7975}
+/* vocab — compact rows */
+.vocab-item{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:9px 11px;margin-bottom:7px;font-size:13px}
+.vocab-item.known{opacity:.5}
+.vocab-item .main{flex:1;min-width:0}
+.vocab-item .w{font-family:Georgia,serif;font-size:15.5px;color:var(--teal);font-weight:600;cursor:pointer}
+.vocab-item .ph{color:#A8B8B4;font-size:11px;margin-left:5px}
+.vocab-item .zh-inline{border:none;background:transparent;width:100%;font-size:13px;color:#4A6360;padding:1px 0;font-family:inherit}
+.vocab-item .zh-inline::placeholder{color:#BCC9C6}
+.vocab-item .zh-inline:focus{outline:none;border-bottom:1px dashed var(--gold-deep)}
+.vocab-item .kbtn{flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-size:14px}
+.vocab-item .kbtn.on{background:var(--teal);border-color:var(--teal)}
+.vocab-item .rm{flex-shrink:0;border:none;background:none;color:#C9B0AA;cursor:pointer;font-size:13px;padding:2px}
+.vocab-stats{display:flex;gap:8px;margin-bottom:12px;font-size:12.5px;color:#6B8480;align-items:center}
+.vocab-stats b{color:var(--gold-deep);font-size:16px;font-family:Georgia,serif}
+.vocab-stats .ok-n{color:var(--teal)}
+.dict-loading{color:#9AACA8;font-size:12px}
+#drawer .tabs{display:flex;gap:6px;margin-bottom:16px}
+#drawer .tabs button{flex:1;border:1.5px solid var(--teal);background:#fff;color:var(--teal);border-radius:9px;padding:7px;font-size:13px;cursor:pointer}
+#drawer .tabs button.on{background:var(--teal);color:#fff}
+#drawer .pane{display:none}#drawer .pane.on{display:block}
+/* vocab words in text — 蓝色系，与金色划线区分 */
+.vocab-mark{background:#DEEAF6;border-bottom:2px dotted #4A7BAA;border-radius:2px;padding:0 1px;cursor:pointer}
+.vocab-mark:hover{background:#CBDFF2}
+/* per-paragraph 中文 toggle */
+.para,.quote{position:relative}
+.zh-btn{position:absolute;right:-6px;top:0;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);background:#fff;color:#8CA19D;font-size:11.5px;cursor:pointer;opacity:.55;transition:.15s;font-family:-apple-system,'PingFang SC',sans-serif;line-height:1}
+.zh-btn:hover{opacity:1;border-color:var(--teal);color:var(--teal)}
+.zh-btn.on{background:var(--teal);border-color:var(--teal);color:#fff;opacity:1}
+.para.zh-open .zh,.quote.zh-open .zh{display:block}
+@media(max-width:900px){.zh-btn{right:0}}
+/* dict card long-selection mode */
+#dict-card .dw.long{font-size:14px;color:#6B8480;font-weight:400;font-family:-apple-system,'PingFang SC',sans-serif}
+#dict-card .orig-small{font-size:12px;color:#9AACA8;margin-top:6px;max-height:64px;overflow-y:auto;font-style:italic;line-height:1.5}
+
+#sync-modal{position:fixed;inset:0;z-index:130;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.4);backdrop-filter:blur(3px)}
+#sync-modal.open{display:flex}
+#sync-modal .box{width:420px;max-width:92vw;background:#fff;border-radius:18px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+#sync-modal .sync-inp{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13.5px;background:#FBFDFC;margin-top:3px}
+#sync-modal .sync-inp:focus{outline:none;border-color:var(--teal)}
+#sync-modal .row{display:flex;gap:8px;flex-wrap:wrap}
+#sync-modal .row button{flex:1;min-width:90px;border-radius:10px;padding:9px;font-size:13.5px;cursor:pointer;border:none}
+#sync-modal .row .ok{background:var(--teal);color:#fff}
+#sync-modal .row .no{background:#EEF2F1;color:#5D7975}
+.cloud-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#C9B0AA;margin-right:5px;vertical-align:1px}
+.cloud-dot.on{background:#4F9E7A}
+
+
+/* 触屏：菜单停靠屏幕底部，放大更好点 */
+#sel-pop.touch-dock,#mark-menu.touch-dock{box-shadow:0 -2px 24px rgba(0,0,0,.28);z-index:9999}
+#sel-pop.touch-dock button,#mark-menu.touch-dock button{font-size:15px;padding:11px 16px}
+#sel-pop.touch-dock::before{content:"已选中 → 选择操作";position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:11px;color:#8CA19D;white-space:nowrap;background:var(--paper);padding:1px 8px;border-radius:8px}
+
+/* notes */
+.note-area{margin-top:14px}
+.note-area textarea{width:100%;min-height:64px;border:1.5px dashed #B9CBC7;border-radius:10px;padding:10px 12px;font-size:14px;font-family:-apple-system,'PingFang SC',sans-serif;background:#FFFDF4;color:#4A4632;resize:vertical}
+.note-area textarea:focus{outline:none;border-color:var(--gold-deep);border-style:solid}
+.note-label{font-size:12px;color:#9AACA8;margin-bottom:4px}
+
+/* notes drawer */
+#drawer{position:fixed;right:-360px;top:0;width:350px;max-width:92vw;height:100vh;background:#fff;border-left:1px solid var(--line);box-shadow:-8px 0 30px rgba(0,0,0,.08);z-index:90;transition:right .25s;padding:24px 20px;overflow-y:auto}
+#drawer.open{right:0}
+#drawer h3{color:var(--teal);margin-bottom:12px;font-size:16px}
+.hl-item{border-left:3px solid var(--gold);background:#FCF8EA;padding:8px 12px;border-radius:0 8px 8px 0;margin-bottom:10px;font-size:13px;color:#5A5238}
+.hl-item .src{font-size:11px;color:#A09468;display:block;margin-top:3px}
+.hl-item .del{float:right;cursor:pointer;color:#B08A1E;font-size:12px}
+.empty{color:#AAB9B6;font-size:13px;font-style:italic}
+footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:#9AACA8;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="ui">
+  <div class="map-title">课程学习地图</div>
+  <div class="map-sub">教纲参考 · Singapore MOE 2019</div>
+  <nav class="map" id="map">
+    <div class="part">Part 1 · 立场与目标</div>
+    <a href="#s1"><span class="dot"></span>愿景 Vision</a>
+    <a href="#s2"><span class="dot"></span>⚑ 三大目标（原文）</a>
+    <a href="#s3"><span class="dot"></span>四个学生成果</a>
+    <div class="part">Part 2 · 文学回应框架</div>
+    <a href="#s4"><span class="dot"></span>框架总览 · 最核心是文本</a>
+    <a href="#s5"><span class="dot"></span>五个分析领域（定义）</a>
+    <a href="#s6"><span class="dot"></span>三个镜头 Lenses</a>
+    <a href="#s7"><span class="dot"></span>最外圈 · 四种连接</a>
+    <div class="part">Part 3 · 学习目标与选文</div>
+    <a href="#s8"><span class="dot"></span>⚑ LO 与 KSD 清单</a>
+    <a href="#s9"><span class="dot"></span>选文与体裁规定</a>
+    <div class="part">Part 4 · 教学与评估</div>
+    <a href="#s10"><span class="dot"></span>教学四原则</a>
+    <a href="#s11"><span class="dot"></span>评估 · AO 与题型</a>
+    <div class="part">Part 5 · CCSS 与用法</div>
+    <a href="#s12"><span class="dot"></span>📗 CCSS 是什么</a>
+    <a href="#s13"><span class="dot"></span>⚑ 纵向进阶 · 主题这条线</a>
+    <a href="#s14"><span class="dot"></span>怎么用这两份文件</a>
+  </nav>
+</aside>
+
+<main>
+<header>
+  <div class="eyebrow ui">参考资料 · Singapore MOE, 2019</div>
+  <h1>Literature in English Syllabus<span class="zh-t">新加坡 MOE 中学文学教纲（2019）· 全本梳理 —— 兼与美国 CCSS 对照</span></h1>
+  <div class="meta ui">
+    <span>来源：Curriculum Planning and Development Division, Ministry of Education, Singapore（2019）</span>
+    <span>对照：Common Core State Standards for English Language Arts & Literacy（美国）</span>
+    <span>全本结构梳理 + 核心章节中文对照 · 非全文替代</span>
+  </div>
+</header>
+
+<div class="toolbar ui">
+  <button class="btn" id="drawer-btn">📒 生词本 · 划线 · 笔记</button>
+  <button class="btn" id="sync-btn"><span class="cloud-dot"></span>☁️ 同步</button>
+  <span class="fs-btns"><button class="fs-a1" id="fs-minus" title="缩小字体">A−</button><span class="fs-cur ui" id="fs-cur">标准</span><button class="fs-a2" id="fs-plus" title="放大字体">A+</button></span>
+  <button class="btn" id="bm-pin" title="把当前位置钉为书签">📌 钉这里</button><button class="btn" id="bm-go" title="跳回你钉的书签位置">🔖 回书签</button>
+  <button class="btn tts-btn" id="tts-trigger" title="朗读">🔊 朗读</button>
+  <span class="more-wrap">
+    <button class="btn more-btn" id="more-btn" title="更多">⋯ 更多</button>
+    <div class="more-menu" id="more-menu">
+    <a href="index.html">🏠 回到目录</a>
+    <a href="syllabus1-talk-study.html">📘 教纲参考页</a>
+    <button id="zh-toggle" style="display:none">显示全部中文</button>
+    <button class="gold-txt" id="export-btn">📤 导出学习笔记</button>
+    </div>
+  </span>
+  <span class="save-state" id="save-state">已就绪</span>
+</div>
+
+<!-- S1 -->
+<div class="tts-bar ui" id="tts-bar">
+  <button class="close" id="tts-x" title="关闭朗读">✕</button>
+  <div class="lang" id="tts-lang">
+    <button data-lang="en" class="on">EN</button>
+    <button data-lang="zh">中文</button>
+  </div>
+  <div class="seg" id="tts-scope">
+    <button data-scope="para" class="on">整篇</button>
+    <button data-scope="from">从这句起</button>
+  </div>
+  <button id="tts-prev" title="上一句">⏮</button>
+  <button class="play" id="tts-play" title="播放/暂停">▶</button>
+  <button id="tts-next" title="下一句">⏭</button>
+  <div class="rate">
+    <button id="tts-slow" title="减速">−</button>
+    <span class="rv" id="tts-rate">1.0×</span>
+    <button id="tts-fast" title="加速">+</button>
+  </div>
+</div>
+
+<!-- S1 -->
+<section id="s1">
+  <div class="sec-head"><span class="sec-num">01</span><h2>Literature: Our Vision · 学科愿景</h2></div>
+  <div class="sec-time ui">Section 1 · Introduction</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>文学的学习让学生能够<b>为文本建构意义</b>，并从多元视角看待自己与世界</li>
+    <li>它启发学生<b>同理他人</b>，在有见识地反思人类处境的过程中<b>找到自己的声音</b></li>
+    <li>并<b>思考自己的信念与行动对社会的影响</b></li>
+    <li>⚑ 注意这三句的落点：意义建构 → 同理与自我 → 对社会的责任。它已经预告了后面 ethical 排第一</li>
+</ul>
+  </div>
+<div class="para"><p class="en">教纲开篇的愿景写得很短，但三句话已经把整份文件的重心定了：文学的学习让学生能够为文本建构意义（make meaning of texts），并从多元的视角看待自己和这个世界。</p></div>
+<div class="para"><p class="en">第二句：它启发学生去同理他人，在有见识地反思人类处境（reflect on the human condition with discernment）的过程中找到自己的声音。</p></div>
+<div class="para"><p class="en">第三句：并去思考自己的信念和行动对社会的影响。</p></div>
+<div class="para"><p class="en">这三句的顺序值得注意——意义建构、同理与自我、对社会的责任。它已经预告了后文为什么把 ethical 放在三大目标的第一位。</p></div>
+</section>
+
+<!-- S2 -->
+<section id="s2">
+  <div class="sec-head"><span class="sec-num">02</span><h2>⚑ Aims · 三大考量（讲座逐句研读的就是这三段）</h2></div>
+  <div class="sec-time ui">Introduction · Aims and Desired Student Outcomes</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>① Ethical 伦理</b>：文学的学习提高学生对「被时间、空间和文化分隔的人类所能发展出的各种视角」的意识；这种意识促进 empathy 与 global awareness；学生逐渐<b>认识并重新审视自己的价值观、信念与偏见</b></li>
+    <li><b>② Aesthetic 审美</b>：close reading 的习惯促进对语言<b>既有深度又有高度的敏感性</b>，帮助学生欣赏身边文本中的细微差别与多层意义；同时也使他们对各类艺术创作中的 <b>artistic decisions</b> 敏感，成为通往艺术的门径</li>
+    <li><b>③ Intellectual 智力</b>：学生发展出<b>元认知的思维习惯</b>——持续留意语言对思想与感情的冲击，对文本中需要更深反思与加工之处敏感；他们的心智被训练成<b>认可并考虑多元视角</b>，同时学习去说服他人接受自己的诠释；并且发展出<b>对模糊与开放结局更大的接受度</b></li>
+    <li>⚑ 教纲随后说明：这三条具有国家层面的意义——自动化与智能技术会淘汰很多工作，能留下来的是那些机器思维做不到的能力</li>
+</ul>
+  </div>
+<div class="para"><p class="en">这三段就是两场讲座逐句研读的内容。第一段是伦理考量：对文学的学生而言，一个关键的考量是伦理层面的——文学的学习提高了学生的意识，让他们意识到被时间、空间和文化分隔的人类，能够发展出何等广阔的视角范围。这种被提高的意识促进同理心和全球意识。学生因此得以认识并重新审视他们自己的价值观、信念和偏见。</p></div>
+<div class="para"><p class="en">第二段是审美考量：审美的考量同样至关重要——细读的习惯促进对语言深度且高度的敏感性，帮助学生欣赏他们周围文本中的细微差别与多层意义。同理，文学的学习也让他们对广泛的艺术创作中所做出的艺术决定变得敏感，并成为通往艺术的一道门径。</p></div>
+<div class="para"><p class="en">第三段是智力考量：最后是智力方面的考量——学生发展出元认知的思维习惯，因为他们持续留意语言对思想和感情的影响，并对文本中那些需要更深的反思与处理的地方保持敏感。他们的心智被训练去认可和考虑多元视角，与此同时学习如何说服他人接受自己的诠释。同时，学生也发展出对模糊性与开放结局更大的接受度。</p></div>
+<div class="para"><p class="en">紧接着教纲给出了国家层面的理由：在二十一世纪，越来越多的工作会因自动化和智能技术而过时；希望保持相关性的人，将是那些能够完成机器思维无法完成之事的人——为不可预测的问题发展出新颖的解法，在看似不相关的现象之间看到联系，在全球与在地议题之间建立连结。这些都需要透过协作和有效沟通与他人协商，而且很重要的是，其中包含同理心：敏锐地分享和理解他人感受的能力、有见识地反思人类处境的能力，以及考虑自己的信念与行动对社会之影响的能力。这些技能是文学学习内在固有的。</p></div>
+</section>
+
+<!-- S3 -->
+<section id="s3">
+  <div class="sec-head"><span class="sec-num">03</span><h2>Desired Student Outcomes · 四个学生成果</h2></div>
+  <div class="sec-time ui">Introduction</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>① Empathetic and Global Thinkers</b> 具有同理心与全球视野的思考者 —— 学习同理他人的经验</li>
+    <li><b>② Critical Readers</b> 具有批判性思维的读者</li>
+    <li><b>③ Creative Meaning-makers</b> 有创造力的意义生成者 —— 学习<b>把模糊与不确定接纳为意义生成过程中的必要部分</b></li>
+    <li><b>④ Convincing Communicators</b> 有说服力的沟通者</li>
+    <li>⚑ 教纲明确写出与 21 世纪素养（21CC）的对应：成果① 对应公民素养、全球意识与跨文化技能；成果②③ 对应批判性与创造性思维；成果④ 对应沟通、协作与信息技能</li>
+    <li>⚑ 讲座补充的观察：<b>后两条没有限定场景</b>——不是一定要写文章</li>
+</ul>
+  </div>
+<div class="para"><p class="en">教纲把三大考量收拢成四条学生成果：Empathetic and Global Thinkers、Critical Readers、Creative Meaning-makers、Convincing Communicators。完成这门课的学生将成为这四种人。</p></div>
+<div class="para"><p class="en">这四条各自展开的能力清单在原文中以图框形式呈现，其中可辨识的表述包括：成果一要学会同理他人的经验；成果三要学会把模糊与不确定接纳为意义生成过程中必要的一部分。</p></div>
+<div class="para"><p class="en">教纲还专门用一节说明这四条与 21 世纪素养框架（21CC）的对应关系：成果一对应公民素养、全球意识与跨文化技能这一领域；成果二和成果三对应批判性与创造性思维；成果四对应沟通、协作与信息技能。它并指出，文学的学习特别适合发展学生的全球意识与批判及创造性思维，因为学生研读和讨论来自世界不同地方的文本。</p></div>
+</section>
+
+<!-- S4 -->
+<section id="s4">
+  <div class="sec-head"><span class="sec-num">04</span><h2>⚑ Literary Response Framework · 那张「眼睛图」</h2></div>
+  <div class="sec-time ui">Section 2 · Content</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>文学的学习以 <b>literary response</b> 为核心——<b>读者与文本之间意义的协商</b></li>
+    <li>整个框架由中心向外分层，最中心是 <b>TEXT</b></li>
+    <li><b>第一层：五个 Areas of Study</b>（Plot / Character / Setting & Atmosphere / Style / Theme）</li>
+    <li><b>第二层：Dialogue and Writing</b> —— 回应的方式</li>
+    <li><b>第三层：三个 Lenses</b>（Experiencing Story / Appreciating Style / Interpreting Theme）</li>
+    <li><b>最外层：四种 Connections</b>（Self / The World / Other Readers / Other Texts）</li>
+    <li>⚑ 五个 Areas 被画在<b>同一个连续的圈层</b>里，是为了强调它们彼此相连——学生既要能单独欣赏每一个，也要考虑它们之间的关系</li>
+    <li>⚑ 三个 lenses 的颜色<b>互相融入</b>，是为了强调读者回应文本时的流动性</li>
+</ul>
+  </div>
+<div class="para"><p class="en">教纲第二部分的核心是 Literary Response Framework。它的定义句是：文学的学习以文学回应为中心——也就是读者与文本之间意义的协商。这个框架代表教师将如何设计学习经验。</p></div>
+<div class="para"><p class="en">框架的各层由中心向最外层展开。最中心是文本本身；当学生回应一个文学文本时，他们进行的是主动的意义建构。</p></div>
+<div class="para"><p class="en">关于五个 Areas of Study，教纲有一个专门的设计说明：它们被放在同一个连续的层里，是为了强调彼此之间的相互关联——学生需要单独欣赏每一个领域，但也需要考虑它们之间的关系。</p></div>
+<div class="para"><p class="en">关于三个 lenses，教纲同样说明：这些镜头的颜色彼此融入，是为了强调读者回应文本时的流动性。</p></div>
+</section>
+
+<!-- S5 -->
+<section id="s5">
+  <div class="sec-head"><span class="sec-num">05</span><h2>五个 Areas of Study · 教纲原定义</h2></div>
+  <div class="sec-time ui">Section 2 · Content</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>Plot</b>：事件在文本中被安排的方式，通常由因果串联</li>
+    <li><b>Character</b>：文本中对人、生物和／或物件的呈现，带有动机以及智性、道德和情感上的特质</li>
+    <li><b>Setting and Atmosphere</b>：情境发生的时间、地点、物理细节与环境；atmosphere 指写作的情绪或情感质地</li>
+    <li><b>Style</b>：作者<b>有目的地</b>使用语言以达成某些效果</li>
+    <li><b>Theme</b>：文本中探讨的核心观念与关键关切</li>
+    <li>⚑ 对照讲座：Character 的定义里同时包含 motivation 和道德／情感特质，正是课上「人物小传」「英雄为什么反抗」那类练习的依据</li>
+    <li>⚑ Style 的定义里「purposeful」一词是关键——它把「作者的选择」变成可分析的对象，也就是 Chris 说的 authorial choices</li>
+</ul>
+  </div>
+<div class="para"><p class="en">教纲对五个领域各给了一句定义。Plot 指事件在文本中被安排的方式，通常由因果关系串联。Character 指文本中对人、生物和／或物件的呈现，他们带有动机，以及智性的、道德的和情感的特质。</p></div>
+<div class="para"><p class="en">Setting and Atmosphere 指某个情境发生时的时间、地点、物理细节与环境状况；而 atmosphere 指写作的情绪或情感质地。Style 指作者有目的地使用语言以达成某些效果。Theme 指文本中所探讨的核心观念与关键关切。</p></div>
+<div class="para"><p class="en">这几句定义值得和讲座内容对读。Character 的定义里同时包含动机与道德情感特质，正是写作课「人物小传」和「英雄为什么明明害怕还要反抗」那类练习的依据。而 Style 定义中的「有目的地」（purposeful）是关键词——它把作者的选择变成了一个可以被分析的对象，也就是 Chris 在讲座里说的 authorial choices。</p></div>
+</section>
+
+<!-- S6 -->
+<section id="s6">
+  <div class="sec-head"><span class="sec-num">06</span><h2>三个 Lenses · 读者进入文本的三种方式</h2></div>
+  <div class="sec-time ui">Section 2 · Content</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>Experiencing Story 体验故事</b>：沉浸在文本的世界里；同理角色；专注于阅读时升起的感受、想法与画面；<b>反思自己生活的面向，以及文本揭示了什么关于人类经验的东西</b></li>
+    <li><b>Appreciating Style 欣赏风格</b>：<b>放慢阅读速度</b>去思考作者艺术选择可能的含义；留意作者用词特别引人注目之处；追溯自己的诠释如何被风格特征影响</li>
+    <li><b>Interpreting Theme 诠释主题</b>：分析文本中被凸显的主要观念与关切；<b>对多元视角保持开放</b>；在探索可能的诠释时，设法整合看似不相关的文本元素</li>
+    <li>⚑ 「放慢阅读速度」是一个很具体的教学动作，值得单独收集案例</li>
+    <li>⚑ 「整合看似不相关的文本元素」正是高年级课上「理清多线故事、说出两三个主题」的能力描述</li>
+</ul>
+  </div>
+<div class="para"><p class="en">三个 lenses 代表读者接近并理解文本的方式。教纲对每一个都给了具体的动作清单。</p></div>
+<div class="para"><p class="en">Experiencing Story：透过这个镜头，学生体验文本的故事，仿佛自己就是其中的一部分。他们将沉浸在文本的世界中；同理角色；专注于阅读时升起的感受、想法与画面；并反思自己生活的各个面向，以及文本揭示了什么关于人类经验的东西。</p></div>
+<div class="para"><p class="en">Appreciating Style：透过这个镜头，学生分析作者的技艺及其对读者的效果。他们将放慢阅读的速度，去考虑作者艺术选择可能的含义；留意作者用词显得特别引人注目的地方；并追溯自己对文本的诠释如何被风格特征所影响。</p></div>
+<div class="para"><p class="en">Interpreting Theme：透过这个镜头，学生探索文本对世界所说的话的意义。他们将分析文本中被凸显的主要观念与关切；对文本的多元视角保持开放；并在探索文本可能的诠释时，设法整合看似不相关的文本元素。</p></div>
+</section>
+
+<!-- S7 -->
+<section id="s7">
+  <div class="sec-head"><span class="sec-num">07</span><h2>最外层 · 四种 Connections</h2></div>
+  <div class="sec-time ui">Section 2 · Content</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>最外层代表学生所建立的<b>连接</b>——这些连接反过来增进他们对自己和世界的理解</li>
+    <li><b>Self</b>：在文本与自己的生活之间建立连接</li>
+    <li><b>The World</b>：连接文本与它被创造出来的语境（文化、历史、社会、政治、经济）；也连接文本与自己所处的世界，包括新加坡这个直接的社会</li>
+    <li><b>Other Readers</b>：透过与同学讨论、以及阅读关于该文本的评论来建立理解</li>
+    <li><b>Other Texts</b>：与其他文本相互参照（讲座里的「比较阅读 · 整合主题」）</li>
+    <li>⚑ 关于 dialogue 和 writing，教纲的表述值得记：它们是知识建构的基石，让学生的<b>思考过程被看见</b>；两者构成一个良性循环，彼此强化、彼此提供养分</li>
+</ul>
+  </div>
+<div class="para"><p class="en">最外一层代表学生为了理解一个文本而建立的各种连接，而这些连接反过来增进他们对自己和世界的理解。</p></div>
+<div class="para"><p class="en">Self：学生透过在文本与自己生活之间建立连接来与文本发生关系。The World：学生在文本与它被创造出来的语境之间建立连接，例如文化的、历史的、社会的、政治的、经济的语境；他们也探索文本与自己所生活的世界之间的连接，包括新加坡这个直接的社会。Other Readers：学生透过与同侪讨论文本、以及阅读关于文本的评论来建立理解。Other Texts：与其他文本之间的相互参照。</p></div>
+<div class="para"><p class="en">关于 dialogue 和 writing 这一层，教纲的表述值得单独记住：对话与写作是知识建构的关键，它们构成了文学回应所需的知识、技能与性向学习的基石；透过对话和写作，学生的思考过程被看见；而且两者运作于一个良性循环之中，彼此强化、彼此提供养分。</p></div>
+</section>
+
+<!-- S8 -->
+<section id="s8">
+  <div class="sec-head"><span class="sec-num">08</span><h2>⚑ 学习目标 LO 与知识技能性向 KSD · 可勾选的分析清单</h2></div>
+  <div class="sec-time ui">Section 2 · Content（讲座未涉及）</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>⚑ 这是整份教纲最可操作的一块，两场讲座都没讲到</b>——但它正是「给每一圈做脑图、去找案例」那两份作业的现成表格</li>
+    <li>结构：每个 LO 挂一组 KSD，KSD 又分<b>入门（introductory）</b>和<b>进阶（advanced）</b>两档；<b>所有 LO 在初中结束前都要达成</b>，高中靠更复杂的文本和更高的成熟度来加深</li>
+    <li><b>LO1.1 体验情节、人物、情境与气氛</b>：沉浸于事件之流；同理并评价人物的行动、决定、想法与动机；借文本细节将情境视觉化并留意气氛；追踪自己在阅读中产生的感受与想法。<b>进阶</b>：透过人物研究探索人类关系与行为的复杂性；反思文本以更深理解自己的性格特质与生活经验</li>
+    <li><b>LO2.1 欣赏作者技艺</b>（八项，每项带例）：<b>diction</b> 用词（生僻词、重复、矛盾修辞、双关）· <b>figurative language</b> 比喻（明喻、暗喻、拟人、象征）· <b>imagery</b> 意象（视觉、听觉、触觉）· <b>prosody</b> 音韵（节奏、押韵、头韵、谐音、<b>拟声</b>）· <b>point of view</b> 视角（第一、第二、第三/全知、多视角）· <b>tone</b> 语调（幽默、忧郁、不祥）· <b>form</b> 形式（行长、跨行、形状）· <b>irony</b> 反讽（言语、戏剧、情境）</li>
+    <li>同条还要求认识各体裁的专门术语：散文（小说、短篇、章、叙述者、作者）· 诗歌（俳句、十四行、诗节、行、格律、persona）· 戏剧（喜剧、悲剧、幕、场、舞台指示、独白）</li>
+    <li><b>LO2.2 情节</b>：结构（铺垫—上升—高潮—下降—结局）、情节手法（<b>倒叙、伏笔、反转</b>）、冲突如何推动情节。<b>进阶</b>：单场景与全文的关系、主线与副线的联系</li>
+    <li><b>LO2.3 人物</b>：直接刻画（作者描述）与间接刻画（行动、话语、想法、动机、视角）、人物之间的异同、人物类型（圆形/扁平）与角色功能（叙述者、<b>陪衬 foil</b>、主角、反派）。<b>进阶</b>：人物的改变与发展、人物关系如何以及为何改变</li>
+    <li><b>LO2.4 情境与气氛</b>：物理描写及其唤起的情绪基调、情境的作用与目的（透露人物的态度、情绪、身份）。<b>进阶</b>：情境／气氛的变化、不同情境之间的异同</li>
+    <li><b>LO3.1 诠释主题</b>：辨识全文反复出现的观念与议题；分析情节、人物、情境气氛、风格<b>如何综合起来生成意义</b>；连接自我／世界／其他文本／其他读者；探究文本透露了作者的什么信念与视角</li>
+    <li>⚑ LO3.1 进阶里有两条极重要：<b>让意义慢慢展开，在充分考虑文本证据之前不下结论</b>；<b>对可能的诠释保持开放，把模糊性视为文学诠释的本质要素</b></li>
+    <li><b>LO4.1 建构个人回应</b>：用 think-pair-share、脑力激荡、自由写作、日志等方式激发想法；透过分析与综合文本证据深化初步反应；透过讨论、写作等交换经验与视角来共构回应。<b>进阶</b>：评估他人的视角（看他们的证据和推理）、依他人观点重新审视并修正自己的看法</li>
+    <li><b>LO4.2 沟通个人回应</b>：写／说之前先起草并组织论点；说明讨论的主要关切；透过展开来有效发展想法；<b>明智地挑选文本证据来支撑回应</b>；依老师和同侪的反馈修改论点。<b>进阶</b>：在证据的选择与分析上展现对细节的注意与对细微差别的敏感；全程维持连贯的观点；使用恰当的<b>元语言</b>与体裁术语</li>
+</ul>
+  </div>
+<div class="para"><p class="en">这一节是两场讲座都没有走到的地方，但它其实是那两份作业的答案。言词布置的是「给这张图的每一圈各做一张脑图，然后每个部分都去找案例——比如他分析了 character，分析的是哪个角色？怎么分析的？分析了什么？」——而教纲已经把「分析什么」列成了可勾选的清单。</p></div>
+<div class="para"><p class="en">结构上，每一条 LO 下面挂一组 KSD（Knowledge, Skills and Dispositions），并且明确分成两档：「到文学学习入门阶段结束时，学生将能够……」和「当学生持续发展入门技能的掌握度时，他们将学会……」。教纲说明，所有 LO 在初中阶段结束前都要达成；高中阶段的强化靠两件事——选择更复杂的文本，以及对学生回应所要求的成熟度更高。</p></div>
+<div class="para"><p class="en">把跟课老师的汇报放回这张表上，会看到一件事：她们其实一直在填这张表，只是手上没有表。唐慧汇报的 crack, crack, crack 是 LO2.1 里 prosody 下的 onomatopoeia（拟声）；她说的第一人称回忆录是 point of view；公盟讲的「伏笔」是 LO2.2 里的 foreshadowing；她讲罗大里戏剧的讽刺手法，言词判断「那属于审美」——对应的正是 LO2.1 里的 irony。而 Chris 反复做的「把孩子从故事里拽出来」，对应 LO3.1 那条进阶 KSD：在充分考虑文本证据之前不下结论。</p></div>
+<div class="para"><p class="en">还有一条值得单独记：LO4.1 的进阶要求学生「评估他人的视角——考察他们的文本证据和推理」，并且「依据他人的观点重新审视和修正自己的看法」。这一条把「多元视角」从一种态度变成了一个可观察的课堂动作，也正好是言词说的批判性思维在课堂上的落点。</p></div>
+</section>
+
+<!-- S9 -->
+<section id="s9">
+  <div class="sec-head"><span class="sec-num">09</span><h2>体裁与选文规定 · 三条硬要求</h2></div>
+  <div class="sec-time ui">Section 2 · Genre Specifications（讲座未涉及）</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>初中结束前，学生必须学习<b>三种体裁的文本：散文、诗歌、戏剧</b></li>
+    <li><b>⚑ 硬要求一：选文必须来自新加坡，同时也来自世界不同地区——三种体裁的选文不可以全部来自同一个国家</b>。教纲给的理由直接写明是为了培养 global awareness 并让学生建立更有意义的连接</li>
+    <li><b>⚑ 硬要求二：文本必须整本／整篇研读</b>。小说、诗、剧本的节选<b>不得用来替代完整文本</b>；节选只能用来补充和延伸完整文本的学习（例如加深对体裁惯例的理解、比较不同作者对同一主题的处理）</li>
+    <li>硬要求三：选文要有足够的空间支撑五个 Areas of Study 的探索与批判分析</li>
+    <li>戏剧不可选用电影剧本版本——教纲的理由是电影的元语言（如镜头角度）与戏剧差异太大</li>
+    <li>高中另有 Full Literature 与 Elective Literature 两条路径；Elective 只考散文和诗歌两个体裁</li>
+    <li>教纲鼓励老师额外引介「相关作品」（同一作者的其他作品、主题或语境相关的作品）以培养广泛阅读与对文学的热爱——<b>但这些作品不纳入评估</b></li>
+    <li>⚑ 对我们的意义：第 3 场讲的「比较阅读、整合主题」在教纲里不是选做，是<b>被写进选文规定里的制度设计</b></li>
+</ul>
+  </div>
+<div class="para"><p class="en">这一节讲的是选什么书、怎么读。三条要求都很硬。</p></div>
+<div class="para"><p class="en">第一条是关于来源：选文必须来自新加坡，并且来自世界的不同地区；教纲用大写强调，三种体裁的选文不可以全部来自同一个国家。理由写得很直接——为了在学生身上培养更强的全球意识，并让他们能够建立更有意义的连接。高中阶段还有一条补充建议：从指定书目中选文时，强烈建议散文和戏剧来自不同地区。</p></div>
+<div class="para"><p class="en">第二条是关于完整性：文本要整本研读，好让学生对五个分析领域建立整体的理解。小说、诗歌或剧本的节选不得用来替代完整文本；但节选可以用来补充和延伸完整文本的学习，比如加深对体裁惯例的理解，或者比较不同作者对同一主题的处理。</p></div>
+<div class="para"><p class="en">把这两条放在一起看，会发现第 3 场讲的「比较阅读、整合主题」在教纲里并不是一个可选的高阶动作——它是被写进选文制度里的：因为规定了选文必须跨地区，学生手上天然就有可比较的材料。</p></div>
+<div class="para"><p class="en">另外教纲还给老师留了一个不受评估约束的空间：在高中阶段，老师会引介相关作品——同一作者的其他作品，或主题上、语境上相关的作品——目的是鼓励广泛阅读和对文学的热爱，而学生不需要在这些作品上被评估。</p></div>
+</section>
+
+<!-- S10 -->
+<section id="s10">
+  <div class="sec-head"><span class="sec-num">10</span><h2>Section 3 · 教学与学习的四条原则</h2></div>
+  <div class="sec-time ui">Section 3 · Pedagogy（讲座未涉及）</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>教纲对教师角色的定位是一次范式转变：<b>不是知识的分发者，而是学习的促进者</b>；课堂上教师<b>逐步把学习的所有权移交给学生</b></li>
+    <li>四条原则是相互关联的，要整合实施</li>
+    <li><b>① Personal Engagement 个人投入</b>：营造正向而安全的课堂文化。具体到可执行的四件事——设定期待与常规、厘清角色、管理与监控时间、<b>安排空间配置</b>；并设计让学生紧贴文本、发展出个人回应与个人声音、评估多元视角的互动</li>
+    <li><b>② Meaningful Connections 有意义的连接</b>：引导学生连接文本与自己的生活（调用先备知识与个人经验）、文本与世界（创作语境、历史与当代议题）、文本与其他读者（与同侪、老师、评论者共构理解）、文本与其他文本</li>
+    <li>⚑ 这一条的目的写得很明确：让学生看到文学与自己生活及世界的相关性，<b>从而培养出阅读文学的内在动机</b></li>
+    <li><b>③ Critical Appreciation 批判性欣赏</b>：<b>让思考可见</b>——示范思考过程（放声思考、视觉提示、图示）；用能探询、挑战、深化学生思考的<b>多样提问技巧</b>维持探索性对话；提供多次机会让学生独立探究、<b>提出自己关于文本的问题</b>、并「玩语言」以探索文本中可能的意义范围</li>
+    <li><b>④ Reflective Practice 反思实践</b>：分成<b>行动中的反思</b>（用明确的评量规准澄清期待、观察学生回应、灵活调整教学策略、及时有效反馈、留出跟进的时间与空间、引导同侪与自我评估）和<b>行动后的反思</b>（设计让思考可见的任务、收集并分析自己教学实践的数据如反思日志/同侪观课/录像/学生问卷、团队协作改设计、广泛阅读以更新教学法与文本储备）</li>
+    <li>⚑ 我的判断（需要压一压）：这一节其实是<b>跟课老师最该拿来当观课量表的一节</b>——它把「好课堂长什么样」写成了可勾选的教师动作</li>
+</ul>
+  </div>
+<div class="para"><p class="en">这一节是讲座完全没有碰的部分，但它回答的正是跟课老师最初提的那个问题的另一半：老师在课堂上到底在做什么。</p></div>
+<div class="para"><p class="en">教纲对教师角色的定位是一次范式转变：在文学课堂里，教师不是知识的分发者，而是学习的促进者；在这样的课堂里，教师逐步把学习的所有权移交给学生，赋能他们成为塑造自己意义建构过程的主动参与者。四条原则相互关联，要以整合的方式实施。</p></div>
+<div class="para"><p class="en">第一条个人投入，落点是课堂文化：营造一个适合对话式课堂的环境，让丰富的讨论和文本探索得以发生——具体做法包括设定期待与常规、厘清角色、管理和监控时间、以及空间的配置。同时要设计有意义的课堂互动，让学生紧贴文本、发展出个人回应与个人的声音、并评估多元视角。</p></div>
+<div class="para"><p class="en">第二条有意义的连接，就是框架最外圈那四种连接的教师版本：引导学生在文本与自己的生活之间建立连接（调用学生的先备知识和个人经验）、文本与世界之间（提请注意文本被创造的语境，以及文本所照亮的历史与当代世界议题）、文本与其他读者之间（鼓励学生与同侪、教师和其他评论者协作共构理解）、以及文本与其他文本之间（引介诗、短篇、小说与剧本选段、图像小说、电影、录音、评论）。这一条的目的写得很清楚：让学生看到文学与他们的生活和广阔世界的相关性，从而培养出阅读文学作品的内在动机。</p></div>
+<div class="para"><p class="en">第三条批判性欣赏，是把 close reading 的技能养出来。三个动作：让思考可见——透过示范思考过程，例如放声思考、视觉提示、图示；透过多样的提问技巧来激发并维持学生之间的探索性对话，这些提问要能探询、挑战并深化学生对文本的思考；以及促进独立探究——给学生多次机会去独立研究想法、提出他们自己关于文本的问题、并且玩语言，以探索文本中可能的意义范围。</p></div>
+<div class="para"><p class="en">第四条反思实践，对象是老师自己。它分成两块：教学当下的「行动中反思」，包括用明确的评量规准和成功标准来澄清期待、观察并监控学生的回应、灵活调整教学策略以回应学生正在浮现的需求、提供及时恰当有效的反馈、确保学生有时间空间和机会进行后续行动、以及引导同侪评估与自我评估；以及备课时的「行动后反思」，包括设计能让思考可见的有意义任务、提供多次机会让学生展示对 KSD 的理解、辨识学生的学习落差与兴趣需求、收集并分析自己教学实践的数据（反思日志、同侪观课、录像、学生问卷）、在团队中协作修改与设计学习经验、以及广泛阅读以跟上文学教学法的最新发展并扩大可引介给学生的文本储备。</p></div>
+<div class="para"><p class="en">这一节值得单独拎出来的原因是：它把「一堂好的文学课长什么样」写成了一份教师动作清单。对跟课老师来说，它比前面任何一节都更接近一份可用的观课量表——这是我的判断，你可以拿一节 Chris 的课去对一对，看这四条能不能勾满。</p></div>
+</section>
+
+<!-- S11 -->
+<section id="s11">
+  <div class="sec-head"><span class="sec-num">11</span><h2>Section 4 · 评估目标 AO1–AO5 与四种题型</h2></div>
+  <div class="sec-time ui">Section 4 · Assessment（讲座未涉及）</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>评估哲学是 <b>Assessment for Learning（AfL）</b>：收集并分析学生学习的证据，用来做教学决策；老师要辨识学习落差、给多次展示机会、给<b>以「学生能做什么、还需要做什么」来表述</b>的反馈、并让学生用明确公开的规准参与自评与互评</li>
+    <li><b>五条评估目标（AO），文学考的就是这五件事：</b></li>
+    <li><b>AO1</b>：透过细致分析，展现对所学文学文本的知识</li>
+    <li><b>AO2</b>：以知识与理解回应散文、诗歌、戏剧等不同体裁的文学文本</li>
+    <li><b>AO3</b>：展现对<b>作者在形式、结构与语言上的选择如何塑造意义</b>的理解</li>
+    <li><b>AO4</b>：传达出<b>敏锐而有见识的个人回应</b></li>
+    <li><b>AO5</b>：清晰连贯地表达回应，<b>在恰当处使用文本证据</b></li>
+    <li>⚑ 五条是相互关联的，学生的回应要以整合而有意义的方式<b>整体评分</b>（holistically），不是逐条打勾</li>
+    <li><b>四种题型的差异（教纲附了《动物农场》同一段落的对照样卷）：</b></li>
+    <li><b>Modified PBQ</b>（N(A) 用）：两小题都问这一段本身 → 例如「你从这段了解到 Squealer 什么？」「你对这段里其他动物有什么想法和感受？」</li>
+    <li><b>标准 PBQ</b>（Express 用）：第一小题问段落，<b>第二小题要求跳出这段、从小说后段另选一个事件</b>，说明你的想法和感受如何发展或改变</li>
+    <li><b>Guided Essay</b>：给论述题，但附<b>子提示</b>（例如「你可以考虑：两人各自如何说服其他动物接受提议／他们在起义和牛棚之战中的行动」）</li>
+    <li><b>标准 Essay</b>：同一道题，<b>不给任何子提示</b></li>
+    <li>⚑ 初二结束前，学生要在三种体裁上都被正式评估过，并能对上述题型作出持续、有批判性的回应；高中另加 <b>Unseen Poetry</b>（未见过的诗）</li>
+</ul>
+  </div>
+<div class="para"><p class="en">这一节回答的是「到底怎么算学会了」。教纲的评估哲学是 Assessment for Learning：评估是收集并分析关于学生学习与发展的证据，以便做出恰当的教学决策并增进学习；它是教与学过程不可分割的一部分，应当与教学规划的决策对齐。在文学科，教师会就学生对文学文本的理解、诠释与回应做整体性的评估。</p></div>
+<div class="para"><p class="en">五条评估目标是整份文件里最凝练的部分。AO1 是透过细致分析展现对所学文本的知识；AO2 是以知识与理解回应来自散文、诗歌、戏剧等不同体裁的文学文本；AO3 是展现对作者在形式、结构与语言上的选择如何塑造意义的理解；AO4 是传达出敏锐而有见识的个人回应；AO5 是清晰连贯地表达回应，并在恰当之处使用文本证据。教纲特别说明这五条相互关联，学生的回应会以整合而有意义的方式被整体评分。</p></div>
+<div class="para"><p class="en">把 AO3 和 AO4 并排看，能看出这份评估设计的用心：AO3 要的是客观的技艺分析，AO4 要的是「敏锐而有见识的个人回应」——两者都要，缺一条都不算。这也解释了为什么教纲说通道式题型（PBQ 和 essay）之所以被采用，正是因为它们允许学生展现对文本的整体回应，尤其允许评估学生那个敏锐而有见识的个人回应。</p></div>
+<div class="para"><p class="en">最有参考价值的是那份对照样卷。教纲用《动物农场》里同一个段落（猪把牛奶和苹果据为己有、Squealer 出面向其他动物解释的那一段），做出了四种问法。Modified PBQ 的两小题都落在这段本身，问学生从这段了解到 Squealer 这个角色什么、以及对段落中其他动物有什么想法和感受。标准 PBQ 的第一小题也问这段，但第二小题要求学生跳出去——从小说后面的部分另选一个事件，说明自己对其他动物的想法与感受如何进一步发展或发生改变。</p></div>
+<div class="para"><p class="en">论述题的两版也是同样的逻辑。题目都是「你认为拿破仑和雪球谁是更有效的领导者？记得用文本细节支撑你的看法」，Guided 版在题目下面给了两条子提示（两人各自如何试图说服其他动物接受自己的提议、以及他们在对抗琼斯先生的起义和牛棚之战中的行动），标准版则一条提示也不给。</p></div>
+<div class="para"><p class="en">这四种问法的梯度值得记住：难度不是靠换文本或加长度做出来的，而是靠<b>要不要跳出当前段落</b>、以及<b>要不要自己搭出分析的支架</b>。这个梯度对我们设计课堂提问和检查孩子的理解层次，比任何转述都直接。</p></div>
+</section>
+
+<!-- S12 -->
+<section id="s12">
+  <div class="sec-head"><span class="sec-num">12</span><h2>📗 对照资料 · 美国 CCSS 英语语言艺术标准</h2></div>
+  <div class="sec-time ui">Common Core State Standards for ELA & Literacy</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>CCSS 和 MOE 教纲不是同一类东西</b>：MOE 是一份带价值观与教学法的课程指南，CCSS 是一张<b>纵向能力进阶表</b></li>
+    <li>结构：<b>10 条 CCR 锚标准（阅读）</b>分四组 —— Key Ideas and Details（1–3）· Craft and Structure（4–6）· Integration of Knowledge and Ideas（7–9）· Range and Complexity（10）</li>
+    <li>这 10 条<b>在每个年级各重写一遍</b>：K–8 逐年级，9–10 与 11–12 各为一个两年段；文学（RL）与信息类文本（RI）各一套；另有写作、口语听力、语言三个 strand</li>
+    <li><b>阅读锚标准要点</b>：① 细读、<b>引用具体文本证据</b>支撑结论 ② 确定中心思想或主题并分析其发展 ③ 分析人物、事件、观念如何在全文中发展与互动 ④ 诠释词句（含引申义与比喻义）并分析措辞如何塑造意义与语气 ⑤ 分析文本结构 ⑥ 评估视角或写作目的如何塑造内容与风格 ⑦ 整合并评估不同媒介的内容 ⑧ <b>评估论证与具体主张，包括推理是否成立、证据是否相关且充分</b> ⑨ <b>分析两个或以上文本如何处理相似主题或话题</b> ⑩ 独立而熟练地读懂复杂文本</li>
+    <li><b>写作锚标准</b>三大文类：论说（用有效推理与相关充分的证据支撑主张）、说明／解释、叙事；另有「<b>从文学或信息类文本中提取证据以支撑分析、反思与研究</b>」这一条</li>
+    <li><b>语言锚标准</b>里有一条与文学直接相关：展现对<b>比喻语言、词语关系与词义细微差别</b>的理解</li>
+    <li><b>⚑ CCSS 自己划的边界</b>：它定义「所有学生应该知道并能做什么」，<b>不定义老师该怎么教</b>；它聚焦最核心的部分，<b>不描述所有可教或应教的内容</b>；它不定义超前学生的进阶学习，也不规定支持落后学生的干预方法</li>
+    <li>⚑ 所以它没有价值观陈述，通篇没有「文学为什么重要」——这恰好是 MOE 教纲最强的地方</li>
+</ul>
+  </div>
+<div class="para"><p class="en">这份文件和 MOE 教纲经常被放在一起提，但它们回答的不是同一个问题。MOE 教纲是一份带着价值观、框架和教学法的课程指南；CCSS 是一张纵向的能力进阶表。</p></div>
+<div class="para"><p class="en">它的核心是十条大学与职涯准备（CCR）阅读锚标准，分成四组：核心观念与细节、技艺与结构、知识与观念的整合、阅读广度与文本复杂度。这十条锚标准会在每一个年级被重写一遍，K 到 8 年级逐年级写，9–10 和 11–12 各写成一个两年段；同一套锚标准同时适用于文学类和信息类文本，各有一套年级细则。阅读之外还有写作、口语听力、语言三个 strand，各自也有自己的锚标准。</p></div>
+<div class="para"><p class="en">CCSS 自己对边界的声明写得非常明确，值得完整记住：这些标准定义所有学生被期待知道并能够做到什么，而不是老师应该怎么教；虽然标准聚焦于最本质的东西，但它们并不描述所有可以教或应该教的内容，大量的空间留给教师和课程开发者裁量；它不定义那些提前达标的学生该做什么样的进阶学习，也不规定支持远低于或远高于年级期待的学生所需的干预方法或材料。</p></div>
+<div class="para"><p class="en">这段自我声明其实解释了为什么两份文件必须一起看：CCSS 主动放弃了「怎么教」和「为什么教」，而这两件事正是 MOE 教纲写得最好的地方。反过来，MOE 教纲说自己「既不是学科内容知识的详尽总结，也不是一份现成的教学脚本」，它没有提供逐年级的能力刻度——而这正是 CCSS 的强项。</p></div>
+</section>
+
+<!-- S13 -->
+<section id="s13">
+  <div class="sec-head"><span class="sec-num">13</span><h2>⚑ CCSS 的真正价值 · 一条能力的纵向进阶长什么样</h2></div>
+  <div class="sec-time ui">Reading Standards for Literature, K–12</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>拿<b>「主题」</b>这一条（锚标准 2）从 K 到 12 串起来看，就能看到能力刻度是怎么切的：</li>
+    <li><b>K</b>：在提示与支持下复述熟悉的故事，包括关键细节</li>
+    <li><b>1–2 年级</b>：复述故事并展现对其中心讯息或教训的理解；能复述来自不同文化的寓言与民间故事，<b>确定其中心讯息、教训或道德寓意</b></li>
+    <li><b>3 年级</b>：确定中心讯息，并<b>说明它是如何透过文本中的关键细节被传达的</b></li>
+    <li><b>4 年级</b>：<b>从文本细节中确定一个主题</b>；概括全文</li>
+    <li><b>5 年级</b>：从细节中确定主题，<b>包括人物如何回应挑战、或诗中说话者如何反思一个话题</b></li>
+    <li><b>6 年级</b>：确定主题或中心思想以及它如何透过特定细节被传达；<b>提供一个与个人意见和判断相区分的摘要</b></li>
+    <li><b>7 年级</b>：分析主题<b>在全文过程中的发展</b>；提供客观摘要</li>
+    <li><b>8 年级</b>：分析主题的发展，<b>包括它与人物、情境和情节的关系</b></li>
+    <li><b>9–10 年级</b>：详细分析主题的发展，<b>包括它如何浮现、如何被具体细节塑造与精炼</b></li>
+    <li><b>11–12 年级</b>：<b>确定两个或以上的主题，并分析它们如何互相作用、彼此建立，以产生一个复杂的叙述</b></li>
+    <li>⚑ 对照第 3 场：言词说低龄孩子能说出「哈利波特这部分讲的是人类的偏见」已经够了，而十级课的孩子要在多线故事里说出两三四个主题——<b>这两句话正好落在 CCSS 的 4 年级和 11–12 年级两端</b></li>
+    <li>⚑ 同样值得对照的另一条（锚标准 6 · 视角）：<b>11–12 年级</b>那条是「分析那些<b>把握视角需要区分字面所述与真正所指</b>的情况（讽刺、挖苦、反讽、轻描淡写）」——这就是言词讲的<b>言外之意与潜台词</b>，在 CCSS 里被标定为高中最高段的能力</li>
+</ul>
+  </div>
+<div class="para"><p class="en">CCSS 最值得我们用的，不是拿它当一份更细的教纲，而是拿它当一把刻度尺。把同一条能力从 K 到 12 串起来读，你会看到一个能力是怎么被切成十三段的。</p></div>
+<div class="para"><p class="en">以「主题」为例。幼儿园阶段是在提示与支持下复述熟悉的故事；一二年级开始要能说出中心讯息、教训或道德寓意；三年级加上「它是怎么被关键细节传达的」；四年级第一次出现「主题」这个词，要求从文本细节中确定一个主题；五年级要求把主题和人物如何回应挑战联系起来；六年级开始要求把客观摘要和个人意见分开；七年级要求分析主题在全文中的发展；八年级要求分析主题与人物、情境、情节的关系；九到十年级要求分析主题如何浮现、如何被具体细节塑造和精炼；十一到十二年级则要求确定两个或以上的主题，并分析它们如何互相作用、彼此建立，以产生一个复杂的叙述。</p></div>
+<div class="para"><p class="en">把这条线和第三场讲座对读，会看到一个很有用的重合。言词说，对年纪小的孩子，能明白「哈利波特这部分表达的是人类的偏见」在他那个年龄就已经够了；而到十级阅读课，故事多线并行，要能理清框架并说出它要表达的两个三个四个主题。这两句话几乎正好落在 CCSS 的四年级和十一到十二年级两端——她凭经验切出来的两个刻度，和这份标准的两端是对上的。</p></div>
+<div class="para"><p class="en">另一条同样能对上的是视角。CCSS 十一到十二年级的第 6 条要求学生分析那些「把握视角需要区分文本直接陈述的内容与真正所指」的情况，并举了讽刺、挖苦、反讽、轻描淡写作例。这正是言词讲的言外之意和潜台词——《城南旧事》里妞儿的死、《第三次拯救世界》里那个科学家「走了进去」。在 CCSS 的刻度上，这被标定为高中最高段的能力；而我们的中文泛读课在拿它训练更小的孩子。</p></div>
+<div class="para"><p class="en">这是一个值得记下来的观察，也是我建议你压一压的判断：如果 FOGG 的十级阅读课需要一条可对外说明的层级依据，CCSS 的纵向进阶比任何自建的层级表都更省力，而且是可引用的。</p></div>
+</section>
+
+<!-- S14 -->
+<section id="s14">
+  <div class="sec-head"><span class="sec-num">14</span><h2>怎么用这两份文件 · 分工与待办</h2></div>
+  <div class="sec-time ui">使用建议</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>MOE 教纲回答「为什么教」和「看什么」</b>：三大目标、四个成果、五个分析领域、三个镜头、四种连接、四条教学原则、五条评估目标</li>
+    <li><b>CCSS 回答「到什么程度」</b>：同一条能力在 K–12 每一档的刻度</li>
+    <li><b>两者都主动放弃了对方的强项</b>——MOE 说自己不是教学脚本、没有年级刻度；CCSS 说自己不管怎么教、不谈为什么</li>
+    <li><b>📌 建议的用法</b>：教研的价值观和框架用 MOE；课程分级和对外说明用 CCSS；<b>课堂案例的归档用 LO/KSD 那张清单</b>（第 08 节）</li>
+    <li><b>📌 待办一</b>：把三场讲座里出现的所有课堂案例，按「五个分析领域 × 三个镜头」归档，做成可检索的案例库——这正是言词那两份作业的长期形态</li>
+    <li><b>📌 待办二</b>：拿一节 Chris 的课去对第 10 节那四条教学原则，看能不能勾满；这是跟课观课量表的雏形</li>
+    <li><b>📌 待办三</b>：用第 11 节的四种题型梯度（跳不跳出本段 × 给不给支架）去反查我们课堂提问的难度分布</li>
+    <li>⚑ 最后一句提醒：这份参考页是<b>结构与核心章节的摘录加中文对照，不是全文替代</b>。原文里的图表、指定书目、分年级细则表仍然只有原件里有——要精确引用时请回到原文件</li>
+</ul>
+  </div>
+<div class="para"><p class="en">两份文件的分工现在可以说清楚了。MOE 教纲回答的是「为什么教文学」和「看一个文本时看什么」：它给了三大目标、四个成果、五个分析领域、三个镜头、四种连接，往下还有四条教学原则和五条评估目标。CCSS 回答的是另一个问题：同一条能力，在每一个年级应该到什么程度。</p></div>
+<div class="para"><p class="en">有意思的是两份文件都主动声明了自己不做什么，而且声明的正好是对方的强项：MOE 说自己既不是学科知识的详尽总结、也不是现成的教学脚本，它确实没有给逐年级的能力刻度；CCSS 说自己定义学生该会什么、不定义老师该怎么教，它确实通篇没有一句关于文学为什么重要。所以这两份文件不是替代关系，是互补关系。</p></div>
+<div class="para"><p class="en">落到我们自己：教研的价值观和框架用 MOE 教纲，课程分级和对外说明用 CCSS 的纵向进阶，而日常课堂案例的归档用第 08 节那张 LO/KSD 清单——因为它已经把「分析什么」列成了可勾选的条目。</p></div>
+<div class="para"><p class="en">最后要说明一件事：这份参考页是结构梳理加核心章节的摘录与中文对照，覆盖了两份文件的骨架和讲座会用到的部分，但它不是全文的替代。原文里的图表、指定书目、以及逐年级的细则表格，仍然只有原件里才有。要精确引用某一条时，请回到原文件核对。</p></div>
+</section>
+
+
+<footer class="ui">本页为学习用摘录与中文对照 · 原文版权归 Singapore MOE 所有（该出版物允许为个人或非商业教育用途完整复制）· 配合「研读教纲（上）/（下）」两页使用<br>💡 选中文字 → 弹出「高亮 / 查词 / 高亮+笔记」· 点已有高亮 → 菜单（写笔记 / 查词 / 删除）· 「📤 导出」一键打包全部笔记</footer>
+</main>
+</div>
+
+<div id="hl-tip" class="ui">🖍 划线模式已开启 —— 选中文字即可高亮，点击已有高亮可删除</div>
+
+<div id="sel-pop" class="ui">
+  <button id="pop-hl">🖍 高亮</button><div class="sep"></div><button id="pop-dict">📖 查词</button><div class="sep"></div><button id="pop-note">📝 高亮+笔记</button>
+</div>
+<div id="dict-card" class="ui">
+  <button class="close-x" id="dc-close">✕</button>
+  <span class="dw" id="dc-word">…</span><span class="dp" id="dc-ph"></span><button class="say" id="dc-say" title="朗读">🔊</button>
+  <div class="zh-big loading" id="dc-zh-big">翻译中…</div>
+  <div class="dd" id="dc-def"></div>
+  <div class="dc-row"><button class="add" id="dc-add">＋ 存入生词本</button></div>
+</div>
+<div id="note-modal" class="ui">
+  <div class="box">
+    <div class="quote-ref" id="nm-quote"></div>
+    <textarea id="nm-text" placeholder="写下你的想法…"></textarea>
+    <div class="row"><button class="ok" id="nm-ok">保存笔记</button><button class="no" id="nm-cancel">取消</button></div>
+  </div>
+</div>
+<div id="mark-menu" class="ui">
+  <button id="mm-note">📝 写/改笔记</button>
+  <button id="mm-dict">📖 查这个词</button>
+  <button class="danger" id="mm-del">🗑 删除这条高亮</button>
+</div>
+
+<div id="share-modal" class="ui">
+  <div id="share-card">
+    <button class="sc-x" id="sc-x">✕</button>
+    <div class="sc-quote" id="sc-quote"></div>
+    <div class="sc-note" id="sc-note" style="display:none"></div>
+    <div class="sc-src"><span id="sc-src-txt"></span><span class="sc-brand">FOGG 学习笔记</span></div>
+    <div id="share-actions"><button class="cap" id="sc-cap">📸 截图保存</button><button class="cls" id="sc-close">关闭</button></div>
+  </div>
+</div>
+<div id="share-actions-wrap" style="display:none"></div>
+<div id="drawer" class="ui">
+  <div class="tabs">
+    <button data-tab="vocab" class="on">📖 生词本</button>
+    <button data-tab="hl">🖍 划线笔记</button>
+    <button data-tab="note">📝 总笔记</button>
+  </div>
+  <div class="pane on" data-pane="vocab">
+    <div class="vocab-stats">还不会 <b id="vc-unknown">0</b> ・ 已掌握 <b class="ok-n" id="vc-known">0</b> ・ 共 <span id="vc-total">0</span> 词　<span style="margin-left:auto;font-size:11px;color:#A8B8B4">点 ⭕ = 已掌握</span></div>
+    <div id="vocab-list"><p class="empty">还没有生词/术语。选中文字 → 点「📖 查词收藏」。</p></div>
+  </div>
+  <div class="pane" data-pane="hl">
+    <div id="hl-list"><p class="empty">还没有划线。选中正文文字试试。</p></div>
+  </div>
+  <div class="pane" data-pane="note">
+    <textarea id="global-note" style="width:100%;min-height:60vh;height:auto;border:1.5px solid #DDE6E3;border-radius:12px;padding:14px;font-size:14.5px;line-height:1.8;background:#FFFEF8;resize:vertical;box-sizing:border-box;overflow:hidden" placeholder="整场讲座的总结、想放进 course map 的点、要转述给家长的话术……"></textarea>
+  </div>
+</div>
+
+<div id="sync-modal" class="ui">
+  <div class="box">
+    <h3 style="color:var(--teal);margin-bottom:6px">☁️ 多设备同步设置</h3>
+    <p style="font-size:12.5px;color:#6B8480;line-height:1.7;margin-bottom:12px">填入你的 <b>Gist ID</b> 和 <b>GitHub Token</b>，划线/笔记就会存到云端。在每台设备上填同一组，就能看到相同内容。（留空 = 只用本机保存）</p>
+    <label style="font-size:12px;color:#8CA19D">Gist ID</label>
+    <input id="sync-gist" class="sync-inp" placeholder="例如 3a1b...（那串字母数字）">
+    <label style="font-size:12px;color:#8CA19D;margin-top:8px;display:block">GitHub Token</label>
+    <input id="sync-token" class="sync-inp" type="password" placeholder="ghp_ 或 github_pat_ 开头">
+    <div id="sync-status" style="font-size:12.5px;margin-top:10px;min-height:18px"></div>
+    <div class="row" style="margin-top:12px">
+      <button class="ok" id="sync-save">连接并同步</button>
+      <button class="no" id="sync-clear">断开（只用本机）</button>
+      <button class="no" id="sync-close2">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+const NOTE_KEY='syllabus-ref-notes', HL_KEY='syllabus-ref-highlights', VC_KEY='syllabus-ref-vocab';
+let notes={}, highlights=[], vocab=[], saveTimer=null;
+
+// ===== 云端同步（GitHub Gist）+ 本地兜底 =====
+const CFG_GIST='__cfg_gist_id', CFG_TOKEN='__cfg_gist_token';
+let gistId=localStorage.getItem(CFG_GIST)||'', gistToken=localStorage.getItem(CFG_TOKEN)||'';
+let cloudCache=null, pushTimer=null, cloudOn=false;
+
+function gistHeaders(){return {'Authorization':'token '+gistToken,'Accept':'application/vnd.github+json'}}
+async function cloudPull(){
+  if(!gistId||!gistToken)return null;
+  const r=await fetch('https://api.github.com/gists/'+gistId,{headers:gistHeaders()});
+  if(!r.ok)throw new Error('pull '+r.status);
+  const j=await r.json();
+  const f=j.files&&j.files['data.json'];
+  cloudCache=f&&f.content?JSON.parse(f.content):{};
+  return cloudCache;
+}
+async function cloudPush(obj){
+  if(!gistId||!gistToken)return;
+  const r=await fetch('https://api.github.com/gists/'+gistId,{
+    method:'PATCH',headers:gistHeaders(),
+    body:JSON.stringify({files:{'data.json':{content:JSON.stringify(obj)}}})
+  });
+  if(!r.ok)throw new Error('push '+r.status);
+}
+
+const store={
+  async get(k){
+    if(cloudOn&&cloudCache&&(k in cloudCache))return cloudCache[k];
+    try{return localStorage.getItem(k)}catch(e){return null}
+  },
+  async set(k,v){
+    try{localStorage.setItem(k,v)}catch(e){}
+    if(cloudOn){
+      if(!cloudCache)cloudCache={};
+      cloudCache[k]=v;
+      clearTimeout(pushTimer);
+      pushTimer=setTimeout(async()=>{
+        try{await cloudPush(cloudCache);cloudBadge('✓ 已同步到云端 '+nowT())}
+        catch(e){cloudBadge('⚠ 云端同步失败，已存本地')}
+      },900);
+    }
+  }
+};
+function nowT(){return new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})}
+function cloudBadge(t){const s=document.getElementById('save-state');if(s)s.textContent=t}
+
+const state=document.getElementById('save-state');
+const sections=[...document.querySelectorAll('section')];
+
+function autoGrow(t){if(!t)return;t.style.height='auto';t.style.height=Math.max(t.scrollHeight,window.innerHeight*0.6)+'px';}
+
+// —— 分享卡片 & 工具 ——
+let vocabKnownOpen=false;
+const SHARE_EN=''; // 占位
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function openShareCard(o){
+  const q=document.getElementById('sc-quote');
+  q.className='sc-quote'+(o.en==='word'||/[a-zA-Z]/.test(o.quote)&&o.en!=='' ? ' sc-en':'');
+  q.innerHTML=escapeHtml(o.quote)+(o.zh?'<div class="sc-zh">'+escapeHtml(o.zh)+'</div>':'');
+  const n=document.getElementById('sc-note');
+  if(o.note){n.style.display='';n.textContent=o.note}else{n.style.display='none'}
+  document.getElementById('sc-src-txt').textContent=o.src||'';
+  document.getElementById('share-modal').classList.add('open');
+}
+(function(){
+  const m=document.getElementById('share-modal');
+  const close=()=>m.classList.remove('open');
+  const x=document.getElementById('sc-x'),c=document.getElementById('sc-close');
+  if(x)x.onclick=close;if(c)c.onclick=close;
+  m.addEventListener('click',e=>{if(e.target===m)close()});
+  const cap=document.getElementById('sc-cap');
+  if(cap)cap.onclick=async()=>{
+    const card=document.getElementById('share-card');
+    const actions=document.getElementById('share-actions');
+    if(typeof html2canvas==='undefined'){
+      // 动态载入截图库
+      await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s)}).catch(()=>{});
+    }
+    if(typeof html2canvas==='undefined'){setState('⚠ 截图组件需要联网，可手动系统截图');return}
+    actions.style.visibility='hidden';
+    try{
+      const canvas=await html2canvas(card,{backgroundColor:null,scale:2});
+      actions.style.visibility='';
+      canvas.toBlob(blob=>{
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');a.href=url;a.download='FOGG笔记卡片.png';a.click();
+        setTimeout(()=>URL.revokeObjectURL(url),1000);
+        setState('📸 卡片已保存为图片');
+      });
+    }catch(err){actions.style.visibility='';setState('⚠ 截图失败，可手动系统截图')}
+  };
+})();
+
+function setState(t){state.textContent=t}
+function scheduleSave(){setState('保存中…');try{localStorage.setItem('__last_read_syllabus-ref',Date.now())}catch(e){}clearTimeout(saveTimer);saveTimer=setTimeout(saveAll,700)}
+async function saveAll(){
+  try{
+    await store.set(NOTE_KEY,JSON.stringify(notes));
+    await store.set(HL_KEY,JSON.stringify(highlights));
+    await store.set(VC_KEY,JSON.stringify(vocab));
+    setState(cloudOn?'✓ 已保存（同步中…）':'✓ 已保存 '+nowT());
+  }catch(e){setState('⚠ 保存失败，稍后自动重试');setTimeout(saveAll,3000)}
+}
+async function load(){
+  if(gistId&&gistToken){try{await cloudPull();cloudOn=true}catch(e){cloudOn=false}}
+  try{const v=await store.get(NOTE_KEY);if(v)notes=JSON.parse(v)}catch(e){}
+  try{const v=await store.get(HL_KEY);if(v)highlights=JSON.parse(v)}catch(e){}
+  try{const v=await store.get(VC_KEY);if(v)vocab=JSON.parse(v)}catch(e){}
+  const g=document.getElementById('global-note');if(notes.__global)g.value=notes.__global;autoGrow(g);
+  highlights.forEach((h,i)=>{if(!h.id)h.id='h'+Date.now()+'_'+i;applyHighlight(h.sec,h.text,h.id)});refreshMarkNoteStyles();
+  renderHlList();renderVocab();markVocabWords();
+  setState(cloudOn?('☁️ 已从云端载入 '+nowT()):(highlights.length||vocab.length||Object.keys(notes).length?'✓ 已恢复你的笔记 · 划线 · 术语':'已就绪'));
+  if(typeof updateCloudBtn==='function')updateCloudBtn();
+}
+
+// notes events
+document.addEventListener('input',e=>{
+  if(e.target.id==='global-note'){notes.__global=e.target.value;autoGrow(e.target);scheduleSave()}
+});
+
+// 把每段的逐句中文合并成一个整齐的翻译块
+document.querySelectorAll('.para,.quote').forEach(p=>{
+  const szs=[...p.querySelectorAll('.sz')];
+  if(!szs.length)return;
+  const normal=szs.filter(s=>!s.classList.contains('comment')).map(s=>s.textContent).join('');
+  const comment=szs.filter(s=>s.classList.contains('comment')).map(s=>s.textContent).join('');
+  const d=document.createElement('div');d.className='zh-block';
+  d.textContent=normal;
+  if(comment){const c=document.createElement('span');c.className='comment-line';c.textContent=comment;d.appendChild(c)}
+  p.appendChild(d);
+});
+
+// per-paragraph 中文 toggle buttons
+document.querySelectorAll('.para,.quote').forEach(p=>{
+  if(!p.querySelector('.zh-block'))return;
+  const b=document.createElement('button');
+  b.className='zh-btn';b.textContent='中';b.title='显示/隐藏本段中文';
+  b.onclick=e=>{e.stopPropagation();p.classList.toggle('zh-open');b.classList.toggle('on',p.classList.contains('zh-open'))};
+  p.appendChild(b);
+});
+
+// zh toggles
+const zhBtn=document.getElementById('zh-toggle');
+zhBtn.onclick=()=>{document.body.classList.toggle('show-zh');zhBtn.textContent=document.body.classList.contains('show-zh')?'隐藏全部中文':'显示全部中文';zhBtn.classList.toggle('primary')};
+// per-section: dblclick on section title toggles that section
+sections.forEach(s=>{const h=s.querySelector('h2');h.style.cursor='pointer';h.title='点击：切换本节中文';h.onclick=()=>s.classList.toggle('show-zh')});
+
+// ---- selection popup ----
+const pop=document.getElementById('sel-pop'),dictCard=document.getElementById('dict-card'),markMenu=document.getElementById('mark-menu');
+let curSel=null,curMark=null,curDict=null,suppressClickUntil=0;
+const IS_TOUCH = ('ontouchstart' in window) || navigator.maxTouchPoints>0;
+function placeAt(el,rect){
+  el.style.display=(el.id==='sel-pop')?'flex':'block';
+  const vw=document.documentElement.clientWidth,vh=document.documentElement.clientHeight;
+  const w=el.offsetWidth,h=el.offsetHeight;
+  // 触屏设备：菜单固定在屏幕底部中央，避免被 iPad 系统选择菜单（拷贝/翻译…）挡住
+  if(IS_TOUCH && (el.id==='sel-pop' || el.id==='mark-menu')){
+    el.style.left=Math.max(8,(vw-w)/2)+'px';
+    el.style.top=(vh-h-24)+'px';
+    el.classList.add('touch-dock');
+    return;
+  }
+  el.style.left=Math.max(8,Math.min(rect.left+rect.width/2-w/2,vw-w-8))+'px';
+  let top=rect.bottom+10;               // 默认贴在选区正下方
+  if(top+h>vh-8)top=rect.top-h-10;      // 下方放不下才翻到上方
+  el.style.top=Math.max(8,top)+'px';
+}
+// 滚动时收起浮层，避免错位
+window.addEventListener('scroll',()=>{pop.style.display='none';markMenu.style.display='none'},{passive:true});
+function showSelPopup(){
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed){pop.style.display='none';return}
+  const text=sel.toString().replace(/\s+/g,' ').trim();
+  const node=sel.anchorNode;const anchor=node&&(node.nodeType===3?node.parentElement:node);
+  const en=anchor&&anchor.closest?anchor.closest('.en'):null;
+  if(!en||text.length<2){pop.style.display='none';return}
+  const sec=en.closest('section');
+  let rect;try{rect=sel.getRangeAt(0).getBoundingClientRect()}catch(e){return}
+  curSel={text:text,sec:sec?sec.id:'',rect:rect,range:sel.getRangeAt(0).cloneRange()};
+  placeAt(pop,curSel.rect);
+}
+document.addEventListener('mouseup',e=>{
+  if(pop.contains(e.target)||dictCard.contains(e.target)||markMenu.contains(e.target))return;
+  setTimeout(showSelPopup,10);
+});
+let touchSelTimer=null,isTouch=false;
+document.addEventListener('touchstart',()=>{isTouch=true},{passive:true});
+document.addEventListener('selectionchange',()=>{
+  if(!isTouch)return;
+  clearTimeout(touchSelTimer);
+  touchSelTimer=setTimeout(showSelPopup,450);
+});
+document.addEventListener('touchend',e=>{
+  if(!isTouch)return;
+  if(pop.contains(e.target)||dictCard.contains(e.target)||markMenu.contains(e.target))return;
+  clearTimeout(touchSelTimer);
+  touchSelTimer=setTimeout(showSelPopup,350);
+},{passive:true});
+function wrapRange(range,hid){
+  // 用真实选区包裹，支持任意长度/跨段落。收集选区内的文本节点后逐个包裹。
+  try{
+    const root=range.commonAncestorContainer;
+    const rootEl=root.nodeType===1?root:root.parentElement;
+    const walker=document.createTreeWalker(rootEl,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
+      if(n.parentElement&&n.parentElement.closest('.sz,.zh-block'))return NodeFilter.FILTER_REJECT;
+      if(!range.intersectsNode(n))return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    const targets=[];
+    while(walker.nextNode())targets.push(walker.currentNode);
+    if(!targets.length)return false;
+    let wrapped=false;
+    for(const node of targets){
+      let s=0,e=node.data.length;
+      if(node===range.startContainer)s=range.startOffset;
+      if(node===range.endContainer)e=range.endOffset;
+      if(s>=e)continue;
+      let t=node;
+      if(s>0)t=t.splitText(s);
+      if(e-s<t.data.length)t.splitText(e-s);
+      const mk=document.createElement('mark');mk.dataset.hid=hid;
+      t.parentNode.insertBefore(mk,t);mk.appendChild(t);
+      wrapped=true;
+    }
+    return wrapped;
+  }catch(err){return false}
+}
+function doHighlight(withNote){
+  if(!curSel)return;
+  const savedRange=curSel.range;
+  window.getSelection().removeAllRanges();
+  pop.style.display='none';
+  suppressClickUntil=Date.now()+450;
+  const hid='h'+Date.now();
+  // 优先用真实选区包裹（任意长度都行），失败再退回文本匹配
+  let ok=savedRange?wrapRange(savedRange,hid):false;
+  if(!ok)ok=applyHighlight(curSel.sec,curSel.text,hid);
+  if(ok){
+    const h={id:hid,sec:curSel.sec,text:curSel.text,note:''};
+    highlights.push(h);
+    refreshMarkNoteStyles();renderHlList();scheduleSave();
+    if(withNote){
+      openNoteModal(h.text,'',val=>{h.note=val;refreshMarkNoteStyles();renderHlList();scheduleSave()});
+    }
+  }else{
+    setState('⚠ 这段没能高亮，换个选法再试一次');
+  }
+}
+document.getElementById('pop-hl').onclick=()=>doHighlight(false);
+document.getElementById('pop-note').onclick=()=>doHighlight(true);
+document.getElementById('pop-dict').onclick=()=>{
+  if(!curSel)return;
+  const rect=curSel.rect,t=curSel.text,s=curSel.sec;
+  window.getSelection().removeAllRanges();pop.style.display='none';
+  openDict(t,s,rect);
+};
+
+// ---- dictionary card: 中文翻译优先 ----
+async function translateZh(text){
+  try{
+    const r=await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q='+encodeURIComponent(text));
+    if(!r.ok)throw 0;
+    const j=await r.json();
+    return (j[0]||[]).map(x=>x[0]).join('');
+  }catch(e){
+    try{
+      const r=await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair=en|zh-CN');
+      const j=await r.json();
+      return j.responseData&&j.responseData.translatedText||'';
+    }catch(e2){return ''}
+  }
+}
+async function openDict(text,sec,rect){
+  const clean=text.trim();
+  const isLong=clean.length>120;
+  const isPhrase=/\s/.test(clean);
+  const word=isLong?clean:(isPhrase?clean:(clean.match(/[a-zA-Z][a-zA-Z'\-]*/)||[clean])[0].toLowerCase());
+  curDict={word:word,sec:sec,phonetic:'',def:'',audio:'',zh:'',long:isLong};
+  const dw=document.getElementById('dc-word');
+  dw.className=isLong?'dw long':'dw';
+  dw.textContent=isLong?'📖 选段翻译':word;
+  document.getElementById('dc-ph').textContent='';
+  document.getElementById('dc-say').style.display=isLong?'none':'';
+  document.getElementById('dc-add').style.display=isLong?'none':'';
+  const dd=document.getElementById('dc-def');
+  dd.className=isLong?'orig-small':'dd';
+  dd.textContent=isLong?clean:'';
+  const zhBig=document.getElementById('dc-zh-big');
+  zhBig.className='zh-big loading';zhBig.textContent='翻译中…';
+  placeAt(dictCard,rect);
+  const q=clean.slice(0,450);
+  const jobs=[translateZh(q).then(zh=>{
+    if(curDict&&curDict.word===word){
+      curDict.zh=zh;
+      zhBig.className='zh-big';
+      zhBig.textContent=zh||'⚠ 翻译服务连不上（需要联网）';
+    }
+  })];
+  if(!isPhrase&&!isLong){
+    jobs.push((async()=>{
+      try{
+        const res=await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(word));
+        if(!res.ok)return;
+        const e0=(await res.json())[0]||{};
+        if(!curDict||curDict.word!==word)return;
+        curDict.phonetic=e0.phonetic||((e0.phonetics||[]).find(p=>p.text)||{}).text||'';
+        curDict.audio=((e0.phonetics||[]).find(p=>p.audio)||{}).audio||'';
+        const defs=[];
+        (e0.meanings||[]).slice(0,2).forEach(m=>{
+          const d=m.definitions&&m.definitions[0];
+          if(d)defs.push(m.partOfSpeech+'. '+d.definition);
+        });
+        curDict.def=defs.join('　');
+        document.getElementById('dc-ph').textContent=curDict.phonetic;
+        document.getElementById('dc-def').textContent=curDict.def;
+      }catch(e){}
+    })());
+  }
+  await Promise.all(jobs);
+}
+function openDictStored(v,rect){
+  curDict={word:v.word,sec:v.sec,phonetic:v.phonetic||'',def:v.def||'',audio:'',zh:v.zh||'',long:false};
+  const dw=document.getElementById('dc-word');
+  dw.className='dw';dw.textContent=v.word;
+  document.getElementById('dc-ph').textContent=v.phonetic||'';
+  document.getElementById('dc-say').style.display='';
+  document.getElementById('dc-add').style.display='none';
+  const dd=document.getElementById('dc-def');
+  dd.className='dd';dd.textContent=v.def||'';
+  const zhBig=document.getElementById('dc-zh-big');
+  zhBig.className='zh-big';zhBig.textContent=v.zh||'（未填中文，可在生词本里补）';
+  placeAt(dictCard,rect);
+}
+document.getElementById('dc-say').onclick=e=>{
+  e.stopPropagation();
+  if(curDict&&curDict.audio){new Audio(curDict.audio).play().catch(()=>{})}
+  else if(curDict&&window.speechSynthesis){const u=new SpeechSynthesisUtterance(curDict.word);u.lang='en-GB';speechSynthesis.speak(u)}
+};
+document.getElementById('dc-add').onclick=e=>{
+  e.stopPropagation();
+  if(!curDict)return;
+  const ex=vocab.find(v=>v.word===curDict.word);
+  if(ex){ex.zh=curDict.zh||ex.zh;ex.def=curDict.def||ex.def;ex.phonetic=curDict.phonetic||ex.phonetic}
+  else vocab.unshift({word:curDict.word,phonetic:curDict.phonetic,def:curDict.def,zh:curDict.zh,known:false,sec:curDict.sec,ts:Date.now()});
+  renderVocab();markVocabWords();scheduleSave();
+  dictCard.style.display='none';
+  setState('✓ 已存入生词本');
+};
+document.getElementById('dc-close').onclick=()=>dictCard.style.display='none';
+
+// ---- note modal (centered) ----
+const noteModal=document.getElementById('note-modal');
+let noteCb=null;
+function openNoteModal(quote,initial,cb){
+  document.getElementById('nm-quote').textContent='“'+quote+'”';
+  const ta=document.getElementById('nm-text');
+  ta.value=initial||'';
+  noteCb=cb;
+  noteModal.classList.add('open');
+  setTimeout(()=>ta.focus(),50);
+}
+document.getElementById('nm-ok').onclick=()=>{
+  noteModal.classList.remove('open');
+  if(noteCb)noteCb(document.getElementById('nm-text').value);
+  noteCb=null;
+};
+document.getElementById('nm-cancel').onclick=()=>{noteModal.classList.remove('open');noteCb=null};
+noteModal.addEventListener('click',e=>{if(e.target===noteModal){noteModal.classList.remove('open');noteCb=null}});
+
+// ---- click on a highlight => menu ----
+document.addEventListener('click',e=>{
+  // 来自弹出菜单自身的点击（如「查词」按钮）不算“点外面”，否则刚打开的卡片会被同一下点击关掉
+  if(pop.contains(e.target)||markMenu.contains(e.target)||dictCard.contains(e.target))return;
+  if(e.target.classList&&e.target.classList.contains('vocab-mark')){
+    const v=vocab.find(x=>x.word.toLowerCase()===e.target.textContent.toLowerCase());
+    if(v){openDictStored(v,e.target.getBoundingClientRect());return}
+  }
+  if(e.target.tagName==='MARK'){
+    if(Date.now()<suppressClickUntil)return;
+    curMark=e.target;
+    placeAt(markMenu,e.target.getBoundingClientRect());
+    return;
+  }
+  // 点空白处：全部收起
+  markMenu.style.display='none';
+  dictCard.style.display='none';
+  const drawer=document.getElementById('drawer');
+  if(drawer.classList.contains('open')&&!drawer.contains(e.target)&&e.target.id!=='drawer-btn'&&!e.target.closest('#drawer-btn'))drawer.classList.remove('open');
+});
+function findHl(markEl){
+  return highlights.find(h=>h.id===markEl.dataset.hid);
+}
+document.getElementById('mm-note').onclick=()=>{
+  markMenu.style.display='none';
+  const h=curMark&&findHl(curMark);if(!h)return;
+  openNoteModal(h.text,h.note,val=>{h.note=val;refreshMarkNoteStyles();renderHlList();scheduleSave()});
+};
+document.getElementById('mm-dict').onclick=()=>{
+  markMenu.style.display='none';
+  if(!curMark)return;
+  const sec=curMark.closest('section');
+  openDict(curMark.textContent,sec?sec.id:'',curMark.getBoundingClientRect());
+};
+document.getElementById('mm-del').onclick=()=>{
+  markMenu.style.display='none';
+  const h=curMark&&findHl(curMark);
+  if(h){removeHighlightMarks(h.id);highlights.splice(highlights.indexOf(h),1)}
+  else if(curMark){curMark.outerHTML=curMark.textContent}
+  renderHlList();scheduleSave();
+};
+function refreshMarkNoteStyles(){
+  document.querySelectorAll('mark[data-hid]').forEach(m=>{
+    const h=findHl(m);m.classList.toggle('has-note',!!(h&&h.note));
+  });
+}
+
+
+// ---- 在原文中标出已收藏的生词（蓝色） ----
+function markVocabWords(){
+  document.querySelectorAll('span.vocab-mark').forEach(s=>{s.replaceWith(document.createTextNode(s.textContent))});
+  document.querySelectorAll('.en').forEach(en=>en.normalize());
+  const words=vocab.filter(v=>!v.known&&!/\s/.test(v.word)).map(v=>v.word);
+  if(!words.length)return;
+  const re=new RegExp('\\b('+words.map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')\\b','gi');
+  document.querySelectorAll('.en').forEach(en=>{
+    const parts=en.innerHTML.split(/(<[^>]+>)/);
+    let changed=false;
+    for(let i=0;i<parts.length;i++){
+      if(parts[i].startsWith('<'))continue;
+      if(re.test(parts[i])){
+        parts[i]=parts[i].replace(re,'<span class="vocab-mark" title="已在生词本，点击复习">$1</span>');
+        changed=true;
+      }
+      re.lastIndex=0;
+    }
+    if(changed)en.innerHTML=parts.join('');
+  });
+}
+
+// ---- vocabulary drawer: compact rows ----
+function renderVocab(){
+  const box=document.getElementById('vocab-list');
+  const unknownArr=vocab.filter(v=>!v.known);
+  const knownArr=vocab.filter(v=>v.known);
+  document.getElementById('vc-total').textContent=vocab.length;
+  document.getElementById('vc-unknown').textContent=unknownArr.length;
+  document.getElementById('vc-known').textContent=knownArr.length;
+  if(!vocab.length){box.innerHTML='<p class="empty">还没有术语。选中关键词 → 点「📖 收藏」。</p>';return}
+  function row(v){
+    const gi=vocab.indexOf(v);
+    return '<div class="vocab-item'+(v.known?' known':'')+'" data-i="'+gi+'">'
+      +'<div class="main"><span class="w" data-i="'+gi+'" title="点开看卡片">'+escapeHtml(v.word)+'</span><span class="ph">'+escapeHtml(v.phonetic||'')+'</span>'
+      +'<input class="zh-inline" data-i="'+gi+'" placeholder="中文…" value="'+String(v.zh||'').replace(/"/g,'&quot;')+'"></div>'
+      +'<button class="kbtn'+(v.known?' on':'')+'" data-i="'+gi+'" title="'+(v.known?'点击取消已掌握':'标记为已掌握')+'">'+(v.known?'✅':'⭕')+'</button>'
+      +'<button class="rm" data-i="'+gi+'" title="删除">✕</button>'
+      +'</div>';
+  }
+  let html=unknownArr.map(row).join('');
+  if(knownArr.length){
+    html+='<div class="known-head'+(vocabKnownOpen?' open':'')+'" id="known-head"><span class="caret">▸</span>已掌握 '+knownArr.length+' 个'+(vocabKnownOpen?'（点击收起）':'（点击展开）')+'</div>';
+    if(vocabKnownOpen)html+='<div id="known-wrap">'+knownArr.map(row).join('')+'</div>';
+  }
+  box.innerHTML=html;
+  const kh=document.getElementById('known-head');
+  if(kh)kh.onclick=()=>{vocabKnownOpen=!vocabKnownOpen;renderVocab()};
+  box.querySelectorAll('.kbtn').forEach(b=>b.onclick=(e)=>{e.stopPropagation();vocab[+b.dataset.i].known=!vocab[+b.dataset.i].known;renderVocab();markVocabWords();scheduleSave()});
+  box.querySelectorAll('.rm').forEach(b=>b.onclick=(e)=>{e.stopPropagation();vocab.splice(+b.dataset.i,1);renderVocab();markVocabWords();scheduleSave()});
+  box.querySelectorAll('.zh-inline').forEach(inp=>{inp.onclick=(e)=>e.stopPropagation();inp.oninput=()=>{vocab[+inp.dataset.i].zh=inp.value;scheduleSave()}});
+  // 点词 → 分享卡片
+  box.querySelectorAll('.w').forEach(w=>w.onclick=(e)=>{
+    e.stopPropagation();
+    const v=vocab[+w.dataset.i];
+    const title=document.querySelector('#'+v.sec+' h2');
+    const speaker=SHARE_EN;
+    openShareCard({quote:v.word, zh:v.zh||'', note:'', src:'§ '+(title?title.textContent:(v.sec||'')), en:'word'});
+  });
+}
+
+// ---- drawer tabs ----
+function switchTab(name){
+  if(name==='note')setTimeout(()=>autoGrow(document.getElementById('global-note')),20);
+  document.querySelectorAll('#drawer .tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));
+  document.querySelectorAll('#drawer .pane').forEach(p=>p.classList.toggle('on',p.dataset.pane===name));
+}
+document.querySelectorAll('#drawer .tabs button').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+
+function applyHighlight(secId,text,hid){
+  const sec=document.getElementById(secId);if(!sec)return false;
+  const target=text.replace(/\s+/g,' ').trim();
+  const esc=target.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/ /g,'[\\s\\u00a0]+');
+  const re=new RegExp(esc);
+  for(const en of sec.querySelectorAll('.en')){
+    // 收集英文文本节点（跳过隐藏的中文 .sz）
+    const walker=document.createTreeWalker(en,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
+      return n.parentElement&&n.parentElement.closest('.sz,.zh-block')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[];let full='';
+    while(walker.nextNode()){nodes.push({node:walker.currentNode,start:full.length});full+=walker.currentNode.data}
+    const m=re.exec(full);
+    if(!m)continue;
+    const s0=m.index,e0=m.index+m[0].length;
+    // 找出每个文本节点内需要包裹的区间
+    const segs=[];
+    for(const rec of nodes){
+      const ns=rec.start,ne=rec.start+rec.node.data.length;
+      const s=Math.max(s0,ns),e=Math.min(e0,ne);
+      if(s<e)segs.push({node:rec.node,s:s-ns,e:e-ns});
+    }
+    // 倒序包裹，避免 splitText 影响后续偏移
+    for(let i=segs.length-1;i>=0;i--){
+      const g=segs[i];
+      let t=g.node;
+      if(g.s>0)t=t.splitText(g.s);
+      if(g.e-g.s<t.data.length)t.splitText(g.e-g.s);
+      const mk=document.createElement('mark');
+      mk.dataset.hid=hid;
+      t.parentNode.insertBefore(mk,t);
+      mk.appendChild(t);
+    }
+    return true;
+  }
+  return false;
+}
+function removeHighlightMarks(hid){
+  document.querySelectorAll('mark[data-hid="'+hid+'"]').forEach(mk=>{
+    const p=mk.parentNode;
+    while(mk.firstChild)p.insertBefore(mk.firstChild,mk);
+    p.removeChild(mk);p.normalize();
+  });
+}
+function renderHlList(){
+  const box=document.getElementById('hl-list');
+  if(!highlights.length){box.innerHTML='<p class="empty">还没有划线。选中文字 → 点「🖍 高亮」。</p>';return}
+  box.innerHTML=highlights.map((h,i)=>{
+    const title=document.querySelector('#'+h.sec+' h2');
+    const src=title?title.textContent:h.sec;
+    let inner='<span class="del" data-i="'+i+'" title="删除">✕</span>';
+    inner+='<span class="htext">'+escapeHtml(h.text)+'</span>';
+    if(h.note){inner+='<span class="hnote">'+escapeHtml(h.note)+'</span>';}
+    else{inner+='<button class="addnote" data-i="'+i+'">➕ 写笔记</button>';}
+    inner+='<span class="src">§ '+escapeHtml(src)+'</span>';
+    return '<div class="hl-item" data-i="'+i+'">'+inner+'</div>';
+  }).join('');
+  // 点整条 → 分享卡片
+  box.querySelectorAll('.hl-item').forEach(el=>{
+    el.onclick=(e)=>{
+      if(e.target.closest('.del')||e.target.closest('.addnote')||e.target.closest('.hnoteinp'))return;
+      const i=+el.dataset.i;const h=highlights[i];
+      const title=document.querySelector('#'+h.sec+' h2');
+      openShareCard({quote:h.text, zh:'', note:h.note||'', src:'§ '+(title?title.textContent:h.sec), en:''+SHARE_EN});
+    };
+  });
+  box.querySelectorAll('.del').forEach(d=>d.onclick=(e)=>{
+    e.stopPropagation();
+    const h=highlights[+d.dataset.i];
+    if(h.id)removeHighlightMarks(h.id);
+    highlights.splice(+d.dataset.i,1);renderHlList();scheduleSave();
+  });
+  box.querySelectorAll('.addnote').forEach(b=>b.onclick=(e)=>{
+    e.stopPropagation();
+    const i=+b.dataset.i;
+    const item=b.closest('.hl-item');
+    b.outerHTML='<input class="hnoteinp" data-i="'+i+'" placeholder="写下你的想法…" value="">';
+    const inp=item.querySelector('.hnoteinp');inp.focus();
+    inp.onclick=(ev)=>ev.stopPropagation();
+    inp.oninput=()=>{highlights[i].note=inp.value;refreshMarkNoteStyles();scheduleSave()};
+    inp.onblur=()=>{if(inp.value.trim())renderHlList()};
+  });
+}
+
+// ---- export study notes ----
+document.getElementById('export-btn').onclick=async()=>{
+  const lines=['# Chris 讲座《到底什么是阅读能力》· 我的学习笔记','','导出时间：'+new Date().toLocaleString('zh-CN'),''];
+  if(notes.__global){lines.push('## 总笔记','',notes.__global,'')}
+  const bySec={};
+  highlights.forEach(h=>{(bySec[h.sec]=bySec[h.sec]||[]).push(h)});
+  sections.forEach(s=>{
+    const t=s.querySelector('h2').textContent;
+    const hs=bySec[s.id]||[],n=notes[s.id];
+    if(!hs.length&&!n)return;
+    lines.push('## '+t,'');
+    hs.forEach(h=>{
+      lines.push('- 🖍 “'+h.text+'”');
+      if(h.note)lines.push('  - 📝 '+h.note);
+    });
+    if(n)lines.push('','📝 本节笔记：'+n);
+    lines.push('');
+  });
+  if(vocab.length){
+    lines.push('## 生词本（还不会 '+vocab.filter(v=>!v.known).length+' / 共 '+vocab.length+'）','');
+    vocab.forEach(v=>lines.push('- **'+v.word+'** '+(v.phonetic||'')+' — '+(v.zh||String(v.def||'').split('\n')[0])+(v.known?'　✅已掌握':'　❌还不会')));
+    lines.push('');
+  }
+  const md=lines.join('\n');
+  let copied=false;
+  try{await navigator.clipboard.writeText(md);copied=true}catch(e){}
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([md],{type:'text/markdown'}));
+  a.download='syllabus-ref-my-notes.md';a.click();
+  setState(copied?'✓ 已复制到剪贴板 + 下载 .md，可直接丢给 Claude':'✓ 已下载 .md，可直接丢给 Claude');
+};
+
+// drawer
+document.getElementById('drawer-btn').onclick=()=>document.getElementById('drawer').classList.toggle('open');
+
+// scroll spy
+const links=[...document.querySelectorAll('.map a')];
+if(window.IntersectionObserver){
+const obs=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+en.target.id))}})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>obs.observe(s));
+}
+
+
+// ---- 同步设置 UI 逻辑 ----
+const syncModal=document.getElementById('sync-modal');
+function openSync(){
+  document.getElementById('sync-gist').value=gistId;
+  document.getElementById('sync-token').value=gistToken;
+  document.getElementById('sync-status').innerHTML=cloudOn?'<span class="cloud-dot on"></span>已连接云端':'<span class="cloud-dot"></span>当前仅本机保存';
+  syncModal.classList.add('open');
+}
+document.getElementById('sync-btn').onclick=openSync;
+document.getElementById('sync-close2').onclick=()=>syncModal.classList.remove('open');
+syncModal.addEventListener('click',e=>{if(e.target===syncModal)syncModal.classList.remove('open')});
+document.getElementById('sync-clear').onclick=()=>{
+  localStorage.removeItem(CFG_GIST);localStorage.removeItem(CFG_TOKEN);
+  gistId='';gistToken='';cloudOn=false;cloudCache=null;
+  updateCloudBtn();
+  document.getElementById('sync-status').innerHTML='<span class="cloud-dot"></span>已断开，改用本机保存';
+};
+document.getElementById('sync-save').onclick=async()=>{
+  const gid=document.getElementById('sync-gist').value.trim();
+  const tok=document.getElementById('sync-token').value.trim();
+  const st=document.getElementById('sync-status');
+  if(!gid||!tok){st.textContent='请把两个都填上';return}
+  st.textContent='正在连接…';
+  gistId=gid;gistToken=tok;
+  try{
+    const cloud=await cloudPull();          // 试着拉云端
+    cloudOn=true;
+    localStorage.setItem(CFG_GIST,gid);localStorage.setItem(CFG_TOKEN,tok);
+    // 若云端为空，把本机现有内容推上去（首次上传）
+    const empty=!cloud||Object.keys(cloud).length===0;
+    if(empty){
+      cloudCache={};
+      cloudCache[NOTE_KEY]=localStorage.getItem(NOTE_KEY)||'';
+      cloudCache[HL_KEY]=localStorage.getItem(HL_KEY)||'';
+      cloudCache[VC_KEY]=localStorage.getItem(VC_KEY)||'';
+      await cloudPush(cloudCache);
+      st.innerHTML='<span class="cloud-dot on"></span>已连接，本机内容已上传到云端';
+    }else{
+      st.innerHTML='<span class="cloud-dot on"></span>已连接，正在载入云端内容…';
+    }
+    updateCloudBtn();
+    await reloadFromStore();                 // 重新用云端数据渲染
+    st.innerHTML='<span class="cloud-dot on"></span>同步成功！其它设备填同一组即可看到相同内容';
+    setTimeout(()=>syncModal.classList.remove('open'),1200);
+  }catch(e){
+    cloudOn=false;
+    st.innerHTML='⚠ 连接失败：请检查 Gist ID 和 Token 是否正确（Token 需勾选 gist 权限）';
+  }
+};
+function updateCloudBtn(){
+  const b=document.getElementById('sync-btn');
+  b.innerHTML=(cloudOn?'<span class="cloud-dot on"></span>':'<span class="cloud-dot"></span>')+'☁️ 同步';
+}
+// 清空当前内存并按 store 重新载入（切换云端后刷新界面）
+async function reloadFromStore(){
+  document.querySelectorAll('mark[data-hid]').forEach(mk=>{const p=mk.parentNode;while(mk.firstChild)p.insertBefore(mk.firstChild,mk);p.removeChild(mk);p.normalize()});
+  document.querySelectorAll('span.vocab-mark').forEach(s=>s.replaceWith(document.createTextNode(s.textContent)));
+  notes={};highlights=[];vocab=[];
+  await load();
+}
+
+
+// ---- 字体大小调节 ----
+(function(){
+  const FS_KEY='__fs_level';
+  const LEVELS=[14,15.5,16.5,18.5,21];           // 5 档字号(px)
+  const NAMES=['小','较小','标准','较大','大'];
+  let idx=parseInt(localStorage.getItem(FS_KEY));
+  if(isNaN(idx)||idx<0||idx>4)idx=2;
+  function apply(){
+    document.documentElement.style.setProperty('--fs',LEVELS[idx]+'px');
+    const c=document.getElementById('fs-cur');if(c)c.textContent=NAMES[idx];
+    localStorage.setItem(FS_KEY,idx);
+    if(typeof autoGrow==='function')autoGrow(document.getElementById('global-note'));
+  }
+  const minus=document.getElementById('fs-minus'),plus=document.getElementById('fs-plus');
+  if(minus)minus.onclick=()=>{if(idx>0){idx--;apply()}};
+  if(plus)plus.onclick=()=>{if(idx<4){idx++;apply()}};
+  apply();
+})();
+
+
+// ---- 阅读书签（钉 / 跳，分开两个按钮） ----
+(function(){
+  const BM_KEY='__bookmark_y';
+  const pinBtn=document.getElementById('bm-pin');
+  const goBtn=document.getElementById('bm-go');
+  function flashAt(y){
+    const mid=y+window.innerHeight*0.35;
+    const paras=document.querySelectorAll('.para,.quote,.sec-head');
+    let best=null,bd=1e9;
+    paras.forEach(p=>{const r=p.getBoundingClientRect();const top=r.top+window.scrollY;const d=Math.abs(top-mid);if(d<bd){bd=d;best=p}});
+    if(best){best.classList.add('bm-flash');setTimeout(()=>best.classList.remove('bm-flash'),1200);}
+  }
+  if(pinBtn)pinBtn.onclick=()=>{
+    localStorage.setItem(BM_KEY,String(Math.round(window.scrollY)));
+    setState('📌 已钉书签，之后点「🔖 回书签」就能跳回来');
+  };
+  if(goBtn)goBtn.onclick=()=>{
+    const y=parseInt(localStorage.getItem(BM_KEY));
+    if(isNaN(y)){setState('还没有书签，先点「📌 钉这里」钉一个');return}
+    window.scrollTo({top:y,behavior:'smooth'});
+    flashAt(y);
+    setState('🔖 已跳回书签位置');
+  };
+})();
+
+
+// ================= 朗读 Read-Aloud =================
+(function(){
+  if(!('speechSynthesis' in window)) return;
+  var synth=window.speechSynthesis;
+  var IS_SENT = document.querySelector('.sent')!==null;  // louise/chris vs reading
+
+  // 收集朗读单元：{el, en, zh}
+  var UNITS=[];
+  function buildUnits(){
+    UNITS=[];
+    if(IS_SENT){
+      document.querySelectorAll('.para .sent, .quote .sent').forEach(function(s){
+        var se=s.querySelector('.se'), sz=s.querySelector('.sz');
+        UNITS.push({el:s, en:se?se.textContent.trim():'', zh:sz?sz.textContent.trim():''});
+      });
+    }else{
+      // reading：把每个 p.en 的中文按句号/问号/叹号切句，包成 span.tts-sent
+      document.querySelectorAll('.para p.en, .quote p.en').forEach(function(p){
+        if(p.dataset.ttsReady) return;
+        // 保留说话人 chip
+        var chip=p.querySelector('.spk');
+        var chipHtml=chip?chip.outerHTML:'';
+        var raw=p.textContent;
+        if(chip) raw=raw.replace(chip.textContent,'');
+        raw=raw.trim();
+        var parts=raw.match(/[^。！？]*[。！？]?/g).filter(function(x){return x.trim().length});
+        p.innerHTML=chipHtml+parts.map(function(t){return '<span class="tts-sent">'+t+'</span>';}).join('');
+        p.dataset.ttsReady='1';
+      });
+      document.querySelectorAll('.tts-sent').forEach(function(s){
+        UNITS.push({el:s, en:'', zh:s.textContent.trim()});
+      });
+    }
+  }
+
+  var bar=document.getElementById('tts-bar');
+  var playBtn=document.getElementById('tts-play');
+  var rateEl=document.getElementById('tts-rate');
+  var lang='en', scope='para', rate=1.0, idx=-1, playing=false, stopFlag=false;
+  if(!IS_SENT){ lang='zh'; // 全中文页面默认读中文，并隐藏 EN 选项
+    var le=document.querySelector('#tts-lang button[data-lang="en"]'); if(le)le.style.display='none';
+    var lz=document.querySelector('#tts-lang button[data-lang="zh"]'); if(lz)lz.classList.add('on');
+    var len=document.querySelector('#tts-lang button[data-lang="en"]'); 
+    document.querySelector('#tts-lang button[data-lang="en"]').classList.remove('on');
+  }
+
+  function pickVoice(l){
+    var vs=synth.getVoices();
+    if(l==='zh'){
+      return vs.find(function(v){return /zh|Chinese|普通话|Yue/i.test(v.lang+v.name)}) || null;
+    }
+    return vs.find(function(v){return /en[-_]GB/i.test(v.lang)}) || vs.find(function(v){return /^en/i.test(v.lang)}) || null;
+  }
+
+  function clearHi(){document.querySelectorAll('.tts-reading').forEach(function(e){e.classList.remove('tts-reading')})}
+  function highlight(i){
+    clearHi();
+    if(i<0||i>=UNITS.length) return;
+    var el=UNITS[i].el; el.classList.add('tts-reading');
+    var r=el.getBoundingClientRect();
+    if(r.top<80||r.bottom>window.innerHeight-140){ window.scrollTo({top:window.scrollY+r.top-window.innerHeight*0.4, behavior:'smooth'}); }
+  }
+
+  function textOf(i){ var u=UNITS[i]; if(!u)return ''; return (lang==='zh'? (u.zh||u.en) : (u.en||u.zh)); }
+
+  function speakFrom(i){
+    stopFlag=false;
+    if(i>=UNITS.length){ stop(); return; }
+    idx=i; highlight(i);
+    var txt=textOf(i);
+    if(!txt){ next(); return; }
+    var u=new SpeechSynthesisUtterance(txt);
+    u.rate=rate; u.lang=(lang==='zh'?'zh-CN':'en-GB');
+    var v=pickVoice(lang); if(v)u.voice=v;
+    u.onend=function(){
+      if(stopFlag) return;
+      if(scope==='para'){ if(idx+1<UNITS.length){ speakFrom(idx+1);} else stop(); }
+      else { stop(); } // 单句/从这句起读到结尾同 para；此处 scope=='from' 也连读
+    };
+    u.onerror=function(){ if(!stopFlag){ if(idx+1<UNITS.length)speakFrom(idx+1); else stop(); } };
+    synth.cancel(); synth.speak(u);
+    playing=true; playBtn.textContent='⏸';
+  }
+
+  function play(){
+    buildUnits();
+    if(!UNITS.length) return;
+    bar.classList.add('on');
+    if(synth.paused){ synth.resume(); playing=true; playBtn.textContent='⏸'; return; }
+    var start = idx>=0? idx : 0;
+    speakFrom(start);
+  }
+  function pause(){ if(synth.speaking&&!synth.paused){ synth.pause(); playing=false; playBtn.textContent='▶'; } }
+  function stop(){ stopFlag=true; synth.cancel(); playing=false; playBtn.textContent='▶'; clearHi(); }
+  function next(){ stopFlag=true; synth.cancel(); if(idx+1<UNITS.length) speakFrom(idx+1); }
+  function prev(){ stopFlag=true; synth.cancel(); if(idx-1>=0) speakFrom(idx-1); else speakFrom(0); }
+
+  playBtn.onclick=function(){ if(playing){ pause(); } else { play(); } };
+  document.getElementById('tts-next').onclick=next;
+  document.getElementById('tts-prev').onclick=prev;
+  document.getElementById('tts-x').onclick=function(){ stop(); bar.classList.remove('on'); };
+  document.getElementById('tts-slow').onclick=function(){ rate=Math.max(0.5, Math.round((rate-0.1)*10)/10); rateEl.textContent=rate.toFixed(1)+'×'; if(playing&&idx>=0)speakFrom(idx); };
+  document.getElementById('tts-fast').onclick=function(){ rate=Math.min(2.0, Math.round((rate+0.1)*10)/10); rateEl.textContent=rate.toFixed(1)+'×'; if(playing&&idx>=0)speakFrom(idx); };
+  document.querySelectorAll('#tts-lang button').forEach(function(b){ b.onclick=function(){
+    document.querySelectorAll('#tts-lang button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
+    lang=b.dataset.lang; if(playing){ speakFrom(idx<0?0:idx); }
+  };});
+  document.querySelectorAll('#tts-scope button').forEach(function(b){ b.onclick=function(){
+    document.querySelectorAll('#tts-scope button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
+    scope=b.dataset.scope;
+  };});
+
+  // 点句子 → 从这句开始读（capture 阶段，先于高亮词的 stopPropagation）
+  document.addEventListener('click',function(e){
+    if(scope!=='from') return;              // 只在"从这句起"模式拦截
+    if(!bar.classList.contains('on')) return; // 朗读条没开时不拦截
+    var s=e.target.closest('.tts-sent, .sent');
+    if(!s) return;
+    e.stopPropagation(); e.preventDefault();
+    buildUnits();
+    var i=UNITS.findIndex(function(u){return u.el===s;});
+    if(i>=0){ speakFrom(i); }
+  }, true);
+
+  // 工具栏 🔊 按钮
+  var trig=document.getElementById('tts-trigger');
+  if(trig)trig.onclick=function(){ bar.classList.toggle('on'); if(bar.classList.contains('on')){ buildUnits(); } else { stop(); } };
+
+  // voices 异步加载
+  if(synth.getVoices().length===0){ synth.onvoiceschanged=function(){}; }
+  // 离开页面停止
+  window.addEventListener('beforeunload',function(){ synth.cancel(); });
+})();
+
+
+// —— 更多菜单 ——
+(function(){
+  var mb=document.getElementById('more-btn'), mm=document.getElementById('more-menu');
+  if(!mb) return;
+  mb.onclick=function(e){ e.stopPropagation(); mm.classList.toggle('on'); };
+  document.addEventListener('click',function(e){ if(!e.target.closest('.more-wrap')) mm.classList.remove('on'); });
+  // 点菜单里的按钮后收起
+  mm.querySelectorAll('button,a').forEach(function(b){ b.addEventListener('click',function(){ setTimeout(function(){mm.classList.remove('on')},50); }); });
+})();
+
+load();
+})();
+</script>
+
+</body>
+</html>

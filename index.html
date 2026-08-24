@@ -93,10 +93,14 @@ a.card:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(22,51,59,.1)
 var COURSES = [
   {file:'reading-talk-study.html', lastKey:'reading-talk', cat:'reading', accent:'#2E6B57', date:'2024-08-04', tagText:'中文阅读专场', title:'小学孩子阅读的关键是什么？', en:'', desc:'言词 × 宁宇 × 清滢 × 李洋 四位老师的圆桌分享：阅读是复杂的社会行为、读了≠读懂、别把阅读功利化、扬长避短、家长怎么陪读。', speaker:'宁宇 · 清滢 · 李洋', length:'约115分钟 · 全中文'},
   {file:'louise-talk-study.html', lastKey:'louise-talk', cat:'writing', accent:'#B0741E', date:'2025-03-28', tagText:'Inkhead 创意写作', title:'我们如何教孩子写作', en:'How We Teach Children Writing', desc:'Louise（伦敦 Inkhead 创始人）谈：为乐趣而读写、用文字作画、工作坊教学法、找到孩子的声音、风格即真实。', speaker:'Louise', length:'约60分钟 · 中英对照'},
-  {file:'chris-talk-study.html', lastKey:'chris-talk', cat:'reading', accent:'#2E5A66', date:'2025-03-09', tagText:'阅读能力专场', title:'到底什么是阅读能力', en:'What Is Reading, Really?', desc:'Teacher Chris 谈：阅读即诠释、诠释的四个层次、AI 时代还要读吗、四个常见难题（讨厌阅读 / 太难太易 / 只读一种 / 读多没进步）、家长怎么检查。', speaker:'Teacher Chris', length:'约80分钟 · 中英对照'}
+  {file:'chris-talk-study.html', lastKey:'chris-talk', cat:'reading', accent:'#2E5A66', date:'2025-03-09', tagText:'阅读能力专场', title:'到底什么是阅读能力', en:'What Is Reading, Really?', desc:'Teacher Chris 谈：阅读即诠释、诠释的四个层次、AI 时代还要读吗、四个常见难题（讨厌阅读 / 太难太易 / 只读一种 / 读多没进步）、家长怎么检查。', speaker:'Teacher Chris', length:'约80分钟 · 中英对照'},
+  {file:'meeting-talk-study.html', lastKey:'meeting-talk', cat:'research', accent:'#7A6A9E', date:'2025-02-21', tagText:'内部运营会议', title:'播报老师如何抓课堂重点', en:'', desc:'言词与播报老师的内部会议：英文精读 / 中文阅读 / 写作课分别怎么抓重点、做宣传素材、如何把课堂内容转述给家长（含翻译的重要性）。', speaker:'言词 × 播报组', length:'约14分钟 · 全中文 · 内部'},
+  {file:'syllabus1-talk-study.html', lastKey:'syllabus1-talk', cat:'research', accent:'#2E6B57', date:'2025-02-21', tagText:'教纲研读 ①', title:'研读新加坡文学教纲（上）', en:'MOE Literature in English Syllabus', desc:'言词带 FOGG 老师研读新加坡教育部中学文学教纲：为什么这份文件世界领先、文学课培养什么样的人、认知/社交/情感三维度、以及她的思维导图笔记法。', speaker:'言词（Yanci）', length:'约66分钟 · 全中文'},
+  {file:'syllabus2-talk-study.html', lastKey:'syllabus2-talk', cat:'research', accent:'#B0741E', date:'2025-03-14', tagText:'教纲研读 ②', title:'研读新加坡文学教纲（下）', en:'MOE Syllabus · Case Studies', desc:'接续上一场：文学课的培养目标（convincing communicators 等）、批判性思考、精读 vs 泛读，配 Chris 老师课堂实录与学生案例（唐慧 / Google 分享）。', speaker:'言词 × 唐慧 × Google', length:'约90分钟 · 全中文'},
+  {file:'syllabus-ref.html', lastKey:'syllabus-ref', cat:'research', accent:'#2E5A66', date:'2025-02-21', tagText:'配套参考', title:'新加坡文学教纲 · 参考页', en:'Reference', desc:'两场教纲研读的配套参考：教纲核心框架、培养目标、能力维度等，供随时查阅对照。', speaker:'MOE 文件整理', length:'参考资料 · 全中文'}
 ];
-var CAT_NAMES = {reading:'📖 阅读', writing:'✍️ 写作', other:'📚 其他'};
-var CAT_ORDER = ['reading','writing','other'];
+var CAT_NAMES = {reading:'📖 阅读', writing:'✍️ 写作', research:'🧭 教研 · 教纲', other:'📚 其他'};
+var CAT_ORDER = ['reading','writing','research','other'];
 var sortMode = "new"; // new | old | recent
 function fmtDate(d){ return d.replace(/-/g,'.'); }
 

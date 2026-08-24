@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>研读新加坡文学教纲（下）· 学习笔记本 | 文学回应框架与课堂实录</title>
+<style>
+:root{
+  --ink:#24505B; --ink-deep:#16333B; --teal:#2E5A66; --mist:#E7EFED; --paper:#FBFBF8;
+  --gold:#E8C558; --gold-deep:#B08A1E; --line:#D5DEDC; --zh:#5C7A72; --card:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+input,textarea,select,button{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
+body{font-family:Georgia,'Times New Roman','Songti SC','Noto Serif SC',serif;background:var(--paper);color:var(--ink-deep);line-height:1.75}
+.ui{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
+
+/* layout */
+.wrap{display:flex;max-width:1200px;margin:0 auto;gap:0}
+aside{width:270px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;padding:28px 18px 40px 20px;border-right:1px solid var(--line);background:linear-gradient(180deg,#F2F6F5, var(--paper))}
+main{flex:1;min-width:0;padding:36px 44px 120px}
+@media(max-width:900px){
+  .wrap{flex-direction:column}
+  aside{position:relative;width:100%;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:20px}
+  main{padding:24px 18px 120px}
+}
+
+/* sidebar map */
+.map-title{font-size:12px;letter-spacing:.18em;color:var(--teal);text-transform:uppercase;margin-bottom:4px}
+.map-sub{font-size:12px;color:#7C918D;margin-bottom:18px}
+.map a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:#42605F;font-size:13.5px;padding:7px 8px;border-radius:8px;line-height:1.4}
+.map a:hover{background:var(--mist)}
+.map a.active{background:var(--teal);color:#fff}
+.map a .dot{width:7px;height:7px;border-radius:50%;background:var(--line);flex-shrink:0;transform:translateY(-1px);transition:background .2s}
+.map a.active .dot{background:var(--gold)}
+.map .part{margin:14px 0 4px;font-size:11px;letter-spacing:.14em;color:#9AACA8;text-transform:uppercase}
+
+/* header */
+header{margin-bottom:34px;border-bottom:3px double var(--teal);padding-bottom:26px}
+.eyebrow{font-size:12px;letter-spacing:.22em;color:var(--gold-deep);text-transform:uppercase;margin-bottom:10px}
+h1{font-size:clamp(26px,4vw,40px);color:var(--teal);line-height:1.2;font-weight:600}
+h1 .zh-t{display:block;font-size:.55em;color:#6B8480;margin-top:8px;font-weight:400}
+.meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;font-size:13px;color:#6B8480}
+.meta span::before{content:"— ";color:var(--gold-deep)}
+
+
+/* 字体大小调节（微信读书式，5 档，记忆选择） */
+:root{--fs:16.5px}
+.para .en{font-size:var(--fs)}
+.zh-block,.zh-t,.sz .zh{font-size:calc(var(--fs) - 1px)}
+.fs-btns{display:inline-flex;align-items:center;gap:2px;margin-left:2px}
+.fs-btns button{border:1px solid var(--line);background:#fff;color:var(--teal);border-radius:8px;width:34px;height:32px;cursor:pointer;font-weight:600;line-height:1;padding:0}
+.fs-btns button:active{transform:scale(.94)}
+.fs-btns .fs-a1{font-size:12px}
+.fs-btns .fs-a2{font-size:17px}
+.fs-cur{font-size:11px;color:#8CA19D;min-width:30px;text-align:center}
+
+
+/* 书签 */
+.bm-btns{display:inline-flex;align-items:center;gap:4px;margin-left:2px}
+.bm-btns .btn{display:inline-flex;align-items:center;gap:5px}
+.bm-pin{border:1px solid var(--line);background:#fff;color:var(--gold-deep);border-radius:8px;width:34px;height:32px;cursor:pointer;font-size:15px;line-height:1;padding:0}
+.bm-pin:active{transform:scale(.94)}
+.bm-flash{animation:bmflash 1.2s ease}
+@keyframes bmflash{0%{background:rgba(212,165,74,.35)}100%{background:transparent}}
+
+
+/* —— 划线笔记：干净版 —— */
+.hl-item{position:relative;border-left:3px solid var(--gold);background:#FCF8EA;padding:10px 34px 10px 13px;border-radius:0 10px 10px 0;margin-bottom:9px;font-size:13.5px;line-height:1.7;color:#4A4030;cursor:pointer;transition:background .15s}
+.hl-item:hover{background:#FBF4DF}
+.hl-item .htext{display:block}
+.hl-item .hnote{display:block;margin-top:7px;padding:6px 9px;background:#fff;border-radius:7px;font-size:12.5px;color:#6A5F3E;border:1px solid #EADFB8}
+.hl-item .hnote::before{content:'📝 ';opacity:.7}
+.hl-item .src{font-size:11px;color:#A09468;display:block;margin-top:6px}
+.hl-item .del{position:absolute;top:8px;right:9px;cursor:pointer;color:#C3A24E;font-size:13px;opacity:.5;line-height:1}
+.hl-item .del:hover{opacity:1}
+.hl-item .addnote{margin-top:6px;font-size:11.5px;color:#B0871E;background:none;border:1px dashed #DCC98A;border-radius:7px;padding:3px 9px;cursor:pointer}
+.hl-item .addnote:hover{background:#fff}
+.hl-item .hnoteinp{width:100%;border:1px dashed #D8C88F;border-radius:7px;margin-top:6px;padding:6px 8px;font-size:12.5px;background:#FFFDF4;box-sizing:border-box;font-family:inherit}
+.hl-item .hnoteinp:focus{outline:none;border-color:var(--gold-deep)}
+
+/* —— 顶部统计：防换行错位 —— */
+.vocab-stats{display:flex;flex-wrap:wrap;gap:4px 10px;margin-bottom:12px;font-size:12px;color:#6B8480;align-items:center;line-height:1.4}
+.vocab-stats .stat{white-space:nowrap}
+.vocab-stats b{color:var(--gold-deep);font-size:15px;font-family:Georgia,serif}
+.vocab-stats .ok-n{color:var(--teal)}
+.vocab-stats .hint{white-space:nowrap;color:#A8B8B4;font-size:11px}
+
+/* —— 已掌握折叠区 —— */
+.known-head{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:#8CA19D;margin:6px 0 8px;user-select:none}
+.known-head .caret{transition:transform .15s}
+.known-head.open .caret{transform:rotate(90deg)}
+
+/* —— 分享小卡片 —— */
+#share-modal{position:fixed;inset:0;z-index:150;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.45);backdrop-filter:blur(3px);padding:20px}
+#share-modal.open{display:flex}
+#share-card{width:min(440px,92vw);background:linear-gradient(160deg,#FFFEFA,#F6F1E3);border-radius:20px;padding:30px 28px 22px;box-shadow:0 24px 70px rgba(0,0,0,.35);position:relative}
+#share-card .sc-quote{font-size:19px;line-height:1.75;color:#2C3E3B;font-weight:500}
+#share-card .sc-en{font-family:Georgia,'Noto Serif SC',serif}
+#share-card .sc-zh{font-size:15px;color:#5A7370;margin-top:10px}
+#share-card .sc-note{margin-top:14px;padding:11px 13px;background:#fff;border-radius:10px;font-size:13.5px;color:#5A5238;border:1px solid #EADFB8}
+#share-card .sc-src{margin-top:16px;padding-top:13px;border-top:1px dashed #D8CDB0;font-size:12px;color:#A0937C;display:flex;justify-content:space-between;align-items:center}
+#share-card .sc-brand{font-size:11px;color:#BCae90}
+#share-card .sc-x{position:absolute;top:12px;right:14px;border:none;background:none;font-size:20px;color:#BBB;cursor:pointer;line-height:1}
+#share-actions{display:flex;gap:8px;margin-top:16px}
+#share-actions button{flex:1;border:none;border-radius:10px;padding:10px;font-size:13.5px;cursor:pointer}
+#share-actions .cap{background:var(--teal);color:#fff}
+#share-actions .cls{background:#EEF2F1;color:#5D7975}
+
+.toolbar a.home-btn{display:inline-flex;align-items:center;text-decoration:none}
+
+/* —— 朗读 —— */
+.tts-btn{cursor:pointer}
+.tts-bar{position:fixed;left:50%;bottom:0;transform:translateX(-50%);z-index:120;display:none;align-items:center;gap:10px;background:var(--ink-deep);color:#fff;border-radius:14px 14px 0 0;padding:11px 18px;box-shadow:0 -6px 24px rgba(0,0,0,.25);max-width:94vw;flex-wrap:wrap;justify-content:center}
+.tts-bar.on{display:flex}
+.tts-bar button{border:none;background:rgba(255,255,255,.14);color:#fff;border-radius:9px;width:38px;height:38px;font-size:16px;cursor:pointer;flex-shrink:0}
+.tts-bar button.play{background:var(--gold);color:#3A2E0A;width:46px}
+.tts-bar button:active{transform:scale(.93)}
+.tts-bar .seg{display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:9px;padding:3px}
+.tts-bar .seg button{width:auto;height:30px;padding:0 12px;font-size:12.5px;background:transparent;border-radius:7px}
+.tts-bar .seg button.on{background:var(--gold);color:#3A2E0A}
+.tts-bar .rate{display:flex;align-items:center;gap:5px;font-size:12px;color:#CBD8D5}
+.tts-bar .rate button{width:30px;height:30px;font-size:15px}
+.tts-bar .rate .rv{min-width:38px;text-align:center;font-family:Georgia,serif}
+.tts-bar .lang{display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:9px;padding:3px}
+.tts-bar .lang button{width:auto;height:30px;padding:0 11px;font-size:12.5px;background:transparent;border-radius:7px}
+.tts-bar .lang button.on{background:var(--teal)}
+.tts-bar .close{background:transparent;font-size:20px}
+.tts-reading{background:linear-gradient(transparent 60%,rgba(232,197,88,.55) 0)!important;border-radius:3px}
+.sent.tts-reading,.tts-reading{transition:background .1s}
+.tts-sent{cursor:default}
+
+
+/* 更多菜单 */
+.more-wrap{position:relative;display:inline-block}
+.more-btn{}
+.more-menu{position:absolute;top:calc(100% + 6px);right:0;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(22,51,59,.15);padding:6px;display:none;flex-direction:column;gap:2px;z-index:60;min-width:170px}
+.more-menu.on{display:flex}
+.more-menu a,.more-menu button{display:flex;align-items:center;gap:8px;text-align:left;text-decoration:none;color:var(--ink);background:none;border:none;border-radius:8px;padding:9px 12px;font-size:13.5px;cursor:pointer;white-space:nowrap;width:100%;font-family:inherit}
+.more-menu a:hover,.more-menu button:hover{background:#F1F5F4}
+.more-menu .gold-txt{color:var(--gold-deep)}
+/* 正在朗读的句子：左竖条 + 高亮，更醒目 */
+.tts-reading{background:linear-gradient(transparent 55%,rgba(232,197,88,.6) 0)!important;border-radius:3px;box-shadow:-8px 0 0 rgba(46,90,102,.9);border-radius:2px}
+
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:50;background:rgba(251,251,248,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:0 -44px 30px;padding:10px 44px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+@media(max-width:900px){.toolbar{margin:0 -18px 24px;padding:10px 18px}}
+.btn{border:1.5px solid var(--teal);background:#fff;color:var(--teal);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;transition:.15s}
+.btn:hover{background:var(--mist)}
+.btn.primary{background:var(--teal);color:#fff}
+.btn.gold{border-color:var(--gold-deep);color:var(--gold-deep)}
+.btn.gold.on{background:var(--gold);border-color:var(--gold);color:var(--ink-deep)}
+.save-state{font-size:12px;color:#8AA09C;margin-left:auto}
+
+/* sections */
+section{margin-bottom:46px;scroll-margin-top:70px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.sec-num{font-size:13px;color:var(--gold-deep);letter-spacing:.1em;font-family:Georgia,serif}
+h2{font-size:21px;color:var(--teal);font-weight:600}
+.sec-time{font-size:12px;color:#9AACA8;margin-bottom:12px}
+.keypoints{background:var(--mist);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0 18px;font-size:13.5px}
+.keypoints b{color:var(--teal)}
+.keypoints li{margin-left:18px;margin-top:4px;color:#3B5A57}
+
+/* paragraphs */
+.para{margin-bottom:18px;padding-right:26px}
+.en{font-size:var(--fs);color:#22403F}
+.en.hl-mode{cursor:text}
+.sz{display:none}
+.zh-block{display:none;margin-top:8px;padding:10px 14px;background:#F1F5F3;border-left:3px solid var(--zh);border-radius:0 8px 8px 0;color:var(--zh);font-size:14.5px;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;line-height:1.85}
+.zh-block .comment-line{display:block;margin-top:7px;color:#A08A45;font-size:13.5px}
+body.show-zh .zh-block, section.show-zh .zh-block, .para.zh-open .zh-block, .quote.zh-open .zh-block{display:block}
+.quote{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:14px 0;font-style:italic;box-shadow:0 2px 8px rgba(36,80,91,.06);position:relative}
+.quote::before{content:"“";position:absolute;top:-2px;left:10px;font-size:44px;color:var(--gold);font-style:normal;line-height:1}
+.quote .en{font-size:calc(var(--fs) - 1px)}
+.tag{display:inline-block;font-size:11px;background:var(--teal);color:#fff;border-radius:4px;padding:2px 8px;margin-bottom:8px;letter-spacing:.05em}
+.tag.before{background:#8A9E9A}
+.tag.after{background:var(--gold-deep)}
+
+/* highlights */
+mark{background:linear-gradient(104deg, rgba(232,197,88,0) 1%, rgba(232,197,88,.85) 3%, rgba(232,197,88,.55) 96%, rgba(232,197,88,0) 99%);padding:1px 2px;border-radius:2px;cursor:pointer}
+mark:hover{outline:1.5px dashed var(--gold-deep)}
+#hl-tip{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink-deep);color:#fff;font-size:12.5px;padding:8px 16px;border-radius:20px;z-index:99;display:none}
+
+/* selection popup */
+#sel-pop{position:fixed;z-index:95;display:none;background:var(--ink-deep);border-radius:10px;padding:5px;box-shadow:0 6px 20px rgba(0,0,0,.25);gap:4px}
+#sel-pop button{border:none;background:transparent;color:#fff;font-size:12.5px;padding:6px 10px;border-radius:7px;cursor:pointer;white-space:nowrap}
+#sel-pop button:hover{background:rgba(255,255,255,.15)}
+#sel-pop .sep{width:1px;background:rgba(255,255,255,.2);margin:4px 0}
+/* dictionary card */
+#dict-card{position:fixed;z-index:96;display:none;width:300px;max-width:92vw;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(22,51,59,.25);padding:18px 18px 14px}
+#dict-card .dw{font-family:Georgia,serif;font-size:21px;color:var(--teal);font-weight:600}
+#dict-card .dp{color:#93A8A4;font-size:13px;margin-left:7px}
+#dict-card .say{border:none;background:var(--mist);border-radius:50%;width:27px;height:27px;cursor:pointer;margin-left:7px;font-size:13px}
+#dict-card .zh-big{font-size:17px;color:var(--ink-deep);margin-top:10px;font-weight:600;line-height:1.6}
+#dict-card .zh-big.loading{color:#9AACA8;font-weight:400;font-size:14px}
+#dict-card .dd{font-size:12px;color:#8CA19D;margin-top:7px;line-height:1.55;max-height:70px;overflow-y:auto}
+#dict-card .dc-row{display:flex;gap:8px;margin-top:13px}
+#dict-card .dc-row button{border-radius:9px;padding:8px;font-size:13px;cursor:pointer;border:none}
+#dict-card .dc-row .add{flex:1;background:var(--teal);color:#fff}
+#dict-card .dc-row .add:hover{background:var(--ink)}
+#dict-card .close-x{position:absolute;top:9px;right:13px;border:none;background:none;color:#AAB9B6;cursor:pointer;font-size:15px}
+/* mark menu */
+#mark-menu{position:fixed;z-index:96;display:none;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 26px rgba(22,51,59,.2);padding:6px;min-width:145px}
+#mark-menu button{display:block;width:100%;text-align:left;border:none;background:none;padding:8px 12px;font-size:13px;color:#3B5A57;cursor:pointer;border-radius:8px}
+#mark-menu button:hover{background:var(--mist)}
+#mark-menu button.danger{color:#B04A3A}
+mark.has-note{border-bottom:2px solid var(--gold-deep)}
+mark.has-note::after{content:"📝";font-size:10px;margin-left:1px}
+.hl-note-inp{width:100%;border:1px dashed #D8C88F;border-radius:7px;margin-top:6px;padding:5px 8px;font-size:12.5px;background:#FFFDF4}
+/* note modal — centered, bright */
+#note-modal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.35);backdrop-filter:blur(2px)}
+#note-modal.open{display:flex}
+#note-modal .box{width:440px;max-width:92vw;background:#fff;border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+#note-modal .quote-ref{font-size:13px;color:#6B8480;background:var(--mist);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:8px 12px;margin-bottom:12px;font-style:italic;max-height:76px;overflow-y:auto}
+#note-modal textarea{width:100%;min-height:110px;border:1.5px solid var(--line);border-radius:12px;padding:12px;font-size:15px;background:#FFFDF4;resize:vertical}
+#note-modal textarea:focus{outline:none;border-color:var(--teal)}
+#note-modal .row{display:flex;gap:10px;margin-top:14px}
+#note-modal .row button{flex:1;border-radius:10px;padding:10px;font-size:14px;cursor:pointer;border:none}
+#note-modal .row .ok{background:var(--teal);color:#fff}
+#note-modal .row .no{background:#EEF2F1;color:#5D7975}
+/* vocab — compact rows */
+.vocab-item{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:9px 11px;margin-bottom:7px;font-size:13px}
+.vocab-item.known{opacity:.5}
+.vocab-item .main{flex:1;min-width:0}
+.vocab-item .w{font-family:Georgia,serif;font-size:15.5px;color:var(--teal);font-weight:600;cursor:pointer}
+.vocab-item .ph{color:#A8B8B4;font-size:11px;margin-left:5px}
+.vocab-item .zh-inline{border:none;background:transparent;width:100%;font-size:13px;color:#4A6360;padding:1px 0;font-family:inherit}
+.vocab-item .zh-inline::placeholder{color:#BCC9C6}
+.vocab-item .zh-inline:focus{outline:none;border-bottom:1px dashed var(--gold-deep)}
+.vocab-item .kbtn{flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-size:14px}
+.vocab-item .kbtn.on{background:var(--teal);border-color:var(--teal)}
+.vocab-item .rm{flex-shrink:0;border:none;background:none;color:#C9B0AA;cursor:pointer;font-size:13px;padding:2px}
+.vocab-stats{display:flex;gap:8px;margin-bottom:12px;font-size:12.5px;color:#6B8480;align-items:center}
+.vocab-stats b{color:var(--gold-deep);font-size:16px;font-family:Georgia,serif}
+.vocab-stats .ok-n{color:var(--teal)}
+.dict-loading{color:#9AACA8;font-size:12px}
+#drawer .tabs{display:flex;gap:6px;margin-bottom:16px}
+#drawer .tabs button{flex:1;border:1.5px solid var(--teal);background:#fff;color:var(--teal);border-radius:9px;padding:7px;font-size:13px;cursor:pointer}
+#drawer .tabs button.on{background:var(--teal);color:#fff}
+#drawer .pane{display:none}#drawer .pane.on{display:block}
+/* vocab words in text — 蓝色系，与金色划线区分 */
+.vocab-mark{background:#DEEAF6;border-bottom:2px dotted #4A7BAA;border-radius:2px;padding:0 1px;cursor:pointer}
+.vocab-mark:hover{background:#CBDFF2}
+/* per-paragraph 中文 toggle */
+.para,.quote{position:relative}
+.zh-btn{position:absolute;right:-6px;top:0;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);background:#fff;color:#8CA19D;font-size:11.5px;cursor:pointer;opacity:.55;transition:.15s;font-family:-apple-system,'PingFang SC',sans-serif;line-height:1}
+.zh-btn:hover{opacity:1;border-color:var(--teal);color:var(--teal)}
+.zh-btn.on{background:var(--teal);border-color:var(--teal);color:#fff;opacity:1}
+.para.zh-open .zh,.quote.zh-open .zh{display:block}
+@media(max-width:900px){.zh-btn{right:0}}
+/* dict card long-selection mode */
+#dict-card .dw.long{font-size:14px;color:#6B8480;font-weight:400;font-family:-apple-system,'PingFang SC',sans-serif}
+#dict-card .orig-small{font-size:12px;color:#9AACA8;margin-top:6px;max-height:64px;overflow-y:auto;font-style:italic;line-height:1.5}
+
+#sync-modal{position:fixed;inset:0;z-index:130;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.4);backdrop-filter:blur(3px)}
+#sync-modal.open{display:flex}
+#sync-modal .box{width:420px;max-width:92vw;background:#fff;border-radius:18px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+#sync-modal .sync-inp{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13.5px;background:#FBFDFC;margin-top:3px}
+#sync-modal .sync-inp:focus{outline:none;border-color:var(--teal)}
+#sync-modal .row{display:flex;gap:8px;flex-wrap:wrap}
+#sync-modal .row button{flex:1;min-width:90px;border-radius:10px;padding:9px;font-size:13.5px;cursor:pointer;border:none}
+#sync-modal .row .ok{background:var(--teal);color:#fff}
+#sync-modal .row .no{background:#EEF2F1;color:#5D7975}
+.cloud-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#C9B0AA;margin-right:5px;vertical-align:1px}
+.cloud-dot.on{background:#4F9E7A}
+
+
+/* 触屏：菜单停靠屏幕底部，放大更好点 */
+#sel-pop.touch-dock,#mark-menu.touch-dock{box-shadow:0 -2px 24px rgba(0,0,0,.28);z-index:9999}
+#sel-pop.touch-dock button,#mark-menu.touch-dock button{font-size:15px;padding:11px 16px}
+#sel-pop.touch-dock::before{content:"已选中 → 选择操作";position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:11px;color:#8CA19D;white-space:nowrap;background:var(--paper);padding:1px 8px;border-radius:8px}
+
+/* notes */
+.note-area{margin-top:14px}
+.note-area textarea{width:100%;min-height:64px;border:1.5px dashed #B9CBC7;border-radius:10px;padding:10px 12px;font-size:14px;font-family:-apple-system,'PingFang SC',sans-serif;background:#FFFDF4;color:#4A4632;resize:vertical}
+.note-area textarea:focus{outline:none;border-color:var(--gold-deep);border-style:solid}
+.note-label{font-size:12px;color:#9AACA8;margin-bottom:4px}
+
+/* notes drawer */
+#drawer{position:fixed;right:-360px;top:0;width:350px;max-width:92vw;height:100vh;background:#fff;border-left:1px solid var(--line);box-shadow:-8px 0 30px rgba(0,0,0,.08);z-index:90;transition:right .25s;padding:24px 20px;overflow-y:auto}
+#drawer.open{right:0}
+#drawer h3{color:var(--teal);margin-bottom:12px;font-size:16px}
+.hl-item{border-left:3px solid var(--gold);background:#FCF8EA;padding:8px 12px;border-radius:0 8px 8px 0;margin-bottom:10px;font-size:13px;color:#5A5238}
+.hl-item .src{font-size:11px;color:#A09468;display:block;margin-top:3px}
+.hl-item .del{float:right;cursor:pointer;color:#B08A1E;font-size:12px}
+.empty{color:#AAB9B6;font-size:13px;font-style:italic}
+footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:#9AACA8;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="ui">
+  <div class="map-title">课程学习地图</div>
+  <div class="map-sub">研读文学教纲（下）· 2025.03.14</div>
+  <nav class="map" id="map">
+    <div class="part">Part 1 · 复盘与作业分享</div>
+    <a href="#s1"><span class="dot"></span>复盘 · 三目标四成果</a>
+    <a href="#s2"><span class="dot"></span>作业① 唐慧 · 马拉拉</a>
+    <a href="#s3"><span class="dot"></span>作业② 公盟 · 中文课案例</a>
+    <a href="#s4"><span class="dot"></span>⚑ 点评 · 两个词要拆开</a>
+    <div class="part">Part 2 · 三个关键区分</div>
+    <a href="#s5"><span class="dot"></span>⚑ 精读 vs 泛读</a>
+    <a href="#s6"><span class="dot"></span>言外之意 · 潜台词</a>
+    <a href="#s7"><span class="dot"></span>⚑ 什么是批判性阅读</a>
+    <a href="#s8"><span class="dot"></span>元认知在孩子身上</a>
+    <div class="part">Part 3 · 文学回应框架</div>
+    <a href="#s9"><span class="dot"></span>⚑ 眼睛图 · 最核心是 TEXT</a>
+    <a href="#s10"><span class="dot"></span>五个分析领域</a>
+    <a href="#s11"><span class="dot"></span>Responding · 读写不分家</a>
+    <a href="#s12"><span class="dot"></span>最外圈 · 四种连接</a>
+    <div class="part">Part 4 · 作业与结尾</div>
+    <a href="#s13"><span class="dot"></span>作业 · 结尾</a>
+  </nav>
+</aside>
+
+<main>
+<header>
+  <div class="eyebrow ui">FOGG 教研学习会 · 隔周一次</div>
+  <h1>以文本为核心 · 文学回应框架<span class="zh-t">研读新加坡 MOE 中学文学教纲（下）—— 作业分享 · 精读与泛读 · 那张「眼睛图」</span></h1>
+  <div class="meta ui">
+    <span>主讲：言词（Yanci）</span>
+    <span>作业分享：唐慧、公盟等跟课老师</span>
+    <span>2025年3月14日 · 约90分钟</span>
+  </div>
+</header>
+
+<div class="toolbar ui">
+  <button class="btn" id="drawer-btn">📒 生词本 · 划线 · 笔记</button>
+  <button class="btn" id="sync-btn"><span class="cloud-dot"></span>☁️ 同步</button>
+  <span class="fs-btns"><button class="fs-a1" id="fs-minus" title="缩小字体">A−</button><span class="fs-cur ui" id="fs-cur">标准</span><button class="fs-a2" id="fs-plus" title="放大字体">A+</button></span>
+  <button class="btn" id="bm-pin" title="把当前位置钉为书签">📌 钉这里</button><button class="btn" id="bm-go" title="跳回你钉的书签位置">🔖 回书签</button>
+  <button class="btn tts-btn" id="tts-trigger" title="朗读">🔊 朗读</button>
+  <span class="more-wrap">
+    <button class="btn more-btn" id="more-btn" title="更多">⋯ 更多</button>
+    <div class="more-menu" id="more-menu">
+    <a href="index.html">🏠 回到目录</a>
+    <a href="syllabus-ref.html">📘 教纲参考页</a>
+    <button id="zh-toggle" style="display:none">显示全部中文</button>
+    <button class="gold-txt" id="export-btn">📤 导出学习笔记</button>
+    </div>
+  </span>
+  <span class="save-state" id="save-state">已就绪</span>
+</div>
+
+<!-- S1 -->
+<div class="tts-bar ui" id="tts-bar">
+  <button class="close" id="tts-x" title="关闭朗读">✕</button>
+  <div class="lang" id="tts-lang">
+    <button data-lang="en" class="on">EN</button>
+    <button data-lang="zh">中文</button>
+  </div>
+  <div class="seg" id="tts-scope">
+    <button data-scope="para" class="on">整篇</button>
+    <button data-scope="from">从这句起</button>
+  </div>
+  <button id="tts-prev" title="上一句">⏮</button>
+  <button class="play" id="tts-play" title="播放/暂停">▶</button>
+  <button id="tts-next" title="下一句">⏭</button>
+  <div class="rate">
+    <button id="tts-slow" title="减速">−</button>
+    <span class="rv" id="tts-rate">1.0×</span>
+    <button id="tts-fast" title="加速">+</button>
+  </div>
+</div>
+
+<!-- S1 -->
+<section id="s1">
+  <div class="sec-head"><span class="sec-num">01</span><h2>复盘 · 三大目标与四个成果</h2></div>
+  <div class="sec-time ui">04:00 – 12:12</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>为新加入的同事重述上一场：一整堂课只讲了教纲的<b>三个自然段</b></li>
+    <li><b>Ethical</b>：跨越时间、空间、文化理解人类情感 → empathy、global awareness → 建立自己的价值观、辨识自己的偏见</li>
+    <li><b>Aesthetic</b>：对语言既有深度又有高度的敏感性；文字背后的意思；延伸到各种艺术形式的审美</li>
+    <li><b>Intellectual</b>：元认知——知道语言读时对自己的影响、说时对别人的影响，站在旁观者角度看自己这个过程</li>
+    <li>⚑ 顺序本身就是信息：<b>排第一的不是语言，是这些东西的培养</b></li>
+    <li>⚑ 即便在语言学习上，它也远远超出掌握词汇和剧情</li>
+    <li>落地的现实：学校做不到的，我们的阅读课可以做——但它是润物无声的，靠一本一本书、一节一节课、一次一次讨论慢慢积累</li>
+</ul>
+  </div>
+<div class="para"><p class="en">这一场有几位同事是第一次参加，所以言词先把上一场复述了一遍：上次整整一堂课，只学了这份新加坡中学文学教纲的三个自然段。</p></div>
+<div class="para"><p class="en">第一件是伦理道德方面。听起来很宏大，但内容跟我们息息相关：要能跨越时间、空间和文化去理解人类的各种情感；要有同理心（那天 Chris 老师也着重讲了同理心）；要有 global awareness——孩子可能就生活在新加坡，但透过阅读他可以看到世界各个角落发生的事、那里的人类是怎么样的；见过这么多之后，他要能树立自己的价值观，也能辨识自己的 bias、也就是偏见。言词特别点出：<b>阅读把这一条列为第一，最重要的反而不是语言</b>。所以那天 Chris 说「阅读可以让你成为一个更好的人」，他着重讲的就是这部分。</p></div>
+<div class="para"><p class="en">第二件是审美，这一条才跟语言有关系：要对语言有既有深度又有高度的敏感性，要能理解文字背后的意思；而且透过阅读还能培养各种形态的审美，比如电影、绘画。</p></div>
+<div class="para"><p class="en">第三件才是智力上的 intellectual consideration：孩子在使用语言和解读语言的时候要有 metacognitive habits——他要知道这个语言会对思想和感情造成什么影响，读的时候对他造成什么影响，说的时候对别人造成什么影响，他要能站在一个旁观者的角度来看自己这个 process。这就是所谓的学会学习。言词重讲了自己的例子：我为了记住这份大纲里的东西，画了一张脑图；我为什么画脑图？因为我发现这样能帮我记得更清楚；为什么五颜六色？因为我发现颜色能帮我记得更清楚——我有意识地用脑图来帮助记忆，这就是 learn how to learn。</p></div>
+<div class="para"><p class="en">然后是那四条成果：empathetic and global thinkers、critical readers、creative meaning-makers、convincing communicators。它们其实是把前面说的 highlight 出来。</p></div>
+<div class="para"><p class="en">由这三点可以看出：文学课不是我们简单认为的语言课。语言确实是它的一个目标，但不是唯一的目标；而且即便在语言学习上，它也远远超出仅仅掌握词汇和剧情——它要培养的是一个深度的阅读者和有创造力的沟通者，还有更高的道德方面的追求。</p></div>
+<div class="para"><p class="en">言词再次给出她对这份文件的评价：新加坡教育部做的这个东西，拿到国际上跟任何国家讨论都不逊色，说世界领先也不过分；虽然落实到每个学校、每个学生时会打折扣，但不影响文件本身的水平。而我们非常幸运的是，Chris 老师认可的就是这套东西，他在课上做的就是这样一套东西。所以学校做不到的事情，在我们的阅读课里可以做——但这是润物无声的，不是一年两年就能达到，而是透过一本一本书、一节一节课、一次一次讨论积累，慢慢地，这个孩子会变成一个不一样的孩子。</p></div>
+</section>
+
+<!-- S2 -->
+<section id="s2">
+  <div class="sec-head"><span class="sec-num">02</span><h2>作业分享① 唐慧 · 以《我是马拉拉》为例</h2></div>
+  <div class="sec-time ui">12:18 – 20:04</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>Aesthetic</b>：跟课时有意识找老师讲的文学体例、叙事结构、象征、不同流派的文学对比</li>
+    <li><b>Intellectual</b>：批判性思维、主题解析、人物动机与情节的逻辑推理、对文本的深度分析（作者的写作目的是什么？从哪些细节看出来？用了什么手法？）</li>
+    <li>还观察到<b>跨学科联系</b>：周三的课上把文学和营养学结合起来分析 <i>The Omnivore's Dilemma</i></li>
+    <li><b>Ethical</b>：道德困境的探讨、反派人物的选择、正义一方是否一直正义、性别/种族/阶级议题的映射</li>
+    <li>⚑ 最精彩的课堂实录：Chris 问「第一人称回忆录就一定是真实的吗？」——马拉拉说她很小就意识到自己需要学习，Chris 问孩子们「你们在这个年纪会这么想吗」，孩子们说当然不会</li>
+    <li>学生 Max 的回答被记下来：塔利班只做他们自己喜欢的事，而不是对巴基斯坦这个国家好的事</li>
+    <li>语言层面的例子：crack, crack, crack 的重复与拟声，增强紧迫感；Story Mountain 帮孩子理解高潮、低谷、反转的章节安排</li>
+</ul>
+  </div>
+<div class="para"><p class="en">唐慧按三个目标分栏来整理。审美方面，她平时跟课时会有意识地找老师讲到的文学体例，包括叙事结构、象征，以及不同形式或流派的文学对比。</p></div>
+<div class="para"><p class="en">智力方面，她理解为对孩子的思维训练：批判性的思考、主题解析、老师讲解的人物动机和故事情节的逻辑推理，还有这两周课上涉及的对阅读文本的深度分析——作者的写作目的是什么、从哪些细节能看出这个目的、运用了哪些手法。除此之外她还观察到跨学科的联系：她旁听周三的一节课，看到文学和营养学联合在一起去分析 The Omnivore's Dilemma。</p></div>
+<div class="para"><p class="en">伦理方面，她理解为对社会价值观的反思，通过一些道德困境的探讨来实现，比如反派人物的选择、所谓正义的一方是不是一直是正义的，以及文学中对性别、种族、阶级议题的映射，最后是世界性的思维与价值、培养孩子的同理心。</p></div>
+<div class="para"><p class="en">然后她用《我是马拉拉》做具体说明。从马拉拉的经历、心理状态和第一人称叙事手法出发，Chris 带孩子深入分析文本，而不只是了解故事。他们探讨了写作的历史背景，最明显的是塔利班的统治和女性受教育权这两个话题。唐慧印象最深的是一个叫 Max 的孩子的回答：塔利班只会做他们自己喜欢的事情，而不是对巴基斯坦这个国家好的事情。她认为这是真正帮助孩子进行了批判性思考——站到角色或对方的角度去认识世界，而不是以「我作为一个新加坡孩子」或「我作为一个中国孩子」的视角先入为主。</p></div>
+<div class="para"><p class="en">伦理层面还有一个具体的课堂讨论：Chris 问孩子们，你认为塔利班为什么不让女孩子超过九岁还上学？浩然回答，因为她们只想让女孩子学习如何做家务、做饭；周一提出，也许是想让这些女孩去学宗教知识。每个孩子对这个话题有自己不同的理解，也就映照出他们各自的价值观。</p></div>
+<div class="para"><p class="en">审美方面，唐慧指出：马拉拉的回忆录虽然是 nonfiction，但写作方式仍有文学性。而 Chris 在这里做的批判性思维训练她认为非常好——他提出的问题是：这是第一人称的回忆录，但我的回忆录就一定是真实的吗？书中提到马拉拉在很小的时候就已经意识到自己需要学习这件事，Chris 就问孩子们：你们在这个年纪会这么想吗？孩子们说，当然不会。所以孩子也学会了对这些地方提出自己的质疑，大胆勇敢地表达自己的想法。</p></div>
+<div class="para"><p class="en">她还补了两个语言层面的例子：之前有一本书用 Story Mountain 帮助孩子理解文学结构，比如高潮、低谷、反转怎么安排章节——这不只对阅读有帮助，对以后的写作也有帮助；以及文中 crack, crack, crack 这样的重复和拟声，增强了紧迫感。</p></div>
+</section>
+
+<!-- S3 -->
+<section id="s3">
+  <div class="sec-head"><span class="sec-num">03</span><h2>作业分享② 公盟 · 中文阅读课与写作课的案例</h2></div>
+  <div class="sec-time ui">20:09 – 25:48</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>同理心</b>：中文课的诗歌朗诵《向上跌了一跤》《谁在床下养了一朵云》——孩子要读好这首诗，就必须去感受诗中人物的情感和处境</li>
+    <li>⚑ 言词插话点评：<b>这是一个很好的例子，因为它是感性的，不是逻辑分析</b>——大人习惯用逻辑分析同理心，但低龄孩子是透过朗读来感受，对低龄孩子非常好</li>
+    <li><b>价值观与偏见</b>：初中班《卧底机器人》，青云老师问「为什么社会需要有规则？这个规则是不是好的？我们可以打破规则吗？」——孩子思考这个问题的过程就是在探索自己的价值观</li>
+    <li><b>细读习惯</b>：马拉拉课上讲「伏笔」——只有仔细读并思考，才知道这段内容在整个故事里起什么作用</li>
+    <li><b>语言的多义与细微差别</b>：难民营的书 <i>When Stars Are Scattered</i> 里，老师问怎么理解 hope 和 resilience 这两个词；俊琳答「有希望才会继续向前」</li>
+    <li><b>接受模糊与未知</b>：同一本书里的命运与自由意志——难民营里能被安置的概率极小，像中彩票；老师引导：有些事我们能控制，有些不能，不能控制的可以调整自己的心态</li>
+    <li>⚑ 言词当场布置：这本书从没跟大家分享过，<b>就这个点写一篇小文</b>——什么情节、Chris 讲了什么、它的价值是什么</li>
+</ul>
+  </div>
+<div class="para"><p class="en">公盟也按伦理、审美、智力三个框架来分。伦理这块她分了三部分。第一是同理心和全球化视野。因为她也带中文阅读课，这几周孩子们在学诗歌朗诵，比如《向上跌了一跤》和《谁在床下养了一朵云》。她的观察是：孩子要把这首诗朗读好，就必须去感受诗里那种换位思考的语言表达；老师上课时也是这样引导的——我们怎样可以把这首诗读得更好？那就需要考虑这首诗里这个人物的情感是什么、他的环境是什么。</p></div>
+<div class="para"><p class="en">言词在这里插了一段点评，认为这个例子举得很好：我们大人谈同理心，往往是很 logic 的分析，因为那是成人的思考方式；但孩子是透过朗读来感受，这是很感性化的。小朋友可能不需要很有逻辑的思考，但他努力去感受——这对低龄孩子其实是非常好的路径。</p></div>
+<div class="para"><p class="en">伦理的第二部分是个人价值与信念、偏见。公盟举的是初中班在学的《卧底机器人》：青云老师提出「为什么这个社会需要有规则？这个规则是不是好的？我们可以打破规则吗？」规则大体上属于价值观的范畴，孩子思考这个问题的过程，就是在认识、探索自己的价值观。</p></div>
+<div class="para"><p class="en">审美这块她也分三块。一是培养仔细阅读文字的习惯——她举马拉拉课上讲「伏笔」的例子：只有孩子仔细去读这段文字并且思考，才能知道这段伏笔在整个故事里起到的作用是什么。二是对语言细微差别和多重意义的敏感性——她举的是讲难民营故事的 When Stars Are Scattered，老师问孩子们怎么理解 hope 和 resilience 这两个词，俊琳回答「有希望才会继续向前」。她的评价是：这两个词单独看都很简单，不深奥，但它会让孩子去想，这两个词放在一起在生活中能给我们什么启发、可以怎么去处理一些事情——这其实也是一种信念感的形成。</p></div>
+<div class="para"><p class="en">智力这块她先讲了对模糊性和未知的接受度，例子还是 When Stars Are Scattered：书里讲难民营中有些人可以申请被重新安置，但概率非常非常小，老师形容像中彩票一样。老师由此引导：生活中我们会遇到很多事情，有些受我们控制，有些不受我们控制；对于不受控制的那些，我们可以去调整自己的心态。公盟认为这能帮助孩子更好地抵抗未来的模糊和不确定带来的恐惧。</p></div>
+<div class="para"><p class="en">言词评价这一段说得非常好、也说得挺深，并且当场给了一个具体任务：这本书我们从来没有跟大家分享过，你可以就这个点写一篇小文——是一个什么情节、Chris 老师讲了什么、然后它的价值是什么。</p></div>
+</section>
+
+<!-- S4 -->
+<section id="s4">
+  <div class="sec-head"><span class="sec-num">04</span><h2>点评 · empathy 和 global awareness 要拆成两块</h2></div>
+  <div class="sec-time ui">25:48 – 27:51</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>⚑ empathy 和 global awareness 有时会交叉，但它们其实是两块，收集案例时要分开</b></li>
+    <li>global awareness 的判据很具体：<b>讲到了不同文化、不同背景的文化</b></li>
+    <li><b>⚑ 审美也要和 ethical 分开</b>：审美是对语言和语言美感的理解，不要混进伦理里</li>
+    <li>对中文课播报的具体反馈：伦理类的点已经能看到了，<b>但语言类的还没有</b></li>
+    <li>⚑ 这句话直接引出下一节的关键区分：<b>年龄越小，我们越关注语言这个层面</b></li>
+</ul>
+  </div>
+<div class="para"><p class="en">言词在这里给了两条很具体的修正意见。第一条：在伦理这一栏里，要把 empathy 和 global awareness 分成两个来收集。它们有时会有交叉，但其实是两块。global awareness 的判据很清楚——讲到了不同文化、不同背景的文化，那才是 global awareness。所以要继续按这个标准去搜集案例。</p></div>
+<div class="para"><p class="en">第二条是关于审美：审美和 ethical 也要分开。审美这一栏要的是对语言、以及语言美感的理解。</p></div>
+<div class="para"><p class="en">然后她给了一个针对中文课播报的具体反馈：昨天她看了公盟的中文课播报，觉得比之前有很大进步，已经能看到里面关于 ethical 的一些点，但语言类的还没有。她接着说了一句关键的话——我们的中文课，尤其是泛读课，年龄越小，我们越关注在语言这个层面上，其他层面是辅助的。这句话直接把话题带到了下一个关键区分。</p></div>
+</section>
+
+<!-- S5 -->
+<section id="s5">
+  <div class="sec-head"><span class="sec-num">05</span><h2>⚑ 关键区分 · 精读与泛读，为什么英文精读、中文泛读</h2></div>
+  <div class="sec-time ui">27:51 – 37:20</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>精读：第一讲究「透」</b>。真正把书读透，多个角度都看透；Chris 会摘出一个片段跟孩子深入探讨半节课</li>
+    <li>极端例子：言词女儿跟 Chris 上小班/一对一，一部莎士比亚《麦克白》上了三个月，一年只读四本书——<b>但 doesn't matter，重点是读透</b></li>
+    <li><b>泛读：第一讲究「量」</b>。中文泛读一年读 20 本，同年龄段英文精读一年只读 8 本</li>
+    <li><b>⚑ 为什么这样设计</b>：课程主要针对新加坡孩子——英文是第一语言，中文是第二语言（中国孩子反过来想就通了）</li>
+    <li>英文精读课里三大目标每一个都要培养，一个也不能缺，因为这是这门课本分要提供的价值</li>
+    <li><b>中文泛读课要解决的第一是语言问题</b>：词汇量不够、阅读速度跟不上、听说都还吃力——<b>要用量来跨越语言能力的关卡</b></li>
+    <li>还有一个隐藏差别：<b>「喜欢阅读」这个目标不在文学课里</b>（教纲默认每个孩子都要读），但在中文泛读营里，态度的培养是重要目标——因为孩子可以不读中文书，他有英文书可以读</li>
+    <li>⚑ 给公盟的直接指令：<b>中文课主要是你在带，你要特别关注语言能力这部分，因为这是中文课提供给孩子的价值</b></li>
+</ul>
+  </div>
+<div class="para"><p class="en">言词先把问题抛给大家：精读和泛读的区别是什么？几位老师的回答分别是「精读花更多时间分析文本，泛读是提纲挈领知道中心思想」「精读的书内容多一些、深一些，泛读浅一些」。言词说这些理解首先都是对的：精读对书的分析要更深入，泛读没有那么深入。</p></div>
+<div class="para"><p class="en">然后她给出精确的表述。<b>精读讲究的是「透」</b>——我对书的真正理解。所以很长一段时间，英文精读营的 slogan 是「真正把书读透」：要把这本书里的很多个角度都看透。Chris 老师甚至会摘出一些片段来跟孩子深入探讨，有时候一个片段就分析半节课，从语言到别的讲很多东西。她举了一个极端的例子：她女儿跟 Chris 上更小班的课，有些时段甚至是一对一，一部莎士比亚的《麦克白》上了三个月——因为她不懂、实在太吃力。对她来说，那一年可能才读四本书，但 doesn't matter，重点是要把这本书读透。</p></div>
+<div class="para"><p class="en"><b>泛读讲究的是「量」</b>。为什么中文做的是泛读？因为课程主要是针对新加坡的小朋友设计的：对新加坡孩子来说，英文是第一语言，中文是第二语言。（言词补了一句：人在中国的伙伴把它调过来想就很好理解了——中文是第一语言，英文是第二语言。）</p></div>
+<div class="para"><p class="en">所以在英文精读课里，三大目标每一个都要培养、一个也不能缺，因为这就是这门阅读课本分要提供给他的价值。但在中文泛读课里，他要解决的第一是语言问题：那是他的第二语言，他掌握得不够熟练，词汇量不够丰富，阅读速度根本跟不上，甚至有的孩子听力还不太行，语言方面有各种各样的缺失。所以中文课的设计是用量来跨越语言能力这个关卡——一年读 20 本，而不是像同年龄段的精读课一年只读 8 本。当然在这个基础上，也同时培养一点点其他的东西，这是我们阅读课的特点：我们在搞语言，但没有纯粹只搞语言。</p></div>
+<div class="para"><p class="en">还有一个更隐蔽的差别。教纲设置这门文学课时，默认每个孩子都要读，所以「喜欢阅读」这个目标根本不在文学课里；但在我们的中文泛读营里就不是——孩子可以不读、可以不喜欢读，因为他有英文书可以读。所以在中文课里，培养阅读态度反而是一个很重要的目标。</p></div>
+<div class="para"><p class="en">最后她给了公盟一个直接的指令：中文课主要是你在带，你要特别关注语言能力这部分，因为这是中文课提供给孩子的价值。孩子透过阅读、透过老师课上跟他们看的那些例句、透过课上的互动和发言，不断加强听说读写能力、加强词汇量、加强句法——还有一件事，就是要能读懂语言背后的意思。</p></div>
+</section>
+
+<!-- S6 -->
+<section id="s6">
+  <div class="sec-head"><span class="sec-num">06</span><h2>言外之意 · 读懂潜台词</h2></div>
+  <div class="sec-time ui">33:00 – 37:20</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>外国人听不懂中国人说话的例子：「你方便的时候来我们家吃饭」——对方回「那我现在就方便」</li>
+    <li>⚑ 这句话字面是邀请，实际想表达的是<b>「我对你还挺友好的」</b>。听不懂的人只看字面</li>
+    <li><b>阅读里最好的训练场：含蓄写法下的「有人死了」</b></li>
+    <li>刘慈欣《第三次拯救世界》：那位科学家「走了进去」——意思是他因为内疚以死谢罪，但孩子读不出他死了</li>
+    <li>林海音《城南旧事》：妞儿的死是透过妈妈和帮佣之间一段含蓄的对话表现的；老师问「妞儿什么时候死了」，孩子一脸茫然</li>
+    <li>中文泛读课的考核题里有大量这类题：<b>「这个人说了这句话，他是想表达什么？」</b>——因为这正是要着重培养的点</li>
+    <li>再往下还有更深的 <b>layers of meaning</b>：他说了这句话，背后可能有很多层</li>
+</ul>
+  </div>
+<div class="para"><p class="en">什么叫读不懂语言背后的意思？言词先用一个日常例子说明。一个外国人跟中国人对话，中国人说「你方便的时候来我们家吃饭」，他就回「那我现在就方便，我现在就去你家吃饭吧」。但我们其实只是想客气一下，这句话背后想表达的是「我对你还挺友好的」——并不是真的要请他现在来吃饭。那个外国人从字面角度看，就理解成真的邀请了。这就是不懂文字背后的潜台词。</p></div>
+<div class="para"><p class="en">而阅读对孩子来说是这件事非常好的训练场。她举了两个中文书里的例子，都是关于「有人死了」，而且都用含蓄的手法写。</p></div>
+<div class="para"><p class="en">一个是刘慈欣的《第三次拯救世界》——那位科学家走进了那个地方，「他走了进去」，意思就是他自杀了，因为太内疚，以死谢罪。但小朋友不理解他是死了。另一个是《城南旧事》里的妞儿，她的死是透过妈妈和帮佣之间一段很含蓄的对话来表现的。老师上课时提到「妞儿什么时候死了」，学生一脸茫然——他完全没有从故事里看出这个言外之意。</p></div>
+<div class="para"><p class="en">言词指出，中文泛读课的考核体系里有很多考这个的题，因为这是我们着重要培养的一个点：这个人说了这样一句话，他想表达什么？这些题都是在培养孩子理解言外之意。而再往深处走，还有 layers of meaning——他说了这句话之后，背后可能有很多层级、很多东西。她补充说，这些例子在 Chris 老师的课里能找到，但更多要在中文课里找到，所以播报时要特别关注这一点。</p></div>
+</section>
+
+<!-- S7 -->
+<section id="s7">
+  <div class="sec-head"><span class="sec-num">07</span><h2>⚑ 什么是批判性阅读 · deeper reflection</h2></div>
+  <div class="sec-time ui">39:37 – 42:55</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>⚑ 澄清一个常见误解：批判性阅读不是「我要批评作者、说他写得不好」</b></li>
+    <li><b>批判性思维本质上是一种科学思维</b>：我想知道一个问题 → 我有什么样的证据 → 我才能得到那个结论</li>
+    <li>追问的动作：这个证据我可不可以相信？有没有可能是另外一种情况？</li>
+    <li>⚑ 课堂样本正是唐慧讲的马拉拉例子：她说自己五岁就知道学习重要——你们觉得可能吗？你们相信吗？<b>除非她天赋异禀</b></li>
+    <li>所以「判断作者说的是不是真话、是不是百分之百可信」就是 deeper reflection，是深度反思</li>
+    <li>对应中国古话：<b>尽信书不如无书</b></li>
+    <li>⚑ 新闻案例（言词现场演示的思维过程）：说某明星和 15 岁少女谈恋爱，网上马上上升到性同意年龄——但<b>「谈恋爱」和「发生性关系」是两回事，后者没有证据支撑</b>。一边倒的结论就是缺批判性思维</li>
+    <li><b>反过来的判定</b>：讽刺手法这类的东西不属于批判性阅读，那是<b>审美</b>（写作手法、艺术表达方式）</li>
+</ul>
+  </div>
+<div class="para"><p class="en">公盟在这里提了一个很实在的困惑：她不太确定，罗大里的戏剧里那种讽刺手法的学习，应该放在「言外之意」这一栏合不合适。言词借这个问题澄清了两个概念。</p></div>
+<div class="para"><p class="en">先说 deeper reflection。她指出唐慧刚才讲的马拉拉例子就是标准的 deeper reflection：孩子在判断这个写书的人说的是不是真话、她说的是不是百分之百可信。这就是深度反思——就是我们中国的古话，尽信书不如无书，读的时候不能完全相信书里的话，自己也要加工。</p></div>
+<div class="para"><p class="en">那什么叫批判性思考、批判性阅读？言词的澄清很关键：<b>并不是说我要批判作者、要批评他说他写得不好</b>。批判性思维其实是一种科学思维——我想知道一个问题，我要知道我有什么样的证据，然后我才能得到那个结论；如果我看到一个证据，我要问：我可不可以相信它？有没有可能是另外一种情况？我有没有思考能力去判断？这才叫批判式阅读。</p></div>
+<div class="para"><p class="en">她用一条娱乐新闻现场演示了这个思维过程：大家都说某位韩国明星和 15 岁的未成年少女谈恋爱，于是马上有人上升到「韩国的性同意年龄是什么时候」，很多人立刻愤怒。但你马上就可以 question：谈恋爱就代表要有性关系吗？说她在对方 15 岁时和她谈恋爱，就代表在对方成年之前发展了性关系吗？这两件事其实是不对等的。这个推论没有足够的证据支持，但网上已经一边倒——而一个有批判性思维的人，就会知道自己能不能得出这个结论。</p></div>
+<div class="para"><p class="en">回到课堂：马拉拉说她五岁的时候就知道学习很重要，老师就问孩子们，你们觉得可能吗？你们相信她吗？大概率不相信，除非她天赋异禀。这就是在培养这个能力。</p></div>
+<div class="para"><p class="en">最后回答公盟的问题：你说的那些讽刺手法，更像是审美这一边的——那是她的写作手法、是她艺术表达的方式。言词补充说，这一层是相对浅一点的层次，但它很重要，在 Chris 的课里不少，中文课里其实也有，可以继续找案例。</p></div>
+</section>
+
+<!-- S8 -->
+<section id="s8">
+  <div class="sec-head"><span class="sec-num">08</span><h2>元认知在孩子身上长什么样 · 两个真实样本</h2></div>
+  <div class="sec-time ui">44:48 – 51:53</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>样本一（顺顺，六年级，不到 12 岁，不是天赋异禀的孩子）</b>：老师问「你不直接说道理，怎么把这个道理表现出来？」</li>
+    <li>他答：我会设计一个什么样的故事，让角色怎么样，还有一个朋友怎么影响他……<b>关键的一句是：我不会让他的变化太过反转，因为那样就不真实；也不会让变化太小，我要让这个变化让读者能读出来</b></li>
+    <li>⚑ 这就是元认知——<b>他站在一个比较高的位置上俯瞰自己写作的过程</b></li>
+    <li><b>样本二（泰坦尼克号讨论）</b>：言词问，为什么不设计一对本来就感情深厚的恋人上船再发生故事？</li>
+    <li>顺顺答：那就没办法表现船上的不同阶层了。言词再追问：那也可以表现群像啊，各阶层各选一对。他答：<b>但这样就分散了笔墨，不能把一条故事线写得非常精彩和厚重</b></li>
+    <li>⚑ 反例（没有元认知的样子）：他看完剧说「我早就猜到结果了」，你问他怎么猜到的，他说「我不知道」——<b>他已经具备猜到的能力，但还没跳出来看自己是怎么猜到的</b></li>
+    <li>如果哪天他能说出「我猜到是因为前面给了什么线索、什么伏笔，我都看出来了」，那就是元认知</li>
+</ul>
+  </div>
+<div class="para"><p class="en">言词讲了两个真实的孩子样本，用来说明元认知在孩子身上具体长什么样。</p></div>
+<div class="para"><p class="en">第一个是顺顺，当时六年级、不到十二岁，而且她强调这不是一个天赋异禀的孩子，是一个相对普通的孩子。老师问他：你不直接说道理，那你怎么把这个道理表现出来？——比如「应该乐于助人」这个道理。他回答说，我会设计一个什么什么样的故事，让我的角色怎么怎么样，他还有一个朋友怎么怎么影响他。然后他说了一句很重要的话：所以他产生了变化，这个变化会说明那个道理。而更关键的是接下来这句——我不会让他的变化太过反转，因为那样就不真实；我也不会让变化太小，我要让这个变化，让读者能读出来。</p></div>
+<div class="para"><p class="en">言词指出，这就叫 metacognitive：他对自己写作的过程，其实是站在一个比较高的位置上俯瞰的。</p></div>
+<div class="para"><p class="en">第二个样本来自一次关于《泰坦尼克号》的讨论。大家都觉得现在看这部电影，两个主人公的爱情实在太突兀——只认识两三天，就要生死与共，削弱了冲击力。言词就问：为什么不去设计一对本来就是恋人、感情很深厚的人，然后来到泰坦尼克号上再发生这样的故事呢？顺顺的回答是：那他就没办法表现船上的不同阶层了。言词继续追问：那也可以表现群像啊，各个阶层都选一对出来。他又说：但这样就分散了笔墨，就不能把一条故事线写得非常精彩和厚重。</p></div>
+<div class="para"><p class="en">这几句话都是他站在作者的角度、站在一个更高的视角去看这件事——不是最高层级的元认知，但是一个孩子能达到的样本。</p></div>
+<div class="para"><p class="en">然后言词给了一个很有价值的反例，说明「没有元认知」是什么样子：他看完一部电视剧说，我早就猜到这个结果是那样的。你问他，你怎么猜到的？为什么每次都能猜中？他想了想说，我不知道。他说「我不知道」的时候，其实就是他还没有跳出来——他已经具备了猜到的能力，但不知道自己为什么能猜到。如果有一天他能跳出来说「我能猜到是因为这个故事会怎么写、他前面给了什么线索、什么伏笔，我都看出来了，所以我猜到了」，那就是元认知。</p></div>
+</section>
+
+<!-- S9 -->
+<section id="s9">
+  <div class="sec-head"><span class="sec-num">09</span><h2>⚑ 文学回应框架 · 最核心的是 TEXT</h2></div>
+  <div class="sec-time ui">52:32 – 1:00:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>教纲用<b>一张做成眼睛形状（带瞳孔）的图</b>表现整个文学回应框架 —— 言词的评价是「好得不能再好了」</li>
+    <li><b>⚑ 图的最核心是 text，文本。阅读课不能脱离文本来做</b></li>
+    <li>反例一（新加坡）：有些题看起来「就是让我抄一段原文」——但很多题其实是要你<b>用原文来证明你的分析是对的</b></li>
+    <li>反例二（中国）：孩子不结合文本回答问题，用套话答——「他们是互帮互助、一起进步、互相鼓励一起成长的好朋友」</li>
+    <li>⚑ <b>验证的问题只有一个：你从哪里看出来的？</b>——答不上来、举不出例子，就是脱离文本</li>
+    <li>更糟的是完全额外的推论（比如说他们是爱情关系），跟故事情节一点关系都没有</li>
+    <li><b>⚑ 所以「以文本为核心」本身就是 critical thinking</b>：你不能随口说，你得拿证据</li>
+    <li>（呼应上一节的新闻案例：说他们谈恋爱，可没说发生性关系——你有证据吗？）</li>
+    <li><b>所有文学教育课程，包括写作课程，都要以文本为核心</b></li>
+</ul>
+  </div>
+<div class="para"><p class="en">接下来是新内容：教纲里的 Literary Response Framework，也就是那张被做成眼睛形状、还带着瞳孔的图。言词对这张图的评价非常高——把阅读的很多元素和要做的事情、很多核心，就用这样一张图表现出来了。</p></div>
+<div class="para"><p class="en">这张图最核心的位置是 text，文本。也就是说，我们的阅读不能够离开文本来做阅读课。</p></div>
+<div class="para"><p class="en">她举了两边的反例。在新加坡，考试时你会觉得有些题很傻，孩子觉得「他就是让我抄一段原文嘛」；有些让抄原文的题确实傻，但有些题其实是让你分析某件事，而原文是用来证明你分析得对的证据。在中国，之前给中国孩子上中文泛读课时发现，孩子经常不结合文本来回答问题，他们按套话答——比如问两个人物之间到底是什么关系，孩子会说「他们是互帮互助、一起进步、互相鼓励一起成长的好朋友」。言词说这种话她自己都学不上来，因为太套话了，不是平时正常生活当中的话。</p></div>
+<div class="para"><p class="en">而验证的方法只有一个问题：你从哪里看出来的？你从哪里看出来他们俩互相帮助了？孩子答不上来，举不出例子。有时候「互帮互助」在书里其实是有的，但他说不出证据；更糟的是他可能说了一件完全额外的事，比如说他们俩是爱情关系——跟当时的故事情节一点关系都没有，那是一个完全额外的推论。</p></div>
+<div class="para"><p class="en">言词把这一点提到了原则的高度：这样的学习在 literature 教学里都是不可以的，必须以文本为核心，你要给出证据。而且她指出——<b>这本身也是 critical thinking</b>：你不能随口说「我想说他们俩是爱情关系，那他们就是爱情关系」，你得拿证据证明。这正好呼应前面那条新闻：大家都说那个男明星和未成年少女发生了性关系，可原话只说他们谈恋爱，并没有说发生性关系——你有证据吗？必须有证据才能说。</p></div>
+<div class="para"><p class="en">所以结论是：所有的文学教育课程，包括写作课程，都要以文本为核心。</p></div>
+</section>
+
+<!-- S10 -->
+<section id="s10">
+  <div class="sec-head"><span class="sec-num">10</span><h2>以文本为核心 · 分析什么（五个领域）</h2></div>
+  <div class="sec-time ui">1:00:00 – 1:05:49</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>⚑ 很多做文学教育的人在这里止步</b>——这只是基础，刚入门的老师都知道有这些；<b>但谁能把它分析得好，就是看功力</b></li>
+    <li><b>① Setting & Atmosphere</b>：setting 是时代背景、地点、处境（大到时代，小到一个家庭、一个人的历史背景）；atmosphere 是气氛</li>
+    <li>⚑ setting 的判断陷阱（真实案例）：《杀死一只知更鸟》故事发生在 1920 年代大萧条时期，而 1960 年代是<b>写作时间</b>——写作时间的思潮影响作者怎么看这个故事，但故事的 setting 是大萧条时期的美国南方小镇、白人与黑人矛盾激烈</li>
+    <li>atmosphere 的例子：写作课的鬼故事，孩子几乎都要先写一个 creepy 的场景——扭曲的树枝、没有光的月亮、尖顶房子、乌鸦「呱」的一声飞过。<b>还没有 setting，atmosphere 先起来了</b></li>
+    <li>《知更鸟》里也有：写爸爸做决定时，先写乡村如何寂静、只有月光照在他身上——<b>场景加深了人物情感和决策不容易的冲击力</b></li>
+    <li><b>② Style 写作风格</b>：《天上有时下猪》是荒诞喜剧、全篇幽默；《兔子舞》淡淡的、很温馨——同样是日本作家，风格完全不同</li>
+    <li><b>③ Plot 情节</b>：⚑ Story Mountain <b>只是情节线的一种</b>。新加坡学校教育的缺失在于小学六年只写这一种、而且非常格式化；中国的写作教育更缺失，连 Story Mountain 都没有，只有开头经过结尾</li>
+    <li><b>④ Character 人物</b>：特点、性格、成长线。Chris 讲哈利波特时是两条线并行——<b>一条情节线，一条人物成长线</b></li>
+    <li><b>⑤ Theme 主题</b>：Chris 非常注重这一点；言词坦白中文泛读营偶尔做、不常做，因为两小时一本书没时间做 plot 和 theme</li>
+</ul>
+  </div>
+<div class="para"><p class="en">以文本为核心，那在文本里我们分析什么？言词先给了一句提醒：很多做文学教育的人就在此止步。这五个领域是基础，刚入门的老师都知道有这些——但谁能把它分析得好，那就是看功力。</p></div>
+<div class="para"><p class="en">第一个是 setting and atmosphere。setting 通常是更大的东西：什么样的时代背景、什么样的处境。她举了《杀死一只知更鸟》的例子，而且这个例子里有一个非常好的判断陷阱：当时有老师在家长群里播报时提到 1960 年代美国的人权运动影响了作者的想法，家长 challenge 说不对——这个故事发生在大萧条时期。两边其实都对，但说的是不同的东西：1960 年代是写作的时间，那个时候的思潮会影响作者怎么看待这个故事、怎么构架这个故事；而故事里的 setting 是大萧条时期的美国、西部/南方的一个小镇，镇上有白人和黑人，当时矛盾很激烈。分析角色和其他一切，都要放在这个 setting 的背景下看。setting 也可以更小：小到一个家庭是什么样的家庭、一个人有什么样的历史背景——注意这里都指背景，而不是指性格。</p></div>
+<div class="para"><p class="en">atmosphere 是气氛。她举了一个写作课的例子：写作课有一个 term 专门教鬼故事，孩子们写得很好，还专门出过书。为了制造恐怖感，几乎所有孩子在开头都要写一个非常 creepy 的场景——扭曲的树枝、没有光的月亮、尖尖顶的房子，突然一只乌鸦「呱」的一声飞过。她说自己讲的时候背后汗毛都立起来了。因为是短篇，还没什么 setting 呢，atmosphere 就先起来了。《知更鸟》里也有很多这样的场景，比如写爸爸做决定的时候，先写当时乡村如何寂静、只有月光照在他身上，然后他做了那样的决定——看完那个片段，你会感受到那个情景加深了人物情感和决策不容易的冲击力。</p></div>
+<div class="para"><p class="en">第二个是 style，写作风格。她用中文书打了个比方：《天上有时下猪》是荒诞喜剧风格，全篇幽默；刚读过的《兔子舞》则是淡淡的、很温馨的。都是日本作家，但风格完全不同——这也是要讨论的。</p></div>
+<div class="para"><p class="en">第三个是 plot，情节，也就是情节是怎么设计的。这里有一个重要提醒：唐慧提到的 Story Mountain 只是情节线的一种。新加坡政府学校教育的缺失就在于小学六年只写这一种情节线，而且是非常格式化的 Story Mountain；中国的写作教育更缺失，连 Story Mountain 都没有，直接是开头、经过、结尾。而在我们的文学课和写作课里，plot 是一个非常重要的分析点，Chris 的课堂尤其会分析情节和情节发展。</p></div>
+<div class="para"><p class="en">第四个是 character，人物：人物有什么特点、性格是怎么样、有什么成长线。Chris 讲哈利波特时（短视频里有）是两条线并行，一条情节线，一条人物成长线。透过人物的成长、堕落或下降，其实可以分析出很多人生哲理。</p></div>
+<div class="para"><p class="en">第五个是 theme，主题。Chris 非常注重这一点。言词很坦白地说：我们中文泛读营里偶尔做，不常做，做不到这么深——比如 plot，中文泛读里根本没空做，一共就两个小时，一本书根本没时间分析。</p></div>
+</section>
+
+<!-- S11 -->
+<section id="s11">
+  <div class="sec-head"><span class="sec-num">11</span><h2>回应的方式 · dialogue and writing（读写不分家）</h2></div>
+  <div class="sec-time ui">45:00 – 47:00 / 1:24:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>分析完之后要做什么？<b>responding through dialogue and writing</b>——师生互动讨论，以及写</li>
+    <li>写可以是写分析，也可以是仿写，也可以据此做文学创作</li>
+    <li>⚑ 课程体系上的对应：四个成果里的 <b>creative meaning-maker 和 convincing communicator，主要是在写作课里完成的</b></li>
+    <li><b>⚑ 但写作反过来会促进阅读</b>：孩子创造一个角色时，Louise 会问他这个角色的 drive 和 motivation 是什么——他就必须更理解那个人当时是怎么想的</li>
+    <li>而当他创作完之后，他就更能理解他读的书。<b>两者是互相作用的</b></li>
+    <li>⚑ 给市场和销售同事的直接结论：<b>学写作的孩子真的很应该去上阅读课</b>；理想情况下它其实是一门课，一边读一边写</li>
+</ul>
+  </div>
+<div class="para"><p class="en">分析完了之后要干嘛？图上的下一层是 responding through dialogue and writing：老师和孩子在线上的讨论、互动，就是这个 responding；然后还要写——可能写分析，也可能仿写，也可能按照它来做文学创作。</p></div>
+<div class="para"><p class="en">言词在这里给市场和销售的同事做了一个课程体系上的对应说明：这个文学教育里应该培养的东西，在我们的课程体系里是分成两部分的，一部分是阅读，一部分是写作。前面讲的四个成果里，creative meaning-maker 和 convincing communicator 这两条，其实主要是在写作课里完成的。</p></div>
+<div class="para"><p class="en">但她强调，写作和阅读息息相关、密不可分。当一个孩子要创造一个角色的时候，Louise 老师会问他：这个角色的 drive 是什么？motivation 是什么？——就是上次讲的那个例子，同样是一个人站起来对抗怪兽，motivation 可以有各种不同的变化。他在创造这个人的时候，其实就回到了理解人物那一层：他要去更理解那个人当时是怎么想的，更能站在那时那刻的情景去想象他。而当他创作完之后，他就更能理解他读的书。所以两者是互相作用的。</p></div>
+<div class="para"><p class="en">结论很直接：学写作的孩子其实真的很应该去上阅读课；理想情况下，它应该是一门课，一边读一边写，一边写一边读，因为两者会互相促进。</p></div>
+</section>
+
+<!-- S12 -->
+<section id="s12">
+  <div class="sec-head"><span class="sec-num">12</span><h2>最外圈 · 连接（Self / World / Other Readers / Other Texts）</h2></div>
+  <div class="sec-time ui">1:10:00 – 1:23:24</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>最外圈是<b>连接</b>：跟自己连接、跟其他的书连接、跟其他读者/其他人连接、跟世界连接</li>
+    <li><b>Experiencing Story 体验故事</b>：读了这本书之后，它跟你的个人经历有什么结合点</li>
+    <li>⚑ 课堂范例（李杨老师，7–9 岁）：漫画《小学生迪克比》两个主角在吵架，但脑袋里冒出的小灵魂是相亲相爱的——<b>「相爱相杀」对这个年龄的孩子是极难的认知</b>（他们只能理解要么相爱、要么相杀）</li>
+    <li>老师的做法：先问「你们有没有这样的朋友？见面总说难听话但其实很关心对方」→ 再让他带着自己的生活经历回头体会这两个角色</li>
+    <li><b>⚑ 这是一个完整的闭环</b>：调动个人经历 → 理解书中人物 → 培养出 empathy → 带回生活，更能理解现实中人复杂的情感</li>
+    <li><b>Other Texts 比较阅读 · 整合主题</b>：读了《知更鸟》，相似主题的还有什么？美国有没有？中国、亚洲、非洲有没有？不同时代会不会相似？</li>
+    <li>⚑ 电影课的经典对照：纪录片 <i>Hoop Dreams</i>（两个黑人男孩因篮球被破格录取，最终都没进 NBA，回到最底层）vs 剧情片 <i>Coach Carter</i>（教练要求成绩和出勤达标才能留在球队，家长集体反对说「我们的孩子不需要学习」）</li>
+    <li><b>⚑ 判据：这是一部以「输球」结尾的运动电影——因为它的主题根本不是体育，是教育</b>。导演批判的是纪录片里那个只关心孩子能不能替他赢球的教练</li>
+    <li>结尾一幕：输球后教练在休息室教他们如何接受人生的失败，孩子们穿西装打领带、体面地出来向观众挥手</li>
+</ul>
+  </div>
+<div class="para"><p class="en">最外圈是连接。言词把它总结成 Chris 那天课上讲的：透过阅读，其实是跟自己连结、跟其他的书连接、跟其他读者或者说跟其他人连接、跟世界连接。</p></div>
+<div class="para"><p class="en">先说体验故事（experiencing story）：你读了这本书之后，它跟你的个人经历有什么结合点。她说 Chris 本身做得特别好，另外李杨老师也做得特别好，并举了一个非常精准的例子。</p></div>
+<div class="para"><p class="en">李杨老师带很小的孩子读漫画《小学生迪克比》，里面两个搞笑的小主角在吵架，吵着吵着，两个人脑袋里都冒出一个小灵魂——而那两个小灵魂是相亲相爱的。也就是说，这个故事想表达的是：这两个看似冤家的同桌，其实是一种相爱相杀的关系。老师于是问小朋友：你们有没有这样的朋友？就是见面看起来总是互相说难听话，但其实你们都还挺关心对方的。有的孩子说有，有的说没有。然后老师反过来说：那你现在带着你的生活经历，再来体会他们两个，你能理解他们现在是怎么样吗？</p></div>
+<div class="para"><p class="en">言词指出这个设计为什么厉害：讲课对象是七到九岁的孩子，体会「相爱相杀」这件事对他们非常不容易——对他们来说要不然就是相爱、要不然就是相杀，「看起来相杀实际上相爱」对这个年龄是一个非常难的思维认知。但透过和自己生活中的感受相联系，他回过头就比较容易理解这两个主角是怎么回事。而当他理解了这两个主角，他回到自己的生活当中，又能比较好地感受别人复杂的情绪。</p></div>
+<div class="para"><p class="en">她把这个闭环说得很清楚：他的个人经历被调动出来，帮助他理解书中的情节；他理解了书中人的情绪和境遇，就培养了 empathy；有了 empathy 再回到生活中，他就更能理解生活里人那些复杂的情感——比如表面在吵架、背后在相爱。</p></div>
+<div class="para"><p class="en">再往上一层是欣赏写作风格，和整合主题的比较阅读。整合主题的问法是：同一个主题，我还有什么作品？我读了《杀死一只知更鸟》——这当然是美国文学里能排进前三的作品——那跟它相似主题的还有什么？美国有没有？中国有没有？亚洲有没有？非洲有没有？不同文化、不同时代会不会有相似的？</p></div>
+<div class="para"><p class="en">她说电影课的导演最爱做这件事，并举了一个完整的例子。导演先带大家看一部纪录片（Hoop Dreams），讲两个黑人男孩因为篮球打得好、有 talent，被破格录取到贵族高中打球，纪录片跟踪了他们好几年。结果其中一个因为球没打好，在学期中就被直接退学，对这个孩子是巨大的打击，回到邻里中学后有点一蹶不振；另一个虽然一路升上去，但没能进大学，最后也变成一个很普通的人。两个孩子都没有进 NBA。片子还展现了其中一个孩子的哥哥，也曾经篮球打得很好，也因为某件事退出球队，最后回到社区当了保安。因为他们的社区极度贫困、孩子没什么出路也不怎么受教育，打篮球好就是他们唯一的机遇；一旦球打不好，没有任何别的生存技能，就只能回到社会最底层。</p></div>
+<div class="para"><p class="en">同一个主题，导演马上拎出另一部电影（Coach Carter），根据真人真事改编，反其道而行之。这位教练面对的是很相似的黑人社群的孩子，只是天分还没那么高。他提了两个要求：成绩要达到某个标准才能留在球队；出席率要达到某个标准、不可以逃学。他把这个标准讲给家长听——结果这些家长集体站起来反对，说我们的孩子不需要学习那么好，他们唯一的长项就是打篮球，你让他打篮球就好了。教练的理念是：我要透过篮球培养你们这些人，而不是只要我的球队赢。</p></div>
+<div class="para"><p class="en">言词点出导演的批判：纪录片里那个教练只关注孩子能不能替他赢球，根本不在意这个孩子未来会怎么样，那不是在做教育；而另一部电影里的教练完全是从人出发的，赢不赢无所谓。所以这部电影的最后一幕是他们输了球，教练在休息室里跟他们讲如何接受人生的失败，然后他们穿上西装、打上领带，非常得体地出来跟支持他们的观众挥手——让他们体面地面对失败。</p></div>
+<div class="para"><p class="en">她给了一个非常锋利的判据：你们看过哪一部运动电影是以失败为结尾的吗？几乎没有。之所以这部是，因为它的主题根本不是体育，是教育——讲的是一个人怎么可以影响一群小孩、真正的教育是什么。这两部片子一部是现实中的反面、一部是被艺术化了的正面，放在一起做对比，讲的其实是同一个主题。这就是比较分析，它需要孩子具备比较高阶的能力。</p></div>
+</section>
+
+<!-- S13 -->
+<section id="s13">
+  <div class="sec-head"><span class="sec-num">13</span><h2>作业与结尾</h2></div>
+  <div class="sec-time ui">1:09:31 – 1:29:59</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>📌 作业一：给这张图的每一圈各做一张脑图</b>，每个部分都去找案例（电影课和 Chris 课上的都算）——比如他分析了 character，分析的是哪个角色？怎么分析的？分析了什么？</li>
+    <li><b>📌 作业二：两周内分享一本书或一部电影的主题</b>。要交两个：一个是课内的（听完老师讲之后你知道了它的主题是什么、它是怎么表现主题的），一个是课外的（自己分析）</li>
+    <li><b>⚑ 作业的硬要求：必须回答「为什么」——一切都不能离开文本</b>。比如说《少年的你》表达了互相救赎，那你就要回答哪一部分表达了互相救赎</li>
+    <li>现场的小测验暴露了差距：问「郭靖守襄阳表现了什么主题」，几位老师答不上来；言词的话是——<b>十岁的孩子已经能回答的问题，我们回答不上来说不过去</b></li>
+    <li>⚑ 如果觉得回答主题很吃力，<b>去听电影课</b>：任何一部电影都一定会讲到主题，没有哪个导演不讲主题</li>
+    <li>补充材料：Melody 整理的 Chris 课堂实录（《杀死一只知更鸟》），里面已经在教孩子怎么答 IB、O Level、A Level 的文学考题、什么样的回答能拿高分——<b>那是对应成人标准的</b></li>
+    <li>结尾的共识：Chris 那天讲的是类似的内容，但因为是英文，阻碍了很多家长的理解——<b>用中文把这些传播出去很重要</b></li>
+</ul>
+  </div>
+<div class="para"><p class="en">两个作业。第一个是继续画脑图：这张图的每一圈都可以各做一张，然后每个部分都去找案例——电影课的、Chris 课上的都可以。比如他分析了 character，那他分析的是哪个角色？他是怎么分析的？这个角色他都分析了什么？下节课再来分享，就像公盟这节课做的一样。如果每个人都做了功课，可以提前交上来，不一定每个人都分享，以节约时间。</p></div>
+<div class="para"><p class="en">第二个作业是分享一本书或一部电影的主题，两周内交，而且最好是一部内部的、一部外部的：内部的是听老师讲完之后，你知道了「原来它的主题是这个，它是这样这样表现主题的」；外部的是你以前看过的作品，你现在知道怎么分析主题了，那你自己来分析。</p></div>
+<div class="para"><p class="en">作业有一条硬要求：一切都不能离开文本。比如嘉欣说《少年的你》表达了互相救赎，那就要回答——哪一部分表达了互相救赎？言词把标准说得很直白：这是我们需要小朋友去具备的能力，十岁的孩子已经能回答的问题，我们回答不上来说不过去。</p></div>
+<div class="para"><p class="en">现场其实做了一次小测验，结果暴露了差距。言词问《射雕英雄传》里郭靖守襄阳表现了什么主题，几位老师答不上来；换了几本书问，也都没读过。最后嘉欣举了校园霸凌题材的例子，被追问「除了霸凌以外还表达了什么主题」时，答出了原生家庭对人的影响、成长与救赎、以及学校和社会的教育责任。言词特意安抚说「我们现在不是考试，大家不用太紧张」，但也给了处方：如果你们觉得回答这个问题很吃力，那就多去听 Chris 老师的课，还有一定要来听电影课——因为电影课里无论哪一部电影，绝对会讲到主题，没有任何一部电影的导演是不讲主题的。</p></div>
+<div class="para"><p class="en">会后有两份补充材料：一是 Melody 整理的 Chris 课堂实录，讲《杀死一只知更鸟》。言词特别提到，在那本书的课上，Chris 已经在教孩子怎么回答 IB、O Level 和 A Level 的文学类考题——怎么拿高分、什么样的回答是能拿高分的，里面既有分析也有范例。她的评价是：那是对应成人标准的，而我们承认，孩子可以做到这个程度。二是她推荐大家去听当周的电影课（《泰坦尼克号》），因为上周那场一个人也没去听。</p></div>
+<div class="para"><p class="en">结尾时嘉颖在群里留言说，听了觉得像要「回炉重造」，忽然开朗，觉得这些内容非常值得分享出去，因为很多家长包括小朋友其实没有深思过阅读里有这么多知识和内容。言词接了一句关键的话：Chris 那天讲的就是类似的内容，只不过他用英文，所以阻碍了很多家长的理解——因此用中文把它传播出去、做成短视频，是很重要的事。</p></div>
+</section>
+
+
+<footer class="ui">整理自 2025-03-14 FOGG 教研学习会 Zoom 转录 · 口语已清理重组、按主题归纳 · 教纲原文见「📘 教纲参考页」<br>💡 选中文字 → 弹出「高亮 / 查词 / 高亮+笔记」· 点已有高亮 → 菜单（写笔记 / 查词 / 删除）· 「📤 导出」一键打包全部笔记</footer>
+</main>
+</div>
+
+<div id="hl-tip" class="ui">🖍 划线模式已开启 —— 选中文字即可高亮，点击已有高亮可删除</div>
+
+<div id="sel-pop" class="ui">
+  <button id="pop-hl">🖍 高亮</button><div class="sep"></div><button id="pop-dict">📖 查词</button><div class="sep"></div><button id="pop-note">📝 高亮+笔记</button>
+</div>
+<div id="dict-card" class="ui">
+  <button class="close-x" id="dc-close">✕</button>
+  <span class="dw" id="dc-word">…</span><span class="dp" id="dc-ph"></span><button class="say" id="dc-say" title="朗读">🔊</button>
+  <div class="zh-big loading" id="dc-zh-big">翻译中…</div>
+  <div class="dd" id="dc-def"></div>
+  <div class="dc-row"><button class="add" id="dc-add">＋ 存入生词本</button></div>
+</div>
+<div id="note-modal" class="ui">
+  <div class="box">
+    <div class="quote-ref" id="nm-quote"></div>
+    <textarea id="nm-text" placeholder="写下你的想法…"></textarea>
+    <div class="row"><button class="ok" id="nm-ok">保存笔记</button><button class="no" id="nm-cancel">取消</button></div>
+  </div>
+</div>
+<div id="mark-menu" class="ui">
+  <button id="mm-note">📝 写/改笔记</button>
+  <button id="mm-dict">📖 查这个词</button>
+  <button class="danger" id="mm-del">🗑 删除这条高亮</button>
+</div>
+
+<div id="share-modal" class="ui">
+  <div id="share-card">
+    <button class="sc-x" id="sc-x">✕</button>
+    <div class="sc-quote" id="sc-quote"></div>
+    <div class="sc-note" id="sc-note" style="display:none"></div>
+    <div class="sc-src"><span id="sc-src-txt"></span><span class="sc-brand">FOGG 学习笔记</span></div>
+    <div id="share-actions"><button class="cap" id="sc-cap">📸 截图保存</button><button class="cls" id="sc-close">关闭</button></div>
+  </div>
+</div>
+<div id="share-actions-wrap" style="display:none"></div>
+<div id="drawer" class="ui">
+  <div class="tabs">
+    <button data-tab="vocab" class="on">📖 生词本</button>
+    <button data-tab="hl">🖍 划线笔记</button>
+    <button data-tab="note">📝 总笔记</button>
+  </div>
+  <div class="pane on" data-pane="vocab">
+    <div class="vocab-stats">还不会 <b id="vc-unknown">0</b> ・ 已掌握 <b class="ok-n" id="vc-known">0</b> ・ 共 <span id="vc-total">0</span> 词　<span style="margin-left:auto;font-size:11px;color:#A8B8B4">点 ⭕ = 已掌握</span></div>
+    <div id="vocab-list"><p class="empty">还没有生词/术语。选中文字 → 点「📖 查词收藏」。</p></div>
+  </div>
+  <div class="pane" data-pane="hl">
+    <div id="hl-list"><p class="empty">还没有划线。选中正文文字试试。</p></div>
+  </div>
+  <div class="pane" data-pane="note">
+    <textarea id="global-note" style="width:100%;min-height:60vh;height:auto;border:1.5px solid #DDE6E3;border-radius:12px;padding:14px;font-size:14.5px;line-height:1.8;background:#FFFEF8;resize:vertical;box-sizing:border-box;overflow:hidden" placeholder="整场讲座的总结、想放进 course map 的点、要转述给家长的话术……"></textarea>
+  </div>
+</div>
+
+<div id="sync-modal" class="ui">
+  <div class="box">
+    <h3 style="color:var(--teal);margin-bottom:6px">☁️ 多设备同步设置</h3>
+    <p style="font-size:12.5px;color:#6B8480;line-height:1.7;margin-bottom:12px">填入你的 <b>Gist ID</b> 和 <b>GitHub Token</b>，划线/笔记就会存到云端。在每台设备上填同一组，就能看到相同内容。（留空 = 只用本机保存）</p>
+    <label style="font-size:12px;color:#8CA19D">Gist ID</label>
+    <input id="sync-gist" class="sync-inp" placeholder="例如 3a1b...（那串字母数字）">
+    <label style="font-size:12px;color:#8CA19D;margin-top:8px;display:block">GitHub Token</label>
+    <input id="sync-token" class="sync-inp" type="password" placeholder="ghp_ 或 github_pat_ 开头">
+    <div id="sync-status" style="font-size:12.5px;margin-top:10px;min-height:18px"></div>
+    <div class="row" style="margin-top:12px">
+      <button class="ok" id="sync-save">连接并同步</button>
+      <button class="no" id="sync-clear">断开（只用本机）</button>
+      <button class="no" id="sync-close2">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+const NOTE_KEY='syllabus2-talk-notes', HL_KEY='syllabus2-talk-highlights', VC_KEY='syllabus2-talk-vocab';
+let notes={}, highlights=[], vocab=[], saveTimer=null;
+
+// ===== 云端同步（GitHub Gist）+ 本地兜底 =====
+const CFG_GIST='__cfg_gist_id', CFG_TOKEN='__cfg_gist_token';
+let gistId=localStorage.getItem(CFG_GIST)||'', gistToken=localStorage.getItem(CFG_TOKEN)||'';
+let cloudCache=null, pushTimer=null, cloudOn=false;
+
+function gistHeaders(){return {'Authorization':'token '+gistToken,'Accept':'application/vnd.github+json'}}
+async function cloudPull(){
+  if(!gistId||!gistToken)return null;
+  const r=await fetch('https://api.github.com/gists/'+gistId,{headers:gistHeaders()});
+  if(!r.ok)throw new Error('pull '+r.status);
+  const j=await r.json();
+  const f=j.files&&j.files['data.json'];
+  cloudCache=f&&f.content?JSON.parse(f.content):{};
+  return cloudCache;
+}
+async function cloudPush(obj){
+  if(!gistId||!gistToken)return;
+  const r=await fetch('https://api.github.com/gists/'+gistId,{
+    method:'PATCH',headers:gistHeaders(),
+    body:JSON.stringify({files:{'data.json':{content:JSON.stringify(obj)}}})
+  });
+  if(!r.ok)throw new Error('push '+r.status);
+}
+
+const store={
+  async get(k){
+    if(cloudOn&&cloudCache&&(k in cloudCache))return cloudCache[k];
+    try{return localStorage.getItem(k)}catch(e){return null}
+  },
+  async set(k,v){
+    try{localStorage.setItem(k,v)}catch(e){}
+    if(cloudOn){
+      if(!cloudCache)cloudCache={};
+      cloudCache[k]=v;
+      clearTimeout(pushTimer);
+      pushTimer=setTimeout(async()=>{
+        try{await cloudPush(cloudCache);cloudBadge('✓ 已同步到云端 '+nowT())}
+        catch(e){cloudBadge('⚠ 云端同步失败，已存本地')}
+      },900);
+    }
+  }
+};
+function nowT(){return new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})}
+function cloudBadge(t){const s=document.getElementById('save-state');if(s)s.textContent=t}
+
+const state=document.getElementById('save-state');
+const sections=[...document.querySelectorAll('section')];
+
+function autoGrow(t){if(!t)return;t.style.height='auto';t.style.height=Math.max(t.scrollHeight,window.innerHeight*0.6)+'px';}
+
+// —— 分享卡片 & 工具 ——
+let vocabKnownOpen=false;
+const SHARE_EN=''; // 占位
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function openShareCard(o){
+  const q=document.getElementById('sc-quote');
+  q.className='sc-quote'+(o.en==='word'||/[a-zA-Z]/.test(o.quote)&&o.en!=='' ? ' sc-en':'');
+  q.innerHTML=escapeHtml(o.quote)+(o.zh?'<div class="sc-zh">'+escapeHtml(o.zh)+'</div>':'');
+  const n=document.getElementById('sc-note');
+  if(o.note){n.style.display='';n.textContent=o.note}else{n.style.display='none'}
+  document.getElementById('sc-src-txt').textContent=o.src||'';
+  document.getElementById('share-modal').classList.add('open');
+}
+(function(){
+  const m=document.getElementById('share-modal');
+  const close=()=>m.classList.remove('open');
+  const x=document.getElementById('sc-x'),c=document.getElementById('sc-close');
+  if(x)x.onclick=close;if(c)c.onclick=close;
+  m.addEventListener('click',e=>{if(e.target===m)close()});
+  const cap=document.getElementById('sc-cap');
+  if(cap)cap.onclick=async()=>{
+    const card=document.getElementById('share-card');
+    const actions=document.getElementById('share-actions');
+    if(typeof html2canvas==='undefined'){
+      // 动态载入截图库
+      await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s)}).catch(()=>{});
+    }
+    if(typeof html2canvas==='undefined'){setState('⚠ 截图组件需要联网，可手动系统截图');return}
+    actions.style.visibility='hidden';
+    try{
+      const canvas=await html2canvas(card,{backgroundColor:null,scale:2});
+      actions.style.visibility='';
+      canvas.toBlob(blob=>{
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');a.href=url;a.download='FOGG笔记卡片.png';a.click();
+        setTimeout(()=>URL.revokeObjectURL(url),1000);
+        setState('📸 卡片已保存为图片');
+      });
+    }catch(err){actions.style.visibility='';setState('⚠ 截图失败，可手动系统截图')}
+  };
+})();
+
+function setState(t){state.textContent=t}
+function scheduleSave(){setState('保存中…');try{localStorage.setItem('__last_read_syllabus2-talk',Date.now())}catch(e){}clearTimeout(saveTimer);saveTimer=setTimeout(saveAll,700)}
+async function saveAll(){
+  try{
+    await store.set(NOTE_KEY,JSON.stringify(notes));
+    await store.set(HL_KEY,JSON.stringify(highlights));
+    await store.set(VC_KEY,JSON.stringify(vocab));
+    setState(cloudOn?'✓ 已保存（同步中…）':'✓ 已保存 '+nowT());
+  }catch(e){setState('⚠ 保存失败，稍后自动重试');setTimeout(saveAll,3000)}
+}
+async function load(){
+  if(gistId&&gistToken){try{await cloudPull();cloudOn=true}catch(e){cloudOn=false}}
+  try{const v=await store.get(NOTE_KEY);if(v)notes=JSON.parse(v)}catch(e){}
+  try{const v=await store.get(HL_KEY);if(v)highlights=JSON.parse(v)}catch(e){}
+  try{const v=await store.get(VC_KEY);if(v)vocab=JSON.parse(v)}catch(e){}
+  const g=document.getElementById('global-note');if(notes.__global)g.value=notes.__global;autoGrow(g);
+  highlights.forEach((h,i)=>{if(!h.id)h.id='h'+Date.now()+'_'+i;applyHighlight(h.sec,h.text,h.id)});refreshMarkNoteStyles();
+  renderHlList();renderVocab();markVocabWords();
+  setState(cloudOn?('☁️ 已从云端载入 '+nowT()):(highlights.length||vocab.length||Object.keys(notes).length?'✓ 已恢复你的笔记 · 划线 · 术语':'已就绪'));
+  if(typeof updateCloudBtn==='function')updateCloudBtn();
+}
+
+// notes events
+document.addEventListener('input',e=>{
+  if(e.target.id==='global-note'){notes.__global=e.target.value;autoGrow(e.target);scheduleSave()}
+});
+
+// 把每段的逐句中文合并成一个整齐的翻译块
+document.querySelectorAll('.para,.quote').forEach(p=>{
+  const szs=[...p.querySelectorAll('.sz')];
+  if(!szs.length)return;
+  const normal=szs.filter(s=>!s.classList.contains('comment')).map(s=>s.textContent).join('');
+  const comment=szs.filter(s=>s.classList.contains('comment')).map(s=>s.textContent).join('');
+  const d=document.createElement('div');d.className='zh-block';
+  d.textContent=normal;
+  if(comment){const c=document.createElement('span');c.className='comment-line';c.textContent=comment;d.appendChild(c)}
+  p.appendChild(d);
+});
+
+// per-paragraph 中文 toggle buttons
+document.querySelectorAll('.para,.quote').forEach(p=>{
+  if(!p.querySelector('.zh-block'))return;
+  const b=document.createElement('button');
+  b.className='zh-btn';b.textContent='中';b.title='显示/隐藏本段中文';
+  b.onclick=e=>{e.stopPropagation();p.classList.toggle('zh-open');b.classList.toggle('on',p.classList.contains('zh-open'))};
+  p.appendChild(b);
+});
+
+// zh toggles
+const zhBtn=document.getElementById('zh-toggle');
+zhBtn.onclick=()=>{document.body.classList.toggle('show-zh');zhBtn.textContent=document.body.classList.contains('show-zh')?'隐藏全部中文':'显示全部中文';zhBtn.classList.toggle('primary')};
+// per-section: dblclick on section title toggles that section
+sections.forEach(s=>{const h=s.querySelector('h2');h.style.cursor='pointer';h.title='点击：切换本节中文';h.onclick=()=>s.classList.toggle('show-zh')});
+
+// ---- selection popup ----
+const pop=document.getElementById('sel-pop'),dictCard=document.getElementById('dict-card'),markMenu=document.getElementById('mark-menu');
+let curSel=null,curMark=null,curDict=null,suppressClickUntil=0;
+const IS_TOUCH = ('ontouchstart' in window) || navigator.maxTouchPoints>0;
+function placeAt(el,rect){
+  el.style.display=(el.id==='sel-pop')?'flex':'block';
+  const vw=document.documentElement.clientWidth,vh=document.documentElement.clientHeight;
+  const w=el.offsetWidth,h=el.offsetHeight;
+  // 触屏设备：菜单固定在屏幕底部中央，避免被 iPad 系统选择菜单（拷贝/翻译…）挡住
+  if(IS_TOUCH && (el.id==='sel-pop' || el.id==='mark-menu')){
+    el.style.left=Math.max(8,(vw-w)/2)+'px';
+    el.style.top=(vh-h-24)+'px';
+    el.classList.add('touch-dock');
+    return;
+  }
+  el.style.left=Math.max(8,Math.min(rect.left+rect.width/2-w/2,vw-w-8))+'px';
+  let top=rect.bottom+10;               // 默认贴在选区正下方
+  if(top+h>vh-8)top=rect.top-h-10;      // 下方放不下才翻到上方
+  el.style.top=Math.max(8,top)+'px';
+}
+// 滚动时收起浮层，避免错位
+window.addEventListener('scroll',()=>{pop.style.display='none';markMenu.style.display='none'},{passive:true});
+function showSelPopup(){
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed){pop.style.display='none';return}
+  const text=sel.toString().replace(/\s+/g,' ').trim();
+  const node=sel.anchorNode;const anchor=node&&(node.nodeType===3?node.parentElement:node);
+  const en=anchor&&anchor.closest?anchor.closest('.en'):null;
+  if(!en||text.length<2){pop.style.display='none';return}
+  const sec=en.closest('section');
+  let rect;try{rect=sel.getRangeAt(0).getBoundingClientRect()}catch(e){return}
+  curSel={text:text,sec:sec?sec.id:'',rect:rect,range:sel.getRangeAt(0).cloneRange()};
+  placeAt(pop,curSel.rect);
+}
+document.addEventListener('mouseup',e=>{
+  if(pop.contains(e.target)||dictCard.contains(e.target)||markMenu.contains(e.target))return;
+  setTimeout(showSelPopup,10);
+});
+let touchSelTimer=null,isTouch=false;
+document.addEventListener('touchstart',()=>{isTouch=true},{passive:true});
+document.addEventListener('selectionchange',()=>{
+  if(!isTouch)return;
+  clearTimeout(touchSelTimer);
+  touchSelTimer=setTimeout(showSelPopup,450);
+});
+document.addEventListener('touchend',e=>{
+  if(!isTouch)return;
+  if(pop.contains(e.target)||dictCard.contains(e.target)||markMenu.contains(e.target))return;
+  clearTimeout(touchSelTimer);
+  touchSelTimer=setTimeout(showSelPopup,350);
+},{passive:true});
+function wrapRange(range,hid){
+  // 用真实选区包裹，支持任意长度/跨段落。收集选区内的文本节点后逐个包裹。
+  try{
+    const root=range.commonAncestorContainer;
+    const rootEl=root.nodeType===1?root:root.parentElement;
+    const walker=document.createTreeWalker(rootEl,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
+      if(n.parentElement&&n.parentElement.closest('.sz,.zh-block'))return NodeFilter.FILTER_REJECT;
+      if(!range.intersectsNode(n))return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    const targets=[];
+    while(walker.nextNode())targets.push(walker.currentNode);
+    if(!targets.length)return false;
+    let wrapped=false;
+    for(const node of targets){
+      let s=0,e=node.data.length;
+      if(node===range.startContainer)s=range.startOffset;
+      if(node===range.endContainer)e=range.endOffset;
+      if(s>=e)continue;
+      let t=node;
+      if(s>0)t=t.splitText(s);
+      if(e-s<t.data.length)t.splitText(e-s);
+      const mk=document.createElement('mark');mk.dataset.hid=hid;
+      t.parentNode.insertBefore(mk,t);mk.appendChild(t);
+      wrapped=true;
+    }
+    return wrapped;
+  }catch(err){return false}
+}
+function doHighlight(withNote){
+  if(!curSel)return;
+  const savedRange=curSel.range;
+  window.getSelection().removeAllRanges();
+  pop.style.display='none';
+  suppressClickUntil=Date.now()+450;
+  const hid='h'+Date.now();
+  // 优先用真实选区包裹（任意长度都行），失败再退回文本匹配
+  let ok=savedRange?wrapRange(savedRange,hid):false;
+  if(!ok)ok=applyHighlight(curSel.sec,curSel.text,hid);
+  if(ok){
+    const h={id:hid,sec:curSel.sec,text:curSel.text,note:''};
+    highlights.push(h);
+    refreshMarkNoteStyles();renderHlList();scheduleSave();
+    if(withNote){
+      openNoteModal(h.text,'',val=>{h.note=val;refreshMarkNoteStyles();renderHlList();scheduleSave()});
+    }
+  }else{
+    setState('⚠ 这段没能高亮，换个选法再试一次');
+  }
+}
+document.getElementById('pop-hl').onclick=()=>doHighlight(false);
+document.getElementById('pop-note').onclick=()=>doHighlight(true);
+document.getElementById('pop-dict').onclick=()=>{
+  if(!curSel)return;
+  const rect=curSel.rect,t=curSel.text,s=curSel.sec;
+  window.getSelection().removeAllRanges();pop.style.display='none';
+  openDict(t,s,rect);
+};
+
+// ---- dictionary card: 中文翻译优先 ----
+async function translateZh(text){
+  try{
+    const r=await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q='+encodeURIComponent(text));
+    if(!r.ok)throw 0;
+    const j=await r.json();
+    return (j[0]||[]).map(x=>x[0]).join('');
+  }catch(e){
+    try{
+      const r=await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair=en|zh-CN');
+      const j=await r.json();
+      return j.responseData&&j.responseData.translatedText||'';
+    }catch(e2){return ''}
+  }
+}
+async function openDict(text,sec,rect){
+  const clean=text.trim();
+  const isLong=clean.length>120;
+  const isPhrase=/\s/.test(clean);
+  const word=isLong?clean:(isPhrase?clean:(clean.match(/[a-zA-Z][a-zA-Z'\-]*/)||[clean])[0].toLowerCase());
+  curDict={word:word,sec:sec,phonetic:'',def:'',audio:'',zh:'',long:isLong};
+  const dw=document.getElementById('dc-word');
+  dw.className=isLong?'dw long':'dw';
+  dw.textContent=isLong?'📖 选段翻译':word;
+  document.getElementById('dc-ph').textContent='';
+  document.getElementById('dc-say').style.display=isLong?'none':'';
+  document.getElementById('dc-add').style.display=isLong?'none':'';
+  const dd=document.getElementById('dc-def');
+  dd.className=isLong?'orig-small':'dd';
+  dd.textContent=isLong?clean:'';
+  const zhBig=document.getElementById('dc-zh-big');
+  zhBig.className='zh-big loading';zhBig.textContent='翻译中…';
+  placeAt(dictCard,rect);
+  const q=clean.slice(0,450);
+  const jobs=[translateZh(q).then(zh=>{
+    if(curDict&&curDict.word===word){
+      curDict.zh=zh;
+      zhBig.className='zh-big';
+      zhBig.textContent=zh||'⚠ 翻译服务连不上（需要联网）';
+    }
+  })];
+  if(!isPhrase&&!isLong){
+    jobs.push((async()=>{
+      try{
+        const res=await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(word));
+        if(!res.ok)return;
+        const e0=(await res.json())[0]||{};
+        if(!curDict||curDict.word!==word)return;
+        curDict.phonetic=e0.phonetic||((e0.phonetics||[]).find(p=>p.text)||{}).text||'';
+        curDict.audio=((e0.phonetics||[]).find(p=>p.audio)||{}).audio||'';
+        const defs=[];
+        (e0.meanings||[]).slice(0,2).forEach(m=>{
+          const d=m.definitions&&m.definitions[0];
+          if(d)defs.push(m.partOfSpeech+'. '+d.definition);
+        });
+        curDict.def=defs.join('　');
+        document.getElementById('dc-ph').textContent=curDict.phonetic;
+        document.getElementById('dc-def').textContent=curDict.def;
+      }catch(e){}
+    })());
+  }
+  await Promise.all(jobs);
+}
+function openDictStored(v,rect){
+  curDict={word:v.word,sec:v.sec,phonetic:v.phonetic||'',def:v.def||'',audio:'',zh:v.zh||'',long:false};
+  const dw=document.getElementById('dc-word');
+  dw.className='dw';dw.textContent=v.word;
+  document.getElementById('dc-ph').textContent=v.phonetic||'';
+  document.getElementById('dc-say').style.display='';
+  document.getElementById('dc-add').style.display='none';
+  const dd=document.getElementById('dc-def');
+  dd.className='dd';dd.textContent=v.def||'';
+  const zhBig=document.getElementById('dc-zh-big');
+  zhBig.className='zh-big';zhBig.textContent=v.zh||'（未填中文，可在生词本里补）';
+  placeAt(dictCard,rect);
+}
+document.getElementById('dc-say').onclick=e=>{
+  e.stopPropagation();
+  if(curDict&&curDict.audio){new Audio(curDict.audio).play().catch(()=>{})}
+  else if(curDict&&window.speechSynthesis){const u=new SpeechSynthesisUtterance(curDict.word);u.lang='en-GB';speechSynthesis.speak(u)}
+};
+document.getElementById('dc-add').onclick=e=>{
+  e.stopPropagation();
+  if(!curDict)return;
+  const ex=vocab.find(v=>v.word===curDict.word);
+  if(ex){ex.zh=curDict.zh||ex.zh;ex.def=curDict.def||ex.def;ex.phonetic=curDict.phonetic||ex.phonetic}
+  else vocab.unshift({word:curDict.word,phonetic:curDict.phonetic,def:curDict.def,zh:curDict.zh,known:false,sec:curDict.sec,ts:Date.now()});
+  renderVocab();markVocabWords();scheduleSave();
+  dictCard.style.display='none';
+  setState('✓ 已存入生词本');
+};
+document.getElementById('dc-close').onclick=()=>dictCard.style.display='none';
+
+// ---- note modal (centered) ----
+const noteModal=document.getElementById('note-modal');
+let noteCb=null;
+function openNoteModal(quote,initial,cb){
+  document.getElementById('nm-quote').textContent='“'+quote+'”';
+  const ta=document.getElementById('nm-text');
+  ta.value=initial||'';
+  noteCb=cb;
+  noteModal.classList.add('open');
+  setTimeout(()=>ta.focus(),50);
+}
+document.getElementById('nm-ok').onclick=()=>{
+  noteModal.classList.remove('open');
+  if(noteCb)noteCb(document.getElementById('nm-text').value);
+  noteCb=null;
+};
+document.getElementById('nm-cancel').onclick=()=>{noteModal.classList.remove('open');noteCb=null};
+noteModal.addEventListener('click',e=>{if(e.target===noteModal){noteModal.classList.remove('open');noteCb=null}});
+
+// ---- click on a highlight => menu ----
+document.addEventListener('click',e=>{
+  // 来自弹出菜单自身的点击（如「查词」按钮）不算“点外面”，否则刚打开的卡片会被同一下点击关掉
+  if(pop.contains(e.target)||markMenu.contains(e.target)||dictCard.contains(e.target))return;
+  if(e.target.classList&&e.target.classList.contains('vocab-mark')){
+    const v=vocab.find(x=>x.word.toLowerCase()===e.target.textContent.toLowerCase());
+    if(v){openDictStored(v,e.target.getBoundingClientRect());return}
+  }
+  if(e.target.tagName==='MARK'){
+    if(Date.now()<suppressClickUntil)return;
+    curMark=e.target;
+    placeAt(markMenu,e.target.getBoundingClientRect());
+    return;
+  }
+  // 点空白处：全部收起
+  markMenu.style.display='none';
+  dictCard.style.display='none';
+  const drawer=document.getElementById('drawer');
+  if(drawer.classList.contains('open')&&!drawer.contains(e.target)&&e.target.id!=='drawer-btn'&&!e.target.closest('#drawer-btn'))drawer.classList.remove('open');
+});
+function findHl(markEl){
+  return highlights.find(h=>h.id===markEl.dataset.hid);
+}
+document.getElementById('mm-note').onclick=()=>{
+  markMenu.style.display='none';
+  const h=curMark&&findHl(curMark);if(!h)return;
+  openNoteModal(h.text,h.note,val=>{h.note=val;refreshMarkNoteStyles();renderHlList();scheduleSave()});
+};
+document.getElementById('mm-dict').onclick=()=>{
+  markMenu.style.display='none';
+  if(!curMark)return;
+  const sec=curMark.closest('section');
+  openDict(curMark.textContent,sec?sec.id:'',curMark.getBoundingClientRect());
+};
+document.getElementById('mm-del').onclick=()=>{
+  markMenu.style.display='none';
+  const h=curMark&&findHl(curMark);
+  if(h){removeHighlightMarks(h.id);highlights.splice(highlights.indexOf(h),1)}
+  else if(curMark){curMark.outerHTML=curMark.textContent}
+  renderHlList();scheduleSave();
+};
+function refreshMarkNoteStyles(){
+  document.querySelectorAll('mark[data-hid]').forEach(m=>{
+    const h=findHl(m);m.classList.toggle('has-note',!!(h&&h.note));
+  });
+}
+
+
+// ---- 在原文中标出已收藏的生词（蓝色） ----
+function markVocabWords(){
+  document.querySelectorAll('span.vocab-mark').forEach(s=>{s.replaceWith(document.createTextNode(s.textContent))});
+  document.querySelectorAll('.en').forEach(en=>en.normalize());
+  const words=vocab.filter(v=>!v.known&&!/\s/.test(v.word)).map(v=>v.word);
+  if(!words.length)return;
+  const re=new RegExp('\\b('+words.map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')\\b','gi');
+  document.querySelectorAll('.en').forEach(en=>{
+    const parts=en.innerHTML.split(/(<[^>]+>)/);
+    let changed=false;
+    for(let i=0;i<parts.length;i++){
+      if(parts[i].startsWith('<'))continue;
+      if(re.test(parts[i])){
+        parts[i]=parts[i].replace(re,'<span class="vocab-mark" title="已在生词本，点击复习">$1</span>');
+        changed=true;
+      }
+      re.lastIndex=0;
+    }
+    if(changed)en.innerHTML=parts.join('');
+  });
+}
+
+// ---- vocabulary drawer: compact rows ----
+function renderVocab(){
+  const box=document.getElementById('vocab-list');
+  const unknownArr=vocab.filter(v=>!v.known);
+  const knownArr=vocab.filter(v=>v.known);
+  document.getElementById('vc-total').textContent=vocab.length;
+  document.getElementById('vc-unknown').textContent=unknownArr.length;
+  document.getElementById('vc-known').textContent=knownArr.length;
+  if(!vocab.length){box.innerHTML='<p class="empty">还没有术语。选中关键词 → 点「📖 收藏」。</p>';return}
+  function row(v){
+    const gi=vocab.indexOf(v);
+    return '<div class="vocab-item'+(v.known?' known':'')+'" data-i="'+gi+'">'
+      +'<div class="main"><span class="w" data-i="'+gi+'" title="点开看卡片">'+escapeHtml(v.word)+'</span><span class="ph">'+escapeHtml(v.phonetic||'')+'</span>'
+      +'<input class="zh-inline" data-i="'+gi+'" placeholder="中文…" value="'+String(v.zh||'').replace(/"/g,'&quot;')+'"></div>'
+      +'<button class="kbtn'+(v.known?' on':'')+'" data-i="'+gi+'" title="'+(v.known?'点击取消已掌握':'标记为已掌握')+'">'+(v.known?'✅':'⭕')+'</button>'
+      +'<button class="rm" data-i="'+gi+'" title="删除">✕</button>'
+      +'</div>';
+  }
+  let html=unknownArr.map(row).join('');
+  if(knownArr.length){
+    html+='<div class="known-head'+(vocabKnownOpen?' open':'')+'" id="known-head"><span class="caret">▸</span>已掌握 '+knownArr.length+' 个'+(vocabKnownOpen?'（点击收起）':'（点击展开）')+'</div>';
+    if(vocabKnownOpen)html+='<div id="known-wrap">'+knownArr.map(row).join('')+'</div>';
+  }
+  box.innerHTML=html;
+  const kh=document.getElementById('known-head');
+  if(kh)kh.onclick=()=>{vocabKnownOpen=!vocabKnownOpen;renderVocab()};
+  box.querySelectorAll('.kbtn').forEach(b=>b.onclick=(e)=>{e.stopPropagation();vocab[+b.dataset.i].known=!vocab[+b.dataset.i].known;renderVocab();markVocabWords();scheduleSave()});
+  box.querySelectorAll('.rm').forEach(b=>b.onclick=(e)=>{e.stopPropagation();vocab.splice(+b.dataset.i,1);renderVocab();markVocabWords();scheduleSave()});
+  box.querySelectorAll('.zh-inline').forEach(inp=>{inp.onclick=(e)=>e.stopPropagation();inp.oninput=()=>{vocab[+inp.dataset.i].zh=inp.value;scheduleSave()}});
+  // 点词 → 分享卡片
+  box.querySelectorAll('.w').forEach(w=>w.onclick=(e)=>{
+    e.stopPropagation();
+    const v=vocab[+w.dataset.i];
+    const title=document.querySelector('#'+v.sec+' h2');
+    const speaker=SHARE_EN;
+    openShareCard({quote:v.word, zh:v.zh||'', note:'', src:'§ '+(title?title.textContent:(v.sec||'')), en:'word'});
+  });
+}
+
+// ---- drawer tabs ----
+function switchTab(name){
+  if(name==='note')setTimeout(()=>autoGrow(document.getElementById('global-note')),20);
+  document.querySelectorAll('#drawer .tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));
+  document.querySelectorAll('#drawer .pane').forEach(p=>p.classList.toggle('on',p.dataset.pane===name));
+}
+document.querySelectorAll('#drawer .tabs button').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+
+function applyHighlight(secId,text,hid){
+  const sec=document.getElementById(secId);if(!sec)return false;
+  const target=text.replace(/\s+/g,' ').trim();
+  const esc=target.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/ /g,'[\\s\\u00a0]+');
+  const re=new RegExp(esc);
+  for(const en of sec.querySelectorAll('.en')){
+    // 收集英文文本节点（跳过隐藏的中文 .sz）
+    const walker=document.createTreeWalker(en,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
+      return n.parentElement&&n.parentElement.closest('.sz,.zh-block')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[];let full='';
+    while(walker.nextNode()){nodes.push({node:walker.currentNode,start:full.length});full+=walker.currentNode.data}
+    const m=re.exec(full);
+    if(!m)continue;
+    const s0=m.index,e0=m.index+m[0].length;
+    // 找出每个文本节点内需要包裹的区间
+    const segs=[];
+    for(const rec of nodes){
+      const ns=rec.start,ne=rec.start+rec.node.data.length;
+      const s=Math.max(s0,ns),e=Math.min(e0,ne);
+      if(s<e)segs.push({node:rec.node,s:s-ns,e:e-ns});
+    }
+    // 倒序包裹，避免 splitText 影响后续偏移
+    for(let i=segs.length-1;i>=0;i--){
+      const g=segs[i];
+      let t=g.node;
+      if(g.s>0)t=t.splitText(g.s);
+      if(g.e-g.s<t.data.length)t.splitText(g.e-g.s);
+      const mk=document.createElement('mark');
+      mk.dataset.hid=hid;
+      t.parentNode.insertBefore(mk,t);
+      mk.appendChild(t);
+    }
+    return true;
+  }
+  return false;
+}
+function removeHighlightMarks(hid){
+  document.querySelectorAll('mark[data-hid="'+hid+'"]').forEach(mk=>{
+    const p=mk.parentNode;
+    while(mk.firstChild)p.insertBefore(mk.firstChild,mk);
+    p.removeChild(mk);p.normalize();
+  });
+}
+function renderHlList(){
+  const box=document.getElementById('hl-list');
+  if(!highlights.length){box.innerHTML='<p class="empty">还没有划线。选中文字 → 点「🖍 高亮」。</p>';return}
+  box.innerHTML=highlights.map((h,i)=>{
+    const title=document.querySelector('#'+h.sec+' h2');
+    const src=title?title.textContent:h.sec;
+    let inner='<span class="del" data-i="'+i+'" title="删除">✕</span>';
+    inner+='<span class="htext">'+escapeHtml(h.text)+'</span>';
+    if(h.note){inner+='<span class="hnote">'+escapeHtml(h.note)+'</span>';}
+    else{inner+='<button class="addnote" data-i="'+i+'">➕ 写笔记</button>';}
+    inner+='<span class="src">§ '+escapeHtml(src)+'</span>';
+    return '<div class="hl-item" data-i="'+i+'">'+inner+'</div>';
+  }).join('');
+  // 点整条 → 分享卡片
+  box.querySelectorAll('.hl-item').forEach(el=>{
+    el.onclick=(e)=>{
+      if(e.target.closest('.del')||e.target.closest('.addnote')||e.target.closest('.hnoteinp'))return;
+      const i=+el.dataset.i;const h=highlights[i];
+      const title=document.querySelector('#'+h.sec+' h2');
+      openShareCard({quote:h.text, zh:'', note:h.note||'', src:'§ '+(title?title.textContent:h.sec), en:''+SHARE_EN});
+    };
+  });
+  box.querySelectorAll('.del').forEach(d=>d.onclick=(e)=>{
+    e.stopPropagation();
+    const h=highlights[+d.dataset.i];
+    if(h.id)removeHighlightMarks(h.id);
+    highlights.splice(+d.dataset.i,1);renderHlList();scheduleSave();
+  });
+  box.querySelectorAll('.addnote').forEach(b=>b.onclick=(e)=>{
+    e.stopPropagation();
+    const i=+b.dataset.i;
+    const item=b.closest('.hl-item');
+    b.outerHTML='<input class="hnoteinp" data-i="'+i+'" placeholder="写下你的想法…" value="">';
+    const inp=item.querySelector('.hnoteinp');inp.focus();
+    inp.onclick=(ev)=>ev.stopPropagation();
+    inp.oninput=()=>{highlights[i].note=inp.value;refreshMarkNoteStyles();scheduleSave()};
+    inp.onblur=()=>{if(inp.value.trim())renderHlList()};
+  });
+}
+
+// ---- export study notes ----
+document.getElementById('export-btn').onclick=async()=>{
+  const lines=['# Chris 讲座《到底什么是阅读能力》· 我的学习笔记','','导出时间：'+new Date().toLocaleString('zh-CN'),''];
+  if(notes.__global){lines.push('## 总笔记','',notes.__global,'')}
+  const bySec={};
+  highlights.forEach(h=>{(bySec[h.sec]=bySec[h.sec]||[]).push(h)});
+  sections.forEach(s=>{
+    const t=s.querySelector('h2').textContent;
+    const hs=bySec[s.id]||[],n=notes[s.id];
+    if(!hs.length&&!n)return;
+    lines.push('## '+t,'');
+    hs.forEach(h=>{
+      lines.push('- 🖍 “'+h.text+'”');
+      if(h.note)lines.push('  - 📝 '+h.note);
+    });
+    if(n)lines.push('','📝 本节笔记：'+n);
+    lines.push('');
+  });
+  if(vocab.length){
+    lines.push('## 生词本（还不会 '+vocab.filter(v=>!v.known).length+' / 共 '+vocab.length+'）','');
+    vocab.forEach(v=>lines.push('- **'+v.word+'** '+(v.phonetic||'')+' — '+(v.zh||String(v.def||'').split('\n')[0])+(v.known?'　✅已掌握':'　❌还不会')));
+    lines.push('');
+  }
+  const md=lines.join('\n');
+  let copied=false;
+  try{await navigator.clipboard.writeText(md);copied=true}catch(e){}
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([md],{type:'text/markdown'}));
+  a.download='syllabus2-talk-my-notes.md';a.click();
+  setState(copied?'✓ 已复制到剪贴板 + 下载 .md，可直接丢给 Claude':'✓ 已下载 .md，可直接丢给 Claude');
+};
+
+// drawer
+document.getElementById('drawer-btn').onclick=()=>document.getElementById('drawer').classList.toggle('open');
+
+// scroll spy
+const links=[...document.querySelectorAll('.map a')];
+if(window.IntersectionObserver){
+const obs=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+en.target.id))}})},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>obs.observe(s));
+}
+
+
+// ---- 同步设置 UI 逻辑 ----
+const syncModal=document.getElementById('sync-modal');
+function openSync(){
+  document.getElementById('sync-gist').value=gistId;
+  document.getElementById('sync-token').value=gistToken;
+  document.getElementById('sync-status').innerHTML=cloudOn?'<span class="cloud-dot on"></span>已连接云端':'<span class="cloud-dot"></span>当前仅本机保存';
+  syncModal.classList.add('open');
+}
+document.getElementById('sync-btn').onclick=openSync;
+document.getElementById('sync-close2').onclick=()=>syncModal.classList.remove('open');
+syncModal.addEventListener('click',e=>{if(e.target===syncModal)syncModal.classList.remove('open')});
+document.getElementById('sync-clear').onclick=()=>{
+  localStorage.removeItem(CFG_GIST);localStorage.removeItem(CFG_TOKEN);
+  gistId='';gistToken='';cloudOn=false;cloudCache=null;
+  updateCloudBtn();
+  document.getElementById('sync-status').innerHTML='<span class="cloud-dot"></span>已断开，改用本机保存';
+};
+document.getElementById('sync-save').onclick=async()=>{
+  const gid=document.getElementById('sync-gist').value.trim();
+  const tok=document.getElementById('sync-token').value.trim();
+  const st=document.getElementById('sync-status');
+  if(!gid||!tok){st.textContent='请把两个都填上';return}
+  st.textContent='正在连接…';
+  gistId=gid;gistToken=tok;
+  try{
+    const cloud=await cloudPull();          // 试着拉云端
+    cloudOn=true;
+    localStorage.setItem(CFG_GIST,gid);localStorage.setItem(CFG_TOKEN,tok);
+    // 若云端为空，把本机现有内容推上去（首次上传）
+    const empty=!cloud||Object.keys(cloud).length===0;
+    if(empty){
+      cloudCache={};
+      cloudCache[NOTE_KEY]=localStorage.getItem(NOTE_KEY)||'';
+      cloudCache[HL_KEY]=localStorage.getItem(HL_KEY)||'';
+      cloudCache[VC_KEY]=localStorage.getItem(VC_KEY)||'';
+      await cloudPush(cloudCache);
+      st.innerHTML='<span class="cloud-dot on"></span>已连接，本机内容已上传到云端';
+    }else{
+      st.innerHTML='<span class="cloud-dot on"></span>已连接，正在载入云端内容…';
+    }
+    updateCloudBtn();
+    await reloadFromStore();                 // 重新用云端数据渲染
+    st.innerHTML='<span class="cloud-dot on"></span>同步成功！其它设备填同一组即可看到相同内容';
+    setTimeout(()=>syncModal.classList.remove('open'),1200);
+  }catch(e){
+    cloudOn=false;
+    st.innerHTML='⚠ 连接失败：请检查 Gist ID 和 Token 是否正确（Token 需勾选 gist 权限）';
+  }
+};
+function updateCloudBtn(){
+  const b=document.getElementById('sync-btn');
+  b.innerHTML=(cloudOn?'<span class="cloud-dot on"></span>':'<span class="cloud-dot"></span>')+'☁️ 同步';
+}
+// 清空当前内存并按 store 重新载入（切换云端后刷新界面）
+async function reloadFromStore(){
+  document.querySelectorAll('mark[data-hid]').forEach(mk=>{const p=mk.parentNode;while(mk.firstChild)p.insertBefore(mk.firstChild,mk);p.removeChild(mk);p.normalize()});
+  document.querySelectorAll('span.vocab-mark').forEach(s=>s.replaceWith(document.createTextNode(s.textContent)));
+  notes={};highlights=[];vocab=[];
+  await load();
+}
+
+
+// ---- 字体大小调节 ----
+(function(){
+  const FS_KEY='__fs_level';
+  const LEVELS=[14,15.5,16.5,18.5,21];           // 5 档字号(px)
+  const NAMES=['小','较小','标准','较大','大'];
+  let idx=parseInt(localStorage.getItem(FS_KEY));
+  if(isNaN(idx)||idx<0||idx>4)idx=2;
+  function apply(){
+    document.documentElement.style.setProperty('--fs',LEVELS[idx]+'px');
+    const c=document.getElementById('fs-cur');if(c)c.textContent=NAMES[idx];
+    localStorage.setItem(FS_KEY,idx);
+    if(typeof autoGrow==='function')autoGrow(document.getElementById('global-note'));
+  }
+  const minus=document.getElementById('fs-minus'),plus=document.getElementById('fs-plus');
+  if(minus)minus.onclick=()=>{if(idx>0){idx--;apply()}};
+  if(plus)plus.onclick=()=>{if(idx<4){idx++;apply()}};
+  apply();
+})();
+
+
+// ---- 阅读书签（钉 / 跳，分开两个按钮） ----
+(function(){
+  const BM_KEY='__bookmark_y';
+  const pinBtn=document.getElementById('bm-pin');
+  const goBtn=document.getElementById('bm-go');
+  function flashAt(y){
+    const mid=y+window.innerHeight*0.35;
+    const paras=document.querySelectorAll('.para,.quote,.sec-head');
+    let best=null,bd=1e9;
+    paras.forEach(p=>{const r=p.getBoundingClientRect();const top=r.top+window.scrollY;const d=Math.abs(top-mid);if(d<bd){bd=d;best=p}});
+    if(best){best.classList.add('bm-flash');setTimeout(()=>best.classList.remove('bm-flash'),1200);}
+  }
+  if(pinBtn)pinBtn.onclick=()=>{
+    localStorage.setItem(BM_KEY,String(Math.round(window.scrollY)));
+    setState('📌 已钉书签，之后点「🔖 回书签」就能跳回来');
+  };
+  if(goBtn)goBtn.onclick=()=>{
+    const y=parseInt(localStorage.getItem(BM_KEY));
+    if(isNaN(y)){setState('还没有书签，先点「📌 钉这里」钉一个');return}
+    window.scrollTo({top:y,behavior:'smooth'});
+    flashAt(y);
+    setState('🔖 已跳回书签位置');
+  };
+})();
+
+
+// ================= 朗读 Read-Aloud =================
+(function(){
+  if(!('speechSynthesis' in window)) return;
+  var synth=window.speechSynthesis;
+  var IS_SENT = document.querySelector('.sent')!==null;  // louise/chris vs reading
+
+  // 收集朗读单元：{el, en, zh}
+  var UNITS=[];
+  function buildUnits(){
+    UNITS=[];
+    if(IS_SENT){
+      document.querySelectorAll('.para .sent, .quote .sent').forEach(function(s){
+        var se=s.querySelector('.se'), sz=s.querySelector('.sz');
+        UNITS.push({el:s, en:se?se.textContent.trim():'', zh:sz?sz.textContent.trim():''});
+      });
+    }else{
+      // reading：把每个 p.en 的中文按句号/问号/叹号切句，包成 span.tts-sent
+      document.querySelectorAll('.para p.en, .quote p.en').forEach(function(p){
+        if(p.dataset.ttsReady) return;
+        // 保留说话人 chip
+        var chip=p.querySelector('.spk');
+        var chipHtml=chip?chip.outerHTML:'';
+        var raw=p.textContent;
+        if(chip) raw=raw.replace(chip.textContent,'');
+        raw=raw.trim();
+        var parts=raw.match(/[^。！？]*[。！？]?/g).filter(function(x){return x.trim().length});
+        p.innerHTML=chipHtml+parts.map(function(t){return '<span class="tts-sent">'+t+'</span>';}).join('');
+        p.dataset.ttsReady='1';
+      });
+      document.querySelectorAll('.tts-sent').forEach(function(s){
+        UNITS.push({el:s, en:'', zh:s.textContent.trim()});
+      });
+    }
+  }
+
+  var bar=document.getElementById('tts-bar');
+  var playBtn=document.getElementById('tts-play');
+  var rateEl=document.getElementById('tts-rate');
+  var lang='en', scope='para', rate=1.0, idx=-1, playing=false, stopFlag=false;
+  if(!IS_SENT){ lang='zh'; // 全中文页面默认读中文，并隐藏 EN 选项
+    var le=document.querySelector('#tts-lang button[data-lang="en"]'); if(le)le.style.display='none';
+    var lz=document.querySelector('#tts-lang button[data-lang="zh"]'); if(lz)lz.classList.add('on');
+    var len=document.querySelector('#tts-lang button[data-lang="en"]'); 
+    document.querySelector('#tts-lang button[data-lang="en"]').classList.remove('on');
+  }
+
+  function pickVoice(l){
+    var vs=synth.getVoices();
+    if(l==='zh'){
+      return vs.find(function(v){return /zh|Chinese|普通话|Yue/i.test(v.lang+v.name)}) || null;
+    }
+    return vs.find(function(v){return /en[-_]GB/i.test(v.lang)}) || vs.find(function(v){return /^en/i.test(v.lang)}) || null;
+  }
+
+  function clearHi(){document.querySelectorAll('.tts-reading').forEach(function(e){e.classList.remove('tts-reading')})}
+  function highlight(i){
+    clearHi();
+    if(i<0||i>=UNITS.length) return;
+    var el=UNITS[i].el; el.classList.add('tts-reading');
+    var r=el.getBoundingClientRect();
+    if(r.top<80||r.bottom>window.innerHeight-140){ window.scrollTo({top:window.scrollY+r.top-window.innerHeight*0.4, behavior:'smooth'}); }
+  }
+
+  function textOf(i){ var u=UNITS[i]; if(!u)return ''; return (lang==='zh'? (u.zh||u.en) : (u.en||u.zh)); }
+
+  function speakFrom(i){
+    stopFlag=false;
+    if(i>=UNITS.length){ stop(); return; }
+    idx=i; highlight(i);
+    var txt=textOf(i);
+    if(!txt){ next(); return; }
+    var u=new SpeechSynthesisUtterance(txt);
+    u.rate=rate; u.lang=(lang==='zh'?'zh-CN':'en-GB');
+    var v=pickVoice(lang); if(v)u.voice=v;
+    u.onend=function(){
+      if(stopFlag) return;
+      if(scope==='para'){ if(idx+1<UNITS.length){ speakFrom(idx+1);} else stop(); }
+      else { stop(); } // 单句/从这句起读到结尾同 para；此处 scope=='from' 也连读
+    };
+    u.onerror=function(){ if(!stopFlag){ if(idx+1<UNITS.length)speakFrom(idx+1); else stop(); } };
+    synth.cancel(); synth.speak(u);
+    playing=true; playBtn.textContent='⏸';
+  }
+
+  function play(){
+    buildUnits();
+    if(!UNITS.length) return;
+    bar.classList.add('on');
+    if(synth.paused){ synth.resume(); playing=true; playBtn.textContent='⏸'; return; }
+    var start = idx>=0? idx : 0;
+    speakFrom(start);
+  }
+  function pause(){ if(synth.speaking&&!synth.paused){ synth.pause(); playing=false; playBtn.textContent='▶'; } }
+  function stop(){ stopFlag=true; synth.cancel(); playing=false; playBtn.textContent='▶'; clearHi(); }
+  function next(){ stopFlag=true; synth.cancel(); if(idx+1<UNITS.length) speakFrom(idx+1); }
+  function prev(){ stopFlag=true; synth.cancel(); if(idx-1>=0) speakFrom(idx-1); else speakFrom(0); }
+
+  playBtn.onclick=function(){ if(playing){ pause(); } else { play(); } };
+  document.getElementById('tts-next').onclick=next;
+  document.getElementById('tts-prev').onclick=prev;
+  document.getElementById('tts-x').onclick=function(){ stop(); bar.classList.remove('on'); };
+  document.getElementById('tts-slow').onclick=function(){ rate=Math.max(0.5, Math.round((rate-0.1)*10)/10); rateEl.textContent=rate.toFixed(1)+'×'; if(playing&&idx>=0)speakFrom(idx); };
+  document.getElementById('tts-fast').onclick=function(){ rate=Math.min(2.0, Math.round((rate+0.1)*10)/10); rateEl.textContent=rate.toFixed(1)+'×'; if(playing&&idx>=0)speakFrom(idx); };
+  document.querySelectorAll('#tts-lang button').forEach(function(b){ b.onclick=function(){
+    document.querySelectorAll('#tts-lang button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
+    lang=b.dataset.lang; if(playing){ speakFrom(idx<0?0:idx); }
+  };});
+  document.querySelectorAll('#tts-scope button').forEach(function(b){ b.onclick=function(){
+    document.querySelectorAll('#tts-scope button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
+    scope=b.dataset.scope;
+  };});
+
+  // 点句子 → 从这句开始读（capture 阶段，先于高亮词的 stopPropagation）
+  document.addEventListener('click',function(e){
+    if(scope!=='from') return;              // 只在"从这句起"模式拦截
+    if(!bar.classList.contains('on')) return; // 朗读条没开时不拦截
+    var s=e.target.closest('.tts-sent, .sent');
+    if(!s) return;
+    e.stopPropagation(); e.preventDefault();
+    buildUnits();
+    var i=UNITS.findIndex(function(u){return u.el===s;});
+    if(i>=0){ speakFrom(i); }
+  }, true);
+
+  // 工具栏 🔊 按钮
+  var trig=document.getElementById('tts-trigger');
+  if(trig)trig.onclick=function(){ bar.classList.toggle('on'); if(bar.classList.contains('on')){ buildUnits(); } else { stop(); } };
+
+  // voices 异步加载
+  if(synth.getVoices().length===0){ synth.onvoiceschanged=function(){}; }
+  // 离开页面停止
+  window.addEventListener('beforeunload',function(){ synth.cancel(); });
+})();
+
+
+// —— 更多菜单 ——
+(function(){
+  var mb=document.getElementById('more-btn'), mm=document.getElementById('more-menu');
+  if(!mb) return;
+  mb.onclick=function(e){ e.stopPropagation(); mm.classList.toggle('on'); };
+  document.addEventListener('click',function(e){ if(!e.target.closest('.more-wrap')) mm.classList.remove('on'); });
+  // 点菜单里的按钮后收起
+  mm.querySelectorAll('button,a').forEach(function(b){ b.addEventListener('click',function(){ setTimeout(function(){mm.classList.remove('on')},50); }); });
+})();
+
+load();
+})();
+</script>
+
+</body>
+</html>
