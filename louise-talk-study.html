@@ -130,6 +130,18 @@ h1 .zh-t{display:block;font-size:.55em;color:#6B8480;margin-top:8px;font-weight:
 .sent.tts-reading,.tts-reading{transition:background .1s}
 .tts-sent{cursor:default}
 
+
+/* 更多菜单 */
+.more-wrap{position:relative;display:inline-block}
+.more-btn{}
+.more-menu{position:absolute;top:calc(100% + 6px);right:0;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(22,51,59,.15);padding:6px;display:none;flex-direction:column;gap:2px;z-index:60;min-width:170px}
+.more-menu.on{display:flex}
+.more-menu a,.more-menu button{display:flex;align-items:center;gap:8px;text-align:left;text-decoration:none;color:var(--ink);background:none;border:none;border-radius:8px;padding:9px 12px;font-size:13.5px;cursor:pointer;white-space:nowrap;width:100%;font-family:inherit}
+.more-menu a:hover,.more-menu button:hover{background:#F1F5F4}
+.more-menu .gold-txt{color:var(--gold-deep)}
+/* 正在朗读的句子：左竖条 + 高亮，更醒目 */
+.tts-reading{background:linear-gradient(transparent 55%,rgba(232,197,88,.6) 0)!important;border-radius:3px;box-shadow:-8px 0 0 rgba(46,90,102,.9);border-radius:2px}
+
 /* toolbar */
 .toolbar{position:sticky;top:0;z-index:50;background:rgba(251,251,248,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:0 -44px 30px;padding:10px 44px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 @media(max-width:900px){.toolbar{margin:0 -18px 24px;padding:10px 18px}}
@@ -315,15 +327,19 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
 </header>
 
 <div class="toolbar ui">
-  <a class="btn home-btn" href="index.html" title="回到目录首页">🏠 目录</a>
-  
-  <button class="btn primary" id="zh-toggle">显示全部中文</button>
   <button class="btn" id="drawer-btn">📒 生词本 · 划线 · 笔记</button>
   <button class="btn" id="sync-btn"><span class="cloud-dot"></span>☁️ 同步</button>
   <span class="fs-btns"><button class="fs-a1" id="fs-minus" title="缩小字体">A−</button><span class="fs-cur ui" id="fs-cur">标准</span><button class="fs-a2" id="fs-plus" title="放大字体">A+</button></span>
   <button class="btn" id="bm-pin" title="把当前位置钉为书签">📌 钉这里</button><button class="btn" id="bm-go" title="跳回你钉的书签位置">🔖 回书签</button>
   <button class="btn tts-btn" id="tts-trigger" title="朗读">🔊 朗读</button>
-  <button class="btn gold" id="export-btn">📤 导出学习笔记</button>
+  <span class="more-wrap">
+    <button class="btn more-btn" id="more-btn" title="更多">⋯ 更多</button>
+    <div class="more-menu" id="more-menu">
+    <a href="index.html">🏠 回到目录</a>
+    <button id="zh-toggle">显示全部中文</button>
+    <button class="gold-txt" id="export-btn">📤 导出学习笔记</button>
+    </div>
+  </span>
   <span class="save-state" id="save-state">已就绪</span>
 </div>
 
@@ -1476,8 +1492,8 @@ async function reloadFromStore(){
   document.getElementById('tts-next').onclick=next;
   document.getElementById('tts-prev').onclick=prev;
   document.getElementById('tts-x').onclick=function(){ stop(); bar.classList.remove('on'); };
-  document.getElementById('tts-slow').onclick=function(){ rate=Math.max(0.5, Math.round((rate-0.1)*10)/10); rateEl.textContent=rate.toFixed(1)+'×'; };
-  document.getElementById('tts-fast').onclick=function(){ rate=Math.min(2.0, Math.round((rate+0.1)*10)/10); rateEl.textContent=rate.toFixed(1)+'×'; };
+  document.getElementById('tts-slow').onclick=function(){ rate=Math.max(0.5, Math.round((rate-0.1)*10)/10); rateEl.textContent=rate.toFixed(1)+'×'; if(playing&&idx>=0)speakFrom(idx); };
+  document.getElementById('tts-fast').onclick=function(){ rate=Math.min(2.0, Math.round((rate+0.1)*10)/10); rateEl.textContent=rate.toFixed(1)+'×'; if(playing&&idx>=0)speakFrom(idx); };
   document.querySelectorAll('#tts-lang button').forEach(function(b){ b.onclick=function(){
     document.querySelectorAll('#tts-lang button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
     lang=b.dataset.lang; if(playing){ speakFrom(idx<0?0:idx); }
@@ -1487,15 +1503,17 @@ async function reloadFromStore(){
     scope=b.dataset.scope;
   };});
 
-  // 点句子 → 从这句开始读（当 scope=从这句起，或任何时候双击）
+  // 点句子 → 从这句开始读（capture 阶段，先于高亮词的 stopPropagation）
   document.addEventListener('click',function(e){
+    if(scope!=='from') return;              // 只在"从这句起"模式拦截
+    if(!bar.classList.contains('on')) return; // 朗读条没开时不拦截
     var s=e.target.closest('.tts-sent, .sent');
     if(!s) return;
-    if(scope!=='from') return;      // 只有"从这句起"模式才拦截点击
+    e.stopPropagation(); e.preventDefault();
     buildUnits();
     var i=UNITS.findIndex(function(u){return u.el===s;});
-    if(i>=0){ bar.classList.add('on'); speakFrom(i); }
-  });
+    if(i>=0){ speakFrom(i); }
+  }, true);
 
   // 工具栏 🔊 按钮
   var trig=document.getElementById('tts-trigger');
@@ -1505,6 +1523,17 @@ async function reloadFromStore(){
   if(synth.getVoices().length===0){ synth.onvoiceschanged=function(){}; }
   // 离开页面停止
   window.addEventListener('beforeunload',function(){ synth.cancel(); });
+})();
+
+
+// —— 更多菜单 ——
+(function(){
+  var mb=document.getElementById('more-btn'), mm=document.getElementById('more-menu');
+  if(!mb) return;
+  mb.onclick=function(e){ e.stopPropagation(); mm.classList.toggle('on'); };
+  document.addEventListener('click',function(e){ if(!e.target.closest('.more-wrap')) mm.classList.remove('on'); });
+  // 点菜单里的按钮后收起
+  mm.querySelectorAll('button,a').forEach(function(b){ b.addEventListener('click',function(){ setTimeout(function(){mm.classList.remove('on')},50); }); });
 })();
 
 load();
