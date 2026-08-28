@@ -59,9 +59,9 @@ a.card:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(22,51,59,.1)
 </head>
 <body>
 <div class="wrap">
-  <div class="eyebrow">FOGG 父母讲堂</div>
-  <h1>学习笔记本 · 目录<span class="sub">可划线、可批注、可同步的精读笔记库</span></h1>
-  <p class="intro">选一场讲座进入。每份都支持划线、写笔记、收藏生词、书签、字体调节，笔记自动同步到云端，电脑和 iPad 通用。</p>
+  <div class="eyebrow">FOGG 学习资料库</div>
+  <h1>学习笔记本 · 目录<span class="sub">讲座、教研与每周课堂内容的可复习知识库</span></h1>
+  <p class="intro">选择一份资料进入。每页都支持划线、写笔记、收藏生词、书签与字体调节；课堂页把 VTT 中的教学过程进一步整理成概念、方法、原声证据和复习练习。</p>
   <div class="bar">
     <span class="count" id="count"></span>
     <div class="sort">
@@ -91,6 +91,9 @@ a.card:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(22,51,59,.1)
 </div>
 <script>
 var COURSES = [
+  {file:'class-2026-08-24-cw-alex-l7-8.html', lastKey:'class-20260824-cw-alex-l78', cat:'classes', accent:'#B0741E', date:'2026-08-24', tagText:'CW 7–8级', title:'从海盗解谜到悬疑故事', en:'From Pirate Puzzles to Suspense', desc:'从 Pirate Panic 的方位、距离与物件线索出发，学习把游戏机制转化成叙事素材，并通过延迟揭示制造张力。', speaker:'Teacher Alex', length:'约60分钟 · 中英重点'},
+  {file:'class-2026-08-24-cw-tim-l1-2.html', lastKey:'class-20260824-cw-tim-l12', cat:'classes', accent:'#2E6B57', date:'2026-08-24', tagText:'CW 1–2级', title:'让文字发出声音', en:'Writing with Sound', desc:'精读 Hopkins《The Windhover》，用朗读辨认头韵、元音和谐、不协和音与半押韵，再把声音技巧写进动态描写。', speaker:'Teacher Tim', length:'约60分钟 · 中英重点'},
+  {file:'class-2026-08-24-ew-alex-l3-4.html', lastKey:'class-20260824-ew-alex-l34', cat:'classes', accent:'#7A6A9E', date:'2026-08-24', tagText:'EW 3–4级', title:'自由如何写成一篇论证', en:'Turning Freedom into an Argument', desc:'围绕“自由意味着什么”完成四部分反思性议论文，并用 PEEL 把观点、证据、解释与衔接组织起来。', speaker:'Teacher Alex', length:'约60分钟 · 中英重点'},
   {file:'reading-talk-study.html', lastKey:'reading-talk', cat:'reading', accent:'#2E6B57', date:'2024-08-04', tagText:'中文阅读专场', title:'小学孩子阅读的关键是什么？', en:'', desc:'言词 × 宁宇 × 清滢 × 李洋 四位老师的圆桌分享：阅读是复杂的社会行为、读了≠读懂、别把阅读功利化、扬长避短、家长怎么陪读。', speaker:'宁宇 · 清滢 · 李洋', length:'约115分钟 · 全中文'},
   {file:'louise-talk-study.html', lastKey:'louise-talk', cat:'writing', accent:'#B0741E', date:'2025-03-28', tagText:'Inkhead 创意写作', title:'我们如何教孩子写作', en:'How We Teach Children Writing', desc:'Louise（伦敦 Inkhead 创始人）谈：为乐趣而读写、用文字作画、工作坊教学法、找到孩子的声音、风格即真实。', speaker:'Louise', length:'约60分钟 · 中英对照'},
   {file:'chris-talk-study.html', lastKey:'chris-talk', cat:'reading', accent:'#2E5A66', date:'2025-03-09', tagText:'阅读能力专场', title:'到底什么是阅读能力', en:'What Is Reading, Really?', desc:'Teacher Chris 谈：阅读即诠释、诠释的四个层次、AI 时代还要读吗、四个常见难题（讨厌阅读 / 太难太易 / 只读一种 / 读多没进步）、家长怎么检查。', speaker:'Teacher Chris', length:'约80分钟 · 中英对照'},
@@ -99,8 +102,8 @@ var COURSES = [
   {file:'syllabus2-talk-study.html', lastKey:'syllabus2-talk', cat:'research', accent:'#B0741E', date:'2025-03-14', tagText:'教纲研读 ②', title:'研读新加坡文学教纲（下）', en:'MOE Syllabus · Case Studies', desc:'接续上一场：文学课的培养目标（convincing communicators 等）、批判性思考、精读 vs 泛读，配 Chris 老师课堂实录与学生案例（唐慧 / Google 分享）。', speaker:'言词 × 唐慧 × Google', length:'约90分钟 · 全中文'},
   {file:'syllabus-ref.html', lastKey:'syllabus-ref', cat:'research', accent:'#2E5A66', date:'2025-02-21', tagText:'配套参考', title:'新加坡文学教纲 · 参考页', en:'Reference', desc:'两场教纲研读的配套参考：教纲核心框架、培养目标、能力维度等，供随时查阅对照。', speaker:'MOE 文件整理', length:'参考资料 · 全中文'}
 ];
-var CAT_NAMES = {reading:'📖 阅读', writing:'✍️ 写作', research:'🧭 教研 · 教纲', other:'📚 其他'};
-var CAT_ORDER = ['reading','writing','research','other'];
+var CAT_NAMES = {classes:'🏫 课堂内容', reading:'📖 阅读', writing:'✍️ 写作', research:'🧭 教研 · 教纲', other:'📚 其他'};
+var CAT_ORDER = ['classes','reading','writing','research','other'];
 var sortMode = "new"; // new | old | recent
 function fmtDate(d){ return d.replace(/-/g,'.'); }
 
@@ -119,7 +122,7 @@ function agoText(ts){
 function render(){
   var box = document.getElementById('catalog');
   box.innerHTML='';
-  document.getElementById('count').textContent = '共 ' + COURSES.length + ' 场讲座';
+  document.getElementById('count').textContent = '共 ' + COURSES.length + ' 份学习资料';
   CAT_ORDER.forEach(function(cat){
     var items = COURSES.filter(function(c){return c.cat===cat;});
     if(!items.length) return;
