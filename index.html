@@ -5,45 +5,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FOGG 学习笔记本 · 目录</title>
 <style>
-:root{--ink:#24505B;--ink-deep:#16333B;--teal:#2E5A66;--paper:#FBFBF8;--gold:#E8C558;--gold-deep:#B08A1E;--line:#D5DEDC}
+:root{--ink:#24505B;--ink-deep:#16333B;--teal:#2E5A66;--paper:#FBFBF8;--gold:#E8C558;--gold-deep:#B08A1E;--line:#D5DEDC;--mist:#EEF3F2}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
-.wrap{max-width:760px;margin:0 auto;padding:56px 22px 80px}
+.layout{max-width:1140px;margin:0 auto;padding:40px 28px 80px;display:flex;gap:36px;align-items:flex-start}
+.side{width:250px;flex-shrink:0;position:sticky;top:24px;font-size:13.5px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 14px}
+.side .side-title{font-size:12px;letter-spacing:.1em;color:var(--gold-deep);font-weight:700;text-transform:uppercase;margin-bottom:14px;padding:0 4px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:11px 12px;border-radius:11px;cursor:pointer;color:#4A6360;font-size:13.5px;font-weight:600;margin-bottom:3px}
+.nav-item:hover{background:var(--mist)}
+.nav-item.active{background:var(--teal);color:#fff}
+.nav-item .cnt{margin-left:auto;font-size:11px;font-weight:400;background:var(--mist);color:#8CA19D;border-radius:10px;padding:1px 8px}
+.nav-item.active .cnt{background:rgba(255,255,255,.2);color:#fff}
+.nav-sep{font-size:11px;letter-spacing:.08em;color:#B0BEBA;font-weight:700;margin:14px 4px 8px;text-transform:uppercase}
+.nav-sep:first-child{margin-top:0}
+.nav-item.has-sub .arw{font-size:9px;color:#9AAAA6;transition:transform .15s;margin-left:2px}
+.nav-item.open .arw{transform:rotate(90deg)}
+.nav-sub{margin:0 0 6px 14px;border-left:1.5px solid var(--line);padding-left:8px;overflow:hidden;transition:max-height .2s ease;max-height:0}
+.nav-item.open + .nav-sub{max-height:600px}
+.nav-lv{padding:7px 10px;border-radius:8px;cursor:pointer;color:#5A7370;font-size:12.5px}
+.nav-lv:hover{background:var(--mist)}
+.nav-lv.active{background:var(--teal);color:#fff}
+.main{flex:1;min-width:0}
 .eyebrow{font-size:13px;letter-spacing:.14em;color:var(--gold-deep);font-weight:600;text-transform:uppercase}
-h1{font-size:30px;color:var(--ink-deep);margin:10px 0 8px;font-weight:700}
-h1 .sub{display:block;font-size:15px;color:#6B8480;font-weight:400;margin-top:8px}
-.intro{font-size:14.5px;color:#5A7370;margin:18px 0 26px}
-.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0 22px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:28px}
-.bar .count{font-size:13px;color:#8CA19D}
-.bar .sort{margin-left:auto;display:flex;gap:6px;align-items:center}
-.bar .sort span{font-size:12px;color:#8CA19D}
-.bar .sort button{border:1px solid var(--line);background:#fff;color:var(--teal);border-radius:8px;padding:6px 12px;font-size:12.5px;cursor:pointer}
-.bar .sort button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
-.cat{margin-bottom:14px}
-.cat-title{font-size:13px;letter-spacing:.08em;color:var(--gold-deep);font-weight:700;margin:26px 0 12px;text-transform:uppercase}
-.cat:first-of-type .cat-title{margin-top:0}
-a.card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px 20px 24px;margin-bottom:14px;transition:transform .12s,box-shadow .12s,border-color .12s;position:relative;overflow:hidden}
+h1{font-size:27px;color:var(--ink-deep);margin:8px 0 6px;font-weight:700}
+h1 .sub{display:block;font-size:14px;color:#6B8480;font-weight:400;margin-top:6px}
+.intro{font-size:13.5px;color:#5A7370;margin:14px 0 20px}
+.filters{padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:22px;display:flex;flex-direction:column;gap:11px}
+.fl-row{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.fl-label{font-size:12px;color:#8CA19D;font-weight:600;min-width:52px;padding-top:6px;flex-shrink:0}
+.fl-set{display:flex;gap:8px;flex-wrap:wrap;flex:1}
+.fl-set button{border:1px solid var(--line);background:#fff;color:var(--teal);border-radius:20px;padding:5px 14px;font-size:12.5px;cursor:pointer}
+.fl-set button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.sort-set button{color:var(--gold-deep);border-color:#E7D9A8}
+.sort-set button.on{background:var(--gold-deep);color:#fff;border-color:var(--gold-deep)}
+.count{font-size:12.5px;color:#8CA19D;margin-bottom:18px}
+.cat{margin-bottom:30px}
+.cat-title{font-size:13px;letter-spacing:.06em;color:var(--gold-deep);font-weight:700;margin:0 0 14px;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+a.card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin-bottom:14px;transition:transform .12s,box-shadow .12s,border-color .12s;position:relative;overflow:hidden}
 a.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent,var(--teal))}
-a.card:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(22,51,59,.1);border-color:var(--teal)}
-.card-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-.card .date{font-family:Georgia,serif;font-size:22px;font-weight:700;color:var(--ink-deep);letter-spacing:.02em;line-height:1}
-.card .tag{font-size:11px;color:#fff;background:var(--accent,var(--teal));border-radius:20px;padding:2px 10px}
-.card h2{font-size:19px;color:var(--ink-deep);margin:9px 0 3px;font-weight:700}
-.card .en{font-family:Georgia,serif;font-size:13px;color:#9AAAA6;font-style:italic;margin-bottom:9px}
-.card .desc{font-size:13px;color:#5A7370;margin-bottom:11px}
-.card .meta{display:flex;flex-wrap:wrap;gap:5px 14px;font-size:12px;color:#8CA19D}
-.card .meta span{white-space:nowrap}
-.card .go{position:absolute;right:22px;bottom:18px;font-size:13px;color:var(--teal);font-weight:600}
-.card .go::after{content:' →'}
-.sync-box{margin-top:34px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px}
-.sync-box .sync-title{display:flex;align-items:center;gap:8px;font-size:16px;color:var(--ink-deep);font-weight:700;cursor:pointer}
-.sync-box .sync-title .st-dot{width:9px;height:9px;border-radius:50%;background:#C9B0AA;flex-shrink:0}
+a.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(22,51,59,.1);border-color:var(--teal)}
+.card-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.card .date{font-family:Georgia,serif;font-size:19px;font-weight:700;color:var(--ink-deep);line-height:1}
+.card .tag{font-size:10.5px;color:#fff;background:var(--accent,var(--teal));border-radius:20px;padding:2px 9px}
+.card h2{font-size:17px;color:var(--ink-deep);margin:7px 0 3px;font-weight:700}
+.card .en{font-family:Georgia,serif;font-size:12.5px;color:#9AAAA6;font-style:italic;margin-bottom:7px}
+.card .desc{font-size:12.5px;color:#5A7370;margin-bottom:9px}
+.card .meta{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;color:#8CA19D}
+.empty{color:#A8B8B4;font-size:13px;padding:30px 0;text-align:center}
+.sync-box{margin-top:30px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+.sync-box .sync-title{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--ink-deep);font-weight:700;cursor:pointer}
+.sync-box .sync-title .st-dot{width:9px;height:9px;border-radius:50%;background:#C9B0AA}
 .sync-box .sync-title .st-dot.on{background:#4F9E7A}
-.sync-box .sync-title .caret{margin-left:auto;transition:transform .15s;color:#9AAAA6;font-size:13px}
+.sync-box .sync-title .caret{margin-left:auto;color:#9AAAA6;font-size:13px;transition:transform .15s}
 .sync-box.open .sync-title .caret{transform:rotate(90deg)}
 .sync-body{display:none;margin-top:14px}
 .sync-box.open .sync-body{display:block}
-.sync-body p{font-size:13px;color:#6B8480;line-height:1.7;margin-bottom:12px}
+.sync-body p{font-size:13px;color:#6B8480;margin-bottom:12px}
 .sync-body label{font-size:12px;color:#8CA19D;display:block;margin-top:10px;margin-bottom:3px}
 .sync-body input{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;background:#FBFDFC;font-family:inherit}
 .sync-body input:focus{outline:none;border-color:var(--teal)}
@@ -53,129 +70,215 @@ a.card:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(22,51,59,.1)
 .sync-body .row .clear{background:#EEF2F1;color:#5D7975}
 .sync-status{font-size:12.5px;margin-top:12px;min-height:18px;color:#4F9E7A}
 .sync-status.err{color:#C0392B}
-.foot{margin-top:40px;font-size:12px;color:#A8B8B4;text-align:center;line-height:1.9}
-@media(max-width:520px){.wrap{padding:40px 16px 60px}h1{font-size:25px}.card .go{position:static;display:block;margin-top:10px}.card .date{font-size:20px}}
+.foot{margin-top:34px;font-size:12px;color:#A8B8B4;text-align:center;line-height:1.9}
+.side-toggle{display:none}
+@media(max-width:820px){
+.layout{flex-direction:column;gap:0}
+.side{width:100%;position:static;margin-bottom:6px;display:none}
+.side.show{display:block}
+.side-toggle{display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 14px;font-size:13px;color:var(--teal);cursor:pointer}
+h1{font-size:23px}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="eyebrow">FOGG 学习资料库</div>
-  <h1>学习笔记本 · 目录<span class="sub">讲座、教研与每周课堂内容的可复习知识库</span></h1>
-  <p class="intro">选择一份资料进入。每页都支持划线、写笔记、收藏生词、书签与字体调节；课堂页把 VTT 中的教学过程进一步整理成概念、方法、原声证据和复习练习。</p>
-  <div class="bar">
-    <span class="count" id="count"></span>
-    <div class="sort">
-      <span>排序</span>
-      <button id="sort-new" class="on">最新在前</button>
-      <button id="sort-old">最早在前</button>
-      <button id="sort-recent">最近在学</button>
-    </div>
-  </div>
-  <div id="catalog"></div>
-  <div class="sync-box" id="sync-box">
-    <div class="sync-title" id="sync-title"><span class="st-dot" id="st-dot"></span>☁️ 多设备同步设置<span class="caret">▸</span></div>
-    <div class="sync-body">
-      <p>在这里填一次 Gist ID 和 Token，<b>所有讲座页面就都会自动同步</b>，不用再一个个设置。<br>换新设备（比如 iPad）时，只要在这个首页再填一次就好。</p>
-      <label>Gist ID</label>
-      <input id="gist-id" placeholder="那串字母数字" autocomplete="off">
-      <label>GitHub Token</label>
-      <input id="gist-token" type="password" placeholder="ghp_ 或 github_pat_ 开头" autocomplete="off">
-      <div class="row">
-        <button class="save" id="sync-save">保存并应用到所有页面</button>
-        <button class="clear" id="sync-clear">断开（只用本机）</button>
+<div class="layout">
+  <aside class="side" id="side">
+    <div class="side-title">📂 快速导航</div>
+    <div id="tree"></div>
+  </aside>
+  <div class="main">
+    <div class="eyebrow">FOGG 学习资料库</div>
+    <h1>学习笔记本 · 目录<span class="sub">讲座、教研与每周课堂内容的可复习知识库</span></h1>
+    <p class="intro">左侧按「年份 → 课型 → 级别」快速定位,或用下面的筛选浏览。每页都支持划线、笔记、生词、书签、朗读、云同步。</p>
+    <button class="side-toggle" id="side-toggle">📂 打开导航</button>
+    <div class="filters" id="filters">
+      <div class="fl-row">
+        <span class="fl-label">老师</span>
+        <div id="fl-teacher" class="fl-set"></div>
       </div>
-      <div class="sync-status" id="sync-status"></div>
+      <div class="fl-row">
+        <span class="fl-label">年份</span>
+        <div id="fl-year" class="fl-set"></div>
+      </div>
+      <div class="fl-row">
+        <span class="fl-label">排序</span>
+        <div class="fl-set sort-set">
+          <button id="sort-new" class="on">最新</button>
+          <button id="sort-old">最早</button>
+          <button id="sort-recent">最近在学</button>
+        </div>
+      </div>
     </div>
+    <div class="count" id="count"></div>
+    <div id="catalog"></div>
+    <div class="sync-box" id="sync-box">
+      <div class="sync-title" id="sync-title"><span class="st-dot" id="st-dot"></span>☁️ 多设备同步设置<span class="caret">▸</span></div>
+      <div class="sync-body">
+        <p>在这里填一次 Gist ID 和 Token,<b>所有页面就都会自动同步</b>。换新设备(如 iPad)在此再填一次即可。</p>
+        <label>Gist ID</label>
+        <input id="gist-id" placeholder="那串字母数字" autocomplete="off">
+        <label>GitHub Token</label>
+        <input id="gist-token" type="password" placeholder="ghp_ 或 github_pat_ 开头" autocomplete="off">
+        <div class="row">
+          <button class="save" id="sync-save">保存并应用到所有页面</button>
+          <button class="clear" id="sync-clear">断开(只用本机)</button>
+        </div>
+        <div class="sync-status" id="sync-status"></div>
+      </div>
+    </div>
+    <div class="foot">Shirley 造物日记 · FOGG 学习笔记本<br>划线 · 批注 · 生词 · 书签 · 云端同步 · 一键导出</div>
   </div>
-  <div class="foot">Shirley 造物日记 · FOGG 学习笔记本<br>划线 · 批注 · 生词 · 书签 · 云端同步 · 一键导出</div>
 </div>
 <script>
+var TYPE_NAMES={cw:'✍️ CW 创意写作', ew:'🗣️ EW 议论文', cn:'📖 中文阅读', en:'🔎 英文精读', inner:'🏢 内部讲座', outer:'🎤 外部讲座'};
+var GROUP_NAMES={'class':'🏫 课堂内容','talk':'🎤 讲座'};
+var GROUP_ORDER=['class','talk'];
+var TYPE_ORDER=['cw','ew','cn','en','inner','outer'];
 var COURSES = [
-  {file:'class-2026-08-24-cw-alex-l7-8.html', lastKey:'class-20260824-cw-alex-l78', cat:'classes', accent:'#B0741E', date:'2026-08-24', tagText:'CW 7–8级', title:'从海盗解谜到悬疑故事', en:'From Pirate Puzzles to Suspense', desc:'从 Pirate Panic 的方位、距离与物件线索出发，学习把游戏机制转化成叙事素材，并通过延迟揭示制造张力。', speaker:'Teacher Alex', length:'约60分钟 · 中英重点'},
-  {file:'class-2026-08-24-cw-tim-l1-2.html', lastKey:'class-20260824-cw-tim-l12', cat:'classes', accent:'#2E6B57', date:'2026-08-24', tagText:'CW 1–2级', title:'让文字发出声音', en:'Writing with Sound', desc:'精读 Hopkins《The Windhover》，用朗读辨认头韵、元音和谐、不协和音与半押韵，再把声音技巧写进动态描写。', speaker:'Teacher Tim', length:'约60分钟 · 中英重点'},
-  {file:'class-2026-08-24-ew-alex-l3-4.html', lastKey:'class-20260824-ew-alex-l34', cat:'classes', accent:'#7A6A9E', date:'2026-08-24', tagText:'EW 3–4级', title:'自由如何写成一篇论证', en:'Turning Freedom into an Argument', desc:'围绕“自由意味着什么”完成四部分反思性议论文，并用 PEEL 把观点、证据、解释与衔接组织起来。', speaker:'Teacher Alex', length:'约60分钟 · 中英重点'},
-  {file:'reading-talk-study.html', lastKey:'reading-talk', cat:'reading', accent:'#2E6B57', date:'2024-08-04', tagText:'中文阅读专场', title:'小学孩子阅读的关键是什么？', en:'', desc:'言词 × 宁宇 × 清滢 × 李洋 四位老师的圆桌分享：阅读是复杂的社会行为、读了≠读懂、别把阅读功利化、扬长避短、家长怎么陪读。', speaker:'宁宇 · 清滢 · 李洋', length:'约115分钟 · 全中文'},
-  {file:'louise-talk-study.html', lastKey:'louise-talk', cat:'writing', accent:'#B0741E', date:'2025-03-28', tagText:'Inkhead 创意写作', title:'我们如何教孩子写作', en:'How We Teach Children Writing', desc:'Louise（伦敦 Inkhead 创始人）谈：为乐趣而读写、用文字作画、工作坊教学法、找到孩子的声音、风格即真实。', speaker:'Louise', length:'约60分钟 · 中英对照'},
-  {file:'chris-talk-study.html', lastKey:'chris-talk', cat:'reading', accent:'#2E5A66', date:'2025-03-09', tagText:'阅读能力专场', title:'到底什么是阅读能力', en:'What Is Reading, Really?', desc:'Teacher Chris 谈：阅读即诠释、诠释的四个层次、AI 时代还要读吗、四个常见难题（讨厌阅读 / 太难太易 / 只读一种 / 读多没进步）、家长怎么检查。', speaker:'Teacher Chris', length:'约80分钟 · 中英对照'},
-  {file:'meeting-talk-study.html', lastKey:'meeting-talk', cat:'research', accent:'#7A6A9E', date:'2025-02-21', tagText:'内部运营会议', title:'播报老师如何抓课堂重点', en:'', desc:'言词与播报老师的内部会议：英文精读 / 中文阅读 / 写作课分别怎么抓重点、做宣传素材、如何把课堂内容转述给家长（含翻译的重要性）。', speaker:'言词 × 播报组', length:'约14分钟 · 全中文 · 内部'},
-  {file:'syllabus1-talk-study.html', lastKey:'syllabus1-talk', cat:'research', accent:'#2E6B57', date:'2025-02-21', tagText:'教纲研读 ①', title:'研读新加坡文学教纲（上）', en:'MOE Literature in English Syllabus', desc:'言词带 FOGG 老师研读新加坡教育部中学文学教纲：为什么这份文件世界领先、文学课培养什么样的人、认知/社交/情感三维度、以及她的思维导图笔记法。', speaker:'言词（Yanci）', length:'约66分钟 · 全中文'},
-  {file:'syllabus2-talk-study.html', lastKey:'syllabus2-talk', cat:'research', accent:'#B0741E', date:'2025-03-14', tagText:'教纲研读 ②', title:'研读新加坡文学教纲（下）', en:'MOE Syllabus · Case Studies', desc:'接续上一场：文学课的培养目标（convincing communicators 等）、批判性思考、精读 vs 泛读，配 Chris 老师课堂实录与学生案例（唐慧 / Google 分享）。', speaker:'言词 × 唐慧 × Google', length:'约90分钟 · 全中文'},
-  {file:'syllabus-ref.html', lastKey:'syllabus-ref', cat:'research', accent:'#2E5A66', date:'2025-02-21', tagText:'配套参考', title:'新加坡文学教纲 · 参考页', en:'Reference', desc:'两场教纲研读的配套参考：教纲核心框架、培养目标、能力维度等，供随时查阅对照。', speaker:'MOE 文件整理', length:'参考资料 · 全中文'}
+  {file:'class-2026-08-24-mon-cw-alex-l8-wk9.html', lastKey:'cls-20260824-cw-alex-l8-wk9', teacher:'Alex', group:'class', type:'cw', level:8, accent:'#C0603A', date:'2026-08-24', tagText:'CW 8级 · Wk9', title:'侦探小说与悬念（Week 9 课堂实录）', en:'Detective Stories & Suspense', desc:'Kaelyn 的侦探小说 + 老师逐句点评（埋钩子/延迟揭示/克制/删冗余），海盗逃脱与四子棋训练"观察+推理"，隐藏主线 = puzzle→story。', speaker:'Teacher Alex', length:'约58分钟 · 周一'},
+  {file:'class-2026-08-24-cw-tim-l1-2.html', lastKey:'class-20260824-cw-tim-l12', teacher:'Tim', group:'class', type:'cw', level:1, accent:'#2E6B57', date:'2026-08-24', tagText:'CW 1–2级 · 待重做', title:'让文字发出声音', en:'Writing with Sound', desc:'（其他 AI 所做，待重做）精读 Hopkins《The Windhover》，用朗读辨认头韵、元音和谐、不协和音与半押韵。', speaker:'Teacher Tim', length:'待重做'},
+  {file:'class-2026-08-24-ew-alex-l3-4.html', lastKey:'class-20260824-ew-alex-l34', teacher:'Alex', group:'class', type:'ew', level:3, accent:'#7A6A9E', date:'2026-08-24', tagText:'EW 3–4级 · 待重做', title:'自由如何写成一篇论证', en:'Turning Freedom into an Argument', desc:'（其他 AI 所做，待重做）围绕"自由意味着什么"完成四部分反思性议论文，用 PEEL 组织。', speaker:'Teacher Alex', length:'待重做'},
+  {file:'reading-talk-study.html', lastKey:'reading-talk', teacher:'圆桌', group:'talk', type:'outer', level:'', accent:'#2E6B57', date:'2024-08-04', tagText:'中文阅读专场', title:'小学孩子阅读的关键是什么？', en:'', desc:'言词 × 宁宇 × 清滢 × 李洋 四位老师圆桌：阅读是复杂社会行为、读了≠读懂、别功利化、扬长避短、家长怎么陪读。', speaker:'宁宇 · 清滢 · 李洋', length:'约115分钟 · 全中文'},
+  {file:'louise-talk-study.html', lastKey:'louise-talk', teacher:'Louise', group:'talk', type:'outer', level:'', accent:'#B0741E', date:'2025-03-28', tagText:'Inkhead 创意写作', title:'我们如何教孩子写作', en:'How We Teach Children Writing', desc:'Louise（伦敦 Inkhead 创始人）谈：为乐趣而读写、用文字作画、工作坊教学法、找到孩子的声音。', speaker:'Louise', length:'约60分钟 · 中英对照'},
+  {file:'chris-talk-study.html', lastKey:'chris-talk', teacher:'Chris', group:'talk', type:'outer', level:'', accent:'#2E5A66', date:'2025-03-09', tagText:'阅读能力专场', title:'到底什么是阅读能力', en:'What Is Reading, Really?', desc:'Teacher Chris 谈：阅读即诠释、诠释的四个层次、AI 时代还要读吗、四个常见难题、家长怎么检查。', speaker:'Teacher Chris', length:'约80分钟 · 中英对照'},
+  {file:'meeting-talk-study.html', lastKey:'meeting-talk', teacher:'言词', group:'talk', type:'inner', level:'', accent:'#7A6A9E', date:'2025-02-21', tagText:'内部运营会议', title:'播报老师如何抓课堂重点', en:'', desc:'言词与播报老师的内部会议：三门课分别怎么抓重点、做宣传素材、如何转述给家长（含翻译的重要性）。', speaker:'言词 × 播报组', length:'约14分钟 · 内部'},
+  {file:'syllabus1-talk-study.html', lastKey:'syllabus1-talk', teacher:'言词', group:'talk', type:'inner', level:'', accent:'#2E6B57', date:'2025-02-21', tagText:'教纲研读 ①', title:'研读新加坡文学教纲（上）', en:'MOE Literature in English Syllabus', desc:'研读新加坡教育部中学文学教纲：为什么世界领先、文学课培养什么样的人、认知/社交/情感三维度、思维导图笔记法。', speaker:'言词（Yanci）', length:'约66分钟 · 内部'},
+  {file:'syllabus2-talk-study.html', lastKey:'syllabus2-talk', teacher:'言词', group:'talk', type:'inner', level:'', accent:'#B0741E', date:'2025-03-14', tagText:'教纲研读 ②', title:'研读新加坡文学教纲（下）', en:'MOE Syllabus · Case Studies', desc:'文学课培养目标、批判性思考、精读 vs 泛读，配 Chris 课堂实录与学生案例。', speaker:'言词 × 唐慧 × Google', length:'约90分钟 · 内部'},
+  {file:'syllabus-ref.html', lastKey:'syllabus-ref', teacher:'MOE', group:'talk', type:'inner', level:'', accent:'#2E5A66', date:'2025-02-21', tagText:'配套参考', title:'新加坡文学教纲 · 参考页', en:'Reference', desc:'两场教纲研读的配套参考：核心框架、培养目标、能力维度，供随时查阅对照（含 CCSS 对照）。', speaker:'MOE 文件整理', length:'参考资料'}
 ];
-var CAT_NAMES = {classes:'🏫 课堂内容', reading:'📖 阅读', writing:'✍️ 写作', research:'🧭 教研 · 教纲', other:'📚 其他'};
-var CAT_ORDER = ['classes','reading','writing','research','other'];
-var sortMode = "new"; // new | old | recent
-function fmtDate(d){ return d.replace(/-/g,'.'); }
-
-function lastRead(key){ var v=parseInt(localStorage.getItem("__last_read_"+key)); return isNaN(v)?0:v; }
-function agoText(ts){
-  if(!ts) return "还没开始读";
-  var diff=Date.now()-ts, day=86400000;
-  if(diff<3600000) return "刚刚学过";
-  if(diff<day) return "今天学过";
-  if(diff<2*day) return "昨天学过";
-  var d=Math.floor(diff/day);
-  if(d<30) return d+" 天前学过";
-  var mo=Math.floor(d/30); return mo+" 个月前学过";
+var sortMode="new", curType=null, curLevel=null, filterTeacher=null, filterYear=null;
+function fmtDate(d){return d.replace(/-/g,'.');}
+function yearOf(c){return c.date.slice(0,4);}
+function lastRead(k){var v=parseInt(localStorage.getItem("__last_read_"+k));return isNaN(v)?0:v;}
+function agoText(ts){if(!ts)return"还没开始读";var d=Date.now()-ts,day=86400000;if(d<3600000)return"刚刚学过";if(d<day)return"今天学过";if(d<2*day)return"昨天学过";var n=Math.floor(d/day);return n<30?n+" 天前学过":Math.floor(n/30)+" 个月前学过";}
+function markActive(){
+  document.querySelectorAll('.nav-item').forEach(function(x){x.classList.toggle('active',x.dataset.type===curType&&curLevel===null);});
+  document.querySelectorAll('.nav-lv').forEach(function(x){x.classList.toggle('active',x.dataset.type===curType&&String(curLevel)===x.dataset.lv);});
 }
-
-function render(){
-  var box = document.getElementById('catalog');
-  box.innerHTML='';
-  document.getElementById('count').textContent = '共 ' + COURSES.length + ' 份学习资料';
-  CAT_ORDER.forEach(function(cat){
-    var items = COURSES.filter(function(c){return c.cat===cat;});
-    if(!items.length) return;
-    items.sort(function(a,b){
-      if(sortMode==='recent'){ return lastRead(b.lastKey)-lastRead(a.lastKey); }
-      return sortMode==='old' ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date);
+// 侧边：内容类型（课堂课型带级别子层 / 讲座内外）
+function buildTree(){
+  var nav=document.getElementById('tree');nav.innerHTML='';
+  function addSep(t){var s=document.createElement('div');s.className='nav-sep';s.textContent=t;nav.appendChild(s);}
+  function addClassType(t){
+    var inT=COURSES.filter(function(c){return c.type===t;}); if(!inT.length)return;
+    var el=document.createElement('div');el.className='nav-item has-sub open';el.dataset.type=t;
+    el.innerHTML=TYPE_NAMES[t]+'<span class="cnt">'+inT.length+'</span><span class="arw">▸</span>';
+    nav.appendChild(el);
+    var sub=document.createElement('div');sub.className='nav-sub';
+    var levels=[...new Set(inT.map(function(c){return c.level;}))].sort(function(a,b){return a-b;});
+    levels.forEach(function(lv){
+      var lvEl=document.createElement('div');lvEl.className='nav-lv';lvEl.dataset.type=t;lvEl.dataset.lv=String(lv);
+      lvEl.textContent=lv+' 级（'+inT.filter(function(c){return c.level===lv;}).length+'）';
+      lvEl.onclick=function(e){e.stopPropagation();curType=t;curLevel=lv;filterTeacher=null;filterYear=null;markActive();render();};
+      sub.appendChild(lvEl);
     });
-    var catDiv = document.createElement('div'); catDiv.className='cat';
-    var h = document.createElement('div'); h.className='cat-title'; h.textContent = CAT_NAMES[cat] || cat;
-    catDiv.appendChild(h);
-    items.forEach(function(c){
-      var a = document.createElement('a'); a.className='card'; a.href = c.file; a.style.setProperty('--accent', c.accent);
-      var enHtml = c.en ? '<div class="en">'+c.en+'</div>' : '';
-      a.innerHTML = '<div class="card-top"><span class="date">'+fmtDate(c.date)+'</span><span class="tag">'+c.tagText+'</span></div>'+'<h2>'+c.title+'</h2>'+ enHtml +'<div class="desc">'+c.desc+'</div>'+'<div class="meta"><span>🎙 '+c.speaker+'</span><span>⏱ '+c.length+'</span><span>📖 '+agoText(lastRead(c.lastKey))+'</span></div>'+'<span class="go">进入阅读</span>';
-      catDiv.appendChild(a);
-    });
-    box.appendChild(catDiv);
+    nav.appendChild(sub);
+    el.onclick=function(){
+      // 点课型名字：切换展开/折叠 + 选中该课型
+      el.classList.toggle('open');
+      curType=t;curLevel=null;filterTeacher=null;filterYear=null;markActive();render();
+    };
+  }
+  function addTalkType(t){
+    var n=COURSES.filter(function(c){return c.type===t;}).length; if(!n)return;
+    var el=document.createElement('div');el.className='nav-item';el.dataset.type=t;
+    el.innerHTML=TYPE_NAMES[t]+'<span class="cnt">'+n+'</span>';
+    el.onclick=function(){curType=t;curLevel=null;filterTeacher=null;filterYear=null;markActive();render();};
+    nav.appendChild(el);
+  }
+  addSep('🏫 课堂内容');
+  ['cw','ew','cn','en'].forEach(addClassType);
+  addSep('🎤 讲座');
+  ['inner','outer'].forEach(addTalkType);
+}function scopedList(){
+  return COURSES.filter(function(c){
+    if(c.type!==curType)return false;
+    if(curLevel!==null&&c.level!==curLevel)return false;
+    return true;
   });
 }
-function setSort(mode,btnId){
-  sortMode=mode;
-  ['sort-new','sort-old','sort-recent'].forEach(function(id){var b=document.getElementById(id);if(b)b.classList.toggle('on',id===btnId);});
-  render();
+function buildFilters(){
+  var inScope=scopedList();
+  // 老师
+  var tbox=document.getElementById('fl-teacher');tbox.innerHTML='';
+  var teachers=[...new Set(inScope.map(function(c){return c.teacher;}))];
+  var tAll=document.createElement('button');tAll.textContent='全部';tAll.className=!filterTeacher?'on':'';
+  tAll.onclick=function(){filterTeacher=null;render();};tbox.appendChild(tAll);
+  teachers.forEach(function(tc){var b=document.createElement('button');b.textContent=tc;b.className=(filterTeacher===tc)?'on':'';b.onclick=function(){filterTeacher=tc;render();};tbox.appendChild(b);});
+  if(teachers.length<=1)tAll.style.display='none';
+  // 年份
+  var ybox=document.getElementById('fl-year');ybox.innerHTML='';
+  var years=[...new Set(inScope.map(yearOf))].sort(function(a,b){return b.localeCompare(a);});
+  var yAll=document.createElement('button');yAll.textContent='全部';yAll.className=!filterYear?'on':'';
+  yAll.onclick=function(){filterYear=null;render();};ybox.appendChild(yAll);
+  years.forEach(function(yr){var b=document.createElement('button');b.textContent=yr;b.className=(filterYear===yr)?'on':'';b.onclick=function(){filterYear=yr;render();};ybox.appendChild(b);});
+  if(years.length<=1)yAll.style.display='none';
 }
+function render(){
+  if(!curType){ // 默认：展开最新一个类别
+    // 找"最新一门课"所属的 type
+    var newest=[...COURSES].sort(function(a,b){return b.date.localeCompare(a.date);})[0];
+    curType=newest?newest.type:'cw';
+    markActive();
+  }
+  buildFilters();
+  var list=COURSES.filter(function(c){
+    if(c.type!==curType)return false;
+    if(curLevel!==null&&c.level!==curLevel)return false;
+    if(filterTeacher&&c.teacher!==filterTeacher)return false;
+    if(filterYear&&yearOf(c)!==filterYear)return false;
+    return true;
+  });
+  document.getElementById('count').textContent=TYPE_NAMES[curType]+(curLevel!==null?('　·　'+curLevel+' 级'):'')+'　·　共 '+list.length+' 份'+(filterTeacher?('　·　'+filterTeacher):'')+(filterYear?('　·　'+filterYear+'年'):'');
+  var box=document.getElementById('catalog');box.innerHTML='';
+  if(!list.length){box.innerHTML='<div class="empty">这个类别下暂时还没有内容</div>';return;}
+  // 按年份分组
+  var years=[...new Set(list.map(yearOf))];
+  years.sort(function(a,b){ return sortMode==='old'?a.localeCompare(b):b.localeCompare(a); });
+  years.forEach(function(yr){
+    var arr=list.filter(function(c){return yearOf(c)===yr;});
+    arr.sort(function(a,b){
+      if(sortMode==='recent')return lastRead(b.lastKey)-lastRead(a.lastKey);
+      return sortMode==='old'?a.date.localeCompare(b.date):b.date.localeCompare(a.date);
+    });
+    var cat=document.createElement('div');cat.className='cat';
+    var h=document.createElement('div');h.className='cat-title';h.textContent=yr+' 年（'+arr.length+'）';cat.appendChild(h);
+    arr.forEach(function(c){
+      var a=document.createElement('a');a.className='card';a.href=c.file;a.style.setProperty('--accent',c.accent);
+      var enH=c.en?'<div class="en">'+c.en+'</div>':'';
+      var lvH=(c.level!==''&&c.level!=null)?('<span>🎯 '+c.level+' 级</span>'):'';
+      a.innerHTML='<div class="card-top"><span class="date">'+fmtDate(c.date)+'</span><span class="tag">'+c.tagText+'</span></div><h2>'+c.title+'</h2>'+enH+'<div class="desc">'+c.desc+'</div><div class="meta"><span>🎙 '+c.speaker+'</span>'+lvH+'<span>⏱ '+c.length+'</span><span>📖 '+agoText(lastRead(c.lastKey))+'</span></div>';
+      cat.appendChild(a);
+    });
+    box.appendChild(cat);
+  });
+}
+function setSort(m,id){sortMode=m;['sort-new','sort-old','sort-recent'].forEach(function(x){var b=document.getElementById(x);if(b)b.classList.toggle('on',x===id);});render();}
 document.getElementById('sort-new').onclick=function(){setSort('new','sort-new')};
 document.getElementById('sort-old').onclick=function(){setSort('old','sort-old')};
 document.getElementById('sort-recent').onclick=function(){setSort('recent','sort-recent')};
-render();
+document.getElementById('side-toggle').onclick=function(){var s=document.getElementById('side');s.classList.toggle('show');this.textContent=s.classList.contains('show')?'📂 收起导航':'📂 打开导航';};
+buildTree();render();
 (function(){
-  var CFG_GIST='__cfg_gist_id', CFG_TOKEN='__cfg_gist_token';
-  var box=document.getElementById('sync-box'), title=document.getElementById('sync-title'), dot=document.getElementById('st-dot');
-  var gid=document.getElementById('gist-id'), tok=document.getElementById('gist-token'), status=document.getElementById('sync-status');
-  var savedId=localStorage.getItem(CFG_GIST)||'', savedTok=localStorage.getItem(CFG_TOKEN)||'';
-  gid.value=savedId; tok.value=savedTok;
-  function refreshDot(){ var on=!!(localStorage.getItem(CFG_GIST)&&localStorage.getItem(CFG_TOKEN)); dot.className='st-dot'+(on?' on':''); }
-  refreshDot();
-  if(!(savedId&&savedTok))box.classList.add('open');
-  title.onclick=function(){box.classList.toggle('open')};
-  document.getElementById('sync-save').onclick=async function(){
-    var id=gid.value.trim(), t=tok.value.trim();
-    if(!id||!t){status.className='sync-status err';status.textContent='请把 Gist ID 和 Token 都填上';return}
-    status.className='sync-status';status.textContent='正在验证…';
-    try{
-      var r=await fetch('https://api.github.com/gists/'+id,{headers:{'Authorization':'token '+t,'Accept':'application/vnd.github+json'}});
-      if(!r.ok)throw new Error(r.status);
-      localStorage.setItem(CFG_GIST,id); localStorage.setItem(CFG_TOKEN,t); refreshDot();
-      status.className='sync-status'; status.innerHTML='✓ 已保存！现在打开下面任意讲座，都会自动同步。换设备只需在此再填一次。';
-    }catch(e){ status.className='sync-status err'; status.textContent='⚠ 验证失败：请检查 Gist ID 和 Token（Token 需勾选 gist 权限）'; }
-  };
-  document.getElementById('sync-clear').onclick=function(){
-    localStorage.removeItem(CFG_GIST); localStorage.removeItem(CFG_TOKEN); gid.value='';tok.value=''; refreshDot();
-    status.className='sync-status';status.textContent='已断开，改为仅本机保存。';
-  };
+var CFG_GIST='__cfg_gist_id',CFG_TOKEN='__cfg_gist_token';
+var box=document.getElementById('sync-box'),title=document.getElementById('sync-title'),dot=document.getElementById('st-dot');
+var gid=document.getElementById('gist-id'),tok=document.getElementById('gist-token'),status=document.getElementById('sync-status');
+gid.value=localStorage.getItem(CFG_GIST)||'';tok.value=localStorage.getItem(CFG_TOKEN)||'';
+function rd(){dot.className='st-dot'+((localStorage.getItem(CFG_GIST)&&localStorage.getItem(CFG_TOKEN))?' on':'');}
+rd();if(!(gid.value&&tok.value))box.classList.add('open');
+title.onclick=function(){box.classList.toggle('open')};
+document.getElementById('sync-save').onclick=async function(){
+var id=gid.value.trim(),t=tok.value.trim();
+if(!id||!t){status.className='sync-status err';status.textContent='请把 Gist ID 和 Token 都填上';return}
+status.className='sync-status';status.textContent='正在验证…';
+try{var r=await fetch('https://api.github.com/gists/'+id,{headers:{'Authorization':'token '+t,'Accept':'application/vnd.github+json'}});
+if(!r.ok)throw new Error(r.status);
+localStorage.setItem(CFG_GIST,id);localStorage.setItem(CFG_TOKEN,t);rd();
+status.className='sync-status';status.innerHTML='✓ 已保存！打开任意页面都会自动同步。';
+}catch(e){status.className='sync-status err';status.textContent='⚠ 验证失败：请检查 Gist ID 和 Token（需勾选 gist 权限）';}
+};
+document.getElementById('sync-clear').onclick=function(){localStorage.removeItem(CFG_GIST);localStorage.removeItem(CFG_TOKEN);gid.value='';tok.value='';rd();status.className='sync-status';status.textContent='已断开，改为仅本机保存。';};
 })();
 </script>
 </body>
