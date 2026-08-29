@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alex 创意写作课 Week 4 · 学习笔记本 | 犯罪现场写作工坊与罪犯档案</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="wrap">
+<aside class="ui">
+  <div class="map-title">课程学习地图</div>
+  <div class="map-sub">Teacher Alex · 创意写作 L7-8 · Week 4</div>
+  <nav class="map" id="map">
+    <div class="part">Part 1 · 回收上周:钩子与克制</div>
+    <a href="#s1"><span class="dot"></span>开场 · 总体反馈:hook</a>
+    <a href="#s2"><span class="dot"></span>暖场 · 花丛里找爱心</a>
+    <a href="#s3"><span class="dot"></span>朗读(1) · 走大 vs 给太多 ★</a>
+    <a href="#s4"><span class="dot"></span>朗读(2) · 第二人称凶手 & they ★</a>
+    <div class="part">Part 2 · 现场写作工坊</div>
+    <a href="#s5"><span class="dot"></span>看图 · 犯罪现场与作者的选择</a>
+    <a href="#s6"><span class="dot"></span>实时点评(1) · 计划≠故事、过度修饰 ★</a>
+    <a href="#s7"><span class="dot"></span>实时点评(2) · 别泄露头条、老爷钟 ★</a>
+    <a href="#s8"><span class="dot"></span>朗读 · 四段对照 + show don't tell ★</a>
+    <div class="part">Part 3 · 创造你的罪犯</div>
+    <a href="#s9"><span class="dot"></span>罪犯档案 · 两副面孔 + 作业 ★</a>
+    <div class="part">课后</div>
+    <a href="#s10"><span class="dot"></span>专业课程评析 ★</a>
+  </nav>
+</aside>
+
+<main>
+<header>
+  <div class="eyebrow ui">FOGG 创意写作课 · Level 7-8 · Teacher Alex</div>
+  <h1>Crime Scene Workshop: Hold Back<span class="zh-t">Week 4 创意写作课 —— 钩子与克制:一张图、限时写作、逐句实时点评,show don't tell,再设计你的罪犯</span></h1>
+  <div class="meta ui">
+    <span>授课：Teacher Alex</span>
+    <span>学生：Alice · Kaelyn · xuanying · Chen Yuhan</span>
+    <span>Level 7-8 · Week 4 · 约58分钟</span>
+  </div>
+</header>
+
+<div class="toolbar ui">
+  <button class="btn" id="drawer-btn">📒 生词本 · 划线 · 笔记</button>
+  <button class="btn" id="sync-btn"><span class="cloud-dot"></span>☁️ 同步</button>
+  <span class="fs-btns"><button class="fs-a1" id="fs-minus" title="缩小字体">A−</button><span class="fs-cur ui" id="fs-cur">标准</span><button class="fs-a2" id="fs-plus" title="放大字体">A+</button></span>
+  <button class="btn" id="bm-pin" title="把当前位置钉为书签">📌 钉这里</button><button class="btn" id="bm-go" title="跳回你钉的书签位置">🔖 回书签</button>
+  <button class="btn tts-btn" id="tts-trigger" title="朗读">🔊 朗读</button>
+  <span class="more-wrap">
+    <button class="btn more-btn" id="more-btn" title="更多">⋯ 更多</button>
+    <div class="more-menu" id="more-menu">
+    <a href="index.html">🏠 回到目录</a>
+    <button id="zh-toggle">显示全部中文</button>
+    <button class="gold-txt" id="export-btn">📤 导出学习笔记</button>
+    </div>
+  </span>
+  <span class="save-state" id="save-state">已就绪</span>
+</div>
+
+<!-- S1 -->
+<section id="s1">
+  <div class="sec-head"><span class="sec-num">01</span><h2>开场 · 问候与总体反馈:钩子(hook)——别在开头讲太多</h2></div>
+  <div class="sec-time ui">00:00 – 03:30</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>(寒暄)Alice 提醒老师声音太小;她打了羽毛球并赢了;Yuhan 期待周六去看 NE Show 彩排;xuanying 本周开始预考,"很紧张但我觉得我会考好"——Alex:"我喜欢你的自信,一点自信能让你过线"</li>
+    <li>对上周作业(故事前几段)的总评:"有非常出色的例子";但<b>一条共同反馈:hold back(按住)</b></li>
+    <li>Alex 的比喻:<b>hook(钩子)</b>——像钓鱼,先撒几粒面包屑让读者上钩,读者进来了再慢慢收线。"开头几行别讲太多故事"</li>
+  </ul>
+  </div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>这堂课的主题从第一分钟就定了:<b>克制</b>。上周作业是"写 2–3 段",Alex 看完的判断是——写得好,但仍然给太多。整堂课后面的实时点评几乎都围绕这一点。</li>
+    <li>"钓鱼"比喻值得记:hook 不是"抓眼球的第一句",而是<b>一整套"少给"的策略</b>——面包屑(crumbs)是小的、分次给的。</li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>xuanying:</b> Today is the start of my preliminary examinations. So I'm very stressed, but it's okay. I think I'll do well. I hope.</span><span class="sz"><b>xuanying:</b> 今天是我预考的开始。所以我很紧张,但没关系。我觉得我会考好。希望吧。</span></span> <span class="sent"><span class="se"><b>Alex:</b> I like your confidence. It's a good thing to think you want to do well. Sometimes with exams, instead of thinking "I hate exams, I'm going to do really badly," a little bit of confidence can get you over the line.</span><span class="sz"><b>Alex:</b> 我喜欢你的自信。想要考好是件好事。有时候考试的时候,与其想"我讨厌考试,我肯定考砸",一点自信就能让你过线。</span></span> <span class="sent"><span class="se"><b>Alex:</b> All of you wrote your introduction to a crime story, and there were some really excellent examples of how to start a good crime story. A little bit of overall feedback: try to hold back a little bit. I know it seems like you want to tell the story, but these kinds of stories work better if you give us a little bit of information — feeding us a few crumbs — a little hook that's just going to get us interested.</span><span class="sz"><b>Alex:</b> 你们都写了犯罪故事的开头,里面有一些非常出色的例子,展示了怎么开好一个犯罪故事。一点总体反馈:试着按住一点。我知道你们很想把故事讲出来,但这类故事在你只给一点点信息时效果更好——喂我们几粒面包屑——一个小钩子,刚好勾起我们的兴趣。</span></span> </p></div>
+<div class="quote"><span class="tag ui">Alex · 为什么叫"钩子"</span>
+<p class="en"><span class="sent"><span class="se">Once the reader's in, we hook them in. It's like a fish — we try and catch them. That's why I use the word hooks. So don't tell too much of the story in those opening lines.</span><span class="sz">读者一旦进来,我们就把他们钩住。就像钓鱼——我们要抓住他们。所以我才用"钩子"这个词。别在开头那几行讲太多故事。</span></span> </p></div>
+</section>
+
+<!-- S2 -->
+<section id="s2">
+  <div class="sec-head"><span class="sec-num">02</span><h2>暖场 · 花丛里找两颗真正的爱心</h2></div>
+  <div class="sec-time ui">03:30 – 08:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>图:一片心形花海,兔子、蜜蜂、亲吻的小鸟——Yuhan 先描述画面("橙兔子在给黑兔子送花束");Alex 引导:主题像是"爱",但这些花只是<b>近似心形</b>——里面藏着两颗<b>真正的爱心</b></li>
+    <li>xuanying 和 Alice 都"找到了",但用语言定位时反复"不是这个、不是这个"——最后 Alex 揭晓答案:一颗红心、一颗粉心,两人都没找对(xuanying "接近了")</li>
+    <li>本周观察游戏比前两周难:目标和干扰物几乎一样</li>
+  </ul>
+  </div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>连续第三周的观察热身,难度逐级上升:找一个异类(企鹅)→ 找九处差异 → <b>在一堆"几乎是"里找"真的是"</b>。这正是侦探(和读者)面对线索时的处境:真线索和假线索长得一样。</li>
+    <li>这一次没人找对,Alex 也没拖延——<b>热身的目的是打开注意力,不是必须成功</b>。三分钟收工。</li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Alex:</b> Tell me, Yuhan, what can you see here?</span><span class="sz"><b>Alex:</b> 告诉我,Yuhan,你在这里看到什么?</span></span> <span class="sent"><span class="se"><b>Yuhan:</b> I see a field of flowers, and there are bees and rabbits, and birds. I think the birds are kissing, and the orange rabbit is giving the black rabbit a bouquet of flowers.</span><span class="sz"><b>Yuhan:</b> 我看到一片花海,有蜜蜂、兔子,还有鸟。我觉得那两只鸟在亲吻,橙色的兔子在给黑色的兔子送一束花。</span></span> <span class="sent"><span class="se"><b>Alex:</b> Good. The theme here might be something like love. But look closely — these flowers, what kind of shape are they? Hearts. They're heart-shaped, but they're not perfect hearts. I would like you to find a full heart among these flowers. There should be two real hearts. You're going to have to come right up close to the screen.</span><span class="sz"><b>Alex:</b> 好。这里的主题大概是"爱"。但仔细看——这些花,是什么形状?心形。它们是心形的,但不是完美的心。我要你们在这些花里找出一颗完整的心。应该有两颗真正的心。你们得凑到屏幕跟前。</span></span> <span class="sent"><span class="se"><b>xuanying:</b> I think I found one. It's below the brown rabbit, in the middle of the two rabbits, but you have to move down… no, no, no — that one.</span><span class="sz"><b>xuanying:</b> 我觉得我找到一个。在棕色兔子下面,两只兔子中间,但你得往下移……不,不,不——那个。</span></span> <span class="sent"><span class="se"><b>Alex:</b> I'm going to give that a possible. Okay, I'm going to have to give you the answers, because I'm not sure either of us have got these. A red heart, a pink heart. xuanying was maybe on the right path — you were close.</span><span class="sz"><b>Alex:</b> 我给它一个"可能"。好吧,我得公布答案了,因为我不确定我们谁找对了。一颗红心,一颗粉心。xuanying 也许方向对了——你很接近。</span></span> </p></div>
+</section>
+
+<!-- S3 -->
+<section id="s3">
+  <div class="sec-head"><span class="sec-num">03</span><h2>作业朗读(1) · xuanying "走大" vs Alice "给太多" ★</h2></div>
+  <div class="sec-time ui">08:00 – 11:30</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>xuanying 的开头:</b>"时间序列中一个细小的错误引发巨大的动荡……在地球上、月球上、每一个多重宇宙里,人们把'错误'描述为重大的、改变一生的事件。对我来说,那个错误是 Brett。Brett Johnson。"——Alex:"我爱这个,很原创,这就是'go big'"</li>
+    <li>Alex 问灵感来自最近读的书吗?xuanying:"我没在读书"——Alex:"听到这个我有点失望"</li>
+    <li><b>Alice 的开头:</b>"新加坡季风季的湿热总让空气里有湿人行道和茉莉花的味道……在武吉知马自然保护区树冠下一个废弃的殖民时期碉堡深处,一块笔记本屏幕在黑暗中发亮"——<b>Alex 大赞前半:"你没有写'我们在新加坡,新加坡很热',这是极好的开头——直到 dark 为止"</b></li>
+    <li>后半:"屏幕上显示被盗的新加坡警方档案,记录着刚从罗马尼亚调来的 Evangeline Roux 督察的辉煌生涯;The Claw 用银色手术刀把她的脸从打印照片上划下来,钉在数字地图中央"——<b>Alex:给太多了。建议删掉"屏幕显示…",直接跳到手术刀那个动作</b></li>
+  </ul>
+  </div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>两个开头正好是<b>两种风格的样板</b>:xuanying 用抽象的宏大命题(时间、多重宇宙)压到一个名字上,反差制造钩子;Alice 用具体感官(湿热、茉莉、碉堡)建立场景——两种都被肯定。</li>
+    <li><b>Alice 的问题精确到了"哪一句"</b>:"stolen police files"和"newly transferred from Romania"是<b>背景信息</b>,一旦写出来,悬念就提前泄露了。Alex 的修改方案是"跳到动作"——<b>动作(划脸、钉图)本身就能暗示一切,不需要解释</b>。这是本课贯穿始终的原则:能用动作暗示的,不用叙述说明。</li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>xuanying:</b> A slight fault in the sequence of time causes a big disruption. On Earth, on the Moon, on every single multiverse, on every single planet we have, people describe faults as major, life-changing events. For me, that was Brett. Brett Johnson.</span><span class="sz"><b>xuanying:</b> 时间序列中一个细小的错误,引发巨大的动荡。在地球上、月球上、每一个多重宇宙、每一颗星球上,人们把"错误"描述为重大的、改变一生的事件。对我来说,那个错误是 Brett。Brett Johnson。</span></span> <span class="sent"><span class="se"><b>Alex:</b> I love this one, xuanying. Really nice, quite original. This kind of idea — it's like when we go big. "A single fault in the sequence of time." That's a really nice start, really nice wording. Alice, what have you got for us? Kind of a different approach.</span><span class="sz"><b>Alex:</b> 我爱这个,xuanying。很好,很原创。这种想法——就是"走大"。"时间序列中一个错误"。这是个很好的开头,措辞很好。Alice,你有什么?一种不同的路子。</span></span> <span class="sent"><span class="se"><b>Alice:</b> The heavy tropical heat of Singapore's monsoon season always made the damp air smell of wet pavement and blooming jasmine. Deep inside an abandoned colonial-era bunker hidden beneath the large canopy of Bukit Timah Nature Reserve, a single laptop screen glowed in the dark. The screen displayed stolen Singapore Police Force files detailing the brilliant career of Inspector Evangeline Roux, the newly transferred detective from Romania. The Claw carefully used a silver scalpel to slash Evangeline's face out of a printed photo, pinning it to the centre of a digital map of the island.</span><span class="sz"><b>Alice:</b> 新加坡季风季的湿热,总让潮湿的空气带着湿人行道和盛开茉莉的气味。在武吉知马自然保护区茂密树冠下一个废弃的殖民时期碉堡深处,一块笔记本屏幕在黑暗中发着光。屏幕上显示着被盗的新加坡警察部队档案,详细记录着刚从罗马尼亚调来的 Evangeline Roux 督察的辉煌履历。"The Claw" 小心地用一把银色手术刀,把 Evangeline 的脸从打印照片上划下来,钉在岛屿数字地图的正中央。</span></span> <span class="sent"><span class="se"><b>Alex:</b> Excellent, really nicely done. "The heavy tropical heat of Singapore's monsoon season" — I really appreciate that you've not written "We are in Singapore" or "It is hot in Singapore." The way you've done this is an excellent way to start — up until we get to "dark". The second part is where you give us maybe slightly too much. You've already put "stolen Singapore police files." Instead of "the screen displayed…", maybe jump straight to the action — the killer uses a silver scalpel to slash the face out of the picture. We're not giving too much backstory in that first paragraph.</span><span class="sz"><b>Alex:</b> 非常好,做得很漂亮。"新加坡季风季的湿热"——我很欣赏你没有写"我们在新加坡"或"新加坡很热"。你这种写法是极好的开头——直到"黑暗"为止。第二部分你给得可能稍微多了。你已经写了"被盗的新加坡警方档案"。与其写"屏幕上显示……",不如直接跳到动作——凶手用银色手术刀把脸从照片上划下来。第一段里不要给太多背景故事。</span></span> </p></div>
+</section>
+
+<!-- S4 -->
+<section id="s4">
+  <div class="sec-head"><span class="sec-num">04</span><h2>作业朗读(2) · Yuhan 的第二人称凶手 & Kaelyn 的 they 之争(续)★</h2></div>
+  <div class="sec-time ui">11:30 – 16:30</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>Yuhan 的开头用第二人称、凶手视角</b>:"你盯着她的尸体,一抹微笑爬上嘴角……在俱乐部看到她大笑旋转。很容易。往她的酒里滑一点东西,她就完了……她是那种软弱愚蠢的人,就像你曾经一样"——Kaelyn 识别出技巧:"从凶手视角讲"</li>
+    <li>Alex 的追问直指<b>人物一致性</b>:第一句让人以为是"滑溜、永远抓不到"的凶手;但"sloppy"、"她差点反击"又像是个失败者——<b>"你想展示凶手的什么?"</b></li>
+    <li><b>Kaelyn 的开头</b>更诗意:"他们的手摸向那个小装置。打火机,咔、咔。火焰在黑暗中跳起来。证据在咆哮的火中化为灰烬,烟的卷须爬出来,他们走开了。黑暗里的一抹污迹"</li>
+    <li>Alex:"上周我唯一的意见是什么?"Kaelyn 自己答:"给 they 一个性别"。Alex 再解释一遍:they 用来隐瞒身份"有点笨拙","让我们觉得作者在藏东西";替代:<b>the figure(人影)</b>、"a figure in a cloak"——中性但不露痕迹</li>
+  </ul>
+  </div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>Yuhan 的点评是本课最好的<b>人物一致性</b>示范:两句话给了两个互相矛盾的信号。Alex 没有说哪个对,而是问"你想要哪一个?"——<b>作者必须先决定人物是谁,文字才能统一</b>。</li>
+    <li>Kaelyn 的 they 是第二周被提起,说明<b>学生的写作习惯不会一次改掉</b>。Alex 的做法:让学生自己复述上周的意见(她记得),然后给一个新的具体替代词(the figure)。<b>重复、但每次给新工具。</b></li>
+    <li>注意 Alex 对 Kaelyn 描述的赞词:"characteristically excellent(一如既往地出色)"——先肯定她的强项(词汇、画面),再谈那个唯一的问题。</li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Yuhan:</b> You stare at her dead body, a smile crawling to the edges of your lips. Long lashes, red locks, and blank, unseeing blue eyes. You saw the girl at a club, laughing and twirling with her friends. It was easy. A little slip into her drink, and she was finished. She only came back to her senses at the last moment and tried to attack you. It was sloppy — but oh no, you couldn't let her win. Luckily, she was one of those weak, foolish people. Just like you were, once.</span><span class="sz"><b>Yuhan:</b> 你盯着她的尸体,一抹微笑爬上嘴角。长睫毛、红色卷发、空洞无神的蓝眼睛。你在俱乐部看到那个女孩,和朋友们大笑旋转。很容易。往她的酒里滑一点东西,她就完了。她只在最后一刻清醒过来,试图攻击你。做得草率——但不,你不能让她赢。幸运的是,她是那种软弱愚蠢的人。就像你曾经一样。</span></span> <span class="sent"><span class="se"><b>Alex:</b> Excellent. Kaelyn, what's the technique Yuhan has used there, from the ones we saw last week?</span><span class="sz"><b>Alex:</b> 非常好。Kaelyn,Yuhan 用的是我们上周看过的哪种技巧?</span></span> <span class="sent"><span class="se"><b>Kaelyn:</b> Is it the one where they're introducing the killer, or telling what happened?</span><span class="sz"><b>Kaelyn:</b> 是介绍凶手、或者讲发生了什么的那种吗?</span></span> <span class="sent"><span class="se"><b>Alex:</b> Excellent. We flip the perspective — we tell it from the point of view of the killer. Second person: "you stare at her." You've got straight into the mind of the killer. My question would be: what are we trying to show about the killer? Are we trying to show a really competent, slick killer that's never going to be caught? Or, you've used the word "sloppy" — they try, but things haven't quite come off? From the first line I thought, this is one of those slick killers that's impossible to catch. But the second part makes me think — actually, they're something of a failure, maybe.</span><span class="sz"><b>Alex:</b> 非常好。我们翻转了视角——从凶手的角度讲。第二人称:"你盯着她"。你直接进入了凶手的脑子。我的问题是:我们想展示凶手的什么?是一个非常能干、滑溜、永远抓不到的凶手?还是——你用了"草率"这个词——他们在努力,但事情没做成?从第一句我以为这是那种不可能抓到的滑溜凶手。但第二部分让我觉得——其实,他们也许有点失败。</span></span> </p></div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Kaelyn:</b> Their hands grasped for the small contraption. A lighter. Flick, flick. A flame, dancing in the dark, burst forth. The evidence crumbled to ash in the face of the roaring fire, tendrils of smoke crawling forth as they walked away. A smudge in the dark.</span><span class="sz"><b>Kaelyn:</b> 他们的手摸向那个小装置。一只打火机。咔、咔。火焰在黑暗中跳起来,喷薄而出。证据在咆哮的火焰面前化为灰烬,烟的卷须爬出来,他们走开了。黑暗里的一抹污迹。</span></span> <span class="sent"><span class="se"><b>Alex:</b> Excellent, this is a little bit more poetic. I like this. Now, what did I say to you last week, Kaelyn? What was my only issue?</span><span class="sz"><b>Alex:</b> 非常好,这个更诗意一些。我喜欢。那么,上周我跟你说了什么,Kaelyn?我唯一的意见是什么?</span></span> <span class="sent"><span class="se"><b>Kaelyn:</b> Maybe give the "they" a gender, or something.</span><span class="sz"><b>Kaelyn:</b> 也许给 "they" 一个性别,或者别的什么。</span></span> <span class="sent"><span class="se"><b>Alex:</b> We can use he, she, some people do use they. But if you're using "they" just because you want to keep it a secret, it can be a little bit clumsy, and it can make us think: this is the writer trying to hide something from us. You can say something like "the figure" — a figure in a cloak. It remains neutral, we don't know if it's a man or a woman, but without using "they". However — "flick, flick" — your description is characteristically excellent. Well done.</span><span class="sz"><b>Alex:</b> 我们可以用 he、she,有些人也用 they。但如果你用 "they" 只是为了保密,就会有点笨拙,让我们觉得:作者在向我们隐瞒什么。你可以说"那个身影"(the figure)——一个披着斗篷的身影。它保持中性,我们不知道是男是女,但不用 "they"。不过——"咔、咔"——你的描写一如既往地出色。做得好。</span></span> </p></div>
+</section>
+
+<!-- S5 -->
+<section id="s5">
+  <div class="sec-head"><span class="sec-num">05</span><h2>看图 · 犯罪现场:先描述,再决定"作者的选择"</h2></div>
+  <div class="sec-time ui">16:30 – 25:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>新图:两个穿西装的男人跪在一具尸体旁,房间昏暗——学生一分钟内在聊天框列出所见。Kaelyn 最全:"两个穿西装的男人、一具像女孩的遗体、昏暗、一个手提箱、一份报纸"</li>
+    <li>Alex 逐项校正:死者是<b>男人</b>不是女孩;腹部有<b>新鲜的血</b>("不是六个月后发现的尸体");不是篝火,是<b>灯笼(lantern)</b>;地点像<b>老宅/庄园</b>(从穿着和环境推断);Kaelyn 又发现<b>放大镜</b>;报纸旁还有一张<b>照片</b>;背景一个<b>旧行李箱(trunk)</b></li>
+    <li>任务:<b>暂停自己的故事,描述这个场景——发生了什么?</b>"这是练习,是玩,不用于你们的大故事"</li>
+    <li>写之前先谈<b>作者的选择</b>:第一人称还是第三人称?从谁的视角?现实的选择只有"中性第三人称"或"两个男人之一"——<b>不要从死者视角</b>(Alex 提到《The Lovely Bones》以死者鬼魂叙述的名句"我从来不喜欢我的凶手"作为反例)</li>
+    <li>Alex 的暗示:两人是<b>第一个到现场的</b>(没有别人、拿着灯笼);物品(放大镜、报纸、照片、箱子)<b>不必都有意义</b>——但如果有,"报纸和他的死之间也许有联系";<b>语气</b>可以严肃阴暗,也可以有幽默,"两人也许是朋友"</li>
+  </ul>
+  </div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>这节的教学设计是本单元的<b>标准动作</b>:观察→列清单→校正细节→写作。Alex 校正"女孩/男人"、"篝火/灯笼"不是挑错,而是在教<b>写作前的观察必须准确</b>——写错一个细节,读者的画面就崩了。</li>
+    <li>"物品不必都有意义"是一条反直觉的好原则:初学者会给每个道具找作用,结果故事变得刻意。<b>让有些东西只是环境,读者才会相信那些真正重要的线索。</b></li>
+    <li>Alex 提《The Lovely Bones》既是禁止、也是见识:告诉学生"死者视角"存在且有名作,但在这个练习里不准用——<b>知道边界外面是什么,才知道边界在哪。</b></li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Alex:</b> What can we see on the screen in front of us? Write this in the chat. One minute. Kaelyn, what can you see?</span><span class="sz"><b>Alex:</b> 我们面前的屏幕上能看到什么?写在聊天框里。一分钟。Kaelyn,你看到什么?</span></span> <span class="sent"><span class="se"><b>Kaelyn:</b> There are two men wearing suits, kneeling over what looks like the remains of a girl. The room is dimly lit, and there's a suitcase and a newspaper.</span><span class="sz"><b>Kaelyn:</b> 有两个穿西装的男人,跪在一具看起来像女孩的遗体旁。房间光线昏暗,有一个手提箱和一份报纸。</span></span> <span class="sent"><span class="se"><b>Alex:</b> Excellent, well spotted. Two men in suits, a newspaper on the side — we don't know what it says. xuanying, you've said it looks like a girl — from my screen it does not, in fact, look like a girl. It looks like another man. We can also see blood, all over his midriff. He's come to a sticky end. The blood looks fresh — this isn't a body they found after six months. It's not a campfire, it's in fact a lantern. And for me, this looks like an old house. Kaelyn spotted it — there's a magnifying glass on top of the newspaper. Next to the newspaper, a photo of some kind. And in the back, a trunk suitcase.</span><span class="sz"><b>Alex:</b> 非常好,观察得好。两个穿西装的男人,旁边一份报纸——我们不知道上面写什么。xuanying,你说看起来像女孩——从我的屏幕看,其实不像女孩。像另一个男人。我们还能看到血,他腹部到处都是。他死得很惨。血看起来是新鲜的——这不是六个月后才找到的尸体。那不是篝火,其实是一盏灯笼。在我看来,这像是一栋老房子。Kaelyn 发现了——报纸上面有一个放大镜。报纸旁边有一张照片。后面还有一个旧行李箱。</span></span> <span class="sent"><span class="se"><b>Alex:</b> Task then — not in your document. I want you to pause with your own stories. Sometimes it's good to take a step back. Describe the scene: what, essentially, has happened? But before we start — we need to talk about writers' choices. Are we going to use first person, third person? Whose perspective? Realistically, the options are a neutral third person, or one of these two men. We're not going to tell it from the perspective of the person lying on the ground.</span><span class="sz"><b>Alex:</b> 那么任务——不写在文档里。我要你们暂停自己的故事。有时候退一步是好事。描述这个场景:本质上,发生了什么?但在开始之前——我们得谈谈作者的选择。用第一人称还是第三人称?谁的视角?现实的选择是:中性的第三人称,或者这两个男人之一。我们不会从躺在地上的那个人的视角来讲。</span></span> <span class="sent"><span class="se"><b>Alex:</b> Although, interestingly, there's a book called The Lovely Bones. The first line is something like "I'd never liked my murderer" — it's told almost from the perspective of her ghost. However, keep away from that here. Objects don't have to be relevant. The magnifying glass, newspaper, photo, trunk — this might have no role in the story. But if you want, there's some connection between what he's read and the fact that he's been killed. Go with that. Think about the tone as well. It looks quite serious and dark, but there might be a bit of humour — maybe these guys are friends.</span><span class="sz"><b>Alex:</b> 不过有意思的是,有本书叫《可爱的骨头》。第一句大概是"我从来不喜欢我的凶手"——几乎是从她鬼魂的视角讲的。不过这里别用那个。物品不必都有意义。放大镜、报纸、照片、箱子——它们可能在故事里没有任何作用。但如果你愿意,他读到的东西和他被杀之间可以有联系。那就用它。也想想语气。它看起来很严肃、很暗,但也可以有点幽默——也许这两个人是朋友。</span></span> </p></div>
+</section>
+
+<!-- S6 -->
+<section id="s6">
+  <div class="sec-head"><span class="sec-num">06</span><h2>现场写作实时点评(1) · 计划不是故事、过度修饰、血是什么颜色 ★</h2></div>
+  <div class="sec-time ui">25:00 – 38:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>Alex 一边看学生文档一边点评。<b>Alice</b> 写"报纸大概是……"——Alex:"不,那句得删。你是作者,不是在描述你看到的。<b>别一边写故事一边写故事的计划</b>"</li>
+    <li><b>Kaelyn</b> 的"A flurry of rushed voices filled every crevice(匆促的人声灌满每道缝隙)"——Alex:词很美(flurry、crevice),但<b>它意味着房间里挤满了人</b>——和画面(两个人、寂静)冲突。<b>"我们不能只因为词好听就用它,要想它的效果"</b>——这就是 overwriting(过度修饰)</li>
+    <li><b>Yuhan</b> 让侦探把手指伸进血里——Alex 表示"喜欢,他爱亲手弄脏",但随后提醒<b>血的真实颜色</b>:"想想你流鼻血的时候——不是电影里的血"</li>
+    <li><b>xuanying</b> 用了 "velvet(天鹅绒)" 形容血——Alex 肯定</li>
+    <li>Alex 重申画面:两个人、似乎独自、第一个到场——"想改可以,但记住这一点"</li>
+  </ul>
+  </div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>"计划 vs 故事"是初学者最常见的混淆:在正文里写"这份报纸大概会成为线索"——那是作者的笔记,不是读者该看到的。<b>Alex 的判断标准:读者看到的每一句都必须是故事本身。</b></li>
+    <li>Kaelyn 的 flurry/crevice 是<b>overwriting 的教科书案例</b>:词汇越好的学生越容易犯——因为好词有自己的画面,会和场景打架。Alex 的检验法:<b>"这个词让读者听见/看见什么?"和你想要的一致吗?</b></li>
+    <li>"流鼻血"是把写作拉回<b>真实感官经验</b>的绝招:学生对血的印象全来自影视,而影视的血是假的。让描写回到自己身体经历过的东西——这是一切"写实"的起点。</li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Alex:</b> Alice — no, no, no. Sorry, Alice. That needs to go. "The newspaper was probably what…" — you're the author here. We're not just describing what we can see. Either be clear: they looked at the newspaper, one of them said… Don't combine the two. Don't write the plan for a story at the same time as you're writing the story.</span><span class="sz"><b>Alex:</b> Alice——不,不,不。抱歉,Alice。那句得删。"报纸大概是……"——你在这里是作者。我们不只是在描述看到的东西。要么说清楚:他们看了报纸,其中一个说……别把两者混在一起。别一边写故事,一边写故事的计划。</span></span> <span class="sent"><span class="se"><b>Alex:</b> It's good, Kaelyn — but watch out for overwriting. "A flurry of rushed voices filled every crevice." It's a really nice description, lovely vocabulary — flurry, crevice. But that makes it sound like it's very busy, lots of people around. What do we mean with these words? We don't just use them because they sound pretty. Imagine a body's been discovered — at the very least there's going to be a lot of whispering, maybe a scream. Think of the effect of what we're describing.</span><span class="sz"><b>Alex:</b> 写得好,Kaelyn——但要小心过度修饰。"匆促的人声灌满每道缝隙。"描写很美,词汇可爱——flurry、crevice。但它听起来像是很热闹,周围很多人。这些词是什么意思?我们不能只因为词好听就用。想象一具尸体被发现——至少会有很多窃窃私语,也许一声尖叫。想想我们所描写的东西的效果。</span></span> <span class="sent"><span class="se"><b>Alex:</b> I like it, Yuhan. Your detective likes to get his hands dirty — literally, puts his finger into the blood. Yep, it's blood. But think about this: if you've ever had a nosebleed — it's a very common thing — what do we notice about the colour of the blood? We're not thinking of a film version of blood. Think about what it actually looks like. Excellent — velvet. Very nice, xuanying.</span><span class="sz"><b>Alex:</b> 我喜欢,Yuhan。你的侦探喜欢弄脏自己的手——字面意义上,把手指伸进血里。对,是血。但想想这个:如果你流过鼻血——很常见的事——我们注意到血的颜色是什么样?我们想的不是电影版的血。想想它实际上是什么样子。非常好——天鹅绒。很好,xuanying。</span></span> </p></div>
+</section>
+
+<!-- S7 -->
+<section id="s7">
+  <div class="sec-head"><span class="sec-num">07</span><h2>实时点评(2) · 别泄露头条、体温、语气、大钟 ★</h2></div>
+  <div class="sec-time ui">38:00 – 45:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>xuanying 解释她的设定:<b>凶手在帮侦探办案——他自首了,但处于妄想状态,认为杀人时"有别人在控制他的身体"</b>——Alex:"我喜欢这个想法"</li>
+    <li>Alex 对 Kaelyn:"这次的第一句和你上次的完全不同,是另一种风格——很好"</li>
+    <li><b>Alice 写了"模糊的头条,关于一具失踪的尸体"——Alex:"别错过你的钩子。头条先放在那儿,一两段之后再带进来。你们似乎总想把一切都告诉我们。"</b></li>
+    <li>对 Yuhan 的"手指探血":更常见的是<b>摸脉搏、试体温</b>——"身体凉了说明死了一阵,还热说明刚发生;身体失去热量需要时间"</li>
+    <li><b>语气(tone)</b>:是 gothic horror(哥特恐怖)吗?还是另一种路子?——作者要决定</li>
+    <li>用词纠正:xuanying 的 <b>tattered → splattered</b>(tattered 是"破烂的",splattered 才是"溅开的")</li>
+    <li><b>Alice 的句子被大赞</b>:"在昏暗房间沉重的寂静里,侦探能听到走廊深处老爷钟稳定的滴答声"——"极好的张力,而且<b>贴合画面</b>:那里就该有座老爷钟。别用现代的东西"</li>
+    <li>Alex 提醒 Alice:"这桩可怕的罪案是更大阴谋的一部分"——<b>从旁观视角我们怎么知道?</b>也许需要一句话、一个叹气来传达</li>
+    <li>对 Yuhan:两个侦探之间的关系写得好——用 "Sir" 这样的称呼<b>展示</b>等级,而不是告诉</li>
+  </ul>
+  </div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>这节集中了本课最密集的"克制"训练:<b>头条内容不说</b>(留给后面)、<b>侦探不做电影动作</b>(摸脉搏而非探血)、<b>老爷钟而不是现代物件</b>(与画面一致)、<b>旁观视角不能读心</b>("更大阴谋"是谁知道的?)。</li>
+    <li>Alice 的老爷钟句子被表扬的理由值得记:①<b>声音制造寂静</b>(听得到滴答,说明多安静);②<b>细节与设定一致</b>(老宅 + 老爷钟)。好描写的两个标准,一句话都满足了。</li>
+    <li>"Sir"的点评是 show-don't-tell 的微观版本:<b>关系不用解释,用称呼和语气展示。</b></li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Alex:</b> xuanying, just explain to me — is the detective and the killer, is there some overlap there?</span><span class="sz"><b>Alex:</b> xuanying,给我解释一下——侦探和凶手,是不是有某种重叠?</span></span> <span class="sent"><span class="se"><b>xuanying:</b> No, because there's two people. The killer is the one helping the detective. He self-reported. But he feels like he's in a state of delusion, where he thinks someone else is controlling his body as he does those killings.</span><span class="sz"><b>xuanying:</b> 不是,因为是两个人。凶手是那个在帮侦探的人。他自首了。但他觉得自己处于一种妄想状态,认为他杀人的时候是别人在控制他的身体。</span></span> <span class="sent"><span class="se"><b>Alex:</b> Good. I like the thinking. Don't miss your hooks, Alice. "Smeared headline" — just leave it there for a moment, then we might bring it in a paragraph or two later. Don't be afraid to hold back. It's the same thing we see quite a lot — you guys seem to want to tell us everything. Step back a little bit and have a go at keeping some information back.</span><span class="sz"><b>Alex:</b> 好。我喜欢这个想法。别错过你的钩子,Alice。"模糊的头条"——先放在那儿,一两段之后再带进来。别怕按住。这是我们经常看到的同一件事——你们似乎总想把一切都告诉我们。退后一点,试试把一些信息留着。</span></span> <span class="sent"><span class="se"><b>Alex:</b> Yuhan, a small suggestion: maybe it's more like check for a pulse. In murder mysteries they check — is the body hot or cold? If they're cold, they've been dead for a period of time. If they're still warm, it's just happened. The body takes time to lose its heat. And xuanying — I think you mean "splattered". "Tattered" is a pair of trousers that are overly worn, with holes and rips.</span><span class="sz"><b>Alex:</b> Yuhan,一个小建议:也许更像是摸脉搏。在谋杀悬疑片里他们会检查——身体是热的还是凉的?如果凉了,说明已经死了一阵。如果还是温的,说明刚发生。身体失去热量需要时间。还有 xuanying——我想你要说的是 "splattered"(溅开)。"tattered" 是一条穿烂了、有洞有破口的裤子。</span></span> </p></div>
+<div class="quote"><span class="tag ui">Alex · 表扬 Alice 的一句:声音制造寂静</span>
+<p class="en"><span class="sent"><span class="se">"Through the heavy silence of the dimly lit room, the detective could hear the distant, steady ticking of a grandfather clock." That is fantastic. That is a really nice way to build the tension, and it also fits the image that we've got — there'll be a grandfather clock nearby. Don't use modern or different things that wouldn't make sense in our minds.</span><span class="sz">"在昏暗房间沉重的寂静里,侦探能听到远处老爷钟稳定的滴答声。"太棒了。这是制造张力的极好方式,而且它贴合我们的画面——那附近就该有座老爷钟。别用现代的、不合画面的东西。</span></span> </p></div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Alex:</b> "The gruesome crime scene's part of a larger conspiracy" — what we need to be careful of: can we tell that from a side? Maybe we need a comment there — someone sighs, someone says something. How do we know that that's what it expresses? Think about that in terms of accuracy. And Yuhan — I like that you've built up this relationship between our two detectives. Words like "Sir", the way they speak to each other — that's a really nice way of showing the relationship, the hierarchy, instead of telling us.</span><span class="sz"><b>Alex:</b> "这桩可怕的罪案是更大阴谋的一部分"——我们要小心的是:从旁观的角度我们能知道这个吗?也许需要一句话——有人叹气,有人说了什么。我们怎么知道那表达的是这个?从准确性的角度想想。还有 Yuhan——我喜欢你在两个侦探之间建立的关系。像 "Sir" 这样的词、他们互相说话的方式——这是展示关系、展示等级的好方法,而不是告诉我们。</span></span> </p></div>
+</section>
+
+<!-- S8 -->
+<section id="s8">
+  <div class="sec-head"><span class="sec-num">08</span><h2>朗读 · 四个人的前两句 + xuanying 的 show, don't tell ★</h2></div>
+  <div class="sec-time ui">45:00 – 50:30</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><b>Kaelyn</b>:"匆促的人声灌满每道腐烂的缝隙……一束孤光在幽暗中摇晃……'哎呀,没人告诉你别闯进别人家吗?'……高个子那个找到报纸,盯着头版上的男人"——Alex 再提"人声"与"寂静"的矛盾:<b>恐惧和张力在安静的地方生长</b>;"A singular beam swung in the gloom" 才是抓住那个场景的句子,建议直接删掉第一句</li>
+    <li><b>Yuhan</b>:"Gerald 盯着朱红的血,染红死者笔挺的衬衫,寂静在每个角落嗡鸣。助手安静地坐在角落等指令……他把手指探进血泊。新鲜的。他已经等了很久,不能再浪费时间"——Alex:"探血罕见",但"staining the shirt"很强;<b>引入助手是福尔摩斯式的设定,很好</b></li>
+    <li><b>Alice</b>:"棋盘格地板上的一盏灯笼投下长长的、摇曳的影子……侦探膝边一份被丢弃的报纸,头版是关于一具失踪尸体的模糊头条……老爷钟的滴答声从走廊回荡而来"——Alex:喜欢现在时;但<b>"别告诉我们头条是什么"</b>——电影里会先瞥一眼,后面才让观众看清报纸</li>
+    <li><b>xuanying</b>:"那深天鹅绒色的血,我确信,只是溅在地上的液体。我假装惊恐地退缩,侦探绕着尸体钻来钻去,举着放大镜对照报纸。'一天两起谋杀?真奇怪。'我不确定地笑笑,努力显得和他一样感兴趣"——<b>Alex:"记下来,这就是 show, don't tell"</b>——不说"这是他今天早上发现第一具尸体后的第二具",而是一句对白:"一天两起谋杀?"</li>
+  </ul>
+  </div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>四段朗读是同一张图的四种处理,放在一起看非常有教学价值:Kaelyn 靠意象、Yuhan 靠动作与关系、Alice 靠感官与寂静、xuanying 靠<b>不可靠的第一人称</b>("我假装惊恐"——叙述者就是凶手)。</li>
+    <li><b>xuanying 的 "Two murders in one day?" 是全课的高光</b>:一句 4 个词的对白同时完成了三件事——交代背景(今天已有一起)、暗示侦探的兴奋、暴露叙述者的伪装。这就是 show, don't tell 的最高形态:<b>用人物说的话代替作者的解释。</b></li>
+    <li>Alex 对 Kaelyn 的建议"直接删掉第一句"是一个重要的修改原则:<b>当一句好句子和一句更好的句子矛盾时,删掉较弱的那句,而不是试图调和。</b></li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Kaelyn:</b> Rushed voices filled every rotting crevice, every corner. A singular beam swung in the gloom, a trail of light. "My, my. Did no one tell you not to go venturing into other people's houses?" Leather shoes beat at the peeling tiles. The shadows inched nearer, nearer. The taller one found the newspaper, staring at the man plastered on the front cover. The other one bent over the body, studying every feature of the man's gone face.</span><span class="sz"><b>Kaelyn:</b> 匆促的人声灌满每道腐烂的缝隙、每个角落。一束孤光在幽暗中摇晃,一道光的轨迹。"哎呀。没人告诉你别闯进别人家吗?"皮鞋敲打着剥落的瓷砖。影子一寸寸逼近、逼近。高个子那个找到了报纸,盯着贴在头版上的男人。另一个俯身在尸体上,研究着那张逝去的脸的每一个特征。</span></span> <span class="sent"><span class="se"><b>Alex:</b> Very nice, Kaelyn. The thing I mentioned before — "rushed voices, every crevice" — the bit that comes next gives me the feeling that it's quite a silent place, a bit haunted. That feeling of fear or tension builds in a place that is quiet. If you've got lots of voices, you've got lots of people. I would maybe even just get rid of that. "A singular beam swung in the gloom" — that was much more emotive, it captures the feeling of that scene much better.</span><span class="sz"><b>Alex:</b> 很好,Kaelyn。我之前提的——"匆促的人声,每道缝隙"——接下来的部分让我觉得这是个很安静、有点闹鬼的地方。那种恐惧和张力是在安静的地方生长的。有很多人声,就有很多人。我甚至会直接删掉那句。"一束孤光在幽暗中摇晃"——那句情绪强得多,更好地抓住了那个场景的感觉。</span></span> <span class="sent"><span class="se"><b>Yuhan:</b> Gerald stared at the vermilion blood staining the crisp blouse of the dead man red, silence humming in every corner. His assistant sat quietly in the corner, waiting for instructions. Newspaper clippings were discarded at the side, magnifying glass forgotten. He dipped a finger precariously into the puddle dripping steadily onto the floor. Fresh. He had already waited for a long time. He couldn't afford to waste any more.</span><span class="sz"><b>Yuhan:</b> Gerald 盯着朱红的血,把死者笔挺的衬衫染成红色,寂静在每个角落嗡鸣。他的助手安静地坐在角落,等待指令。剪报被丢在一旁,放大镜被遗忘。他小心地把一根手指探进那滩正稳稳滴落到地板上的血泊。新鲜的。他已经等了很久。他不能再浪费时间。</span></span> <span class="sent"><span class="se"><b>Alex:</b> It's a bit rare that the detective will start putting their fingers in the blood. But I like the start — "staining the shirt", very strong. And the idea that you've introduced the assistant — this is a little bit of a Sherlock Holmes style. The assistant works quite nicely.</span><span class="sz"><b>Alex:</b> 侦探把手指伸进血里有点罕见。但我喜欢开头——"染红衬衫",很有力。还有你引入了助手——这有点福尔摩斯的风格。助手这个设定很好。</span></span> </p></div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Alice:</b> The single lantern resting on the checkered floor casts long, flickering shadows over the dead body and the two investigators kneeling beside him. Beside the detective's knee lies a discarded newspaper, its front page displaying a smeared headline about a missing dead body. Through the heavy silence of the dimly lit room, the detectives could hear the distant, steady ticking of a grandfather clock echoing from the hallway.</span><span class="sz"><b>Alice:</b> 棋盘格地板上的一盏灯笼,在尸体和跪在旁边的两位调查员身上投下长长的、摇曳的影子。侦探膝边躺着一份被丢弃的报纸,头版是一条关于失踪尸体的模糊头条。在昏暗房间沉重的寂静里,侦探们能听到老爷钟稳定的滴答声从走廊回荡而来。</span></span> <span class="sent"><span class="se"><b>Alex:</b> Really nice, Alice. I like the choice of present tense — it helps. But keep a bit of a hook: don't tell us what the headline is about. In a film they might just glance at it, and later on we look in and see exactly what's written. If you tell us it's about a missing dead body, we start to make those connections a little bit prematurely.</span><span class="sz"><b>Alex:</b> 很好,Alice。我喜欢现在时的选择——它有帮助。但留一点钩子:别告诉我们头条是什么。电影里他们可能只是瞥一眼,后面我们才凑近看清上面写了什么。如果你告诉我们是关于一具失踪的尸体,我们就会过早开始做那些联想。</span></span> <span class="sent"><span class="se"><b>xuanying:</b> The deep velvet blood, I was convinced, was just liquid splattered on the floor. I winced in fake horror as the detective weaselled his way around the corpse, holding up a magnifying glass as he referred to the newspaper. "Two murders in one day? How odd." I smiled uncertainly, trying to look as interested in this murder as he was.</span><span class="sz"><b>xuanying:</b> 那深天鹅绒色的血,我确信,只是溅在地上的液体。我假装惊恐地退缩,侦探绕着尸体钻来钻去,举着放大镜对照报纸。"一天两起谋杀?真奇怪。"我不确定地笑笑,努力显得和他一样对这桩谋杀感兴趣。</span></span> </p></div>
+<div class="quote"><span class="tag ui">Alex · 这就是 show, don't tell</span>
+<p class="en"><span class="sent"><span class="se">Take note — xuanying has done a really good job there. This is when we do our "show, don't tell". We don't say, "This was the second body he'd found after the first body that he found this morning." "Two murders in one day?" Bang. Tells us exactly what we need to know. Really, really good work.</span><span class="sz">记下来——xuanying 做得非常好。这就是我们说的"展示,不要告诉"。我们不说"这是他今天早上发现第一具尸体之后找到的第二具"。"一天两起谋杀?"砰。刚好告诉我们需要知道的一切。非常非常好。</span></span> </p></div>
+</section>
+
+<!-- S9 -->
+<section id="s9">
+  <div class="sec-head"><span class="sec-num">09</span><h2>罪犯档案 · 两副面孔、勒索、激情犯罪 + 本周作业 ★</h2></div>
+  <div class="sec-time ui">50:30 – 58:00</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li>Yuhan 朗读任务卡:<b>"有两张脸的男人或女人"</b>——"如果你要双面,至少让一面好看点";罪犯靠两张脸生存:示人的那张,和藏起来的真面目——尤其要藏过"他们最恨的生物:聪明的侦探"</li>
+    <li>Alex:很少有罪犯是 <b>brazen(明目张胆)</b>的——他们会展示一张"有责任感的社会成员"的脸,秘密才是真身。<b>像上周的侦探档案一样,做一份罪犯档案(criminal profile)</b></li>
+    <li>三种罪案:谋杀、珠宝大盗/抢劫、<b>blackmail(勒索)</b>——Kaelyn 定义:"掌握对方不想公开的信息,威胁'不照做就说出去'"</li>
+    <li><b>cold and calculated(冷酷算计的,如连环杀手)vs crime of passion(激情犯罪)</b>——后者"不是狡猾的凶手,只是某一刻爆发了";Alex:激情犯罪者也许没有第二张脸,珠宝大盗则一定有</li>
+    <li>名字先来(真名?绰号?),但别卡住;可用图像辅助。Yuhan 复习 alibi;Alex:<b>想动机时也想 alibi</b></li>
+    <li>Kaelyn 的设定"又加了一层",Alex:"我相信这个过程——但你得向我解释,我是读者也是老师,别对我保密"</li>
+    <li>名字点名:Ethan Stewart(Yuhan)、Lorenzo Moretti(Alice,"意大利人?好选择");Alex 推荐参考 <b>Dr Jekyll and Mr Hyde</b>;族裔同样重要——"50 岁超重男人和 22 岁利落的韩国女孩,整个故事都不一样"</li>
+    <li><b>作业:罪犯档案 + 一句话说明罪案是什么</b>("他是珠宝大盗"这样一句就够)——"不要细节,但我要知道类型";下周一前完成</li>
+  </ul>
+  </div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>"两张脸"是反派设计的核心原则,也直接接上 Week 2 的"栽赃"逻辑:<b>读者看到的是公众脸,凶手用它躲过怀疑。</b>反派档案不是"他多坏",而是"他怎么看起来不坏"。</li>
+    <li>cold/calculated vs passion 的区分决定整个故事的结构:前者需要计划、alibi、伪装,是 whodunit 的燃料;后者往往一开始就知道是谁,张力转向"为什么"和"会不会被抓"。<b>选罪犯类型 = 选故事类型。</b></li>
+    <li>Alex 对 Kaelyn 说"别对我保密"是本课一个重要的师生关系定义:<b>老师是第一读者,但也是编辑——作者对编辑必须透明,才能得到帮助。</b></li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Yuhan:</b> The man or woman with two faces. If you're going to be two-faced, at least make one of them pretty. Criminals rely on having two faces: the one they show the world, and the real one they try to conceal — especially from their most hated creatures, clever detectives. Who will your criminal be? A murderer? A jewel thief? A blackmailer? Will their crime be cold and calculated, or a crime of passion?</span><span class="sz"><b>Yuhan:</b> 有两张脸的男人或女人。如果你要双面,至少让其中一面好看点。罪犯靠两张脸生存:示人的那张,和他们试图隐藏的真面目——尤其要藏过他们最恨的生物:聪明的侦探。你的罪犯会是谁?杀人犯?珠宝大盗?勒索者?他们的罪行是冷酷算计的,还是激情犯罪?</span></span> <span class="sent"><span class="se"><b>Alex:</b> Very rarely does a criminal go, "Yeah, I'm the bad guy, I'm the killer." They show a different face — more caring, a responsible member of society — and the secret is that actually you are a secret killer, thief, whatever. Same as we did for the detective last week, we're going to do a profile. Blackmail — what do I mean by blackmail, Kaelyn?</span><span class="sz"><b>Alex:</b> 很少有罪犯会说"对,我是坏人,我是凶手"。他们展示另一张脸——更有爱心、有责任感的社会成员——而秘密是,其实你是个隐秘的杀手、小偷,随便什么。和上周做侦探一样,我们要做一份档案。勒索——勒索是什么意思,Kaelyn?</span></span> <span class="sent"><span class="se"><b>Kaelyn:</b> You have personal information about someone that they don't want the public to know, and you threaten them, saying, if you don't do something, I'm going to tell everyone about it.</span><span class="sz"><b>Kaelyn:</b> 你掌握某人不想让公众知道的个人信息,然后威胁他们:如果你不做某件事,我就告诉所有人。</span></span> <span class="sent"><span class="se"><b>Alex:</b> Excellent. Will the crime be cold and calculated — like a serial killer — or a crime of passion? Maybe they're not this cunning, clever murderer; maybe they just exploded in a certain moment. If it's a crime of passion, maybe they don't have such a secret face. But a jewel thief is going to have one side that really hides the other.</span><span class="sz"><b>Alex:</b> 非常好。罪行是冷酷算计的——像连环杀手——还是激情犯罪?也许他们不是那种狡猾聪明的凶手;也许只是在某一刻爆发了。如果是激情犯罪,也许他们没有那么隐秘的第二张脸。但珠宝大盗一定有一面用来藏住另一面。</span></span> <span class="sent"><span class="se"><b>Alex:</b> Kaelyn, I do trust you, but I'm confused — you've added another layer. I'm going to trust in the process. But that doesn't mean you don't need to do any work — explain it, lay it out to me. I am your reader, but I'm also your teacher. So don't worry about keeping it a secret from me. What do I call it when you give a reason to the police that there's no way you could have committed a crime? Begins with A. Yuhan?</span><span class="sz"><b>Alex:</b> Kaelyn,我信任你,但我有点糊涂——你又加了一层。我会相信这个过程。但这不意味着你不用做事——解释一下,给我摆出来。我是你的读者,但我也是你的老师。所以别担心对我保密。当你给警察一个理由证明你不可能犯罪,这叫什么?A 开头。Yuhan?</span></span> <span class="sent"><span class="se"><b>Yuhan:</b> Alibi.</span><span class="sz"><b>Yuhan:</b> Alibi(不在场证明)。</span></span> <span class="sent"><span class="se"><b>Alex:</b> Excellent. When you start to think about your motive, you might start to think about your alibi as well. Ethan Stewart, very nice. Lorenzo Moretti — I assume he's going to be Italian, good choice. You might think of some classic ones: Dr Jekyll and Mr Hyde, particularly when we're thinking about those two faces. And Alice — ethnicity might be important, like we saw with the detective.</span><span class="sz"><b>Alex:</b> 非常好。当你开始想动机时,也可以开始想不在场证明。Ethan Stewart,很好。Lorenzo Moretti——我猜他是意大利人,好选择。可以想想经典例子:化身博士(Dr Jekyll and Mr Hyde),尤其是在想"两张脸"的时候。还有 Alice——族裔可能很重要,就像我们在侦探那里看到的。</span></span> </p></div>
+<div class="quote"><span class="tag ui">本周作业 · 罪犯档案 + 一句话说明罪案</span>
+<p class="en"><span class="sent"><span class="se">For homework: the criminal profile. Also, think about the crime — what is the crime? Don't tell me the details, but what kind of thing are we talking about — a murder, a robbery, a thief? It can be one line: "he kills this", or "he is a jewel thief". I want to know, and then it's going to make more sense when I'm thinking about your criminal. Make sure this is ready before next Monday.</span><span class="sz">作业:罪犯档案。另外,想想罪案——罪案是什么?别告诉我细节,但是什么类型——谋杀、抢劫、小偷?可以只写一句:"他杀了这个人",或者"他是珠宝大盗"。我要知道,这样我看你的罪犯时才更能理解。下周一之前准备好。</span></span> </p></div>
+</section>
+
+<!-- S10 -->
+<section id="s10">
+  <div class="sec-head"><span class="sec-num">10</span><h2>专业课程评析 · 以世界级课程分析师的视角</h2></div>
+  <div class="sec-time ui">课后复盘</div>
+  <div class="keypoints ui"><b>要点</b><ul>
+    <li><i>以下是站在"世界级创意写作课程分析师"角度的复盘,供你(老师/学习者)参考,不是课堂原话。</i></li>
+    <li><b>这堂课好不好?</b> —— 这是四周里<b>"写作训练"含量最高的一堂</b>:一张图、二十分钟限时写作、老师逐句实时点评、四人朗读对照。它的价值不在新概念,而在<b>把前三周的原则(hook、克制、the hand of the author、show don't tell)在一次真实写作里全部激活</b>。可加强处:"罪犯档案"只剩 8 分钟,基本沦为布置作业;找爱心的热身没人成功、略显泄气</li>
+    <li><b>它到底教了什么?</b> —— 一条主线:<b>写作的每一句都要通过"效果测试"——读者从这句话里看见/听见/推断出什么?和你想要的一致吗?</b>由此派生出全部点评:flurry of voices(效果是热闹,与寂静冲突)、smeared headline(效果是泄露)、手指探血(效果是电影感,不真实)、"更大阴谋"(效果是作者读心)、老爷钟(效果是寂静 + 贴合设定 ✓)、"Two murders in one day?"(效果是四个字完成三件事 ✓)</li>
+    <li><b>我怎样才能学会?</b> —— 找任何一张"发生了什么"的图,先列清单(10 个可见物),再写 150 字。写完逐句问三个问题:①这句是故事还是我的计划?②这个好词的效果和场景一致吗?③这句泄露了我该留到后面的东西吗?</li>
+    <li><b>能应用在哪?</b> —— "效果测试"是所有写作的通用编辑标准(文案、报告、家长沟通:这句话让对方感觉到什么?);"先描述再写故事"两步法可以直接用在你自己的课堂;"两张脸"是理解任何反派、也是理解现实中欺骗行为的模型</li>
+  </ul>
+  </div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li><b>这堂课的设计逻辑(值得你备课借鉴):</b>作业朗读 + 反馈(回收上周原则)→ 观察热身 → 图像描述(输入)→ 讨论作者的选择(框架)→ 限时写作(输出)→ <b>实时逐句点评</b>(这是核心,20 分钟)→ 朗读对照 → 新任务(罪犯)。<b>输入-框架-输出-反馈,一堂课走完一个完整的写作循环。</b></li>
+    <li><b>Alex 实时点评的方法论:</b>①他不改学生的字,只指出"效果"与"意图"的差距,让学生自己改;②每次批评前先摘一句表扬("lovely vocabulary"、"staining the shirt, very strong");③一个问题只说一次、用一个具体例子。<b>这是你能直接搬进自己课堂的反馈模式。</b></li>
+    <li><b>一个值得注意的信号:</b>本课 Alex 说了三次"你们似乎总想把一切都告诉我们"。这个班的共同弱点已经非常清楚——<b>不是写不出,而是不会留白</b>。Week 5–9 的教学(反派、结构、修改)都会继续处理这一点。</li>
+    <li><b>留给你的一步:</b>用一句话回答——"这堂课教会我的一个技巧是____,我打算用它来写/做____。"写下来,它才真的属于你。</li>
+  </ul>
+  </div>
+<div class="quote"><span class="tag ui">一句话总结 · 这堂课的内核</span>
+<p class="en"><span class="sent"><span class="se">Every sentence has an effect, whether you meant it or not. A writer's job is to make the effect match the intention — and the surest way to fail is to say the thing out loud that the reader should have been left to hear.</span><span class="sz">每一句话都有效果,不管你是否有意。作者的工作是让效果与意图一致——而最保险的失败方式,就是把本该留给读者去听的东西大声说了出来。</span></span> </p></div>
+</section>
+
+
+<footer class="ui">整理自 FOGG Level 7-8 创意写作课 Week 4 课堂录音(约58分钟,全程) · 英文原文经口语清理 · 中文翻译供学习参考<br>💡 选中英文 → 弹出「高亮 / 查词 / 高亮+笔记」· 点已有高亮 → 菜单（写笔记 / 查词 / 删除）· 「📤 导出」一键打包全部笔记丢给 Claude</footer>
+</main>
+</div>
+
+<div id="hl-tip" class="ui">🖍 划线模式已开启 —— 选中英文文字即可高亮，点击已有高亮可删除</div>
+
+<div id="sel-pop" class="ui">
+  <button id="pop-hl">🖍 高亮</button><div class="sep"></div><button id="pop-dict">📖 查词</button><div class="sep"></div><button id="pop-note">📝 高亮+笔记</button>
+</div>
+<div id="dict-card" class="ui">
+  <button class="close-x" id="dc-close">✕</button>
+  <span class="dw" id="dc-word">…</span><span class="dp" id="dc-ph"></span><button class="say" id="dc-say" title="朗读">🔊</button>
+  <div class="zh-big loading" id="dc-zh-big">翻译中…</div>
+  <div class="dd" id="dc-def"></div>
+  <div class="dc-row"><button class="add" id="dc-add">＋ 存入生词本</button><button class="add mine" id="dc-mine" style="display:none">✓ 设为我的生词</button></div>
+</div>
+<div id="note-modal" class="ui">
+  <div class="box">
+    <div class="quote-ref" id="nm-quote"></div>
+    <textarea id="nm-text" placeholder="写下你的想法…"></textarea>
+    <div class="row"><button class="ok" id="nm-ok">保存笔记</button><button class="no" id="nm-cancel">取消</button></div>
+  </div>
+</div>
+<div id="mark-menu" class="ui">
+  <button id="mm-note">📝 写/改笔记</button>
+  <button id="mm-dict">📖 查这个词</button>
+  <button class="danger" id="mm-del">🗑 删除这条高亮</button>
+</div>
+
+<div id="share-modal" class="ui">
+  <div id="share-card">
+    <button class="sc-x" id="sc-x">✕</button>
+    <div class="sc-quote" id="sc-quote"></div>
+    <div class="sc-note" id="sc-note" style="display:none"></div>
+    <div class="sc-src"><span id="sc-src-txt"></span><span class="sc-brand">FOGG 学习笔记</span></div>
+    <div id="share-actions"><button class="cap" id="sc-cap">📸 截图保存</button><button class="cls" id="sc-close">关闭</button></div>
+  </div>
+</div>
+<div id="share-actions-wrap" style="display:none"></div>
+<div id="drawer" class="ui">
+  <div class="tabs">
+    <button data-tab="vocab" class="on">📖 生词本</button>
+    <button data-tab="hl">🖍 划线笔记</button>
+    <button data-tab="note">📝 总笔记</button>
+  </div>
+  <div class="pane on" data-pane="vocab">
+    <div class="vocab-stats">还不会 <b id="vc-unknown">0</b> ・ 已掌握 <b class="ok-n" id="vc-known">0</b> ・ 共 <span id="vc-total">0</span> 词　<span style="margin-left:auto;font-size:11px;color:#A8B8B4">点 ⭕ = 已掌握</span></div>
+    <div id="vocab-list"><p class="empty">还没有生词。选中英文单词 → 点「📖 查词收藏」。</p></div>
+  </div>
+  <div class="pane" data-pane="hl">
+    <div id="hl-list"><p class="empty">还没有划线。开启划线模式后选中英文文字试试。</p></div>
+  </div>
+  <div class="pane" data-pane="note">
+    <textarea id="global-note" style="width:100%;min-height:60vh;height:auto;border:1.5px solid #DDE6E3;border-radius:12px;padding:14px;font-size:14.5px;line-height:1.8;background:#FFFEF8;resize:vertical;box-sizing:border-box;overflow:hidden" placeholder="整场讲座的总结、想放进 course map 的点、要转述给家长的话术……"></textarea>
+  </div>
+</div>
+
+<div id="sync-modal" class="ui">
+  <div class="box">
+    <h3 style="color:var(--teal);margin-bottom:6px">☁️ 多设备同步设置</h3>
+    <p style="font-size:12.5px;color:#6B8480;line-height:1.7;margin-bottom:12px">填入你的 <b>Gist ID</b> 和 <b>GitHub Token</b>，划线/笔记就会存到云端。在每台设备上填同一组，就能看到相同内容。（留空 = 只用本机保存）</p>
+    <label style="font-size:12px;color:#8CA19D">Gist ID</label>
+    <input id="sync-gist" class="sync-inp" placeholder="例如 3a1b...（那串字母数字）">
+    <label style="font-size:12px;color:#8CA19D;margin-top:8px;display:block">GitHub Token</label>
+    <input id="sync-token" class="sync-inp" type="password" placeholder="ghp_ 或 github_pat_ 开头">
+    <div id="sync-status" style="font-size:12.5px;margin-top:10px;min-height:18px"></div>
+    <div class="row" style="margin-top:12px">
+      <button class="ok" id="sync-save">连接并同步</button>
+      <button class="no" id="sync-clear">断开（只用本机）</button>
+      <button class="no" id="sync-close2">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+window.PAGE_CONFIG={
+  key:'cls-20260720-cw-alex-l8-wk4',
+  title:'Alex 创意写作课 Week 4',
+  exportTitle:'Alex 创意写作课 Week 4 · 我的学习笔记',
+  preset:[{"word": "hook", "zh": "钩子(勾住读者的小信息)", "def": "Something at the start that catches the reader's interest."}, {"word": "hold back", "zh": "按住、保留(信息)", "def": "To keep information from the reader for now."}, {"word": "crumbs", "zh": "面包屑(一点点信息)", "def": "Tiny pieces; here, small bits of information."}, {"word": "overwriting", "zh": "过度修饰、堆砌辞藻", "def": "Using too many fancy words so the effect gets lost."}, {"word": "show, don't tell", "zh": "展示,不要告诉", "def": "Let the reader work things out from action and dialogue instead of explaining."}, {"word": "perspective", "zh": "视角", "def": "The point of view a story is told from."}, {"word": "second person", "zh": "第二人称(you)", "def": "Narration that addresses the character as 'you'."}, {"word": "present tense", "zh": "现在时", "def": "Telling the story as if it is happening now."}, {"word": "slick", "zh": "滑溜的、老练的", "def": "Smooth and skilful, hard to catch."}, {"word": "sloppy", "zh": "草率的、马虎的", "def": "Careless; not done well."}, {"word": "the figure", "zh": "那个身影(中性、不露痕迹的指代)", "def": "A person seen without knowing who they are."}, {"word": "lantern", "zh": "灯笼、提灯", "def": "A light in a case that can be carried."}, {"word": "magnifying glass", "zh": "放大镜", "def": "A lens that makes things look bigger."}, {"word": "trunk", "zh": "大行李箱", "def": "A large box for storing or carrying things."}, {"word": "midriff", "zh": "腹部、上腹", "def": "The middle part of the body between chest and waist."}, {"word": "come to a sticky end", "zh": "不得好死、死得很惨", "def": "To die or end badly."}, {"word": "flurry", "zh": "一阵(突然的忙乱)", "def": "A sudden short burst of activity."}, {"word": "crevice", "zh": "裂缝", "def": "A narrow crack or opening."}, {"word": "gloom", "zh": "幽暗", "def": "Partial or near darkness."}, {"word": "vermilion", "zh": "朱红色", "def": "A bright red colour."}, {"word": "splattered", "zh": "溅开的", "def": "Splashed in drops over a surface."}, {"word": "tattered", "zh": "破烂的、褴褛的", "def": "Old and torn."}, {"word": "grandfather clock", "zh": "落地大摆钟、老爷钟", "def": "A tall clock in a wooden case that stands on the floor."}, {"word": "gothic horror", "zh": "哥特恐怖(黑暗、古宅、超自然氛围)", "def": "A style of dark, gloomy horror often set in old buildings."}, {"word": "two-faced", "zh": "双面的、两面派的", "def": "Showing one face in public and hiding another."}, {"word": "brazen", "zh": "明目张胆的、厚颜的", "def": "Bold and shameless."}, {"word": "blackmail", "zh": "勒索、敲诈", "def": "Threatening to reveal a secret unless someone does what you want."}, {"word": "cold and calculated", "zh": "冷酷算计的", "def": "Planned carefully without emotion."}, {"word": "crime of passion", "zh": "激情犯罪", "def": "A crime committed in a sudden burst of strong emotion."}, {"word": "motive", "zh": "动机", "def": "The reason someone commits a crime."}]
+};
+</script>
+<script src="app.js"></script>
+</body>
+</html>
