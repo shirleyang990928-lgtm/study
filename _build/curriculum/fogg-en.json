@@ -1,0 +1,329 @@
+{
+ "id": "fogg-en",
+ "org": "FOGG",
+ "code": "EN",
+ "name": "英文文学精读",
+ "en": "English Literature Reading",
+ "accent": "#2E5A66",
+ "desc": "FOGG 英文文学精读:L1–L10,每级 4 本书(每本书一个单元)。基础阅读 → 深度理解 → 批判思维 → 学术表达。建议选择比当前年龄段低 1-2 级;蓝思值仅作参考。",
+ "levels": [
+  {
+   "level": 1,
+   "age": "9-10",
+   "lexile": "320L-680L",
+   "goal": "开启多元化的基础阅读",
+   "skills": "故事结构 | 识别观点 | 图文阅读 | 诗歌修辞",
+   "units": [
+    {
+     "id": "l01-u1-charlottes-web",
+     "n": 1,
+     "title": "夏洛的网",
+     "en": "Charlotte's Web"
+    },
+    {
+     "id": "l01-u2-who-was-leonardo",
+     "n": 2,
+     "title": "谁是达·芬奇",
+     "en": "Who Was Leonardo da Vinci"
+    },
+    {
+     "id": "l01-u3-new-kid",
+     "n": 3,
+     "title": "新来的孩子",
+     "en": "New Kid"
+    },
+    {
+     "id": "l01-u4-light-attic",
+     "n": 4,
+     "title": "阁楼上的光",
+     "en": "A Light in the Attic"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "age": "9-10",
+   "lexile": "600L-790L",
+   "goal": "学会读懂文字背后的深意",
+   "skills": "归纳主题 | 多视角 | 观点论述 | 叙事写作",
+   "units": [
+    {
+     "id": "l02-u1-coraline",
+     "n": 1,
+     "title": "鬼妈妈",
+     "en": "Coraline"
+    },
+    {
+     "id": "l02-u2-horrible-histories-groovy",
+     "n": 2,
+     "title": "恐怖的历史:古希腊人",
+     "en": "Horrible Histories: Groovy Greeks"
+    },
+    {
+     "id": "l02-u3-wonder",
+     "n": 3,
+     "title": "奇迹男孩",
+     "en": "Wonder"
+    },
+    {
+     "id": "l02-u4-pushing-up-sky",
+     "n": 4,
+     "title": "顶天立地",
+     "en": "Pushing Up the Sky"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "age": "10-11",
+   "lexile": "400L-810L",
+   "goal": "开启批判性阅读",
+   "skills": "社会背景分析 | 概括信息 | 同理心 | 诗歌象征",
+   "units": [
+    {
+     "id": "l03-u1-giver",
+     "n": 1,
+     "title": "记忆传授人",
+     "en": "The Giver"
+    },
+    {
+     "id": "l03-u2-science-comics-plagues",
+     "n": 2,
+     "title": "科学漫画:瘟疫",
+     "en": "Science Comics: Plagues"
+    },
+    {
+     "id": "l03-u3-bridge-to-terabithia",
+     "n": 3,
+     "title": "通往泰瑞比西亚的桥",
+     "en": "Bridge to Terabithia"
+    },
+    {
+     "id": "l03-u4-overheard-tower-block",
+     "n": 4,
+     "title": "Overheard in a Tower Block",
+     "en": "Overheard in a Tower Block"
+    }
+   ]
+  },
+  {
+   "level": 4,
+   "age": "10-11",
+   "lexile": "500L-890L",
+   "goal": "读懂复杂、多层次的文字",
+   "skills": "多线情节 | 作者意图 | 理解潜台词 | 对比手法",
+   "units": [
+    {
+     "id": "l04-u1-where-mountain-meets",
+     "n": 1,
+     "title": "月夜仙踪",
+     "en": "Where the Mountain Meets the Moon"
+    },
+    {
+     "id": "l04-u2-i-am-malala",
+     "n": 2,
+     "title": "我是马拉拉",
+     "en": "I Am Malala"
+    },
+    {
+     "id": "l04-u3-shiloh",
+     "n": 3,
+     "title": "喜乐与我",
+     "en": "Shiloh"
+    },
+    {
+     "id": "l04-u4-harry-potter-cursed",
+     "n": 4,
+     "title": "哈利·波特与被诅咒的孩子",
+     "en": "Harry Potter and the Cursed Child"
+    }
+   ]
+  },
+  {
+   "level": 5,
+   "age": "11-12",
+   "lexile": "530L-950L",
+   "goal": "掌握经典结构,深度理解主题",
+   "skills": "英雄之旅 | 隐喻理解 | 主题分析 | 诗歌解读",
+   "units": [
+    {
+     "id": "l05-u1-percy-jackson-lightning",
+     "n": 1,
+     "title": "波西·杰克逊与神火之盗",
+     "en": "Percy Jackson and the Lightning Thief"
+    },
+    {
+     "id": "l05-u2-when-stars-are",
+     "n": 2,
+     "title": "当星星散落",
+     "en": "When Stars Are Scattered"
+    },
+    {
+     "id": "l05-u3-bud-not-buddy",
+     "n": 3,
+     "title": "巴德,不是巴迪",
+     "en": "Bud, Not Buddy"
+    },
+    {
+     "id": "l05-u4-cast-away-poems",
+     "n": 4,
+     "title": "Cast Away: Poems for Our Time",
+     "en": "Cast Away: Poems for Our Time"
+    }
+   ]
+  },
+  {
+   "level": 6,
+   "age": "11-12",
+   "lexile": "720L-1040L",
+   "goal": "深度分析结构、逻辑、手法",
+   "skills": "复杂叙事 | 短篇的特点 | 说理逻辑 | 戏剧元素",
+   "units": [
+    {
+     "id": "l06-u1-blossom-firefly",
+     "n": 1,
+     "title": "花与萤火虫",
+     "en": "The Blossom and the Firefly"
+    },
+    {
+     "id": "l06-u2-lincoln-photobiography",
+     "n": 2,
+     "title": "林肯:摄影传记",
+     "en": "Lincoln: A Photobiography"
+    },
+    {
+     "id": "l06-u3-ten-sorry-tales",
+     "n": 3,
+     "title": "Ten Sorry Tales",
+     "en": "Ten Sorry Tales"
+    },
+    {
+     "id": "l06-u4-our-town",
+     "n": 4,
+     "title": "我们的小镇",
+     "en": "Our Town"
+    }
+   ]
+  },
+  {
+   "level": 7,
+   "age": "12-14",
+   "lexile": "680L-1110L",
+   "goal": "学会文学阅读与批判性阅读",
+   "skills": "文学评论 | 议论文写作 | 深层含义理解 | 诗歌叙事",
+   "units": [
+    {
+     "id": "l07-u1-martian",
+     "n": 1,
+     "title": "火星救援",
+     "en": "The Martian"
+    },
+    {
+     "id": "l07-u2-chew-on-this",
+     "n": 2,
+     "title": "快餐的恐怖真相",
+     "en": "Chew On This"
+    },
+    {
+     "id": "l07-u3-boy-striped-pyjamas",
+     "n": 3,
+     "title": "穿条纹衣的男孩",
+     "en": "The Boy in the Striped Pyjamas"
+    },
+    {
+     "id": "l07-u4-crossover-graphic-novel",
+     "n": 4,
+     "title": "The Crossover (Graphic Novel)",
+     "en": "The Crossover (Graphic Novel)"
+    }
+   ]
+  },
+  {
+   "level": 8,
+   "age": "12-14",
+   "lexile": "1000L-1090L",
+   "goal": "学会解构复杂文本,培养批判力",
+   "skills": "深刻主题 | 图像解读 | 复杂叙事 | 高级戏剧技巧",
+   "units": [
+    {
+     "id": "l08-u1-hobbit",
+     "n": 1,
+     "title": "霍比特人",
+     "en": "The Hobbit"
+    },
+    {
+     "id": "l08-u2-sapiens-graphic-history",
+     "n": 2,
+     "title": "人类简史:图像版",
+     "en": "Sapiens: A Graphic History"
+    },
+    {
+     "id": "l08-u3-curious-incident-dog",
+     "n": 3,
+     "title": "深夜小狗神秘事件",
+     "en": "The Curious Incident of the Dog in the Night-Time"
+    },
+    {
+     "id": "l08-u4-twelve-angry-men",
+     "n": 4,
+     "title": "十二怒汉",
+     "en": "Twelve Angry Men"
+    }
+   ]
+  },
+  {
+   "level": 9,
+   "age": "14-16",
+   "lexile": "870L-1000L",
+   "goal": "学习文学评论式阅读,驾驭复杂文本",
+   "skills": "整本书分析 | 观点提炼 | 诗歌演变 | 回答论文式问题",
+   "units": [
+    {
+     "id": "l09-u1-to-kill-mockingbird",
+     "n": 1,
+     "title": "杀死一只知更鸟",
+     "en": "To Kill a Mockingbird"
+    },
+    {
+     "id": "l09-u2-bobby",
+     "n": 2,
+     "title": "芭比",
+     "en": "Bobby"
+    },
+    {
+     "id": "l09-u3-100-poets",
+     "n": 3,
+     "title": "100 位诗人",
+     "en": "100 Poets"
+    }
+   ]
+  },
+  {
+   "level": 10,
+   "age": "14-16",
+   "lexile": "590L-990L",
+   "goal": "为文学类考试(IB / A Level)准备阅读与学术写作",
+   "skills": "多重叙事 | 多个短篇综合阅读 | 莎剧解读 | 回答论文式问题",
+   "units": [
+    {
+     "id": "l10-u1-maus",
+     "n": 1,
+     "title": "鼠族",
+     "en": "Maus"
+    },
+    {
+     "id": "l10-u2-illustrated-man",
+     "n": 2,
+     "title": "插图人",
+     "en": "The Illustrated Man"
+    },
+    {
+     "id": "l10-u3-macbeth",
+     "n": 3,
+     "title": "麦克白",
+     "en": "Macbeth"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,125 @@
+{
+ "id": "fogg-ew",
+ "org": "FOGG",
+ "code": "EW",
+ "name": "议论文写作",
+ "en": "Essay Writing",
+ "accent": "#7A6A9E",
+ "desc": "FOGG 议论文写作:目前没有官方等级表(仅 4 个班)。等级与单元先按报名等级暂放,以后补齐。",
+ "levels": [
+  {
+   "level": 1,
+   "age": "",
+   "goal": "(等级表待补)",
+   "units": [
+    {
+     "id": "l01-u1-tbd",
+     "n": 1,
+     "title": "单元 1(名称待定)",
+     "en": "Unit 1 (TBD)"
+    },
+    {
+     "id": "l01-u2-tbd",
+     "n": 2,
+     "title": "单元 2(名称待定)",
+     "en": "Unit 2 (TBD)"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "age": "",
+   "goal": "(等级表待补)",
+   "units": [
+    {
+     "id": "l02-u1-tbd",
+     "n": 1,
+     "title": "单元 1(名称待定)",
+     "en": "Unit 1 (TBD)"
+    },
+    {
+     "id": "l02-u2-tbd",
+     "n": 2,
+     "title": "单元 2(名称待定)",
+     "en": "Unit 2 (TBD)"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "age": "",
+   "goal": "(等级表待补)",
+   "units": [
+    {
+     "id": "l03-u1-tbd",
+     "n": 1,
+     "title": "单元 1(名称待定)",
+     "en": "Unit 1 (TBD)"
+    },
+    {
+     "id": "l03-u2-tbd",
+     "n": 2,
+     "title": "单元 2(名称待定)",
+     "en": "Unit 2 (TBD)"
+    }
+   ]
+  },
+  {
+   "level": 4,
+   "age": "",
+   "goal": "(等级表待补)",
+   "units": [
+    {
+     "id": "l04-u1-tbd",
+     "n": 1,
+     "title": "单元 1(名称待定)",
+     "en": "Unit 1 (TBD)"
+    },
+    {
+     "id": "l04-u2-tbd",
+     "n": 2,
+     "title": "单元 2(名称待定)",
+     "en": "Unit 2 (TBD)"
+    }
+   ]
+  },
+  {
+   "level": 5,
+   "age": "",
+   "goal": "(等级表待补)",
+   "units": [
+    {
+     "id": "l05-u1-tbd",
+     "n": 1,
+     "title": "单元 1(名称待定)",
+     "en": "Unit 1 (TBD)"
+    },
+    {
+     "id": "l05-u2-tbd",
+     "n": 2,
+     "title": "单元 2(名称待定)",
+     "en": "Unit 2 (TBD)"
+    }
+   ]
+  },
+  {
+   "level": 6,
+   "age": "",
+   "goal": "(等级表待补)",
+   "units": [
+    {
+     "id": "l06-u1-tbd",
+     "n": 1,
+     "title": "单元 1(名称待定)",
+     "en": "Unit 1 (TBD)"
+    },
+    {
+     "id": "l06-u2-tbd",
+     "n": 2,
+     "title": "单元 2(名称待定)",
+     "en": "Unit 2 (TBD)"
+    }
+   ]
+  }
+ ]
+}

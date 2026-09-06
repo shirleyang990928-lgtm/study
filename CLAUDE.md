@@ -3,46 +3,62 @@
 Shirley 的交互式 HTML 学习笔记本库,GitHub Pages 托管:
 https://shirleyang990928-lgtm.github.io/study/
 仓库:github.com/shirleyang990928-lgtm/study(Public)。只有 Shirley 一个人用。
+用途:公司不培训老师,她靠这个库自己学会每门课、并能回答家长。目标规模上千页。
 
 ## 你的任务
 
-把每堂课的 Zoom VTT 转录做成一个课堂页 HTML,放进对应单元文件夹,跑 `python _build/build_site.py`,`git push` 上线。
+把每堂课的 Zoom VTT 转录做成一个课堂页 HTML,放进对应班级文件夹,跑 `python _build/build_site.py`,`git push` 上线。
 **一次只做一堂课。做完停下来给 Shirley 验收,她说"继续"再做下一堂。** 每堂课之间 `/clear`。
 不要一次做多堂——历史证明一次做多会滑标准(要点概括代替原文)。
+每堂课页设计完全一样(只有文字不同),不要自创新版式;能省 token 就省,质量不能降。
 
 ## 当前状态(2026-09-06)
 
-- 2026-09-06 已完成目录重构(分类文件夹 + 自动目录 + 全文搜索)。
-- Alex CW L7-8 侦探单元:Week 1、Week 9 达标;**Week 2-8 需要重做**(结构对,但长段教学对白被"要点概括"了)。按本文标准从 Week 2 逐周重做,直接覆盖同名文件,key 不变。
-- Tim CW L1-2 Wk9、Alex EW L3-4 Wk9:旧版杂烩页,标 redo,以后重做。
+- 2026-09-06 完成骨架重构:分类改为 **课程 → Level → 单元 → 年份 → 老师班级 → 周课页**,总目录 index.html 改为单页应用(课程 tab、等级卡、单元卡、全文搜索、筛选)。
+- Alex CW Level 8「创作侦探故事」2026 S2 周一班:Week 1、Week 9 达标;**Week 2-8 需要重做**(结构对,但长段教学对白被"要点概括"了)。按本文标准从 Week 2 逐周重做,直接覆盖同名文件,key 不变。
+- Tim CW Level 2 Wk9、Alex EW Level 4 Wk9:旧版杂烩页,标 redo,以后重做。
+- 等级表:CW 12 级、EN 10 级、EW 6 级已录入(`_build/curriculum/`);CN 8 级只有级别、单元待 Shirley 给资料;EW 单元名是占位(tbd)。
+- 之后:2025 年全部班级数据导入(同单元跨年比较课程设计);其它公司课程作为新 org 加入。
+
+## 分类原则(Shirley 定的,不要改)
+
+- 按 FOGG 教材等级分类,不按 Zoom 班级名。Zoom 文件夹里的 "L7-8" 是招生范围,Alex 这个班上的教材是 **Level 8**。只按教材等级标注。
+- 每级每单元 10 周,每级两个单元 = 两个学期 = 20 课。
+- 每个单元只要**一套标准笔记**(选一个老师的班做底本,10 页);其他老师只有讲法明显不同才另做。同一单元同一年多个老师 → 单元页上一人一张老师卡(名字 + 风格一句话),点开看该老师的课表。
+- 组织写 "FOGG"(以后会加其它公司的课)。空的 Level / 单元也要显示(灰色"尚未整理")。
 
 ## 目录结构(不要改;新增内容只往这些文件夹里放)
 
 ```
-index.html                 总目录(静态,读 catalog.js;不用手改)
-catalog.js                 自动生成:全站页面索引
+index.html                 总目录(静态单页应用,读 catalog.js;不用手改内容,改 UI 才动它)
+catalog.js                 自动生成:全站索引 {generated, programs, classes, pages}
 search/<year>.js           自动生成:按年分片的全文搜索数据(搜索时才加载)
 app.css / app.js           全站共用样式与交互(生词本/划线/笔记/同步/朗读/书签)
-courses/<unit-id>/         一个班级单元一个文件夹
-   unit.json               单元信息(id/year/term/type/level/teacher/title/accent/outline…)
-   index.html              自动生成:单元总览页
-   wkNN-YYYY-MM-DD.html    课页,例 wk02-2026-07-06.html
+_build/curriculum/<program>.json   课程等级表:fogg-cw / fogg-en / fogg-cn / fogg-ew
+courses/<program>/<unit-id>/       一个单元一个文件夹
+   index.html                      自动生成:单元总览页(回到目录按钮、年份、老师卡、Wk1-10 清单)
+   <class-id>/class.json           班级信息(见下)
+   <class-id>/wkNN-YYYY-MM-DD.html 课页,例 wk02-2026-07-06.html
 talks/<year>/<date>-<slug>.html      外部讲座
 internal/<year>/<date>-<slug>.html   内部会议/教学大纲
 _build/                    构建脚本与样板(见流水线)
 ```
 
-- unit-id 格式:`<year><term>-<type>-l<level>-<teacher>-<weekday>`,例 `2026s2-cw-l7-8-alex-mon`。
-- type:cw=创意写作 ew=议论文 cn=中文阅读 en=英文精读。level 是字符串 "7-8"、"1-2"。
-- 新学期/新班级 = 新建 `courses/<unit-id>/unit.json`(照抄现有的改字段),课页放进去即可,目录自动出现。
-- 所有页面深度都是 2 层,资源路径一律 `../../app.css`、`../../app.js`,返回目录 `../../index.html`。
-- 每页 `<head>` 里有 `<script type="application/json" id="page-meta">{key,kind,unit,week,status,date,title,en,desc,speaker,length,tags}</script>`,这是目录/搜索的唯一数据源。status:ok / redo / draft。
-- `python _build/build_site.py` 会校验(key 重复、文件名与 meta 不一致、路径写法错)并生成 catalog.js、search/、各单元 index.html。**改了任何页面或 unit.json 都要重跑,再 push。**
+- program id:`fogg-cw`(创意写作) `fogg-en`(英文精读) `fogg-cn`(中文阅读) `fogg-ew`(议论文)。
+- unit-id 格式:`l<level 两位>-u<1|2>-<slug>`,例 `l08-u1-crime-story`。必须与 curriculum json 里 `levels[].units[].id` 一致。
+- class-id 格式:`<year><term>-<teacher>-<weekday>`,例 `2026s2-alex-mon`。
+- class.json 字段:`id, year, term, teacher, weekday, zoom(Zoom 文件夹名), enroll(招生范围), standard(是否底本), style(风格一句话), students, speaker, length, outline[]`。
+- 新班级 = 新建 `courses/<program>/<unit-id>/<class-id>/class.json`(照抄现有的改字段),课页放进去,目录自动出现。新单元 = 先在 curriculum json 里有条目。
+- 课页深度都是 4 层,资源路径一律 `../../../../app.css`、`../../../../app.js`,回到目录 `../../../../index.html`,本单元总览 `../index.html`。
+- 每页 `<head>` 里有 `<script type="application/json" id="page-meta">{key,kind:"lesson",program,unit,class,week,status,date,title,en,desc,speaker,length,tags}</script>`,这是目录/搜索的唯一数据源。status:ok / redo / draft。
+- `python _build/build_site.py` 会校验(key 重复、文件名与 meta 不一致、路径写法错、unit/class 是否存在)并生成 catalog.js、search/、各单元 index.html。**改了任何页面、class.json 或 curriculum 都要重跑,再 push。**
+- 总目录 hash 路由:`#fogg-cw` 选课程,`#fogg-cw/l8` 跳到 Level 8 卡片,`#?q=词&t=老师&y=年&s=状态&o=排序&all=1` 是搜索/列表状态。
 
 ## 页面架构(不要改)
 
-- 每页 = 内容 HTML + `<link rel="stylesheet" href="../../app.css">` + `window.PAGE_CONFIG={key,title,exportTitle,preset}` + `<script src="../../app.js"></script>`
-- app.js 自动注入全套 UI,**页面里不要手写这些 UI**。改功能只改 app.js/app.css 一处。
+- 每页 = 内容 HTML + `<link rel="stylesheet" href="../../../../app.css">` + `window.PAGE_CONFIG={key,title,exportTitle,preset}` + `<script src="../../../../app.js"></script>`
+- **工具栏/菜单/弹窗的 HTML 写在每页里(由 `_build/templates/lesson.html` 提供),app.js 按元素 id 绑定行为。** 改功能只改 app.js/app.css + 模板一处;老页面要同步改就用脚本批量替换。
+- 左侧栏底部固定「回到目录」「本单元总览」两个按钮;「更多」里只留 显示全部中文 + 导出笔记。不要加 emoji。
 - 对白段必须用 `<div class="para dialog">`(app.css 里 `.para.dialog .sent{display:block}`)。
 - 云同步靠 Gist(用户浏览器 localStorage 里存 id/token,不进仓库),存储键来自 PAGE_CONFIG.key,**同一课的 key 不能变,且必须与 page-meta.key 一致**(否则用户笔记丢失)。
 - PAGE_CONFIG.key 格式:`cls-YYYYMMDD-<type>-<teacher>-l<level>-wk<week>`,例 `cls-20260706-cw-alex-l8-wk2`(老页面沿用旧 key,不改)。
@@ -50,13 +66,13 @@ _build/                    构建脚本与样板(见流水线)
 ## VTT 来源(不要复制进仓库!含学生姓名,仓库是 Public)
 
 `C:\Users\shirl\Desktop\FOGG Skill Work\Zoom_Transcripts\<账号>\2026_S2\<班级名称>\<VTT>`
-账号:camp / siyanci / zoom1 / zoom3。Alex CW L7-8 周一班在 `…\2026_S2\CW_26_S2_MON_L7-8_Alex\`。
+账号:camp / siyanci / zoom1 / zoom3。Alex CW 周一班在 `…\2026_S2\CW_26_S2_MON_L7-8_Alex\`(class.json 的 zoom 字段)。
 文件名 = 日期 + Zoom 课程标题 + 录制 ID。同步脚本 `FOGG Skill Work/zoom-api/sync-zoom-transcripts.ps1`,日志 `Zoom_Transcripts/_sync-index.jsonl`。
 中间产物(blocks/body/nav/preset/meta)放在 scratchpad 或仓库根目录(已 .gitignore),不要提交。
 
 ## 课堂页质量标准(死线 — 只能更好,不能更差)
 
-以 `_build/TEMPLATE-week1-standard.html`(= courses/2026s2-cw-l7-8-alex-mon/wk01-2026-06-29.html)为样板,逐条对照:
+以 `_build/TEMPLATE-week1-standard.html`(= courses/fogg-cw/l08-u1-crime-story/2026s2-alex-mon/wk01-2026-06-29.html)为样板,逐条对照:
 
 1. **逐句还原师生对白(最重要,Shirley 反复纠正过 3 次)**
    - 除了纯寒暄(吃了什么/去哪玩)可压成要点,**一进入任何教学内容就逐句还原成中英对照对白**,老师和学生的话都要。
@@ -81,13 +97,17 @@ python _build/vtt2blocks.py "<VTT 完整路径>" wkN_blocks.txt      # 按说话
 # 完整读 wkN_blocks.txt(分段读,不要只读开头),规划 Part/section
 # 写 build_wkN.py(仿 _build/build_wk1_v3.py):D()/DIALOG()/Q()/KP()/EX()/sec() → wkN_body.html
 # 写 wkN_nav.html、wkN_preset.json、wkN_meta.json
-#   meta.json: {"unit":"2026s2-cw-l7-8-alex-mon","week":N,"date":"YYYY-MM-DD","key":"cls-…","title":"中文题","en":"EN Title","desc":"一句话","status":"ok"}
+#   meta.json 必填: {"program":"fogg-cw","unit":"l08-u1-crime-story","class":"2026s2-alex-mon",
+#                    "week":N,"date":"YYYY-MM-DD","key":"cls-…","title":"中文题","en":"EN Title",
+#                    "desc":"一句话","status":"ok"}   可选: tags, length, speaker, students
+#   老师/学期/单元名/课程名由 class.json + curriculum json 自动填
 python _build/assemble.py wkN_meta.json wkN_nav.html wkN_body.html wkN_preset.json
-#   → 写出 courses/<unit>/wkNN-YYYY-MM-DD.html(以 Week1 页为外壳)
+#   → 用 _build/templates/lesson.html 写出 courses/<program>/<unit>/<class>/wkNN-YYYY-MM-DD.html
 python _build/build_site.py                                      # 校验 + 生成目录/搜索/单元页
-node _build/testwkX.js courses/<unit>/wkNN-YYYY-MM-DD.html       # 章节/导航/双框/对白段/句对/紫词/朗读/键/乱码
+node _build/testwkX.js courses/<program>/<unit>/<class>/wkNN-YYYY-MM-DD.html   # 可一次传多个文件
+#   检查:章节/导航/双框/对白段/句对/紫词/朗读/键/乱码/侧栏底部
 ```
-需要 `npm install jsdom` 一次(node_modules 已 .gitignore)。测试输出里"乱码"必须为 0,"meta.key … OK"。
+需要 `npm install jsdom` 一次(node_modules 已 .gitignore)。测试输出里"乱码"必须为 0,"键: OK","侧栏底部: 2"。
 
 本地预览:Browser 面板用 `.claude/launch.json` 里的 `study-site`(python http.server 8765),打开 http://localhost:8765/。file:// 打开没有 JS,不要用。
 
@@ -98,24 +118,26 @@ node _build/testwkX.js courses/<unit>/wkNN-YYYY-MM-DD.html       # 章节/导航
 - Python `str.replace()` 替换串里有 `$` 会出错 → 用 `re.sub(..., lambda m: content, ...)`。
 - f-string 里不能出现裸 `};` → 拼接字符串。
 - Windows 上 Python 的 open() 要用 `C:\...` 路径,`/c/...` 会找不到文件;Bash/node 两种都行。
+- Bash heredoc 会吞掉反斜杠(即使 `<<'EOF'`)。含反斜杠的内容用 Python `chr(92)` 拼,或用 Write 工具。
+- 跑 python 前一定 `export PYTHONIOENCODING=utf-8`,否则中文输出乱码。
 - 中文标点/引号混入 JS 单引号字符串会破坏页面 → 改完跑 build_site.py + testwkX.js。
 - Alex 的教学脉络以 VTT 为准,不要靠周次标题猜内容(Week 3 实际讲的是"开头五种方式",不只是角色)。
 - 改了 app.css/app.js 要一起 push,否则页面样式不生效。
-- 不要手改 catalog.js、search/*.js、courses/*/index.html,它们是生成物。
+- 不要手改 catalog.js、search/*.js、courses/*/*/index.html,它们是生成物。
 
-## 侦探单元 9 周脉络(Alex · CW L7-8 · 2026 S2 · 周一)
+## 侦探单元 9 周脉络(Alex · CW Level 8 · 2026 S2 · 周一)
 
 W1 观察与推理 deduce → W2 玩弄读者怀疑(一级/二级、frame 嫁祸、审问问题、打造侦探) → W3 分享侦探 + 开头五种方式 + 视角代词 → W4 开头反馈、看图写场景、作者的选择、反派档案 → W5 连环杀手、侦探即凶手、三法则、red herring、先写结局 → W6 逆向工程、Cluedo 群戏、动机+alibi → W7 逐句精修、克里斯蒂视频、人物层次、奖杯失窃案 → W8 工坊互评、解谜、riddle vs story → W9 从谜题到故事(已上线)
 
 ## 之后的规划
 
-- 从 Week 2 逐周重做(一次一堂,验收后再下一堂)。
-- 之后重做 Tim CW L1-2 Wk9、Alex EW L3-4 Wk9(旧版杂烩页)。
-- 新班级/新学期:新建 unit.json 即可,结构已支持上千页。
+- 从 Week 2 逐周重做(一次一堂,验收后再下一堂),再补 Week 10。
+- 之后重做 Tim CW Level 2 Wk9、Alex EW Level 4 Wk9(旧版杂烩页)。
+- 导入 2025 数据(新 class.json 放同一 unit 文件夹下),CN 单元表、EW 单元名等 Shirley 给资料再补。
 
 ## 和 Shirley 协作的方式
 
 - 中文沟通,她用语音转文字,可能有错字,按意思理解。
-- 她要一次做对,不要来回挤牙膏。不确定就问,别自作主张。
+- 她要一次做对,不要来回挤牙膏。不确定就先问,别自作主张。
 - 做错了直接承认并修,不要过度道歉。
 - 每做完一堂:报告章节数/句对数/测试结果,给出线上链接,等她验收。

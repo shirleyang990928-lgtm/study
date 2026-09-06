@@ -1,0 +1,239 @@
+{
+ "id": "fogg-cw",
+ "org": "FOGG",
+ "code": "CW",
+ "name": "创意写作",
+ "en": "Creative Writing",
+ "accent": "#C0603A",
+ "desc": "FOGG 创意写作能力进阶:L0–L11,每级两个单元,每单元 10 周(= 一个学期)。",
+ "levels": [
+  {
+   "level": 0,
+   "age": "8-9",
+   "goal": "掌握基本故事结构、塑造人物和场景、激发表达欲",
+   "units": [
+    {
+     "id": "l00-u1-my-first-story",
+     "n": 1,
+     "title": "我的第一个故事",
+     "en": "My First Story"
+    },
+    {
+     "id": "l00-u2-book-of-hopes",
+     "n": 2,
+     "title": "希望之书",
+     "en": "The Book of Hopes"
+    }
+   ]
+  },
+  {
+   "level": 1,
+   "age": "9-10",
+   "goal": "写短篇故事、从民间故事与名著中汲取灵感、建立描写语言",
+   "units": [
+    {
+     "id": "l01-u1-year-full-of-stories",
+     "n": 1,
+     "title": "一年的故事",
+     "en": "A Year Full of Stories"
+    },
+    {
+     "id": "l01-u2-just-so-stories",
+     "n": 2,
+     "title": "动物起源故事",
+     "en": "Just So Stories (Animal Creation Story)"
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "age": "9-10",
+   "goal": "生动描写、Show not tell、独特视角",
+   "units": [
+    {
+     "id": "l02-u1-painting-with-words",
+     "n": 1,
+     "title": "写出画面感",
+     "en": "Painting with Words"
+    },
+    {
+     "id": "l02-u2-travel-writing",
+     "n": 2,
+     "title": "旅行故事",
+     "en": "Travel Writing"
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "age": "10-11",
+   "goal": "扎实的故事结构、冲突与解决、主题",
+   "units": [
+    {
+     "id": "l03-u1-how-to-write-a-good-story",
+     "n": 1,
+     "title": "如何写出好故事",
+     "en": "How to Write a Good Story"
+    },
+    {
+     "id": "l03-u2-brave-new-world",
+     "n": 2,
+     "title": "打造新世界",
+     "en": "Brave New World"
+    }
+   ]
+  },
+  {
+   "level": 4,
+   "age": "10-11",
+   "goal": "节奏与氛围、对话、把想象力和技巧结合起来",
+   "units": [
+    {
+     "id": "l04-u1-engaging-story",
+     "n": 1,
+     "title": "让故事吸引人",
+     "en": "How to Make Your Story Engaging"
+    },
+    {
+     "id": "l04-u2-fantasy-story",
+     "n": 2,
+     "title": "创作奇幻故事",
+     "en": "Write Your Own Fantasy Story"
+    }
+   ]
+  },
+  {
+   "level": 5,
+   "age": "11-12",
+   "goal": "张力、象征、人物动机",
+   "units": [
+    {
+     "id": "l05-u1-spooky-story",
+     "n": 1,
+     "title": "创作恐怖故事",
+     "en": "Write Your Own Spooky Story"
+    },
+    {
+     "id": "l05-u2-myth",
+     "n": 2,
+     "title": "创作你的神话",
+     "en": "Write Your Own Myth"
+    }
+   ]
+  },
+  {
+   "level": 6,
+   "age": "11-12",
+   "goal": "关键故事结构、塑造情节、想象力与创造力",
+   "units": [
+    {
+     "id": "l06-u1-seven-basic-plots",
+     "n": 1,
+     "title": "7 个经典故事线",
+     "en": "The 7 Basic Plots"
+    },
+    {
+     "id": "l06-u2-adventure-story",
+     "n": 2,
+     "title": "创作冒险故事",
+     "en": "Write Your Own Adventure Story"
+    }
+   ]
+  },
+  {
+   "level": 7,
+   "age": "12-14",
+   "goal": "向名著学习、发展人物与主题、英雄之旅",
+   "units": [
+    {
+     "id": "l07-u1-classic-modern-authors",
+     "n": 1,
+     "title": "向经典与现代作家学习",
+     "en": "Learn from Classic and Modern Authors"
+    },
+    {
+     "id": "l07-u2-heros-journey",
+     "n": 2,
+     "title": "英雄之旅",
+     "en": "Hero's Journey"
+    }
+   ]
+  },
+  {
+   "level": 8,
+   "age": "12-14",
+   "goal": "悬念与反转、结构、锋利的语言与有力的表达",
+   "units": [
+    {
+     "id": "l08-u1-crime-story",
+     "n": 1,
+     "title": "创作侦探故事",
+     "en": "Write Your Own Crime Story"
+    },
+    {
+     "id": "l08-u2-short-writing-challenge",
+     "n": 2,
+     "title": "短篇故事挑战",
+     "en": "Short Writing Challenge"
+    }
+   ]
+  },
+  {
+   "level": 9,
+   "age": "13-15",
+   "goal": "融合事实与想象、调研、作者声音",
+   "units": [
+    {
+     "id": "l09-u1-historical-story",
+     "n": 1,
+     "title": "创作历史小说",
+     "en": "Write Your Own Historical Story"
+    },
+    {
+     "id": "l09-u2-life-writing",
+     "n": 2,
+     "title": "纪实文学",
+     "en": "Life Writing"
+    }
+   ]
+  },
+  {
+   "level": 10,
+   "age": "13-15",
+   "goal": "含蓄与声音、拓展想象、世界观构建",
+   "units": [
+    {
+     "id": "l10-u1-unreliable-narrators",
+     "n": 1,
+     "title": "不靠谱的叙述人",
+     "en": "Unreliable Narrators"
+    },
+    {
+     "id": "l10-u2-speculative-futures",
+     "n": 2,
+     "title": "幻想未来 / 架空历史",
+     "en": "Speculative Futures or Alternative Histories"
+    }
+   ]
+  },
+  {
+   "level": 11,
+   "age": "14-16",
+   "goal": "不同形式、节奏与细节、打破习惯换个角度思考",
+   "units": [
+    {
+     "id": "l11-u1-writing-across-media",
+     "n": 1,
+     "title": "跨媒介写作",
+     "en": "Writing Across Media"
+    },
+    {
+     "id": "l11-u2-constraint-based-writing",
+     "n": 2,
+     "title": "被限制的写作",
+     "en": "Constraint-Based Writing"
+    }
+   ]
+  }
+ ]
+}

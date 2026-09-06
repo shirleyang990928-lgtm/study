@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE_TAG}}</title>
+<link rel="stylesheet" href="{{ROOT}}app.css">
+<script type="application/json" id="page-meta">
+{{META_JSON}}
+</script>
+</head>
+<body>
+<div class="wrap">
+<aside class="ui">
+  <div class="map-title">课程学习地图</div>
+  <div class="map-sub">{{MAP_SUB}}</div>
+{{NAV}}
+  <div class="map-foot"><a href="{{UNIT_INDEX}}">本单元总览</a><a href="{{ROOT}}index.html">回到目录</a></div>
+</aside>
+
+<main>
+<header>
+  <div class="eyebrow ui">{{EYEBROW}}</div>
+  <h1>{{H1_EN}}<span class="zh-t">{{H1_ZH}}</span></h1>
+  <div class="meta ui">
+    <span>授课：{{SPEAKER}}</span>
+    <span>学生：{{STUDENTS}}</span>
+    <span>{{LEVEL_LINE}}</span>
+  </div>
+</header>
+
+<div class="toolbar ui">
+  <button class="btn" id="drawer-btn">生词本 · 划线 · 笔记</button>
+  <button class="btn" id="sync-btn"><span class="cloud-dot"></span>同步</button>
+  <span class="fs-btns"><button class="fs-a1" id="fs-minus" title="缩小字体">A−</button><span class="fs-cur ui" id="fs-cur">标准</span><button class="fs-a2" id="fs-plus" title="放大字体">A+</button></span>
+  <button class="btn" id="bm-pin" title="把当前位置钉为书签">钉这里</button><button class="btn" id="bm-go" title="跳回你钉的书签位置">回书签</button>
+  <button class="btn tts-btn" id="tts-trigger" title="朗读">朗读</button>
+  <span class="more-wrap">
+    <button class="btn more-btn" id="more-btn" title="更多">更多</button>
+    <div class="more-menu" id="more-menu">
+    <button id="zh-toggle">显示全部中文</button>
+    <button class="gold-txt" id="export-btn">导出学习笔记</button>
+    </div>
+  </span>
+  <span class="save-state" id="save-state">已就绪</span>
+</div>
+
+{{BODY}}
+<footer class="ui">{{FOOTER}}</footer>
+</main>
+</div>
+
+<div id="hl-tip" class="ui">划线模式已开启 —— 选中英文文字即可高亮，点击已有高亮可删除</div>
+
+<div id="sel-pop" class="ui">
+  <button id="pop-hl">高亮</button><div class="sep"></div><button id="pop-dict">查词</button><div class="sep"></div><button id="pop-note">高亮+笔记</button>
+</div>
+<div id="dict-card" class="ui">
+  <button class="close-x" id="dc-close">✕</button>
+  <span class="dw" id="dc-word">…</span><span class="dp" id="dc-ph"></span><button class="say" id="dc-say" title="朗读">🔊</button>
+  <div class="zh-big loading" id="dc-zh-big">翻译中…</div>
+  <div class="dd" id="dc-def"></div>
+  <div class="dc-row"><button class="add" id="dc-add">＋ 存入生词本</button><button class="add mine" id="dc-mine" style="display:none">✓ 设为我的生词</button></div>
+</div>
+<div id="note-modal" class="ui">
+  <div class="box">
+    <div class="quote-ref" id="nm-quote"></div>
+    <textarea id="nm-text" placeholder="写下你的想法…"></textarea>
+    <div class="row"><button class="ok" id="nm-ok">保存笔记</button><button class="no" id="nm-cancel">取消</button></div>
+  </div>
+</div>
+<div id="mark-menu" class="ui">
+  <button id="mm-note">写/改笔记</button>
+  <button id="mm-dict">查这个词</button>
+  <button class="danger" id="mm-del">删除这条高亮</button>
+</div>
+
+<div id="share-modal" class="ui">
+  <div id="share-card">
+    <button class="sc-x" id="sc-x">✕</button>
+    <div class="sc-quote" id="sc-quote"></div>
+    <div class="sc-note" id="sc-note" style="display:none"></div>
+    <div class="sc-src"><span id="sc-src-txt"></span><span class="sc-brand">FOGG 学习笔记</span></div>
+    <div id="share-actions"><button class="cap" id="sc-cap">截图保存</button><button class="cls" id="sc-close">关闭</button></div>
+  </div>
+</div>
+<div id="share-actions-wrap" style="display:none"></div>
+<div id="drawer" class="ui">
+  <div class="tabs">
+    <button data-tab="vocab" class="on">生词本</button>
+    <button data-tab="hl">划线笔记</button>
+    <button data-tab="note">总笔记</button>
+  </div>
+  <div class="pane on" data-pane="vocab">
+    <div class="vocab-stats">还不会 <b id="vc-unknown">0</b> ・ 已掌握 <b class="ok-n" id="vc-known">0</b> ・ 共 <span id="vc-total">0</span> 词　<span style="margin-left:auto;font-size:11px;color:#A8B8B4">点 ⭕ = 已掌握</span></div>
+    <div id="vocab-list"><p class="empty">还没有生词。选中英文单词 → 点「查词」。</p></div>
+  </div>
+  <div class="pane" data-pane="hl">
+    <div id="hl-list"><p class="empty">还没有划线。开启划线模式后选中英文文字试试。</p></div>
+  </div>
+  <div class="pane" data-pane="note">
+    <textarea id="global-note" style="width:100%;min-height:60vh;height:auto;border:1.5px solid #DDE6E3;border-radius:12px;padding:14px;font-size:14.5px;line-height:1.8;background:#FFFEF8;resize:vertical;box-sizing:border-box;overflow:hidden" placeholder="整场讲座的总结、想放进 course map 的点、要转述给家长的话术……"></textarea>
+  </div>
+</div>
+
+<div id="sync-modal" class="ui">
+  <div class="box">
+    <h3 style="color:var(--teal);margin-bottom:6px">多设备同步设置</h3>
+    <p style="font-size:12.5px;color:#6B8480;line-height:1.7;margin-bottom:12px">填入你的 <b>Gist ID</b> 和 <b>GitHub Token</b>，划线/笔记就会存到云端。在每台设备上填同一组，就能看到相同内容。（留空 = 只用本机保存）</p>
+    <label style="font-size:12px;color:#8CA19D">Gist ID</label>
+    <input id="sync-gist" class="sync-inp" placeholder="例如 3a1b...（那串字母数字）">
+    <label style="font-size:12px;color:#8CA19D;margin-top:8px;display:block">GitHub Token</label>
+    <input id="sync-token" class="sync-inp" type="password" placeholder="ghp_ 或 github_pat_ 开头">
+    <div id="sync-status" style="font-size:12.5px;margin-top:10px;min-height:18px"></div>
+    <div class="row" style="margin-top:12px">
+      <button class="ok" id="sync-save">连接并同步</button>
+      <button class="no" id="sync-clear">断开（只用本机）</button>
+      <button class="no" id="sync-close2">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+window.PAGE_CONFIG={
+  key:'{{KEY}}',
+  title:'{{PC_TITLE}}',
+  exportTitle:'{{EXPORT_TITLE}}',
+  preset:{{PRESET}}
+};
+</script>
+<script src="{{ROOT}}app.js"></script>
+</body>
+</html>

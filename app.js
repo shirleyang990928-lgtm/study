@@ -1,6 +1,6 @@
 // ===== 公共 UI 自动注入：若页面缺少这些元素，app.js 自己补上（保证所有页一致）=====
 (function(){
-  var CHROME="<div id=\"sel-pop\" class=\"ui\">\n  <button id=\"pop-hl\">🖍 高亮</button><div class=\"sep\"></div><button id=\"pop-dict\">📖 查词</button><div class=\"sep\"></div><button id=\"pop-note\">📝 高亮+笔记</button>\n</div>\n<div id=\"dict-card\" class=\"ui\">\n  <button class=\"close-x\" id=\"dc-close\">✕</button>\n  <span class=\"dw\" id=\"dc-word\">…</span><span class=\"dp\" id=\"dc-ph\"></span><button class=\"say\" id=\"dc-say\" title=\"朗读\">🔊</button>\n  <div class=\"zh-big loading\" id=\"dc-zh-big\">翻译中…</div>\n  <div class=\"dd\" id=\"dc-def\"></div>\n  <div class=\"dc-row\"><button class=\"add\" id=\"dc-add\">＋ 存入生词本</button><button class=\"add mine\" id=\"dc-mine\" style=\"display:none\">✓ 设为我的生词</button></div>\n</div>\n<div id=\"note-modal\" class=\"ui\">\n  <div class=\"box\">\n    <div class=\"quote-ref\" id=\"nm-quote\"></div>\n    <textarea id=\"nm-text\" placeholder=\"写下你的想法…\"></textarea>\n    <div class=\"row\"><button class=\"ok\" id=\"nm-ok\">保存笔记</button><button class=\"no\" id=\"nm-cancel\">取消</button></div>\n  </div>\n</div>\n<div id=\"drawer\" class=\"ui\">\n  <div class=\"tabs\">\n    <button data-tab=\"vocab\" class=\"on\">📖 生词本</button>\n    <button data-tab=\"hl\">🖍 划线笔记</button>\n    <button data-tab=\"note\">📝 总笔记</button>\n  </div>\n  <div class=\"pane on\" data-pane=\"vocab\">\n    <div class=\"vocab-stats\">还不会 <b id=\"vc-unknown\">0</b> ・ 已掌握 <b class=\"ok-n\" id=\"vc-known\">0</b> ・ 共 <span id=\"vc-total\">0</span> 词　<span style=\"margin-left:auto;font-size:11px;color:#A8B8B4\">点 ⭕ = 已掌握</span></div>\n    <div id=\"vocab-list\"><p class=\"empty\">还没有生词。选中英文单词 → 点「📖 查词收藏」。</p></div>\n  </div>\n  <div class=\"pane\" data-pane=\"hl\">\n    <div id=\"hl-list\"><p class=\"empty\">还没有划线。开启划线模式后选中英文文字试试。</p></div>\n  </div>\n  <div class=\"pane\" data-pane=\"note\">\n    <textarea id=\"global-note\" style=\"width:100%;min-height:60vh;height:auto;border:1.5px solid #DDE6E3;border-radius:12px;padding:14px;font-size:14.5px;line-height:1.8;background:#FFFEF8;resize:vertical;box-sizing:border-box;overflow:hidden\" placeholder=\"整场讲座的总结、想放进 course map 的点、要转述给家长的话术……\"></textarea>\n  </div>\n</div>\n<div id=\"share-modal\" class=\"ui\">\n  <div id=\"share-card\">\n    <button class=\"sc-x\" id=\"sc-x\">✕</button>\n    <div class=\"sc-quote\" id=\"sc-quote\"></div>\n    <div class=\"sc-note\" id=\"sc-note\" style=\"display:none\"></div>\n    <div class=\"sc-src\"><span id=\"sc-src-txt\"></span><span class=\"sc-brand\">FOGG 学习笔记</span></div>\n    <div id=\"share-actions\"><button class=\"cap\" id=\"sc-cap\">📸 截图保存</button><button class=\"cls\" id=\"sc-close\">关闭</button></div>\n  </div>\n</div>\n<div id=\"sync-modal\" class=\"ui\">\n  <div class=\"box\">\n    <h3 style=\"color:var(--teal);margin-bottom:6px\">☁️ 多设备同步设置</h3>\n    <p style=\"font-size:12.5px;color:#6B8480;line-height:1.7;margin-bottom:12px\">填入你的 <b>Gist ID</b> 和 <b>GitHub Token</b>，划线/笔记就会存到云端。在每台设备上填同一组，就能看到相同内容。（留空 = 只用本机保存）</p>\n    <label style=\"font-size:12px;color:#8CA19D\">Gist ID</label>\n    <input id=\"sync-gist\" class=\"sync-inp\" placeholder=\"例如 3a1b...（那串字母数字）\">\n    <label style=\"font-size:12px;color:#8CA19D;margin-top:8px;display:block\">GitHub Token</label>\n    <input id=\"sync-token\" class=\"sync-inp\" type=\"password\" placeholder=\"ghp_ 或 github_pat_ 开头\">\n    <div id=\"sync-status\" style=\"font-size:12.5px;margin-top:10px;min-height:18px\"></div>\n    <div class=\"row\" style=\"margin-top:12px\">\n      <button class=\"ok\" id=\"sync-save\">连接并同步</button>\n      <button class=\"no\" id=\"sync-clear\">断开（只用本机）</button>\n      <button class=\"no\" id=\"sync-close2\">关闭</button>\n    </div>\n  </div>\n</div>\n<div class=\"tts-bar ui\" id=\"tts-bar\">\n  <button class=\"close\" id=\"tts-x\" title=\"关闭朗读\">✕</button>\n  <div class=\"lang\" id=\"tts-lang\">\n    <button data-lang=\"en\" class=\"on\">EN</button>\n    <button data-lang=\"zh\">中文</button>\n  </div>\n  <div class=\"seg\" id=\"tts-scope\">\n    <button data-scope=\"para\" class=\"on\">整篇</button>\n    <button data-scope=\"from\">从这句起</button>\n  </div>\n  <button id=\"tts-prev\" title=\"上一句\">⏮</button>\n  <button class=\"play\" id=\"tts-play\" title=\"播放/暂停\">▶</button>\n  <button id=\"tts-next\" title=\"下一句\">⏭</button>\n  <div class=\"rate\">\n    <button id=\"tts-slow\" title=\"减速\">−</button>\n    <span class=\"rv\" id=\"tts-rate\">1.0×</span>\n    <button id=\"tts-fast\" title=\"加速\">+</button>\n  </div>\n</div>";
+  var CHROME="<div id=\"sel-pop\" class=\"ui\">\n  <button id=\"pop-hl\">高亮</button><div class=\"sep\"></div><button id=\"pop-dict\">查词</button><div class=\"sep\"></div><button id=\"pop-note\">高亮+笔记</button>\n</div>\n<div id=\"dict-card\" class=\"ui\">\n  <button class=\"close-x\" id=\"dc-close\">✕</button>\n  <span class=\"dw\" id=\"dc-word\">…</span><span class=\"dp\" id=\"dc-ph\"></span><button class=\"say\" id=\"dc-say\" title=\"朗读\">🔊</button>\n  <div class=\"zh-big loading\" id=\"dc-zh-big\">翻译中…</div>\n  <div class=\"dd\" id=\"dc-def\"></div>\n  <div class=\"dc-row\"><button class=\"add\" id=\"dc-add\">＋ 存入生词本</button><button class=\"add mine\" id=\"dc-mine\" style=\"display:none\">✓ 设为我的生词</button></div>\n</div>\n<div id=\"note-modal\" class=\"ui\">\n  <div class=\"box\">\n    <div class=\"quote-ref\" id=\"nm-quote\"></div>\n    <textarea id=\"nm-text\" placeholder=\"写下你的想法…\"></textarea>\n    <div class=\"row\"><button class=\"ok\" id=\"nm-ok\">保存笔记</button><button class=\"no\" id=\"nm-cancel\">取消</button></div>\n  </div>\n</div>\n<div id=\"drawer\" class=\"ui\">\n  <div class=\"tabs\">\n    <button data-tab=\"vocab\" class=\"on\">生词本</button>\n    <button data-tab=\"hl\">划线笔记</button>\n    <button data-tab=\"note\">总笔记</button>\n  </div>\n  <div class=\"pane on\" data-pane=\"vocab\">\n    <div class=\"vocab-stats\">还不会 <b id=\"vc-unknown\">0</b> ・ 已掌握 <b class=\"ok-n\" id=\"vc-known\">0</b> ・ 共 <span id=\"vc-total\">0</span> 词　<span style=\"margin-left:auto;font-size:11px;color:#A8B8B4\">点 ⭕ = 已掌握</span></div>\n    <div id=\"vocab-list\"><p class=\"empty\">还没有生词。选中英文单词 → 点「查词收藏」。</p></div>\n  </div>\n  <div class=\"pane\" data-pane=\"hl\">\n    <div id=\"hl-list\"><p class=\"empty\">还没有划线。开启划线模式后选中英文文字试试。</p></div>\n  </div>\n  <div class=\"pane\" data-pane=\"note\">\n    <textarea id=\"global-note\" style=\"width:100%;min-height:60vh;height:auto;border:1.5px solid #DDE6E3;border-radius:12px;padding:14px;font-size:14.5px;line-height:1.8;background:#FFFEF8;resize:vertical;box-sizing:border-box;overflow:hidden\" placeholder=\"整场讲座的总结、想放进 course map 的点、要转述给家长的话术……\"></textarea>\n  </div>\n</div>\n<div id=\"share-modal\" class=\"ui\">\n  <div id=\"share-card\">\n    <button class=\"sc-x\" id=\"sc-x\">✕</button>\n    <div class=\"sc-quote\" id=\"sc-quote\"></div>\n    <div class=\"sc-note\" id=\"sc-note\" style=\"display:none\"></div>\n    <div class=\"sc-src\"><span id=\"sc-src-txt\"></span><span class=\"sc-brand\">FOGG 学习笔记</span></div>\n    <div id=\"share-actions\"><button class=\"cap\" id=\"sc-cap\">截图保存</button><button class=\"cls\" id=\"sc-close\">关闭</button></div>\n  </div>\n</div>\n<div id=\"sync-modal\" class=\"ui\">\n  <div class=\"box\">\n    <h3 style=\"color:var(--teal);margin-bottom:6px\">☁多设备同步设置</h3>\n    <p style=\"font-size:12.5px;color:#6B8480;line-height:1.7;margin-bottom:12px\">填入你的 <b>Gist ID</b> 和 <b>GitHub Token</b>，划线/笔记就会存到云端。在每台设备上填同一组，就能看到相同内容。（留空 = 只用本机保存）</p>\n    <label style=\"font-size:12px;color:#8CA19D\">Gist ID</label>\n    <input id=\"sync-gist\" class=\"sync-inp\" placeholder=\"例如 3a1b...（那串字母数字）\">\n    <label style=\"font-size:12px;color:#8CA19D;margin-top:8px;display:block\">GitHub Token</label>\n    <input id=\"sync-token\" class=\"sync-inp\" type=\"password\" placeholder=\"ghp_ 或 github_pat_ 开头\">\n    <div id=\"sync-status\" style=\"font-size:12.5px;margin-top:10px;min-height:18px\"></div>\n    <div class=\"row\" style=\"margin-top:12px\">\n      <button class=\"ok\" id=\"sync-save\">连接并同步</button>\n      <button class=\"no\" id=\"sync-clear\">断开（只用本机）</button>\n      <button class=\"no\" id=\"sync-close2\">关闭</button>\n    </div>\n  </div>\n</div>\n<div class=\"tts-bar ui\" id=\"tts-bar\">\n  <button class=\"close\" id=\"tts-x\" title=\"关闭朗读\">✕</button>\n  <div class=\"lang\" id=\"tts-lang\">\n    <button data-lang=\"en\" class=\"on\">EN</button>\n    <button data-lang=\"zh\">中文</button>\n  </div>\n  <div class=\"seg\" id=\"tts-scope\">\n    <button data-scope=\"para\" class=\"on\">整篇</button>\n    <button data-scope=\"from\">从这句起</button>\n  </div>\n  <button id=\"tts-prev\" title=\"上一句\">⏮</button>\n  <button class=\"play\" id=\"tts-play\" title=\"播放/暂停\">▶</button>\n  <button id=\"tts-next\" title=\"下一句\">⏭</button>\n  <div class=\"rate\">\n    <button id=\"tts-slow\" title=\"减速\">−</button>\n    <span class=\"rv\" id=\"tts-rate\">1.0×</span>\n    <button id=\"tts-fast\" title=\"加速\">+</button>\n  </div>\n</div>";
   // 统一公共 UI：先移除页面里可能存在的旧版 chrome，再注入标准版，保证所有页完全一致
   var CHROME_IDS=['sel-pop','dict-card','note-modal','drawer','share-modal','sync-modal','tts-bar'];
   CHROME_IDS.forEach(function(id){ var old=document.getElementById(id); if(old&&old.parentNode) old.parentNode.removeChild(old); });
@@ -102,7 +102,7 @@ function openShareCard(o){
         const url=URL.createObjectURL(blob);
         const a=document.createElement('a');a.href=url;a.download=(CFG.key||'FOGG')+'-笔记卡片.png';a.click();
         setTimeout(()=>URL.revokeObjectURL(url),1000);
-        setState('📸 卡片已保存为图片');
+        setState('卡片已保存为图片');
       });
     }catch(err){actions.style.visibility='';setState('⚠ 截图失败，可手动系统截图')}
   };
@@ -133,7 +133,7 @@ async function load(){
   const g=document.getElementById('global-note');if(notes.__global)g.value=notes.__global;autoGrow(g);
   highlights.forEach((h,i)=>{if(!h.id)h.id='h'+Date.now()+'_'+i;applyHighlight(h.sec,h.text,h.id)});refreshMarkNoteStyles();
   renderHlList();renderVocab();markVocabWords();
-  setState(cloudOn?('☁️ 已从云端载入 '+nowT()):(highlights.length||vocab.length||Object.keys(notes).length?'✓ 已恢复你的笔记 · 划线 · 术语':'已就绪'));
+  setState(cloudOn?('已从云端载入 '+nowT()):(highlights.length||vocab.length||Object.keys(notes).length?'✓ 已恢复你的笔记 · 划线 · 术语':'已就绪'));
   if(typeof updateCloudBtn==='function')updateCloudBtn();
 }
 
@@ -304,7 +304,7 @@ async function openDict(text,sec,rect){
   curDict={word:word,sec:sec,phonetic:'',def:'',audio:'',zh:'',long:isLong};
   const dw=document.getElementById('dc-word');
   dw.className=isLong?'dw long':'dw';
-  dw.textContent=isLong?'📖 选段翻译':word;
+  dw.textContent=isLong?'选段翻译':word;
   document.getElementById('dc-ph').textContent='';
   document.getElementById('dc-say').style.display=isLong?'none':'';
   document.getElementById('dc-add').style.display=isLong?'none':'';
@@ -487,7 +487,7 @@ function renderVocab(){
   document.getElementById('vc-total').textContent=vocab.length;
   document.getElementById('vc-unknown').textContent=unknownArr.length;
   document.getElementById('vc-known').textContent=knownArr.length;
-  if(!vocab.length){box.innerHTML='<p class="empty">还没有术语。选中关键词 → 点「📖 收藏」。</p>';return}
+  if(!vocab.length){box.innerHTML='<p class="empty">还没有术语。选中关键词 → 点「收藏」。</p>';return}
   function row(v){
     const gi=vocab.indexOf(v);
     return '<div class="vocab-item'+(v.known?' known':'')+'" data-i="'+gi+'">'
@@ -572,7 +572,7 @@ function removeHighlightMarks(hid){
 }
 function renderHlList(){
   const box=document.getElementById('hl-list');
-  if(!highlights.length){box.innerHTML='<p class="empty">还没有划线。选中文字 → 点「🖍 高亮」。</p>';return}
+  if(!highlights.length){box.innerHTML='<p class="empty">还没有划线。选中文字 → 点「高亮」。</p>';return}
   box.innerHTML=highlights.map((h,i)=>{
     const title=document.querySelector('#'+h.sec+' h2');
     const src=title?title.textContent:h.sec;
@@ -622,10 +622,10 @@ document.getElementById('export-btn').onclick=async()=>{
     if(!hs.length&&!n)return;
     lines.push('## '+t,'');
     hs.forEach(h=>{
-      lines.push('- 🖍 “'+h.text+'”');
-      if(h.note)lines.push('  - 📝 '+h.note);
+      lines.push('- “'+h.text+'”');
+      if(h.note)lines.push('  - '+h.note);
     });
-    if(n)lines.push('','📝 本节笔记：'+n);
+    if(n)lines.push('','本节笔记：'+n);
     lines.push('');
   });
   if(vocab.length){
@@ -704,7 +704,7 @@ document.getElementById('sync-save').onclick=async()=>{
 };
 function updateCloudBtn(){
   const b=document.getElementById('sync-btn');
-  b.innerHTML=(cloudOn?'<span class="cloud-dot on"></span>':'<span class="cloud-dot"></span>')+'☁️ 同步';
+  b.innerHTML=(cloudOn?'<span class="cloud-dot on"></span>':'<span class="cloud-dot"></span>')+'同步';
 }
 // 清空当前内存并按 store 重新载入（切换云端后刷新界面）
 async function reloadFromStore(){
@@ -749,14 +749,14 @@ async function reloadFromStore(){
   }
   if(pinBtn)pinBtn.onclick=()=>{
     localStorage.setItem(BM_KEY,String(Math.round(window.scrollY)));
-    setState('📌 已钉书签，之后点「🔖 回书签」就能跳回来');
+    setState('已钉书签，之后点「回书签」就能跳回来');
   };
   if(goBtn)goBtn.onclick=()=>{
     const y=parseInt(localStorage.getItem(BM_KEY));
-    if(isNaN(y)){setState('还没有书签，先点「📌 钉这里」钉一个');return}
+    if(isNaN(y)){setState('还没有书签，先点「钉这里」钉一个');return}
     window.scrollTo({top:y,behavior:'smooth'});
     flashAt(y);
-    setState('🔖 已跳回书签位置');
+    setState('已跳回书签位置');
   };
 })();
 
@@ -885,7 +885,7 @@ async function reloadFromStore(){
     if(i>=0){ speakFrom(i); }
   }, true);
 
-  // 工具栏 🔊 按钮
+  // 工具栏 按钮
   var trig=document.getElementById('tts-trigger');
   if(trig)trig.onclick=function(){ bar.classList.toggle('on'); if(bar.classList.contains('on')){ buildUnits(); } else { stop(); } };
 
