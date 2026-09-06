@@ -3,290 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>让文字发出声音 · 课堂学习页</title>
-<style>
-:root{
-  --ink:#24505B; --ink-deep:#16333B; --teal:#2E5A66; --mist:#E7EFED; --paper:#FBFBF8;
-  --gold:#E8C558; --gold-deep:#B08A1E; --line:#D5DEDC; --zh:#5C7A72; --card:#FFFFFF;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-input,textarea,select,button{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
-body{font-family:Georgia,'Times New Roman','Songti SC','Noto Serif SC',serif;background:var(--paper);color:var(--ink-deep);line-height:1.75}
-.ui{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
-
-/* layout */
-.wrap{display:flex;max-width:1200px;margin:0 auto;gap:0}
-aside{width:270px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;padding:28px 18px 40px 20px;border-right:1px solid var(--line);background:linear-gradient(180deg,#F2F6F5, var(--paper))}
-main{flex:1;min-width:0;padding:36px 44px 120px}
-@media(max-width:900px){
-  .wrap{flex-direction:column}
-  aside{position:relative;width:100%;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:20px}
-  main{padding:24px 18px 120px}
-}
-
-/* sidebar map */
-.map-title{font-size:12px;letter-spacing:.18em;color:var(--teal);text-transform:uppercase;margin-bottom:4px}
-.map-sub{font-size:12px;color:#7C918D;margin-bottom:18px}
-.map a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:#42605F;font-size:13.5px;padding:7px 8px;border-radius:8px;line-height:1.4}
-.map a:hover{background:var(--mist)}
-.map a.active{background:var(--teal);color:#fff}
-.map a .dot{width:7px;height:7px;border-radius:50%;background:var(--line);flex-shrink:0;transform:translateY(-1px);transition:background .2s}
-.map a.active .dot{background:var(--gold)}
-.map .part{margin:14px 0 4px;font-size:11px;letter-spacing:.14em;color:#9AACA8;text-transform:uppercase}
-
-/* header */
-header{margin-bottom:34px;border-bottom:3px double var(--teal);padding-bottom:26px}
-.eyebrow{font-size:12px;letter-spacing:.22em;color:var(--gold-deep);text-transform:uppercase;margin-bottom:10px}
-h1{font-size:clamp(26px,4vw,40px);color:var(--teal);line-height:1.2;font-weight:600}
-h1 .zh-t{display:block;font-size:.55em;color:#6B8480;margin-top:8px;font-weight:400}
-.meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;font-size:13px;color:#6B8480}
-.meta span::before{content:"— ";color:var(--gold-deep)}
-
-
-/* 字体大小调节（微信读书式，5 档，记忆选择） */
-:root{--fs:16.5px}
-.para .en{font-size:var(--fs)}
-.zh-block,.zh-t,.sz .zh{font-size:calc(var(--fs) - 1px)}
-.fs-btns{display:inline-flex;align-items:center;gap:2px;margin-left:2px}
-.fs-btns button{border:1px solid var(--line);background:#fff;color:var(--teal);border-radius:8px;width:34px;height:32px;cursor:pointer;font-weight:600;line-height:1;padding:0}
-.fs-btns button:active{transform:scale(.94)}
-.fs-btns .fs-a1{font-size:12px}
-.fs-btns .fs-a2{font-size:17px}
-.fs-cur{font-size:11px;color:#8CA19D;min-width:30px;text-align:center}
-
-
-/* 书签 */
-.bm-btns{display:inline-flex;align-items:center;gap:4px;margin-left:2px}
-.bm-btns .btn{display:inline-flex;align-items:center;gap:5px}
-.bm-pin{border:1px solid var(--line);background:#fff;color:var(--gold-deep);border-radius:8px;width:34px;height:32px;cursor:pointer;font-size:15px;line-height:1;padding:0}
-.bm-pin:active{transform:scale(.94)}
-.bm-flash{animation:bmflash 1.2s ease}
-@keyframes bmflash{0%{background:rgba(212,165,74,.35)}100%{background:transparent}}
-
-
-/* —— 划线笔记：干净版 —— */
-.hl-item{position:relative;border-left:3px solid var(--gold);background:#FCF8EA;padding:10px 34px 10px 13px;border-radius:0 10px 10px 0;margin-bottom:9px;font-size:13.5px;line-height:1.7;color:#4A4030;cursor:pointer;transition:background .15s}
-.hl-item:hover{background:#FBF4DF}
-.hl-item .htext{display:block}
-.hl-item .hnote{display:block;margin-top:7px;padding:6px 9px;background:#fff;border-radius:7px;font-size:12.5px;color:#6A5F3E;border:1px solid #EADFB8}
-.hl-item .hnote::before{content:'📝 ';opacity:.7}
-.hl-item .src{font-size:11px;color:#A09468;display:block;margin-top:6px}
-.hl-item .del{position:absolute;top:8px;right:9px;cursor:pointer;color:#C3A24E;font-size:13px;opacity:.5;line-height:1}
-.hl-item .del:hover{opacity:1}
-.hl-item .addnote{margin-top:6px;font-size:11.5px;color:#B0871E;background:none;border:1px dashed #DCC98A;border-radius:7px;padding:3px 9px;cursor:pointer}
-.hl-item .addnote:hover{background:#fff}
-.hl-item .hnoteinp{width:100%;border:1px dashed #D8C88F;border-radius:7px;margin-top:6px;padding:6px 8px;font-size:12.5px;background:#FFFDF4;box-sizing:border-box;font-family:inherit}
-.hl-item .hnoteinp:focus{outline:none;border-color:var(--gold-deep)}
-
-/* —— 顶部统计：防换行错位 —— */
-.vocab-stats{display:flex;flex-wrap:wrap;gap:4px 10px;margin-bottom:12px;font-size:12px;color:#6B8480;align-items:center;line-height:1.4}
-.vocab-stats .stat{white-space:nowrap}
-.vocab-stats b{color:var(--gold-deep);font-size:15px;font-family:Georgia,serif}
-.vocab-stats .ok-n{color:var(--teal)}
-.vocab-stats .hint{white-space:nowrap;color:#A8B8B4;font-size:11px}
-
-/* —— 已掌握折叠区 —— */
-.known-head{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:#8CA19D;margin:6px 0 8px;user-select:none}
-.known-head .caret{transition:transform .15s}
-.known-head.open .caret{transform:rotate(90deg)}
-
-/* —— 分享小卡片 —— */
-#share-modal{position:fixed;inset:0;z-index:150;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.45);backdrop-filter:blur(3px);padding:20px}
-#share-modal.open{display:flex}
-#share-card{width:min(440px,92vw);background:linear-gradient(160deg,#FFFEFA,#F6F1E3);border-radius:20px;padding:30px 28px 22px;box-shadow:0 24px 70px rgba(0,0,0,.35);position:relative}
-#share-card .sc-quote{font-size:19px;line-height:1.75;color:#2C3E3B;font-weight:500}
-#share-card .sc-en{font-family:Georgia,'Noto Serif SC',serif}
-#share-card .sc-zh{font-size:15px;color:#5A7370;margin-top:10px}
-#share-card .sc-note{margin-top:14px;padding:11px 13px;background:#fff;border-radius:10px;font-size:13.5px;color:#5A5238;border:1px solid #EADFB8}
-#share-card .sc-src{margin-top:16px;padding-top:13px;border-top:1px dashed #D8CDB0;font-size:12px;color:#A0937C;display:flex;justify-content:space-between;align-items:center}
-#share-card .sc-brand{font-size:11px;color:#BCae90}
-#share-card .sc-x{position:absolute;top:12px;right:14px;border:none;background:none;font-size:20px;color:#BBB;cursor:pointer;line-height:1}
-#share-actions{display:flex;gap:8px;margin-top:16px}
-#share-actions button{flex:1;border:none;border-radius:10px;padding:10px;font-size:13.5px;cursor:pointer}
-#share-actions .cap{background:var(--teal);color:#fff}
-#share-actions .cls{background:#EEF2F1;color:#5D7975}
-
-.toolbar a.home-btn{display:inline-flex;align-items:center;text-decoration:none}
-
-/* —— 朗读 —— */
-.tts-btn{cursor:pointer}
-.tts-bar{position:fixed;left:50%;bottom:0;transform:translateX(-50%);z-index:120;display:none;align-items:center;gap:10px;background:var(--ink-deep);color:#fff;border-radius:14px 14px 0 0;padding:11px 18px;box-shadow:0 -6px 24px rgba(0,0,0,.25);max-width:94vw;flex-wrap:wrap;justify-content:center}
-.tts-bar.on{display:flex}
-.tts-bar button{border:none;background:rgba(255,255,255,.14);color:#fff;border-radius:9px;width:38px;height:38px;font-size:16px;cursor:pointer;flex-shrink:0}
-.tts-bar button.play{background:var(--gold);color:#3A2E0A;width:46px}
-.tts-bar button:active{transform:scale(.93)}
-.tts-bar .seg{display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:9px;padding:3px}
-.tts-bar .seg button{width:auto;height:30px;padding:0 12px;font-size:12.5px;background:transparent;border-radius:7px}
-.tts-bar .seg button.on{background:var(--gold);color:#3A2E0A}
-.tts-bar .rate{display:flex;align-items:center;gap:5px;font-size:12px;color:#CBD8D5}
-.tts-bar .rate button{width:30px;height:30px;font-size:15px}
-.tts-bar .rate .rv{min-width:38px;text-align:center;font-family:Georgia,serif}
-.tts-bar .lang{display:flex;gap:2px;background:rgba(255,255,255,.1);border-radius:9px;padding:3px}
-.tts-bar .lang button{width:auto;height:30px;padding:0 11px;font-size:12.5px;background:transparent;border-radius:7px}
-.tts-bar .lang button.on{background:var(--teal)}
-.tts-bar .close{background:transparent;font-size:20px}
-.tts-reading{background:linear-gradient(transparent 60%,rgba(232,197,88,.55) 0)!important;border-radius:3px}
-.sent.tts-reading,.tts-reading{transition:background .1s}
-.tts-sent{cursor:default}
-
-
-/* 更多菜单 */
-.more-wrap{position:relative;display:inline-block}
-.more-btn{}
-.more-menu{position:absolute;top:calc(100% + 6px);right:0;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(22,51,59,.15);padding:6px;display:none;flex-direction:column;gap:2px;z-index:60;min-width:170px}
-.more-menu.on{display:flex}
-.more-menu a,.more-menu button{display:flex;align-items:center;gap:8px;text-align:left;text-decoration:none;color:var(--ink);background:none;border:none;border-radius:8px;padding:9px 12px;font-size:13.5px;cursor:pointer;white-space:nowrap;width:100%;font-family:inherit}
-.more-menu a:hover,.more-menu button:hover{background:#F1F5F4}
-.more-menu .gold-txt{color:var(--gold-deep)}
-/* 正在朗读的句子：左竖条 + 高亮，更醒目 */
-.tts-reading{background:linear-gradient(transparent 55%,rgba(232,197,88,.6) 0)!important;border-radius:3px;box-shadow:-8px 0 0 rgba(46,90,102,.9);border-radius:2px}
-
-/* toolbar */
-.toolbar{position:sticky;top:0;z-index:50;background:rgba(251,251,248,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:0 -44px 30px;padding:10px 44px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-@media(max-width:900px){.toolbar{margin:0 -18px 24px;padding:10px 18px}}
-.btn{border:1.5px solid var(--teal);background:#fff;color:var(--teal);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;transition:.15s}
-.btn:hover{background:var(--mist)}
-.btn.primary{background:var(--teal);color:#fff}
-.btn.gold{border-color:var(--gold-deep);color:var(--gold-deep)}
-.btn.gold.on{background:var(--gold);border-color:var(--gold);color:var(--ink-deep)}
-.save-state{font-size:12px;color:#8AA09C;margin-left:auto}
-
-/* sections */
-section{margin-bottom:46px;scroll-margin-top:70px}
-.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
-.sec-num{font-size:13px;color:var(--gold-deep);letter-spacing:.1em;font-family:Georgia,serif}
-h2{font-size:21px;color:var(--teal);font-weight:600}
-.sec-time{font-size:12px;color:#9AACA8;margin-bottom:12px}
-.keypoints{background:var(--mist);border-left:4px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0 18px;font-size:13.5px}
-.keypoints b{color:var(--teal)}
-.keypoints li{margin-left:18px;margin-top:4px;color:#3B5A57}
-
-/* paragraphs */
-.para{margin-bottom:18px;padding-right:26px}
-.en{font-size:var(--fs);color:#22403F}
-.en.hl-mode{cursor:text}
-.sz{display:none}
-.zh-block{display:none;margin-top:8px;padding:10px 14px;background:#F1F5F3;border-left:3px solid var(--zh);border-radius:0 8px 8px 0;color:var(--zh);font-size:14.5px;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;line-height:1.85}
-.zh-block .comment-line{display:block;margin-top:7px;color:#A08A45;font-size:13.5px}
-body.show-zh .zh-block, section.show-zh .zh-block, .para.zh-open .zh-block, .quote.zh-open .zh-block{display:block}
-.quote{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin:14px 0;font-style:italic;box-shadow:0 2px 8px rgba(36,80,91,.06);position:relative}
-.quote::before{content:"“";position:absolute;top:-2px;left:10px;font-size:44px;color:var(--gold);font-style:normal;line-height:1}
-.quote .en{font-size:calc(var(--fs) - 1px)}
-.tag{display:inline-block;font-size:11px;background:var(--teal);color:#fff;border-radius:4px;padding:2px 8px;margin-bottom:8px;letter-spacing:.05em}
-.tag.before{background:#8A9E9A}
-.tag.after{background:var(--gold-deep)}
-
-/* highlights */
-mark{background:linear-gradient(104deg, rgba(232,197,88,0) 1%, rgba(232,197,88,.85) 3%, rgba(232,197,88,.55) 96%, rgba(232,197,88,0) 99%);padding:1px 2px;border-radius:2px;cursor:pointer}
-mark:hover{outline:1.5px dashed var(--gold-deep)}
-#hl-tip{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink-deep);color:#fff;font-size:12.5px;padding:8px 16px;border-radius:20px;z-index:99;display:none}
-
-/* selection popup */
-#sel-pop{position:fixed;z-index:95;display:none;background:var(--ink-deep);border-radius:10px;padding:5px;box-shadow:0 6px 20px rgba(0,0,0,.25);gap:4px}
-#sel-pop button{border:none;background:transparent;color:#fff;font-size:12.5px;padding:6px 10px;border-radius:7px;cursor:pointer;white-space:nowrap}
-#sel-pop button:hover{background:rgba(255,255,255,.15)}
-#sel-pop .sep{width:1px;background:rgba(255,255,255,.2);margin:4px 0}
-/* dictionary card */
-#dict-card{position:fixed;z-index:96;display:none;width:300px;max-width:92vw;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(22,51,59,.25);padding:18px 18px 14px}
-#dict-card .dw{font-family:Georgia,serif;font-size:21px;color:var(--teal);font-weight:600}
-#dict-card .dp{color:#93A8A4;font-size:13px;margin-left:7px}
-#dict-card .say{border:none;background:var(--mist);border-radius:50%;width:27px;height:27px;cursor:pointer;margin-left:7px;font-size:13px}
-#dict-card .zh-big{font-size:17px;color:var(--ink-deep);margin-top:10px;font-weight:600;line-height:1.6}
-#dict-card .zh-big.loading{color:#9AACA8;font-weight:400;font-size:14px}
-#dict-card .dd{font-size:12px;color:#8CA19D;margin-top:7px;line-height:1.55;max-height:70px;overflow-y:auto}
-#dict-card .dc-row{display:flex;gap:8px;margin-top:13px}
-#dict-card .dc-row button{border-radius:9px;padding:8px;font-size:13px;cursor:pointer;border:none}
-#dict-card .dc-row .add{flex:1;background:var(--teal);color:#fff}
-#dict-card .dc-row .add:hover{background:var(--ink)}
-#dict-card .close-x{position:absolute;top:9px;right:13px;border:none;background:none;color:#AAB9B6;cursor:pointer;font-size:15px}
-/* mark menu */
-#mark-menu{position:fixed;z-index:96;display:none;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 26px rgba(22,51,59,.2);padding:6px;min-width:145px}
-#mark-menu button{display:block;width:100%;text-align:left;border:none;background:none;padding:8px 12px;font-size:13px;color:#3B5A57;cursor:pointer;border-radius:8px}
-#mark-menu button:hover{background:var(--mist)}
-#mark-menu button.danger{color:#B04A3A}
-mark.has-note{border-bottom:2px solid var(--gold-deep)}
-mark.has-note::after{content:"📝";font-size:10px;margin-left:1px}
-.hl-note-inp{width:100%;border:1px dashed #D8C88F;border-radius:7px;margin-top:6px;padding:5px 8px;font-size:12.5px;background:#FFFDF4}
-/* note modal — centered, bright */
-#note-modal{position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.35);backdrop-filter:blur(2px)}
-#note-modal.open{display:flex}
-#note-modal .box{width:440px;max-width:92vw;background:#fff;border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-#note-modal .quote-ref{font-size:13px;color:#6B8480;background:var(--mist);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:8px 12px;margin-bottom:12px;font-style:italic;max-height:76px;overflow-y:auto}
-#note-modal textarea{width:100%;min-height:110px;border:1.5px solid var(--line);border-radius:12px;padding:12px;font-size:15px;background:#FFFDF4;resize:vertical}
-#note-modal textarea:focus{outline:none;border-color:var(--teal)}
-#note-modal .row{display:flex;gap:10px;margin-top:14px}
-#note-modal .row button{flex:1;border-radius:10px;padding:10px;font-size:14px;cursor:pointer;border:none}
-#note-modal .row .ok{background:var(--teal);color:#fff}
-#note-modal .row .no{background:#EEF2F1;color:#5D7975}
-/* vocab — compact rows */
-.vocab-item{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:9px 11px;margin-bottom:7px;font-size:13px}
-.vocab-item.known{opacity:.5}
-.vocab-item .main{flex:1;min-width:0}
-.vocab-item .w{font-family:Georgia,serif;font-size:15.5px;color:var(--teal);font-weight:600;cursor:pointer}
-.vocab-item .ph{color:#A8B8B4;font-size:11px;margin-left:5px}
-.vocab-item .zh-inline{border:none;background:transparent;width:100%;font-size:13px;color:#4A6360;padding:1px 0;font-family:inherit}
-.vocab-item .zh-inline::placeholder{color:#BCC9C6}
-.vocab-item .zh-inline:focus{outline:none;border-bottom:1px dashed var(--gold-deep)}
-.vocab-item .kbtn{flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-size:14px}
-.vocab-item .kbtn.on{background:var(--teal);border-color:var(--teal)}
-.vocab-item .rm{flex-shrink:0;border:none;background:none;color:#C9B0AA;cursor:pointer;font-size:13px;padding:2px}
-.vocab-stats{display:flex;gap:8px;margin-bottom:12px;font-size:12.5px;color:#6B8480;align-items:center}
-.vocab-stats b{color:var(--gold-deep);font-size:16px;font-family:Georgia,serif}
-.vocab-stats .ok-n{color:var(--teal)}
-.dict-loading{color:#9AACA8;font-size:12px}
-#drawer .tabs{display:flex;gap:6px;margin-bottom:16px}
-#drawer .tabs button{flex:1;border:1.5px solid var(--teal);background:#fff;color:var(--teal);border-radius:9px;padding:7px;font-size:13px;cursor:pointer}
-#drawer .tabs button.on{background:var(--teal);color:#fff}
-#drawer .pane{display:none}#drawer .pane.on{display:block}
-/* vocab words in text — 蓝色系，与金色划线区分 */
-.vocab-mark{background:#DEEAF6;border-bottom:2px dotted #4A7BAA;border-radius:2px;padding:0 1px;cursor:pointer}
-.vocab-mark:hover{background:#CBDFF2}
-/* per-paragraph 中文 toggle */
-.para,.quote{position:relative}
-.zh-btn{position:absolute;right:-6px;top:0;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);background:#fff;color:#8CA19D;font-size:11.5px;cursor:pointer;opacity:.55;transition:.15s;font-family:-apple-system,'PingFang SC',sans-serif;line-height:1}
-.zh-btn:hover{opacity:1;border-color:var(--teal);color:var(--teal)}
-.zh-btn.on{background:var(--teal);border-color:var(--teal);color:#fff;opacity:1}
-.para.zh-open .zh,.quote.zh-open .zh{display:block}
-@media(max-width:900px){.zh-btn{right:0}}
-/* dict card long-selection mode */
-#dict-card .dw.long{font-size:14px;color:#6B8480;font-weight:400;font-family:-apple-system,'PingFang SC',sans-serif}
-#dict-card .orig-small{font-size:12px;color:#9AACA8;margin-top:6px;max-height:64px;overflow-y:auto;font-style:italic;line-height:1.5}
-
-#sync-modal{position:fixed;inset:0;z-index:130;display:none;align-items:center;justify-content:center;background:rgba(22,51,59,.4);backdrop-filter:blur(3px)}
-#sync-modal.open{display:flex}
-#sync-modal .box{width:420px;max-width:92vw;background:#fff;border-radius:18px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-#sync-modal .sync-inp{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13.5px;background:#FBFDFC;margin-top:3px}
-#sync-modal .sync-inp:focus{outline:none;border-color:var(--teal)}
-#sync-modal .row{display:flex;gap:8px;flex-wrap:wrap}
-#sync-modal .row button{flex:1;min-width:90px;border-radius:10px;padding:9px;font-size:13.5px;cursor:pointer;border:none}
-#sync-modal .row .ok{background:var(--teal);color:#fff}
-#sync-modal .row .no{background:#EEF2F1;color:#5D7975}
-.cloud-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#C9B0AA;margin-right:5px;vertical-align:1px}
-.cloud-dot.on{background:#4F9E7A}
-
-
-/* 触屏：菜单停靠屏幕底部，放大更好点 */
-#sel-pop.touch-dock,#mark-menu.touch-dock{box-shadow:0 -2px 24px rgba(0,0,0,.28);z-index:9999}
-#sel-pop.touch-dock button,#mark-menu.touch-dock button{font-size:15px;padding:11px 16px}
-#sel-pop.touch-dock::before{content:"已选中 → 选择操作";position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:11px;color:#8CA19D;white-space:nowrap;background:var(--paper);padding:1px 8px;border-radius:8px}
-
-/* notes */
-.note-area{margin-top:14px}
-.note-area textarea{width:100%;min-height:64px;border:1.5px dashed #B9CBC7;border-radius:10px;padding:10px 12px;font-size:14px;font-family:-apple-system,'PingFang SC',sans-serif;background:#FFFDF4;color:#4A4632;resize:vertical}
-.note-area textarea:focus{outline:none;border-color:var(--gold-deep);border-style:solid}
-.note-label{font-size:12px;color:#9AACA8;margin-bottom:4px}
-
-/* notes drawer */
-#drawer{position:fixed;right:-360px;top:0;width:350px;max-width:92vw;height:100vh;background:#fff;border-left:1px solid var(--line);box-shadow:-8px 0 30px rgba(0,0,0,.08);z-index:90;transition:right .25s;padding:24px 20px;overflow-y:auto}
-#drawer.open{right:0}
-#drawer h3{color:var(--teal);margin-bottom:12px;font-size:16px}
-.hl-item{border-left:3px solid var(--gold);background:#FCF8EA;padding:8px 12px;border-radius:0 8px 8px 0;margin-bottom:10px;font-size:13px;color:#5A5238}
-.hl-item .src{font-size:11px;color:#A09468;display:block;margin-top:3px}
-.hl-item .del{float:right;cursor:pointer;color:#B08A1E;font-size:12px}
-.empty{color:#AAB9B6;font-size:13px;font-style:italic}
-footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:#9AACA8;text-align:center}
-</style>
+<title>让文字发出声音:《The Windhover》、头韵与半韵 · Tim 创意写作课 Week 9 · Level 2 写出画面感</title>
+<link rel="stylesheet" href="../../../../app.css">
 <script type="application/json" id="page-meta">
 {
  "key": "class-20260824-cw-tim-l12",
@@ -295,370 +13,342 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
  "unit": "l02-u1-painting-with-words",
  "class": "2026s2-tim-mon",
  "week": 9,
- "status": "redo",
+ "status": "ok",
  "date": "2026-08-24",
- "title": "让文字发出声音",
- "en": "Writing with Sound",
- "desc": "（其他 AI 所做，待重做）精读 Hopkins《The Windhover》，用朗读辨认头韵、元音和谐、不协和音与半押韵。",
+ "title": "让文字发出声音:《The Windhover》、头韵与半韵",
+ "en": "Making Words Sound Like Music: The Windhover, Alliteration and Half Rhymes",
+ "desc": "大声读 Hopkins 的《The Windhover》,用节奏描写一个移动的东西,学会头韵 alliteration 和两种半韵 assonance / dissonance,再把它们加进自己的段落",
  "speaker": "Teacher Tim",
- "length": "待重做",
- "tags": []
+ "length": "约60分钟 · 周一",
+ "tags": [
+  "诗歌",
+  "Hopkins",
+  "头韵",
+  "半韵",
+  "assonance",
+  "dissonance",
+  "节奏",
+  "描写运动",
+  "Level 2"
+ ]
 }
 </script>
 </head>
-<body class="class-study-page">
-<style>
-.class-study-page>.wrap>aside,.class-study-page main>header,.class-study-page main>section,.class-study-page main>footer{display:none!important}
-.class-study-page>.layout>.map{display:none!important}.class-study-page main>header,.class-study-page main>section{display:none!important}.class-study{max-width:980px;margin:0 auto;padding:34px 32px 80px}.class-hero{padding:34px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(135deg,#eef6f3,#f7f0df);margin-bottom:22px}.class-kicker{font-size:13px;letter-spacing:.12em;color:#2e6b57;font-weight:700}.class-hero h1{font-size:34px;line-height:1.25;margin:10px 0;color:var(--ink-deep)}.class-meta{color:#6b8480;font-size:14px}.class-thesis{margin-top:20px;padding:16px 18px;border-left:4px solid #2e6b57;background:#fff;font-weight:600}.class-nav{position:sticky;top:10px;z-index:5;display:flex;gap:8px;flex-wrap:wrap;padding:10px;background:rgba(251,251,248,.94);border:1px solid var(--line);border-radius:14px;margin:18px 0}.class-nav a{text-decoration:none;color:var(--ink);font-size:13px;padding:6px 10px;border-radius:9px;background:#eef3f1}.study-block{scroll-margin-top:90px;margin:22px 0;padding:26px;background:#fff;border:1px solid var(--line);border-radius:18px}.study-block h2{font-size:23px;color:var(--ink-deep);margin-bottom:8px}.lead{font-size:16px;color:#526b68;margin-bottom:18px}.lesson-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.flow-card{padding:14px;border-radius:12px;background:#f4f7f5;border-top:4px solid #2e6b57}.flow-card b{display:block;color:var(--ink-deep)}.concept-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.concept{padding:17px;border:1px solid var(--line);border-radius:13px}.concept h3{margin-bottom:6px;color:var(--ink-deep)}.source{display:block;margin-top:8px;color:#8ca19d;font-size:12px}.sound-row{display:grid;grid-template-columns:140px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}.sound-row b{color:var(--ink-deep)}.practice{counter-reset:p}.practice li{list-style:none;margin:10px 0;padding:14px 16px 14px 52px;background:#f2f7f5;border-radius:12px;position:relative}.practice li:before{counter-increment:p;content:counter(p);position:absolute;left:16px;top:13px;width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#2e6b57;color:#fff;font-weight:700}.question-box{padding:18px;border:1px dashed #2e6b57;border-radius:14px;background:#f7fcfa}.question-box li{margin:8px 0 8px 20px}@media(max-width:760px){.class-study{padding:20px 14px 60px}.class-hero{padding:24px 20px}.class-hero h1{font-size:28px}.lesson-flow,.concept-grid{grid-template-columns:1fr}.sound-row{grid-template-columns:1fr}}
-</style>
+<body>
 <div class="wrap">
 <aside class="ui">
   <div class="map-title">课程学习地图</div>
-  <div class="map-sub">创意写作 · Level 2 · 写作即绘画 · 2026 · Tim · Week 9</div>
-  <nav class="map" id="map">
-    <div class="part">Part 1 · 什么是阅读</div>
-    <a href="#s1"><span class="dot"></span>开场 · Chris 的故事</a>
-    <a href="#s2"><span class="dot"></span>什么是阅读 · 诠释</a>
-    <a href="#s3"><span class="dot"></span>什么不是阅读</a>
-    <div class="part">Part 2 · 为什么读</div>
-    <a href="#s4"><span class="dot"></span>为什么读① 语言</a>
-    <a href="#s5"><span class="dot"></span>为什么读② 做人</a>
-    <a href="#s6"><span class="dot"></span>AI 时代还要读吗</a>
-    <div class="part">Part 3 · 四个难题</div>
-    <a href="#s7"><span class="dot"></span>① 讨厌阅读</a>
-    <a href="#s8"><span class="dot"></span>② 太难 / 太易</a>
-    <a href="#s9"><span class="dot"></span>③ 只读一种书</a>
-    <a href="#s10"><span class="dot"></span>④ 读多没进步</a>
-    <div class="part">Part 4 · 怎么做</div>
-    <a href="#s11"><span class="dot"></span>家长怎么检查</a>
-    <a href="#s12"><span class="dot"></span>自主 vs 引导</a>
-    <a href="#s13"><span class="dot"></span>课程实例</a>
-    <a href="#s14"><span class="dot"></span>Q&amp;A 精华</a>
-  </nav>
+  <div class="map-sub">创意写作 · Level 2 · 写出画面感 · 2026 · Tim · Week 9</div>
+<nav class="map" id="map">
+  <div class="part">Part 1 · 开场与状态</div>
+  <a href="#s1"><span class="dot"></span>开场 · 感冒的 Tim 与「上周很无聊」</a>
+  <a href="#s2"><span class="dot"></span>狗狗情绪量表 · 考试周的每一个人</a>
+  <div class="part">Part 2 · 看画读诗</div>
+  <a href="#s3"><span class="dot"></span>作业反馈 + 看画 · 一幅「像涂鸦」的画</a>
+  <a href="#s4"><span class="dot"></span>朗读《The Windhover》· 韵脚与 Hopkins ★</a>
+  <div class="part">Part 3 · 写会动的东西</div>
+  <a href="#s5"><span class="dot"></span>写作任务 1 · 描写移动 + 头韵</a>
+  <a href="#s6"><span class="dot"></span>巡视辅导 · swoops / scoops / gulp</a>
+  <div class="part">Part 4 · 半韵</div>
+  <a href="#s7"><span class="dot"></span>新技巧 · 全韵 / assonance / dissonance ★</a>
+  <a href="#s8"><span class="dot"></span>全班练习 · cold / taste / apple / falter</a>
+  <a href="#s9"><span class="dot"></span>写作任务 2 · 加入技巧改写 + 巡视</a>
+  <a href="#s10"><span class="dot"></span>作业与收尾 · 「诗要大声读」</a>
+  <div class="part">课后</div>
+  <a href="#s11"><span class="dot"></span>专业课程评析 ★</a>
+</nav>
+  <div class="map-foot"><a href="../index.html">本单元总览</a><a href="../../../../index.html">回到目录</a></div>
 </aside>
 
 <main>
 <header>
-  <div class="eyebrow ui">FOGG 创意写作 · Level 2 · 写作即绘画 · 2026 S2 · Teacher Tim</div>
-  <h1>What Is Reading, Really?<span class="zh-t">到底什么是阅读能力 —— Chris 老师谈"阅读即诠释"</span></h1>
+  <div class="eyebrow ui">FOGG 创意写作 · Level 2 · 写出画面感 · 2026 S2 · Teacher Tim</div>
+  <h1>Making Words Sound Like Music: The Windhover, Alliteration and Half Rhymes<span class="zh-t">让文字发出声音:《The Windhover》、头韵与半韵</span></h1>
   <div class="meta ui">
-    <span>主讲：Teacher Chris（FOGG 英文阅读资深导师）</span>
-    <span>主持：言词（Yanci）</span>
-    <span>2025年3月9日 · 约80分钟</span>
+    <span>授课：Teacher Tim</span>
+    <span>学生：Mark, Olivia, Claire, Reya, Trinity, Yujia</span>
+    <span>Level 2 · Week 9 · 约60分钟 · 周一</span>
   </div>
 </header>
 
 <div class="toolbar ui">
-  <button class="btn" id="drawer-btn">📒 生词本 · 划线 · 笔记</button>
-  <button class="btn" id="sync-btn"><span class="cloud-dot"></span>☁️ 同步</button>
+  <button class="btn" id="drawer-btn">生词本 · 划线 · 笔记</button>
+  <button class="btn" id="sync-btn"><span class="cloud-dot"></span>同步</button>
   <span class="fs-btns"><button class="fs-a1" id="fs-minus" title="缩小字体">A−</button><span class="fs-cur ui" id="fs-cur">标准</span><button class="fs-a2" id="fs-plus" title="放大字体">A+</button></span>
-  <button class="btn" id="bm-pin" title="把当前位置钉为书签">📌 钉这里</button><button class="btn" id="bm-go" title="跳回你钉的书签位置">🔖 回书签</button>
-  <button class="btn tts-btn" id="tts-trigger" title="朗读">🔊 朗读</button>
+  <button class="btn" id="bm-pin" title="把当前位置钉为书签">钉这里</button><button class="btn" id="bm-go" title="跳回你钉的书签位置">回书签</button>
+  <button class="btn tts-btn" id="tts-trigger" title="朗读">朗读</button>
   <span class="more-wrap">
-    <button class="btn more-btn" id="more-btn" title="更多">⋯ 更多</button>
+    <button class="btn more-btn" id="more-btn" title="更多">更多</button>
     <div class="more-menu" id="more-menu">
-    <a href="../../../../index.html">回到目录</a>
-    <a href="../index.html">本单元总览</a>
     <button id="zh-toggle">显示全部中文</button>
-    <button class="gold-txt" id="export-btn">📤 导出学习笔记</button>
+    <button class="gold-txt" id="export-btn">导出学习笔记</button>
     </div>
   </span>
   <span class="save-state" id="save-state">已就绪</span>
 </div>
 
 <!-- S1 -->
-<div class="tts-bar ui" id="tts-bar">
-  <button class="close" id="tts-x" title="关闭朗读">✕</button>
-  <div class="lang" id="tts-lang">
-    <button data-lang="en" class="on">EN</button>
-    <button data-lang="zh">中文</button>
-  </div>
-  <div class="seg" id="tts-scope">
-    <button data-scope="para" class="on">整篇</button>
-    <button data-scope="from">从这句起</button>
-  </div>
-  <button id="tts-prev" title="上一句">⏮</button>
-  <button class="play" id="tts-play" title="播放/暂停">▶</button>
-  <button id="tts-next" title="下一句">⏭</button>
-  <div class="rate">
-    <button id="tts-slow" title="减速">−</button>
-    <span class="rv" id="tts-rate">1.0×</span>
-    <button id="tts-fast" title="加速">+</button>
-  </div>
-</div>
-
 <section id="s1">
-  <div class="sec-head"><span class="sec-num">01</span><h2>开场 · Chris 的成长故事</h2></div>
-  <div class="sec-time ui">03:42 – 08:00</div>
+  <div class="sec-head"><span class="sec-num">01</span><h2>开场 · 感冒的 Tim、Claire 的弟弟与「上周很无聊」</h2></div>
+  <div class="sec-time ui">00:00 – 05:35</div>
   <div class="keypoints ui"><b>要点</b><ul>
-    <li>Chris 出身无学术支持的家庭：父亲没读完初中、母亲高中毕业，家里只有一本书（戈尔巴乔夫《改革》，落灰多年）</li>
-    <li>一年级起作业全靠自己，母亲说"你只能靠自己了"</li>
-    <li>不爱读书、只玩运动和电子游戏，是个拖延、懒散、成绩平平（C）的学生</li>
-    <li>高中最后一年，一两位老师"说对了话、教对了东西"，扭转了他</li>
-    <li><b>核心信息：孩子现在讨厌阅读、成绩差、叛逆，都不是世界末日——他们能改变，往往只差一个契机</b></li>
-    <li>不要逼孩子阅读，要用温和、循序渐进的方式</li>
-</ul>
+    <li>(寒暄部分)Claire 的弟弟对着镜头喊“Teacher!”捣乱,Tim 说自己的弟弟妹妹小时候也这样,“他们会长大的”;Tim 感冒还没好,声音有点怪,提前说明可能要擤鼻涕;Claire 也流了六天鼻涕</li>
+    <li>在线的学生:Mark、Olivia、Claire、Reya、Trinity、Yujia(Yujia 一直不开麦,Tim 只要一个大拇指)。Tim 上周缺席,由 Teacher Louise 代课,孩子们说“很无聊”“我想睡觉”“Louise 老师没有感情”</li>
+    <li><b>今天是 Week 9</b>,幻灯片上已经放不下这九周谈过的所有画了</li>
+  </ul>
   </div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Yanci has been asking me to do this talk for three or four years. I've always said no, but she finally exerted enough pressure to get me to say yes.</span><span class="sz">言词请我做这场讲座请了三四年，我一直拒绝，最后她施加了足够的压力，我才答应。</span></span> <span class="sent"><span class="se">The reason I usually say no is because I'm a bad public speaker — so if you get really bored, apologies in advance.</span><span class="sz">我通常拒绝，是因为我不擅长公开演讲——如果你听得很闷，先说声抱歉。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">A little about my background: my parents had almost no education. My father never finished middle school; my mom finished high school, and that was it.</span><span class="sz">先说说我的背景：我父母几乎没受过教育。父亲没读完初中，母亲高中毕业，就到此为止了。</span></span> <span class="sent"><span class="se">I did not grow up in a household with academic support. In my house there were no books — I remember we had one book: Gorbachev's Perestroika.</span><span class="sz">我成长的家庭没有任何学术支持。家里没有书——我记得只有一本：戈尔巴乔夫的《改革》。</span></span> <span class="sent"><span class="se">Why on earth we had it beats me. It collected dust for years. I tried to open it at eight and understood nothing.</span><span class="sz">为什么家里会有这本书，我至今不解。它落灰好多年。我八岁时试着翻开，一个字也没看懂。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">When I was in first grade, the second week, my mom sat down and asked what the problem was. I said I couldn't understand the math. She said, 'Well, you're on your own' — and I never had help after that.</span><span class="sz">一年级第二周，妈妈坐下来问我怎么了。我说数学题看不懂。她说：'那你只能靠自己了'——从那以后我再没得到过帮助。</span></span> <span class="sent"><span class="se">You might think I was into reading, then? Not at all. I did sports — seven days a week. In the summer I played video games all the time. No reading.</span><span class="sz">你也许以为我因此爱上了阅读？完全没有。我搞运动——一周七天。暑假一直打电子游戏。根本不读书。</span></span> <span class="sent"><span class="se">I was a pretty bad student too: a procrastinator, lazy, sometimes disrespectful to teachers. I had a good memory so I could pass tests, but I didn't do homework — so I averaged out to C grades.</span><span class="sz">我也是个差学生：拖延、懒散、有时对老师不礼貌。我记性好，能考试及格，但不做作业——所以平均下来就是 C。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">It wasn't great until my last year of high school, when one particular teacher turned me around a little. They said the right words and taught the right things to shift my thinking — academically and about life in general.</span><span class="sz">直到高中最后一年，一位老师稍微扭转了我。他们说对了话、教对了东西，改变了我的思维——无论是学业上还是对人生的看法。</span></span> </p></div>
-<div class="quote"><span class="tag ui">Chris · 给焦虑家长的话</span>
-<p class="en"><span class="sent"><span class="se">If your kid isn't into reading, hates reading, is obstinate, not academically successful — that's not the end of the world. It doesn't mean they can't turn around.</span><span class="sz">如果你的孩子不爱阅读、讨厌阅读、固执、学业不成功——这不是世界末日。不代表他们无法扭转。</span></span> <span class="sent"><span class="se">It doesn't mean your kid is guaranteed a lifetime of hating reading or academic failure. They can change. For me it was one or two teachers near the end of high school.</span><span class="sz">不代表你的孩子注定一辈子讨厌阅读、注定学业失败。他们能改变。对我来说，就是高中快结束时的一两位老师。</span></span> <span class="sent"><span class="se">So if they're not living up to your hopes as a parent, it might just be a matter of time. We don't want to pressure kids into reading — we want to do it in a nice, gradual way.</span><span class="sz">所以如果孩子还没达到你的期望，也许只是时间问题。我们不该逼孩子阅读——要用温和、循序渐进的方式。</span></span> </p></div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>本节没有教学内容,只是建立氛围。值得留意的是 Tim 处理干扰的方式:弟弟捣乱不批评,而是共情(“我弟弟妹妹以前也这样”);自己生病先说明,给孩子一个“老师也是人”的信号。</li>
+    <li>“上周无聊”这段对话虽然是玩笑,却透露一个信息:<b>这个班对 Tim 的课堂风格已经形成依赖</b>——有情绪、有互动、会追问。这是后面 Week 9 敢于讲 Hopkins 这么难的诗的底气。</li>
+    <li>如果你是外人、想自己练:开课前两分钟用一个真实的小状况(生病、迟到)把自己“亮出来”,比直接进入内容更容易让孩子开口。</li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Tim:</b> Hi, Claire. Drinking some milk. Hi, Claire's brother. It's not your lesson, Claire's brother. Hi, Reya!</span><span class="sz"><b>Tim:</b> 嗨,Claire,在喝牛奶呢。嗨,Claire 的弟弟。这不是你的课哦,Claire 的弟弟。嗨,Reya!</span></span> <span class="sent"><span class="se"><b>Tim:</b> Is that your brother being cheeky there, Claire?</span><span class="sz"><b>Tim:</b> 那是你弟弟在捣蛋吗,Claire?</span></span> <span class="sent"><span class="se"><b>Claire:</b> As always.</span><span class="sz"><b>Claire:</b> 一直都这样。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Oh, my brother and sister used to do that all the time. They grow out of it, don't worry.</span><span class="sz"><b>Tim:</b> 哦,我弟弟妹妹以前也老这样。他们长大就不会了,别担心。</span></span> <span class="sent"><span class="se"><b>Tim:</b> You might hear I've got a bit of a funny voice, I'm a little bit ill, but I'm recovering, so don't you worry about me. But I might need to blow my nose at certain points during this.</span><span class="sz"><b>Tim:</b> 你们可能听得出我声音有点怪,我有点生病,不过正在恢复,别担心我。但我上课中间可能得擤几次鼻涕。</span></span> <span class="sent"><span class="se"><b>Claire:</b> I also need to keep blowing my nose for the past 6 days. I got runny nose, too.</span><span class="sz"><b>Claire:</b> 我这六天也一直在擤鼻涕。我也流鼻涕。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Great, okay, is everybody ready to get started? Can I get a thumbs up if you're ready? Mark's got his thumb up, Olivia's got the thumb up, Trinity's got the thumb up, Reya's got several thumbs up, I think. Yujia, are you ready? This is all I need, Yujia. Just one of these. Okay. Excellent. Let's get started. So, I wasn't here last week. How was it?</span><span class="sz"><b>Tim:</b> 好,大家准备好开始了吗?准备好的给我一个大拇指?Mark 竖起来了,Olivia 竖起来了,Trinity 竖起来了,Reya 好像竖了好几个。Yujia,你准备好了吗?我只要这个,Yujia,就一个大拇指。好,太好了,我们开始。我上周不在,上得怎么样?</span></span> <span class="sent"><span class="se"><b>Claire:</b> Very boring.</span><span class="sz"><b>Claire:</b> 非常无聊。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> I wanted to sleep.</span><span class="sz"><b>Olivia:</b> 我想睡觉。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Oh, really? Is that because I wasn't there?</span><span class="sz"><b>Tim:</b> 真的吗?是因为我不在吗?</span></span> <span class="sent"><span class="se"><b>Claire:</b> Because Teacher Louise didn't have any emotions.</span><span class="sz"><b>Claire:</b> 因为 Louise 老师没有任何感情。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Oh, really? Whereas I'm full of emotions, aren't I? I'm all the emotions. Was that too much? Probably. But yes, we are on week 9. Look at all of the paintings that we've talked about. There's so many here, we can't even keep them all on one slide anymore.</span><span class="sz"><b>Tim:</b> 真的?那我可是充满感情的,对吧?我就是所有的感情。太夸张了?大概吧。不过没错,我们到第九周了。看看我们谈过的这些画,太多了,一张幻灯片都放不下了。</span></span> </p></div>
 </section>
 
 <!-- S2 -->
 <section id="s2">
-  <div class="sec-head"><span class="sec-num">02</span><h2>什么是阅读 · Reading = Interpretation</h2></div>
-  <div class="sec-time ui">08:00 – 15:00</div>
+  <div class="sec-head"><span class="sec-num">02</span><h2>狗狗情绪量表 · 考试周的每一个人</h2></div>
+  <div class="sec-time ui">05:35 – 15:20</div>
   <div class="keypoints ui"><b>要点</b><ul>
-    <li><b>核心命题：阅读的本质是"诠释"（interpretation），不是把眼睛扫过文字</b></li>
-    <li>牛津词典：reading = 诠释书面文字的能力；引英王阿尔弗雷德（约公元890年）——他用来指"诠释"的那个词，后来演变成了 "read"</li>
-    <li><b>诠释小说的四个层次（由浅入深）：</b></li>
-    <li>① <b>情节</b>：事件的时间顺序与因果（多数孩子没问题；追问"为什么发生"能测出理解深度）</li>
-    <li>② <b>人物</b>：性格特质如何影响言行、动机是什么、如何随时间改变、改变的意义（连接真实生活中的人，把直觉变成自觉）</li>
-    <li>③ <b>主题</b>：先找"话题"（友情/爱/战争/死亡），再问"作者对这个话题似乎持什么看法"——答案就是主题</li>
-    <li>④ <b>作者的选择</b>：像看画一样，作者在词汇、句式、结构、信息呈现上的选择——最微妙的一层</li>
-</ul>
+    <li>Tim 用“1-9 号狗”的情绪量表让每人选一只狗并<b>用自己的话描述那种情绪</b>:Mark 选 2 和 8(calm, excited——周四要去天津玩三天);Olivia “所有狗都是”,说这两周“ridiculously ridiculous”;Claire 选 4 和 5,伤心是因为数学考试丢了 2 分,学校要求每科 85%</li>
+    <li>Reya 选 3(sleepy),因为“学校太累”;Claire 补充:过去三周都是考试周;Trinity 不肯说,Tim 替她选 3 + 9(数学作业 7 页);Yujia 选 3 但不肯多说</li>
+    <li>Tim 顺口给了一个背景:英国大学一等学位只要 70%,“85% 非常非常难”。因为这段花了太久,原本的暖身游戏 Two Truths One Lie 挪到课末</li>
+  </ul>
   </div>
-<div class="para"><p class="en"><span class="sent"><span class="se">It might seem boring, but let's look at the dictionary. The Oxford English Dictionary tells us reading is interpretation — to interpret, or be able to interpret, the written form. The key word is interpretation.</span><span class="sz">也许有点枯燥，但我们看看词典。《牛津英语词典》告诉我们：阅读就是诠释——诠释、或有能力诠释书面文字。关键词是'诠释'。</span></span> <span class="sent"><span class="se">I've pulled a quote from King Alfred, around 890 AD. Explaining why he translated a text from Latin into English, he said nobody understands Latin but everybody can interpret written English — and the word he uses for 'interpret' is the very word that becomes 'to read'.</span><span class="sz">我引一句英王阿尔弗雷德的话，约公元890年。他解释为何把一部拉丁文翻成英文时说：没人懂拉丁文，但人人都能诠释书面英文——而他表示'诠释'用的那个词，正是后来演变成 'read（阅读）' 的词。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">So when we read a text — fiction, nonfiction, a graphic novel, even in a way when we watch a film — we need to be interpreting, thinking about the input we're receiving.</span><span class="sz">所以当我们读一个文本——小说、非虚构、漫画，某种意义上甚至看电影——我们都需要在诠释，思考我们接收到的输入。</span></span> <span class="sent"><span class="se">How do we interpret fiction? At the basic level, it's the chronology and causality of the plot: what events happen, why, and in what order. Most kids don't struggle with this. If you ask 'what happened,' they can tell you. To challenge them, ask 'why did those things happen?'</span><span class="sz">怎么诠释小说？最基础的层次是情节的时间顺序和因果：发生了哪些事、为什么、按什么顺序。多数孩子没问题。你问'发生了什么'，他们能答。想挑战他们，就问'这些事为什么会发生？'</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">At a deeper level, we want awareness of characters: their traits and qualities, how those affect how they speak and behave, their motivations, how they change over time and why, and the significance of those changes.</span><span class="sz">更深一层，我们要关注人物：他们的性格特质、这些特质如何影响言行、他们的动机、如何随时间改变、为什么改变、这些改变有何意义。</span></span> <span class="sent"><span class="se">It's not so hard if we connect it to the real world — everybody lives with other people, so we're intuitively aware of these things. The job is to bring that intuition to the forefront and make kids cognizant of it.</span><span class="sz">如果连接到真实世界，这并不难——每个人都和他人共同生活，所以我们对这些是有直觉的。要做的是把这种直觉推到台前，让孩子有意识地觉察。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">The next level is themes — the big ideas, the message, the point of the book. Here's how I teach it: first identify the topic in a word or two — friends, love, war, death, poverty. Then ask: what does the writer seem to believe about that topic? The answer to that is the theme. And then: how do we know that? That's the interpretation.</span><span class="sz">再上一层是主题——大观念、要传达的信息、这本书的用意。我这样教：先用一两个词找出话题——友情、爱、战争、死亡、贫穷。然后问：作者对这个话题似乎持什么看法？这个答案就是主题。接着问：我们怎么知道的？——这就是诠释。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">The last one, done more subtly, is appreciating authorial choices. In any text — even nonfiction — the writer has made specific choices in vocabulary, sentence structure, organization, what information to present. It's like looking at art: why did the painter use certain colors, strokes, composition? The same works for writing.</span><span class="sz">最后一层、也更微妙，是欣赏'作者的选择'。任何文本——包括非虚构——作者都在词汇、句式、结构、呈现哪些信息上做了具体选择。就像看画：画家为什么用这些颜色、笔触、构图？写作也一样。</span></span> </p></div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>这是 Tim 每周固定的 check-in,但它不只是问候——<b>“选一只狗,然后用词描述”本身就是描写训练</b>:把一个画面(狗的表情)翻译成情绪词(calm / excited / sleepy / overwhelmed),再说出原因。</li>
+    <li>Tim 对每个孩子都追问“how come?”,并且把孩子含糊的话替他们说清楚(Olivia 的“all of them”→“overwhelmed”;Trinity 不说话→“too much maths homework, number 3 and number 9”)。<b>老师示范“把感觉说成准确的词”</b>,正是这个单元 Painting with Words 的核心。</li>
+    <li>同时它是诊断:今天全班处于考试周的疲惫状态,Tim 后面缩短了任务时间(10 分钟)、放弃了暖身游戏,都源于这一段。</li>
+    <li>如果你是外人、想自己练:找一张有多种表情的图,给自己今天的状态选一个,再用两个形容词 + 一个原因说出来。</li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Tim:</b> Okay, so, I think first we should start with, on a dog scale, how are we feeling today? Let's go round.</span><span class="sz"><b>Tim:</b> 好,我想我们先从这个开始:按狗狗量表,今天大家感觉怎么样?轮一圈。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> What was dog scale?</span><span class="sz"><b>Olivia:</b> 狗狗量表是什么?</span></span> <span class="sent"><span class="se"><b>Tim:</b> It's the scale, it's the 1 to 9 of these dogs. So you've got to match the dog to your emotion, and then use your words to describe how you're feeling. So, why don't we go in the order that I see you guys on the screen? Mark, tell me which dog you're feeling and how you'd describe that emotion.</span><span class="sz"><b>Tim:</b> 就是这个量表,1 到 9 号这些狗。你要把狗和你的情绪对上,然后用你自己的话描述你的感觉。我们按屏幕上的顺序来吧。Mark,告诉我你是哪只狗,你会怎么描述那种情绪。</span></span> <span class="sent"><span class="se"><b>Mark:</b> Mmm… 2 and sort of 8.</span><span class="sz"><b>Mark:</b> 嗯……2,还有有点像 8。</span></span> <span class="sent"><span class="se"><b>Tim:</b> 2 and sort of 8. Okay, so both dogs have their tongues out. Maybe both quite silly, one looks very happy. How would you describe how these dogs are?</span><span class="sz"><b>Tim:</b> 2 和有点 8。好,这两只狗都吐着舌头。可能都挺傻的,有一只看起来很开心。你会怎么描述这两只狗?</span></span> <span class="sent"><span class="se"><b>Mark:</b> Calm, excited.</span><span class="sz"><b>Mark:</b> 平静,兴奋。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Excited! I like that! And how come you're excited?</span><span class="sz"><b>Tim:</b> 兴奋!我喜欢这个词!那你为什么兴奋?</span></span> <span class="sent"><span class="se"><b>Mark:</b> I will go on a trip to Tianjin, on Thursday.</span><span class="sz"><b>Mark:</b> 我周四要去天津旅行。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Oh, wow, amazing! That's very exciting! How long are you going away for?</span><span class="sz"><b>Tim:</b> 哇,太棒了!那很令人兴奋!你去多久?</span></span> <span class="sent"><span class="se"><b>Mark:</b> Like, 3 days.</span><span class="sz"><b>Mark:</b> 大概三天。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Three days, nice, a nice little trip! Well, good for you, Mark, I hope you have a great time. And I'll see you back on Monday, and we can talk all about it. Olivia, how about you?</span><span class="sz"><b>Tim:</b> 三天,不错,一个小旅行!好的,Mark,祝你玩得开心。下周一见,到时候可以好好聊聊。Olivia,你呢?</span></span> <span class="sent"><span class="se"><b>Olivia:</b> I'm feeling all of them, because every emotion is just made up of, like, just a little part. I'm feeling all.</span><span class="sz"><b>Olivia:</b> 我觉得所有的狗都是我,因为每种情绪都只占一小部分。我全都有。</span></span> <span class="sent"><span class="se"><b>Tim:</b> All of them, okay. So you're overwhelmed with emotion. Is that accurate?</span><span class="sz"><b>Tim:</b> 全部,好。那你是被情绪淹没了。这样说准确吗?</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Not exactly. I feel… I don't know what I'm feeling.</span><span class="sz"><b>Olivia:</b> 不完全是。我觉得……我不知道我在感觉什么。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Mmm, I see, interesting. And can you talk about why? How come? I've not seen you in two weeks, how have these two weeks been for you?</span><span class="sz"><b>Tim:</b> 嗯,我明白了,有意思。能说说为什么吗?我两周没见你了,这两周过得怎么样?</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Ridiculously ridiculous.</span><span class="sz"><b>Olivia:</b> 荒谬得荒谬。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Ridiculously ridiculous? Wow! What's the most ridiculously ridiculous thing that's happened?</span><span class="sz"><b>Tim:</b> 荒谬得荒谬?哇!发生的最荒谬的事是什么?</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Everything?</span><span class="sz"><b>Olivia:</b> 所有事?</span></span> <span class="sent"><span class="se"><b>Tim:</b> You're not giving away much, but wow, I'm sorry everything's been so crazy for you. You're overwhelmed, aren't you? Too much crazy stuff. Well, I hope things get a little bit calmer for you, and you end up feeling a bit more like dog 8, or maybe even dog 3, and get some calm, nice sleep there.</span><span class="sz"><b>Tim:</b> 你没透露多少,不过哇,很遗憾你这段时间这么疯狂。你是被压垮了,对吧?太多疯狂的事。希望事情能平静一点,让你变得更像 8 号狗,或者 3 号狗,好好睡一觉。</span></span> </p></div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Tim:</b> Claire, you've just said you're sad. Would you like to elaborate? Would you like to use the dogs?</span><span class="sz"><b>Tim:</b> Claire,你刚才说你很难过。想展开说说吗?想用狗狗来说吗?</span></span> <span class="sent"><span class="se"><b>Claire:</b> 4 and 5.</span><span class="sz"><b>Claire:</b> 4 和 5。</span></span> <span class="sent"><span class="se"><b>Tim:</b> 4 and 5… So, that's quite shocked and scared, maybe, and then a big sad one there. Oh, how come you're feeling so sad, Claire?</span><span class="sz"><b>Tim:</b> 4 和 5……那是挺震惊、有点害怕,然后是一只很伤心的。为什么这么难过,Claire?</span></span> <span class="sent"><span class="se"><b>Claire:</b> Because for the math exam, I gave my answer to the teacher, and the teacher said one of the answers I got it wrong, and the answer was a 2 mark.</span><span class="sz"><b>Claire:</b> 因为数学考试,我把答案交给老师,老师说有一题我做错了,那题是 2 分的。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Oh… Well, look, I was never very good at maths in my school times, and I managed to find a way, and I did okay.</span><span class="sz"><b>Tim:</b> 哦……听着,我上学时数学从来都不好,但我找到了自己的路,过得还不错。</span></span> <span class="sent"><span class="se"><b>Claire:</b> I need to get 85% for all of my exams.</span><span class="sz"><b>Claire:</b> 我所有考试都得拿到 85%。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Wow, that's really tough. That's really hard. 85% is very, very high. Remember, at university level, to get a first-class degree, you need 70%. Bear that in mind. So, 85% is very, very, very tough.</span><span class="sz"><b>Tim:</b> 哇,这真的很难。85% 非常非常高。记住,在大学里,拿一等学位只需要 70%。记住这一点。所以 85% 是非常非常难的。</span></span> <span class="sent"><span class="se"><b>Claire:</b> They expect me to be in Band 1 or something. That one is, like, the highest, the best class you could go to.</span><span class="sz"><b>Claire:</b> 他们希望我进 Band 1 之类的。那是最高的,你能进的最好的班。</span></span> <span class="sent"><span class="se"><b>Tim:</b> I see. Oh, I hate maths. I don't envy you. Good luck, okay? I'm wishing you all the best, Claire. Reya, how are you?</span><span class="sz"><b>Tim:</b> 明白了。哦,我讨厌数学。我不羡慕你。祝你好运,好吗?祝你一切顺利,Claire。Reya,你怎么样?</span></span> <span class="sent"><span class="se"><b>Reya:</b> Mmm… Maybe… number 3.</span><span class="sz"><b>Reya:</b> 嗯……可能……3 号。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Number 3, sleepy. Is that how you'd describe it? How come you're so sleepy?</span><span class="sz"><b>Tim:</b> 3 号,困。你会这样描述吗?为什么这么困?</span></span> <span class="sent"><span class="se"><b>Reya:</b> Because the school is tiring.</span><span class="sz"><b>Reya:</b> 因为上学很累。</span></span> <span class="sent"><span class="se"><b>Claire:</b> The past 3 weeks have been our exam week, so we are very tired from studying.</span><span class="sz"><b>Claire:</b> 过去三周都是我们的考试周,所以我们学得很累。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Yeah, and Mondays are always, like, the sleepiest day, because it's like, back to school! So, yeah, I don't envy you, but you will get through it, I believe in you.</span><span class="sz"><b>Tim:</b> 对,而且周一总是最困的一天,因为要重新上学了!所以我不羡慕你们,但你们会挺过去的,我相信你们。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Trinity, which dog would you use to describe how you're feeling? Not sure. That's okay. But you're overwhelmed with maths homework, and you want that to be done. We can say number 3, because look at that, that's someone who's got too much maths homework, and maybe number 9 as well. Super sad about the maths homework. I hope you get it done quick.</span><span class="sz"><b>Tim:</b> Trinity,你会用哪只狗描述你的感觉?不确定。没关系。不过你被数学作业压得喘不过气,你想赶紧做完。我们可以说 3 号,你看,那就是一个数学作业太多的人,可能还有 9 号,为数学作业超级难过。希望你快点做完。</span></span> <span class="sent"><span class="se"><b>Claire:</b> Teacher said when she marked the English exam, someone wrote that someone jumped off the diving board when it was their first swimming. That story was me!</span><span class="sz"><b>Claire:</b> 老师说她改英文考卷的时候,有人写了一个人第一次游泳就从跳板上跳下去。那个故事是我写的!</span></span> <span class="sent"><span class="se"><b>Tim:</b> Okay, Claire, before we get too distracted, we've got Yujia to do. Yujia! Which dog would you use to describe how you're feeling today?</span><span class="sz"><b>Tim:</b> 好,Claire,在我们跑太远之前,还有 Yujia。Yujia!你会用哪只狗描述今天的感觉?</span></span> <span class="sent"><span class="se"><b>Yujia:</b> Number 3.</span><span class="sz"><b>Yujia:</b> 3 号。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Number 3, are you sleepy? Have you had a good week or two weeks since I last saw you? Okay, well, if you're feeling shy, that's okay. I say, let's get on with some listening! That took a bit more time, so we'll do the warm-up at the end. It could be a warm down, we can play a little bit of Two Truths One Lie.</span><span class="sz"><b>Tim:</b> 3 号,你困吗?自从上次见面,这一两周过得好吗?好吧,如果你害羞,没关系。我们开始听课吧!刚才花的时间多了些,所以暖身游戏放到最后做。可以叫“冷身”,我们可以玩一会儿“两真一假”。</span></span> </p></div>
 </section>
 
 <!-- S3 -->
 <section id="s3">
-  <div class="sec-head"><span class="sec-num">03</span><h2>什么"不是"阅读</h2></div>
-  <div class="sec-time ui">15:00 – 18:00</div>
+  <div class="sec-head"><span class="sec-num">03</span><h2>作业反馈 + See / Notice / Think · 一幅「像涂鸦」的画</h2></div>
+  <div class="sec-time ui">15:20 – 20:45</div>
   <div class="keypoints ui"><b>要点</b><ul>
-    <li><b>"超人式"扫读不是阅读</b>：飞快翻页、眼睛扫过每行，但什么都没进脑子——因为没有诠释</li>
-    <li>进阶一点的问题读法：能抓到要点细节，但答不出"这有什么意义"</li>
-    <li>"交易式"阅读：只为找一个答案，其余一概不管——比纯扫读好一点，但仍缺整体诠释</li>
-    <li><b>一切都在语境（context）中，必须能理解语境</b></li>
-</ul>
+    <li>作业反馈:Trinity、Claire 都对超现实主义作业竖大拇指朝下(Olivia:“一半的精力浪费在随机知识上”);Tim 说“我喜欢超现实,它可以由你解读,但各有所好”</li>
+    <li>本周的画是一幅<b>以《The Windhover》诗句环绕一只大鸟</b>的画。Claire:“这不像画,像某个疯学生在笔记本上乱涂”;Mark:“像有人在墙上乱写”;Tim 引导:“中心图像是什么?——一只巨大的鸟,周围的字可能在描写它”</li>
+    <li>Tim 抛出问题:<b>为什么有人会写一首关于鸟的诗?</b> Claire:“也许是 Harry Potter 写 Hedwig”;Olivia:“因为它在飞、很吵、让人烦”。Tim 讲解:诗歌有“走进自然、写自然”的悠久传统,城市人(伦敦、新加坡)可能不太理解</li>
+    <li>聊天框刷 emoji 开始成为干扰,Tim 多次提醒</li>
+  </ul>
   </div>
-<div class="para"><p class="en"><span class="sent"><span class="se">What reading is NOT — you might recognize this in your kids or yourself. It's not 'check, read that book,' flipping pages as fast as possible. Have you ever seen a kid finish a book impossibly fast, say 'I'm just a fast reader,' and then be unable to talk about it? That's because they didn't really read.</span><span class="sz">什么'不是'阅读——你可能在孩子或自己身上见过。不是'打勾、读完这本书'、飞快翻页。你有没有见过孩子快得离谱地读完一本书，说'我就是读得快'，然后却说不出书里讲了什么？那是因为他们没有真正在读。</span></span> <span class="sent"><span class="se">Flipping pages like Superman, eyes moving across the line but nothing sinking in — that is not reading, because it's a lack of interpretation.</span><span class="sz">像超人一样翻页，眼睛扫过每一行但什么都没沉进去——那不是阅读，因为缺乏诠释。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Some students do one up: they get the main points and details, but they can't answer 'so what does it really mean? what's the significance?' They can say this happened, this happened — but not why it matters to the story or to our lives. At least we're on the right path there.</span><span class="sz">有些学生高一档：他们能抓到要点和细节，但答不出'那这到底意味着什么？有什么意义？'他们能说这发生了、那发生了——但说不出对故事、对我们的生活为何重要。至少这条路走对了。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Another problem is making reading transactional: reading only to answer a question. 'I find the answer, I don't care about anything else.' That's a little better — they've interpreted a prompt and deciphered the correct information — but it's still lacking an overall interpretation. Everything comes into a context, and we need to understand the context.</span><span class="sz">另一个问题是把阅读变成'交易'：读只为回答一个问题。'我找到答案就行，别的不管。'这稍好一点——他们诠释了题目、辨识出正确信息——但仍缺整体诠释。一切都存在于语境中，我们必须理解语境。</span></span> </p></div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>沿用九周来固定的看画三步 See / Notice / Think,但这周的“画”是文字和图像的混合体——<b>Tim 故意用一幅“像涂鸦”的画,把学生从“看画”引向“读诗”</b>:字在画里,画在字里,过渡自然。</li>
+    <li>孩子的第一反应(“不像画”“乱涂”)Tim 不否定,而是把它转成分析:“它有点像涂鸦,对吧?那中心图像是什么?”——<b>先承认观感,再往细节走</b>。</li>
+    <li>“为什么写鸟”这个问题看似闲聊,其实是在铺垫:诗人写自然不是因为鸟有趣,而是一种传统和一种“在场”的体验,这为后面“把自己放到一个空间里看着一个东西移动”的写作任务埋下伏笔。</li>
+    <li>如果你是外人、想自己练:找一幅带文字的画(海报、涂鸦也行),先说“它像什么”,再找出中心图像,再猜文字和图像的关系。</li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Tim:</b> Homework, how did it go, everyone? How do we feel about the homework? Thumbs up, thumbs up? Thumbs down, says Trinity, you didn't enjoy it. How come?</span><span class="sz"><b>Tim:</b> 作业做得怎么样,各位?对作业感觉如何?大拇指朝上?Trinity 大拇指朝下,你不喜欢。为什么?</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Half of my energy wasted on random knowledge.</span><span class="sz"><b>Olivia:</b> 我一半的精力浪费在随机知识上。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Was there just too much surrealism? You don't like the surrealist paintings? You like it a bit more realistic? Yeah, that's what it is, I see. What about you, Claire? Thumbs down as well! I like the surreal stuff.</span><span class="sz"><b>Tim:</b> 是不是超现实主义太多了?你不喜欢超现实主义的画?你更喜欢写实一点的?对,就是这样,我明白了。你呢,Claire?也是朝下!我喜欢超现实的东西。</span></span> <span class="sent"><span class="se"><b>Claire:</b> That's a little bit crazy.</span><span class="sz"><b>Claire:</b> 那有点疯狂。</span></span> <span class="sent"><span class="se"><b>Tim:</b> And it's up to your interpretation, that's what I like. But each to their own. Sorry that you didn't like it too much as a class. Okay, let's move on then. So, see, notice, and think. What do we think of this?</span><span class="sz"><b>Tim:</b> 而且它由你来解读,这是我喜欢的地方。不过各有所好。抱歉你们全班都不太喜欢。好,那我们继续。看到、注意到、想到。我们觉得这幅怎么样?</span></span> <span class="sent"><span class="se"><b>Claire:</b> What is this? It doesn't look like a painting! It looks like a student just scribbled it in his papers.</span><span class="sz"><b>Claire:</b> 这是什么?这不像一幅画!看起来像一个学生在纸上乱涂的。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Oh, it is, but it is! It is a painting. It might be a painting based on a poem… So what do we think? What do we see?</span><span class="sz"><b>Tim:</b> 哦,它是的,它就是画!它是一幅画。它可能是一幅根据一首诗画的画……那我们怎么看?我们看到什么?</span></span> <span class="sent"><span class="se"><b>Claire:</b> Dawn, drawn, brute, beautiful, valour, and act, the Windhover, Chevalier. All the words on the paintings.</span><span class="sz"><b>Claire:</b> dawn、drawn、brute、beautiful、valour、act、the Windhover、Chevalier。画上所有的字。</span></span> <span class="sent"><span class="se"><b>Mark:</b> Like, someone just scrawled nonsense on the wall.</span><span class="sz"><b>Mark:</b> 就像有人在墙上乱写了一堆胡话。</span></span> <span class="sent"><span class="se"><b>Tim:</b> It is a little bit like that, it's a little bit like graffiti, right?</span><span class="sz"><b>Tim:</b> 确实有点像,有点像涂鸦,对吧?</span></span> <span class="sent"><span class="se"><b>Claire:</b> It looks like some kind of crazy student took out his journal or notebook and scribbled a drawing on it.</span><span class="sz"><b>Claire:</b> 看起来像某个疯疯癫癫的学生拿出他的日记本或笔记本,在上面乱画了一幅。</span></span> <span class="sent"><span class="se"><b>Tim:</b> And yet, what is the central image here? It's not just words, is it? There's a…</span><span class="sz"><b>Tim:</b> 可是,这里的中心图像是什么?不只是字,对吧?有一个……</span></span> <span class="sent"><span class="se"><b>Claire:</b> It's a giant…</span><span class="sz"><b>Claire:</b> 是一只巨大的……</span></span> <span class="sent"><span class="se"><b>Tim:</b> A giant bird, yes, a bird, absolutely. And there are words around it, and the words are potentially describing it. You see? Well, let's read the poem this is based on, I say. So, first of all, why would someone write a poem about a bird? And what details might they include if they were to write something about it?</span><span class="sz"><b>Tim:</b> 一只巨大的鸟,对,一只鸟,没错。它周围有字,这些字可能就是在描写它。看到了吗?那我们来读读这幅画所依据的诗吧。首先,为什么有人要写一首关于鸟的诗?如果要写它,他们可能会写进哪些细节?</span></span> <span class="sent"><span class="se"><b>Claire:</b> Maybe that person might be Harry Potter, cause he got an owl.</span><span class="sz"><b>Claire:</b> 也许那个人是 Harry Potter,因为他有一只猫头鹰。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Maybe he wants to write a poem about Hedwig, because he loves Hedwig so much. Absolutely. Any other reasons? Or are we just gonna do emojis to each other? Okay, well, let's not get distracted by the emojis, guys, come on. Why would you write a poem about a bird?</span><span class="sz"><b>Tim:</b> 也许他想写一首关于 Hedwig 的诗,因为他太爱 Hedwig 了。没错。还有别的原因吗?还是我们要互相发 emoji?好了,别被 emoji 分心,各位,来。你为什么会写一首关于鸟的诗?</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Because it is flying, and it's making a lot of noise, which makes you annoyed!</span><span class="sz"><b>Olivia:</b> 因为它在飞,还制造很多噪音,让你很烦!</span></span> </p></div>
+<div class="quote"><span class="tag ui">Tim · 为什么诗人写鸟</span>
+<p class="en"><span class="sent"><span class="se">Yeah, you might be annoyed by the bird. What I will say is there is a grand tradition in poetry to be out in nature, and write about nature. And what does nature contain? Nature has so many birds!</span><span class="sz">对,你可能会被鸟烦到。我要说的是,诗歌有一个伟大的传统:走进自然,写自然。而自然里有什么?自然里有那么多鸟!</span></span> <span class="sent"><span class="se">So we maybe don't understand this quite as city people, me being from London and you guys being from Singapore, but being out in the countryside and in nature is a long-standing tradition of poetry. And to be out, and to write poems about birds and trees, and marvels such as these.</span><span class="sz">作为城市人——我来自伦敦,你们来自新加坡——我们可能不太理解这一点,但走到乡野、走进自然,是诗歌里一个源远流长的传统。走出去,写关于鸟、关于树、关于这些奇观的诗。</span></span> <span class="sent"><span class="se">Exactly! You can write a poem about Hedwig if you want. Absolutely, which is why we're not focusing on maths today, are we? We are focusing on stories and poems!</span><span class="sz">没错!你想的话可以写一首关于 Hedwig 的诗。当然,这也是为什么我们今天不关注数学,对吧?我们关注的是故事和诗!</span></span> </p></div>
 </section>
 
 <!-- S4 -->
 <section id="s4">
-  <div class="sec-head"><span class="sec-num">04</span><h2>为什么要读（一）· 语言发展</h2></div>
-  <div class="sec-time ui">18:00 – 26:00</div>
+  <div class="sec-head"><span class="sec-num">04</span><h2>朗读《The Windhover》· 节奏、韵脚与 Hopkins 其人</h2></div>
+  <div class="sec-time ui">20:45 – 26:35</div>
   <div class="keypoints ui"><b>要点</b><ul>
-    <li><b>你无法学会从未接触过的东西</b>——词汇也一样。日常口语词汇很有限（几百到几千），丰富词汇存在于"书面语"中</li>
-    <li>书面语有高"词汇密度"（lexical density）、更广的词域、不同语域（register）</li>
-    <li>书面语是"组织过"的：可以推敲词序、句式变化，创造美感、强调重点</li>
-    <li><b>读—写的正反馈循环</b>：读得多才能写得好；写得多又反过来提升阅读时对技巧的敏感（引 Stephen King："不读书就写不出来"）</li>
-    <li>《了不起的盖茨比》实例：inessential、pandering、transitory enchanted moment、commensurate——这些词与五层复杂句，只有阅读才能接触到</li>
-    <li>语言力几乎对所有职业都重要（凡需说服、销售、打动人的工作，都靠对语言力量的理解）</li>
-</ul>
+    <li>Tim 完整朗读 Gerard Manley Hopkins 的《The Windhover》(“I caught this morning morning’s minion, kingdom of daylight’s dauphin, dapple-dawn-drawn Falcon…”),预告“很老派、可能很难懂,看看能不能发现技巧和情绪”</li>
+    <li><b>Mark 发现第一段全部押 -ing 韵</b>(riding, striding, wing, swing, gliding, hiding, thing);Tim 指出第二、三节韵脚换成 -illion / -ier(billion, chevalier, sillion, vermilion),并教术语:<b>诗里不叫 paragraph,叫 stanza</b></li>
+    <li>Hopkins 生平:1844 生于 Stratford,1889 卒于都柏林,英国诗人、耶稣会神父,生前诗作未发表,死后影响后世——“就像梵高”。Claire:“有人到死也没看到自己是对的,然后靠自己的对而出名”</li>
+    <li><b>关键论断:画家不能发出声音,作家可以</b>——诗是用词让语言像音乐。Claire 反问“画家在画里画烟花呢?”Tim:“你想象时能听见,但画本身听不见”</li>
+    <li>Olivia 和 Trinity 主动接力朗读全诗(磕磕绊绊但完整),Tim:“a beautiful joint reading”</li>
+  </ul>
   </div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Reading is important for language development, particularly vocabulary. You can't learn words — or anything — you've never been exposed to. Most people's everyday vocabulary is quite limited: a few hundred, maybe a couple thousand words. Extensive vocabulary is found in writing, which has high lexical density — a wider range and various registers of words. So kids gotta read.</span><span class="sz">阅读对语言发展很重要，尤其是词汇。你无法学会从未接触过的词——任何东西都一样。多数人的日常词汇很有限：几百个，也许上千个。丰富的词汇存在于书面语中，它有很高的'词汇密度'——更广的词域和不同的语域。所以孩子必须读。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Because written language is organized and not on-the-spot, we can play with words and word order, sentence variety. Most people speak subject-verb-object: 'I went to the market.' Written language uses techniques to increase beauty or accentuate a point. If we want students to express themselves beautifully and concisely in writing, they need to see beautiful, concise writing.</span><span class="sz">因为书面语是组织过的、不是即兴的，我们可以推敲词语和词序、句式的变化。大多数人说话是主谓宾：'我去了市场。'而书面语用各种技巧来增加美感、强调重点。如果我们希望学生能在书面上优美而凝练地表达自己，他们就需要看到优美、凝练的写作。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">This becomes passive through exposure to writing, and active through speaking and writing. I read vocabulary and language, and over time I can replicate and reproduce it. A lot of the vocabulary you use, you didn't learn from your parents or friends — you learned it in school, from reading and writing.</span><span class="sz">这些通过接触写作被动地内化，再通过说和写主动地输出。我读到词汇和语言，久而久之就能复现和再生产它。你用的很多词汇，不是从父母或朋友那里学的——是在学校、通过读和写学到的。</span></span> <span class="sent"><span class="se">Reading and writing create a feedback loop: to write well I have to read a lot, and by writing I improve my reading. Stephen King says: if you don't read, you can't write. If you don't read, you lack the extensive vocabulary and the tools to create effective writing.</span><span class="sz">读和写形成一个正反馈循环：要写得好，我必须大量阅读；而通过写作，我又提升了阅读。斯蒂芬·金说：不读书，就写不出来。不读，你就缺乏丰富的词汇，也缺乏写出有效文字的工具。</span></span> </p></div>
-<div class="quote"><span class="tag ui">实例 · 《了不起的盖茨比》</span>
-<p class="en"><span class="sent"><span class="se">Here's vocabulary you wouldn't use in everyday life: 'inessential houses,' 'pandering in whispers to the last and greatest of all human dreams,' a 'transitory, enchanted moment,' 'commensurate to his capacity for wonder.' You can only be exposed to this through reading.</span><span class="sz">这是些日常绝不会用的词汇：'非必要的房子'、'向人类最后也最伟大的梦想低声献媚'、'一个转瞬即逝、令人心醉的时刻'、'与他惊叹的能力相称'。这些只能通过阅读接触到。</span></span> <span class="sent"><span class="se">Look at the sentence structure: a subordinate clause, then the main clause, a prepositional phrase modifying it, a restrictive relative clause — five parts, in an order you'd never use in speech, but it makes it so much more beautiful. 'As the moon rose higher, the inessential houses began to melt away.' We read to develop this sensitivity to language.</span><span class="sz">再看句式：一个从句、接主句、修饰主句的介词短语、一个限定性关系从句——五个部分，顺序是你说话绝不会用的，却让它美得多。'当月亮升得更高，那些非必要的房子开始融化消失。'我们阅读，正是为了培养这种对语言的敏感。</span></span> </p></div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li><b>Tim 选了一首远超 Level 2 阅读水平的诗,但目标不是“读懂”,而是“听见”</b>——他反复说“don’t worry if you can’t understand it”“it’s fun to say”。这是教声音技巧的正确起点:先让耳朵感到愉快,再命名技巧。</li>
+    <li>他把发现权交给学生:先问“what do we notice?”,Mark 自己找出 -ing 韵,Tim 再补全并升级(“是不是都是全韵?可能有半韵,待会讲”)——<b>为 Part 4 的 assonance / dissonance 预埋钩子</b>。</li>
+    <li>“画家不能发声、作家可以”是本课的核心命题,把九周来的 Painting with Words 推进一步:<b>文字不只画画面,还画声音</b>。</li>
+    <li>如果你是外人、想自己练:大声读这首诗三遍,不查字典,只标出让你嘴巴觉得好玩的地方,再找它们押了什么音。</li>
+  </ul>
+  </div>
+<div class="quote"><span class="tag ui">Tim · 朗读《The Windhover》</span>
+<p class="en"><span class="sent"><span class="se">I caught this morning morning’s minion, kingdom of daylight’s dauphin, dapple-dawn-drawn Falcon, in his riding of the rolling level underneath him steady air, and striding high there, how he rung upon the rein of a wimpling wing in his ecstasy! then off, off forth on swing, as a skate’s heel sweeps smooth on a bow-bend: the hurl and gliding rebuffed the big wind. My heart in hiding stirred for a bird, the achieve of, the mastery of the thing!</span><span class="sz">今晨我捕捉到晨光的宠儿,白昼王国的太子,斑驳黎明牵出的猎鹰,他驾驭着身下平稳翻滚的空气,高高阔步,在狂喜中如何拽紧翻飞翅膀的缰绳!随即荡开,荡向前去,像冰刀的后跟平滑地滑过弓弯:那疾冲与滑翔顶回了大风。我藏匿的心为一只鸟而悸动——那成就,那对此事的驾驭!</span></span> <span class="sent"><span class="se">Brute beauty and valour and act, oh, air, pride, plume, here buckle! And the fire that breaks from thee then, a billion times told lovelier, more dangerous, O my chevalier! No wonder of it: sheer plod makes plough down sillion shine, and blue-bleak embers, ah my dear, fall, gall themselves, and gash gold-vermilion.</span><span class="sz">粗粝之美、勇武与行动,哦,空气、骄傲、羽饰,在此扣合!而那时从你身上迸出的火,可爱十亿倍,更危险,哦我的骑士!这并不奇怪:纯粹的苦耕让犁沟闪亮,而青灰的余烬,啊我的亲爱,坠落,磨伤自己,裂出金朱红。</span></span> <span class="sent"><span class="se">What are our initial thoughts on that? Well, what are some of your feelings, then? Some of your emotions? It was fun to say out loud, it's very rhythmic. And lots and lots of words. It's fun, right? And what do we notice?</span><span class="sz">我们最初的想法是什么?那么,你们有什么感觉?有什么情绪?大声读出来很好玩,它非常有节奏。而且有很多很多词。好玩吧?我们注意到了什么?</span></span> </p></div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Olivia:</b> I think it burns human cells, and it burns human CPU, and I don't think it makes sense.</span><span class="sz"><b>Olivia:</b> 我觉得它烧人的脑细胞,烧人的 CPU,而且我觉得它没道理。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Yeah, there's some kind of nonsense in there, right? There's some fun kind of nonsense. This morning morning's minion. What does that mean?</span><span class="sz"><b>Tim:</b> 对,里面有些像胡话的东西,对吧?有一种好玩的胡话。This morning morning's minion,这是什么意思?</span></span> <span class="sent"><span class="se"><b>Mark:</b> Like, in the first paragraph, it all ends with ING.</span><span class="sz"><b>Mark:</b> 第一段,全部都以 ING 结尾。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Yes, absolutely, riding, striding, wing, swing, gliding, hiding, thing. Are they all full rhymes? I don't know, some of them might be half rhymes, we might get into that a little bit. But they all end in ING, yes, and then we have here, billion, and chevalier, and then sillion, dear and vermilion, so the rhyme scheme changes for the second and third stanza. When it's a poem, we say stanza instead of a paragraph.</span><span class="sz"><b>Tim:</b> 对,完全正确,riding、striding、wing、swing、gliding、hiding、thing。它们都是全韵吗?我不确定,有些可能是半韵,我们待会儿会讲到。但它们都以 ING 结尾,对,然后这里有 billion、chevalier,然后 sillion、dear、vermilion,所以第二、第三节的韵式变了。诗里我们不说 paragraph(段落),说 stanza(诗节)。</span></span> <span class="sent"><span class="se"><b>Tim:</b> So, this poem was written by Gerard Manley Hopkins, who was born in 1844 in Stratford and died in 1889 in Dublin. Died a young man, unfortunately. So he's an English poet, and also a Jesuit priest! His poetry was not published until after he died, but it influenced poets who came after him, much like Vincent van Gogh, who wasn't successful when he was alive, but was successful after death.</span><span class="sz"><b>Tim:</b> 这首诗的作者是 Gerard Manley Hopkins,1844 年生于 Stratford,1889 年在都柏林去世。可惜英年早逝。他是英国诗人,也是耶稣会神父!他的诗直到死后才出版,却影响了后来的诗人——很像梵高,活着时不成功,死后成功了。</span></span> <span class="sent"><span class="se"><b>Claire:</b> Some people, they never live to see they are actually right, and then they become famous for their right.</span><span class="sz"><b>Claire:</b> 有些人到死也没看到自己其实是对的,然后就因为他们的对而出名。</span></span> <span class="sent"><span class="se"><b>Tim:</b> It's very true. It happens less these days, thankfully. But yes, it does happen, indeed. So the poem describes the flight of a windhover, a type of kestrel bird. He uses rhythm to describe the bird's rolling flight, and his own excitement at seeing the bird fly. So read it to yourself several times, don't worry if you can't understand it. The idea is to see how poets and writers can make words sound like music. Painters can't make sounds, but writers can, right?</span><span class="sz"><b>Tim:</b> 非常对。好在现在这种事少了。但确实会发生。这首诗描写的是 windhover(风鹰)的飞行,一种红隼。他用节奏来描写鸟翻滚的飞行,以及自己看到鸟飞时的兴奋。所以自己多读几遍,读不懂没关系。重点是看诗人和作家怎么让词听起来像音乐。画家发不出声音,但作家可以,对吧?</span></span> <span class="sent"><span class="se"><b>Claire:</b> But what if a painter put fireworks in his painting?</span><span class="sz"><b>Claire:</b> 那如果画家在画里画烟花呢?</span></span> <span class="sent"><span class="se"><b>Tim:</b> A painter who puts fireworks in his painting? Well, I guess you can hear it when you imagine it, but you can't hear it in the painting, can you? I caught this morning morning's minion, kingdom of daylight's dauphin, dapple-dawn-drawn falcon in his riding. It's so fun to say, you guys should try it.</span><span class="sz"><b>Tim:</b> 画家在画里画烟花?嗯,我猜你想象的时候能听见,但你在画里听不见,对吧?I caught this morning morning's minion, kingdom of daylight's dauphin, dapple-dawn-drawn falcon in his riding。太好玩了,你们应该试试。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> I caught this morning morning's minion… kingdom of daylight's dolphin… in his riding of the rolling level underneath him steady air…</span><span class="sz"><b>Olivia:</b> I caught this morning morning's minion……kingdom of daylight's dolphin……in his riding of the rolling level underneath him steady air……</span></span> <span class="sent"><span class="se"><b>Trinity:</b> How he rung upon the rein… a billion times lovelier, more dangerous… shine and blue-bleak embers, my dear…</span><span class="sz"><b>Trinity:</b> How he rung upon the rein……a billion times lovelier, more dangerous……shine and blue-bleak embers, my dear……</span></span> <span class="sent"><span class="se"><b>Olivia:</b> No wonder! Shoot! Oh, man. Thank you so much.</span><span class="sz"><b>Olivia:</b> No wonder!哎呀!天哪。太感谢了。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Beautiful. A beautiful joint reading there. Fun to say?</span><span class="sz"><b>Tim:</b> 漂亮。一次漂亮的合作朗读。念起来好玩吗?</span></span> <span class="sent"><span class="se"><b>Claire:</b> I lost count. What was I about to say? I lost count.</span><span class="sz"><b>Claire:</b> 我数丢了。我刚要说什么来着?我数丢了。</span></span> </p></div>
 </section>
 
 <!-- S5 -->
 <section id="s5">
-  <div class="sec-head"><span class="sec-num">05</span><h2>为什么要读（二）· 成为更好的人</h2></div>
-  <div class="sec-time ui">26:00 – 33:00</div>
+  <div class="sec-head"><span class="sec-num">05</span><h2>写作任务 1 · 用节奏描写一个移动的东西 + 头韵 alliteration</h2></div>
+  <div class="sec-time ui">26:35 – 33:10</div>
   <div class="keypoints ui"><b>要点</b><ul>
-    <li>即便孩子将来当数学家/物理学家，阅读仍让人成为"更好的人"</li>
-    <li><b>阅读帮我们建立四种"联结"（connections）：</b>文本↔文本、文本↔自己的生活、文本↔认识的他人（培养共情）、文本↔更广阔的世界</li>
-    <li>实例《Wonder（奇迹男孩）》中引《霍比特人》的段落：主角 August 面部畸形、第一天上学被霸凌，回家心碎；霍比特人的箭失效、困在看不到尽头的森林=他无处可藏的处境</li>
-    <li><b>阅读让孩子提前经历、理解那些他们作为小孩还无法亲历的人生经验（被霸凌、他人的痛苦）</b></li>
-    <li>"每个人都背着自己的十字架"——世界残酷不公，但我们至少能不让苦难延续下去</li>
-</ul>
+    <li>任务:<b>用语言描写一个移动的东西</b>,用节奏和其它文学技巧,“把规则手册扔掉”,甚至可以像 Hopkins 那样自创词。备选:过山车、鸟、飞机、滑水的人</li>
+    <li>三步引导:① 它怎么动?<b>画出它的轨迹</b>(圆、弧、直线);② 它动的时候<b>发出什么声音</b>?③ 想 <b>5 个 -ing 形容词</b>(swishing, splashing, screeching, creaking)。10 分钟,写在 working document 里,可以是诗、也可以只是一段描写</li>
+    <li>顺手教<b>头韵 alliteration</b>:第二行 “kingdom of daylight’s dauphin, dapple-dawn-drawn” 反复出现 D 音——全班没人听过这个词;Tim 举例 F 音 “feeling frolicking”,再指出诗里 M 音(morning’s minion)、G 音(gash gold vermilion)</li>
+    <li>插曲:Claire 两分钟就喊“I finished!”(“不,你没有”);Claire 说 Week 10 之后就没课了,Tim:“你就自由了,得自己抽时间写故事”;Trinity 把“自创词”理解成乱打字;聊天框太吵,Tim 正式警告</li>
+  </ul>
   </div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Reading helps us be better humans. We talk about four connections: text to another text (the most straightforward); more importantly, text to our own lived lives; text to other people we know — this builds empathy, understanding others' viewpoints, putting ourselves in their shoes; and text to the wider world — what can I understand about the world I live in?</span><span class="sz">阅读让我们成为更好的人。我们谈'四种联结'：文本与另一个文本（最直接的）；更重要的是，文本与我们自己亲历的生活；文本与我们认识的他人——这培养共情，理解他人的观点，设身处地；以及文本与更广阔的世界——我能通过文本理解我所生活的世界什么？</span></span> <span class="sent"><span class="se">Even if you become a mathematician or physicist, you still live in a world of humans. You need awareness of yourself, of those around you, and of the world you live in — unless you want to be a hermit.</span><span class="sz">即使你成为数学家或物理学家，你仍生活在人的世界里。你需要觉察自己、觉察周围的人、觉察你所生活的世界——除非你想当隐士。</span></span> </p></div>
-<div class="quote"><span class="tag ui">实例 · 《Wonder》引《霍比特人》</span>
-<p class="en"><span class="sent"><span class="se">Our main character, August, has just had his first day of school and was bullied. He goes home feeling wrecked. A lot of us can relate — most of us have been bullied at some point.</span><span class="sz">主角 August 刚上完第一天学，被霸凌了。他回到家，心力交瘁。我们很多人都能共鸣——大多数人一生中都曾在某个时刻被霸凌过。</span></span> <span class="sent"><span class="se">The passage is metaphorical: the hobbits use arrows to defend, but they're useless; they're stuck in a forest with no end in sight, no hope. That relates directly to August — his usual way of defending himself is to hide behind long hair and silence, but it didn't stop the bullying, and it's only the first day.</span><span class="sz">那段文字充满隐喻：霍比特人用箭防御，却毫无用处；他们困在一片看不到尽头的森林里，毫无希望。这正对应 August——他一贯的自我保护方式是用长发和沉默把自己藏起来，但这次没能挡住霸凌，而这才只是第一天。</span></span> <span class="sent"><span class="se">August was born with a facial abnormality. But a lot of people are born different. Everybody has their own cross to bear. The world is cruel and unfair — but at our own scale, we don't have to make suffering carry on. We can stop the chain of suffering a little.</span><span class="sz">August 天生面部畸形。但很多人生来就与众不同。每个人都背着自己的十字架。世界残酷不公——但在我们自己的尺度上，我们不必让苦难延续。我们能稍微斩断苦难的链条。</span></span> </p></div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>这是九周来第一次把写作对象从“静止的画面”换成“<b>移动的东西</b>”——Painting with Words 的下一层:画面会动、会响。三个引导步骤(轨迹 → 声音 → -ing 词)把一个抽象要求拆成可操作的动作,是 Level 2 学生能上手的脚手架。</li>
+    <li>“<b>throw out the rulebook / make up words</b>”不是放任,而是在降低门槛:先让学生敢写、写出声音感,技巧(头韵、半韵)在后面才逐个命名。这符合“先体验、后命名”的教学顺序。</li>
+    <li>头韵是在学生动笔<b>之后</b>顺手教的,而且从诗里现成的例子出发(D、M、G 音)——技巧总是从文本里“捞”出来,而不是先列定义。</li>
+    <li>如果你是外人、想自己练:选一样会动的东西,先画它的轨迹,列 5 个 -ing 词,再用同一个开头字母写一句(“slow, sliding, silver…”)。</li>
+  </ul>
+  </div>
+<div class="quote"><span class="tag ui">Tim · 任务说明</span>
+<p class="en"><span class="sent"><span class="se">Okay, so, we are going to use language to describe something moving, using rhythm and other literary techniques. So let's just throw out the rulebook and see what we can come up with. You can even make some words up! Much like it kinda seems he does here. So think of what moving things you are going to describe. A roller coaster, a bird? An airplane? A water skier?</span><span class="sz">好,我们要用语言来描写一个移动的东西,用节奏和其它文学技巧。所以我们把规则手册扔掉,看看能想出什么。你甚至可以自创一些词!就像他在这首诗里好像做的那样。想想你要描写什么移动的东西。过山车?鸟?飞机?滑水的人?</span></span> <span class="sent"><span class="se">Think about how the object or animal moves. Sketch its movement. Is it a circle? An arc? A straight line? What are the sounds that this object or animal makes when it moves? Think of 5 adjectives to describe it, e.g. swishing, splashing, screeching, creaking. Those kind of ING adjectives that we can use.</span><span class="sz">想想这个物体或动物是怎么动的。画出它的运动轨迹。是一个圆?一道弧?一条直线?它动的时候发出什么声音?想 5 个形容词来描写它,例如 swishing(嗖嗖)、splashing(哗啦)、screeching(尖啸)、creaking(嘎吱)。这类我们可以用的 -ing 形容词。</span></span> <span class="sent"><span class="se">So, let's get out our working documents and see if we can describe the movement of something in 10 minutes. It can be a poem, it can be something else, it can just be a description, but what I want you to do is think about some of the techniques you can use. For example, movement words like this: striding, gliding. A wing, of course, a wimpling wing. A swing.</span><span class="sz">那么,拿出 working document,看看能不能在 10 分钟里描写某个东西的运动。可以是一首诗,可以是别的,也可以只是一段描写,但我要你想想可以用哪些技巧。比如像这样的运动词:striding(阔步)、gliding(滑翔)。当然还有 a wing、a wimpling wing(翻飞的翅膀)、a swing(荡开)。</span></span> </p></div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Claire:</b> I finished!</span><span class="sz"><b>Claire:</b> 我写完了!</span></span> <span class="sent"><span class="se"><b>Tim:</b> No, you haven't. And then, for example, this second line… what literary technique, what writing technique can you see in this line? Kingdom of daylight's dauphin, dappled dawn drawn. What would we call that?</span><span class="sz"><b>Tim:</b> 不,你没有。然后,比如这第二行……你在这一行里能看到什么文学技巧、什么写作技巧?Kingdom of daylight's dauphin, dappled dawn drawn。我们管这叫什么?</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Oh, D-D-D. Repeats D.</span><span class="sz"><b>Olivia:</b> 哦,D-D-D。重复 D。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Yes, which is a technique called… Alliteration! None of you have heard of alliteration?</span><span class="sz"><b>Tim:</b> 对,这是一种技巧,叫……头韵(alliteration)!你们没人听过 alliteration?</span></span> <span class="sent"><span class="se"><b>Trinity:</b> Literation. Liter.</span><span class="sz"><b>Trinity:</b> Literation。Liter。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Alliteration! Alright, if you stop doing emojis for a second, then I can tell you. Alliteration means you repeat the same lettered word. For example: feeling frolicking… Lots of repeated F sounds there, and that's alliteration. And another example is, of course, the daylight's dauphin, dappled dawn-drawn falcon.</span><span class="sz"><b>Tim:</b> Alliteration!好了,你们要是能停一秒不发 emoji,我就能告诉你们。头韵的意思是你重复同一个字母开头的词。比如:feeling frolicking……那里有很多重复的 F 音,这就是头韵。当然,另一个例子就是 the daylight's dauphin, dappled dawn-drawn falcon。</span></span> <span class="sent"><span class="se"><b>Tim:</b> So, all you've got to do is take 10 minutes to describe the movement of something. It's completely up to you. It can be you running forward, it can be a roller coaster, it can be a bird, but just imagine yourself in a space, looking at something that's moving. How can you describe its movement? And how can you use rhythm to do that? If you think about something swinging this way and that way, you could say swing, and then it went ring, and then… something like that. You could even make up some words! And no, sleeping is not an option. We are, of course, on week 9, everyone! Week 9.</span><span class="sz"><b>Tim:</b> 所以,你们只需要花 10 分钟描写某个东西的运动。完全由你决定。可以是你向前跑,可以是过山车,可以是一只鸟,只要想象你自己在一个空间里,看着一个东西在动。你怎么描写它的运动?怎么用节奏来做到?如果你想到一个东西这样荡过去、那样荡过来,你可以说 swing,然后它 ring,然后……诸如此类。你甚至可以自创一些词!还有,不行,睡觉不是选项。当然,各位,我们已经到 Week 9 了!Week 9。</span></span> <span class="sent"><span class="se"><b>Claire:</b> Then after that, it'll be, like, no more class.</span><span class="sz"><b>Claire:</b> 那之后就,再也没课了。</span></span> <span class="sent"><span class="se"><b>Tim:</b> That is true. You'll be freed! And you'll have to write stories in your own time.</span><span class="sz"><b>Tim:</b> 没错。你就自由了!你得自己抽时间写故事了。</span></span> <span class="sent"><span class="se"><b>Tim:</b> So, Trinity, when I say you can make up words… I don't mean you can just, like… oh, there's a lot of… So, think about what is moving. It can be anything you like, but you have to identify what it is that you want to be moving. Use lots of ing words, use some alliteration if you want.</span><span class="sz"><b>Tim:</b> Trinity,我说你可以自创词……我不是说你可以就那样……哦,这里有好多……所以,想想什么在动。可以是任何你喜欢的东西,但你必须先确定你想让什么在动。多用 -ing 词,想的话用点头韵。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> I see the poem mechanism.</span><span class="sz"><b>Olivia:</b> 我看出这首诗的机制了。</span></span> <span class="sent"><span class="se"><b>Tim:</b> I wish you could. Lots of alliteration there. Lots of M sounds: morning's minion. In the last line, gash gold vermilion, some G alliteration there. Then, of course, second line, lots of D's. Alright, we have to stop getting so distracted by this chat box, please, because everyone's getting way too distracted from this lesson.</span><span class="sz"><b>Tim:</b> 但愿你能。那里有很多头韵。很多 M 音:morning's minion。最后一行 gash gold vermilion,有 G 的头韵。然后当然,第二行,很多 D。好了,请大家别再被这个聊天框分心了,因为所有人都被带得离课太远了。</span></span> </p></div>
 </section>
 
 <!-- S6 -->
 <section id="s6">
-  <div class="sec-head"><span class="sec-num">06</span><h2>AI 时代，还要读写吗？</h2></div>
-  <div class="sec-time ui">33:00 – 40:00</div>
+  <div class="sec-head"><span class="sec-num">06</span><h2>巡视辅导 · “moving slow 的是什么?”、swoops / scoops / gulp、第一个自创词</h2></div>
+  <div class="sec-time ui">33:10 – 38:25</div>
   <div class="keypoints ui"><b>要点</b><ul>
-    <li>AI 影响巨大但走向完全不可预测——正因不可预测，不该把所有鸡蛋放一个篮子</li>
-    <li><b>换个科学角度：阅读本身就是一种"AI"</b>——把巨大的数据集读入、处理、诠释，正是语言模型在做的事</li>
-    <li><b>再长的 AI 链条，最开始和最末端都必须是"人"</b>：起始用户要会给出好的输入（弱输入→弱输出），末端用户要能读懂并评估输出</li>
-    <li>实例：给 ChatGPT 一句"我们土木公司业绩下滑，怎么办"，得到又长又泛的空话（品牌重塑、内容营销……）——弱输入必然弱输出</li>
-    <li>真实人际互动充满"话里有话"的模糊性，需要"读出言外之意"——阅读慢而从容，正好练这种诠释力</li>
-</ul>
+    <li>Claire:“因为学校,生活很难”;Tim:“我知道现在是艰难时期,但希望这节课能有点乐趣”</li>
+    <li><b>Yujia 的第一行很棒</b>(“moving slow”),Tim 追问:“那个慢慢移动的东西是什么?——写的时候脑子里一定要知道它是什么,这样才能写清楚”</li>
+    <li>Claire 汇报:“学院第三次发消息说请专注课堂”;Tim:“也许是因为你该听讲了?”</li>
+    <li><b>Mark:swoops、scoops、gulp</b>——Tim:“描写运动的好词”,并感叹“一个被考试折磨的班还能写出这样的东西,我很佩服”。Claire:“我们都讨厌学习,除了这节课”→ Tim:“那就是我的目标”</li>
+    <li><b>Yujia 写出第一个自创词 “dimple dunfuss”</b>,Tim:“节奏太棒了”;Reya 在聊天框里写;Olivia 也在造词;Claire 收尾时说“不好玩”,Tim 笑答“不是好玩的任务,对,Claire。那我们再学点新东西”</li>
+  </ul>
   </div>
-<div class="para"><p class="en"><span class="sent"><span class="se">You might say: ChatGPT, DeepSeek — we don't need reading or writing anymore. But AI's impact is completely unpredictable. Because it's unpredictable, we shouldn't put all our eggs in one basket. What if we can't feed the energy needs of AI? Where are you then, if you never practiced reading and writing?</span><span class="sz">你可能会说：有了 ChatGPT、DeepSeek——我们不再需要读写了。但 AI 的影响完全不可预测。正因为不可预测，我们不该把所有鸡蛋放进一个篮子。万一我们喂不起 AI 的能耗呢？如果你从没练过读写，那时你在哪儿？</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Even with ChatGPT, reading is still important. Think scientifically: what is reading? A gigantic data set we read, process, and interpret — that's exactly what language models do. So reading itself is a kind of AI.</span><span class="sz">即便有了 ChatGPT，阅读依然重要。科学地想：什么是阅读？一个巨大的数据集，我们读入、处理、诠释——这正是语言模型在做的事。所以阅读本身就是一种 AI。</span></span> <span class="sent"><span class="se">And even if we use AI, there has to be a starting user and an end user who's human. You need to know what input to provide — the output is only as good as the input. And the end user still has to read and interpret the output. We might cut out a lot of steps, but the first and last steps remain human.</span><span class="sz">而且即使我们用 AI，也必须有一个'起始用户'和一个'末端用户'是人。你得知道该提供什么输入——输出的质量取决于输入。末端用户仍要读懂并诠释输出。我们也许省掉了很多步骤，但最初和最末的步骤仍然是人。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">I put a weak input into ChatGPT: 'Our civil engineering firm has a downward trend, what should we do?' It gave a giant, very general spiel: strengthen business development, rebrand, content marketing, improve SEO. Thanks — I could never have figured that out. Weak input, weak output. I still need cognitive skills to know what to put in and to evaluate what I get out.</span><span class="sz">我给 ChatGPT 一个很弱的输入：'我们土木公司业绩下滑，该怎么办？'它给了我一大段非常笼统的空话：加强业务拓展、品牌重塑、内容营销、优化 SEO。谢谢啊——这我可真想不到。弱输入，弱输出。我仍然需要认知能力，来知道该输入什么、并评估我得到了什么。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">In real human interactions there's a lot of ambiguity — a lot is said without being said. You've got to read between the lines. Reading isn't spontaneous: students can take time to think and process, developing skills of dealing with ambiguity and interpretation slowly, then bringing those skills into real life.</span><span class="sz">真实的人际互动充满模糊——很多话是'不说而说'的。你得读出字里行间的意思。阅读不是即时的：学生可以花时间思考和消化，慢慢培养处理模糊、进行诠释的能力，再把这些能力带入现实生活。</span></span> </p></div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>Tim 的巡视反馈有一个固定句式:<b>先具体引用学生的词,再说它为什么好</b>(“swoops, scoops, gulp — great words to describe movement”)。孩子听到自己的词被老师念出来,比任何“写得好”都更有效。</li>
+    <li>对 Yujia 的“moving slow”,他没说“写得不够具体”,而是问“那是什么?”——<b>用问题代替批评</b>,同时点出本课的一个隐形原则:描写运动前,先在脑中确定主体。</li>
+    <li>“dimple dunfuss”这种无意义的自创词被表扬,是因为本课的目标是<b>声音和节奏</b>,不是词义——Tim 在奖励“敢发出声音”的行为。</li>
+    <li>如果你是外人、想自己练:写完一段后,把每个动词圈出来,读一遍,问自己“读者能听到它吗?”;再试着造一个只有声音没有意思的词放进去。</li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Claire:</b> Because of school, lives are very hard.</span><span class="sz"><b>Claire:</b> 因为学校,生活很难。</span></span> <span class="sent"><span class="se"><b>Tim:</b> I know, I know it's a tough time, I'm gathering that. But hopefully we can have some fun in this class. Yujia, that's a lovely first line, I like that a lot. I wonder what this thing was that was moving slow. It can be anything you like. But it always helps to know what the thing is in your head when you're writing, so you can be clear.</span><span class="sz"><b>Tim:</b> 我知道,我知道现在是艰难时期,我看出来了。但希望这节课我们能有点乐趣。Yujia,这第一行很棒,我很喜欢。我想知道这个慢慢移动的东西是什么。可以是任何你喜欢的东西。但写作的时候,脑子里知道那个东西是什么总是有帮助的,这样你才能写清楚。</span></span> <span class="sent"><span class="se"><b>Claire:</b> And for the third time, the Academy said the same thing again, for the third time running. They're saying: hey everyone, please focus on the class, don't chat about anything unrelated to the lesson.</span><span class="sz"><b>Claire:</b> 然后学院第三次说了同一句话,连续第三次。他们说:各位,请专注课堂,不要聊任何与课程无关的事。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Well, maybe it's because you should listen? Nice word, Mark. Swoops. And scoops. And a gulp. Great words to describe movement. Well, I'm actually very impressed. For a class distracted by all of these horrible exams and things, you're doing some good work, everyone.</span><span class="sz"><b>Tim:</b> 嗯,也许是因为你该听讲了?好词,Mark。Swoops(俯冲)。还有 scoops(舀起)。还有 a gulp(一口吞)。描写运动的好词。说真的,我很佩服。一个被这些可怕的考试搞得分心的班,你们还在做出好作品,各位。</span></span> <span class="sent"><span class="se"><b>Claire:</b> Because we all hate studies, except for this class.</span><span class="sz"><b>Claire:</b> 因为我们都讨厌学习,除了这节课。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Aww… Well, I'm glad you enjoy this class. That's my aim. Oh, found our first made-up word, fantastic, Yujia. Dimple dunfuss. Love it. It's definitely got a brilliant rhythm to it. Reya, are you a bit stuck? Oh, no, you're writing on the chat, aren't you? Great. So just a couple more minutes on this, everyone. This is a short 10-minute task, because we might have another task.</span><span class="sz"><b>Tim:</b> 噢……我很高兴你喜欢这节课。那就是我的目标。哦,发现我们第一个自创词了,太棒了,Yujia。Dimple dunfuss。爱了。它绝对有一种绝妙的节奏。Reya,你是不是有点卡住?哦,不,你在聊天框里写,对吧?很好。那各位再给几分钟。这是个 10 分钟的短任务,因为我们可能还有另一个任务。</span></span> <span class="sent"><span class="se"><b>Claire:</b> Crushing motion.</span><span class="sz"><b>Claire:</b> Crushing motion(碾压的运动)。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Right, Olivia… Oh, you're making up a word, are you? Okay. Okay, just one more minute on this, so finish the sentence that you're on. Really great work, everyone. Super fun.</span><span class="sz"><b>Tim:</b> 好,Olivia……哦,你在自创一个词,是吗?好。好了,再给一分钟,把你正在写的那句写完。做得非常好,各位。超级好玩。</span></span> <span class="sent"><span class="se"><b>Claire:</b> It's not very fun.</span><span class="sz"><b>Claire:</b> 没那么好玩。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Not a fun task, no, Claire. Well, let's learn some more things. Ha ha ha.</span><span class="sz"><b>Tim:</b> 不是个好玩的任务,对,Claire。那我们再学点新东西吧。哈哈哈。</span></span> </p></div>
 </section>
 
 <!-- S7 -->
 <section id="s7">
-  <div class="sec-head"><span class="sec-num">07</span><h2>问题一 · 孩子讨厌阅读</h2></div>
-  <div class="sec-time ui">40:00 – 45:00</div>
+  <div class="sec-head"><span class="sec-num">07</span><h2>新技巧 · 全韵 full rhyme、元音半韵 assonance、辅音半韵 dissonance</h2></div>
+  <div class="sec-time ui">38:25 – 41:15</div>
   <div class="keypoints ui"><b>要点</b><ul>
-    <li>亚里士多德："所有人天生渴望求知"——你的孩子本质上是好奇的、想学东西的，只是不一定想学你要他学的</li>
-    <li>常见原因：阅读"无聊"、坐不住（Chris 自己和大女儿都是好动型）</li>
-    <li><b>对策一 · 利用碎片时间</b>：上学路上、排队、看牙医候诊——把书递给他（Stephen King 随身带书，任何空档都读）</li>
-    <li>关键：给他"他想读的"，而不是你想让他读的（引出下一个问题）</li>
-    <li>Chris 亲历：大女儿6岁突然说"我讨厌阅读"，身为阅读老师的他也懵了</li>
-</ul>
+    <li>Tim:“这首诗还用了 <b>half rhymes(半韵):assonance 和 dissonance</b>。听过的举手”——Claire:“没人”。Tim:“太好了,那今天就教你们一个新技巧”</li>
+    <li>先从大家都懂的<b>全韵 full rhyme</b>开始:bat / cat / cravat(cravat 是一种围巾),词尾<b>辅音和元音都相同</b>。例:pick / sick / crick / chopstick / lunatic / arithmetic;great / hate / plate / wait / regurgitate;potion / motion / lotion / ocean</li>
+    <li><b>Assonance</b>:词尾<b>元音相同、辅音不同</b>。pick ≈ pit / flip / counterfeit / twist(都有 IH 音);great ≈ age / flame / Spain / kale(A 音);potion ≈ Ethiopian / vote</li>
+    <li><b>Dissonance</b>:词尾<b>元音不同、辅音相同</b>。pick ≈ pack / check / turtleneck(都有 K 音);great ≈ rot / brought / hazelnut;potion ≈ attain / rotten / gate ten(T 和 N)</li>
+    <li>“不是每首诗都要全韵,半韵用对了非常有效——前提是你知道自己在做什么”。小插曲:Claire 觉得幻灯片上的蝙蝠“像长翅膀的仓鼠”,Tim:“蝙蝠确实像啮齿动物,只是长了皮质翅膀”</li>
+  </ul>
   </div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Aristotle gives us an insight: all people, by their very nature, want to learn. People are inquisitive — that means your child is inquisitive too. Your kid actually wants to learn something. It might not be what you want them to learn, but they want to learn. We use this to our advantage.</span><span class="sz">亚里士多德给了我们一个洞见：所有人，就其本性而言，都渴望求知。人是好奇的——这意味着你的孩子也是好奇的。你的孩子其实想学点什么。也许不是你想让他学的，但他想学。我们要利用这一点。</span></span> <span class="sent"><span class="se">My oldest loved being read to. Then at six I asked what book she wanted, and she said, 'I don't want you to read me any book. I hate reading.' I'm a reading teacher — what the heck?</span><span class="sz">我大女儿本来很爱听我读书。她六岁时，我问她想读哪本，她说：'我不要你给我读任何书。我讨厌阅读。'我可是个阅读老师——这算什么？</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Why might a kid hate reading? It can be boring — you sit and flip pages, not very exciting. I loved sports, was energetic; my oldest is fidgety too. Sitting and reading isn't fun for some kids. So if they'll be bored anyway — give them a book. Going to school on the train, in the car, waiting in line, at the dentist — that's where people read. Give them something to read.</span><span class="sz">孩子为什么会讨厌阅读？它可能很闷——你坐着翻页，没什么刺激。我热爱运动、精力旺盛；我大女儿也坐不住。对有些孩子来说，坐下来读书并不好玩。所以既然反正会无聊——那就把书递给他。坐火车上学、在车里、排队、看牙医候诊——这些正是人们阅读的地方。给他点东西读。</span></span> <span class="sent"><span class="se">I joke with students: if you'd taken the book to the toilet, you'd have finished the reading. Stephen King has a book with him all the time — in the supermarket line, at the street corner. The passive activity of reading is more interesting than the passive activity of waiting.</span><span class="sz">我常跟学生开玩笑：你要是把书带进厕所，早读完了。斯蒂芬·金随身带书——超市排队时、街角等红灯时都读。'读书'这种被动活动，可比'等待'这种被动活动有意思多了。</span></span> <span class="sent"><span class="se">The key is to give them something they WANT to read. Don't give them Feynman's Six Easy Pieces if they won't want it — which brings us to the next problem.</span><span class="sz">关键是给他们'想读'的东西。如果他们不想读，就别塞费曼的《物理学讲义》给他们——这就引出下一个问题。</span></span> </p></div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>这是本课的<b>知识核心</b>:把学生已有的“押韵”概念拆成三层——全韵 / 元音半韵 / 辅音半韵。Tim 的讲法是<b>同一组种子词(pick, great, potion)贯穿三种韵</b>,让学生通过对比而不是通过定义来理解:同一个 pick,全韵是 sick,元音半韵是 pit,辅音半韵是 pack。</li>
+    <li>他先复习元音 A-E-I-O-U、辅音“其余的都是”,把术语建立在学生已有的知识上,再一步步升级——典型的“已知 → 新知”教学链。</li>
+    <li>对 Level 2 的孩子来说,assonance / dissonance 这两个术语本身不重要,重要的是“<b>耳朵能听出两个词像但不完全一样</b>”。Tim 特地强调:你们可能已经把它们叫 half rhymes 了,只是现在给它一个学名。</li>
+    <li>如果你是外人、想自己练:拿一个词(如 light),先写 3 个全韵,再写 3 个只有元音相同的,再写 3 个只有辅音相同的,大声读三组,感受“完全对上 / 差一点 / 差很多”的区别。</li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Tim:</b> Another thing that this poem employs is half rhymes: assonance and dissonance. Hands up if you're familiar with assonance and dissonance.</span><span class="sz"><b>Tim:</b> 这首诗还用了另一样东西:半韵——assonance 和 dissonance。熟悉 assonance 和 dissonance 的举手。</span></span> <span class="sent"><span class="se"><b>Claire:</b> Nobody.</span><span class="sz"><b>Claire:</b> 没人。</span></span> <span class="sent"><span class="se"><b>Tim:</b> No one? Great, then I shall teach you a new technique today, ha ha. What's that, Claire?</span><span class="sz"><b>Tim:</b> 没人?太好了,那我今天就教你们一个新技巧,哈哈。你说什么,Claire?</span></span> <span class="sent"><span class="se"><b>Claire:</b> That bat looks more like a hamster with wings.</span><span class="sz"><b>Claire:</b> 那只蝙蝠更像一只长翅膀的仓鼠。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Well, bats are kind of cute, you know, they do kind of look… they're like a rodent, but they've just got leathery wings.</span><span class="sz"><b>Tim:</b> 嗯,蝙蝠其实挺可爱的,它们看起来确实有点像……像啮齿动物,只是长了皮质的翅膀。</span></span> </p></div>
+<div class="quote"><span class="tag ui">Tim · 全韵 / assonance / dissonance</span>
+<p class="en"><span class="sent"><span class="se">So we all know what a rhyme is. Bat rhymes with cat, rhymes with cravat. I don't know if you know what a cravat is, it's a type of scarf. These are examples of full rhymes, where the consonant and the vowel sounds at the end of a word are the same. So, pick rhymes with sick, crick, chopstick, lunatic, arithmetic. Great rhymes with hate, plate, wait, regurgitate. Potion rhymes with motion, lotion, and ocean.</span><span class="sz">我们都知道什么是押韵。Bat 和 cat 押韵,和 cravat 押韵。不知道你们认不认识 cravat,它是一种围巾。这些是全韵的例子:词尾的辅音和元音都相同。所以 pick 和 sick、crick、chopstick、lunatic、arithmetic 押韵。Great 和 hate、plate、wait、regurgitate 押韵。Potion 和 motion、lotion、ocean 押韵。</span></span> <span class="sent"><span class="se">But there are more rhymes out there. You might already know them as half rhymes, but the technical terms are assonance and dissonance. So we all know what a vowel is, right? A-E-I-O-U, and a consonant is anything that isn't a vowel, which I'm not gonna list, because that's a lot of them.</span><span class="sz">但还有更多的韵。你们可能已经把它们叫作半韵了,但专业术语是 assonance 和 dissonance。我们都知道什么是元音吧?A-E-I-O-U,辅音就是所有不是元音的字母,我就不一一列了,太多了。</span></span> <span class="sent"><span class="se">So, assonance is when the end of the rhyme words have the same vowel sound, but do not share the same consonant. So, pick half rhymes with pit, flip, counterfeit, twist, because it's got that IH sound, right? Great rhymes with age, flame, Spain, kale, because it's got that A sound. Potion rhymes with Ethiopian, and vote.</span><span class="sz">Assonance 是指押韵词的词尾元音相同,但辅音不同。所以 pick 和 pit、flip、counterfeit、twist 是半韵,因为都有那个 IH 音,对吧?Great 和 age、flame、Spain、kale,因为都有那个 A 音。Potion 和 Ethiopian、vote。</span></span> <span class="sent"><span class="se">And dissonance is when the end of the rhyme words have different vowels, but the same consonants. So, pick half rhymes with pack, check, turtleneck, because it's got that K sound, right? It doesn't have the IH, but it has the K. Great half rhymes with rot, brought, hazelnut. Potion half rhymes with attain, rotten, gate ten, because it's got that T and the N.</span><span class="sz">Dissonance 是指押韵词的词尾元音不同,但辅音相同。所以 pick 和 pack、check、turtleneck 是半韵,因为都有那个 K 音,对吧?它没有 IH,但有 K。Great 和 rot、brought、hazelnut 是半韵。Potion 和 attain、rotten、gate ten 是半韵,因为都有那个 T 和 N。</span></span> <span class="sent"><span class="se">Does that make sense for everyone? So it's a good way that you can… not every poem has to fully rhyme. Sometimes you can employ half rhymes, and they can be very effective, as long as you, of course, know what you're doing. So, how about this for a writing exercise?</span><span class="sz">大家明白了吗?所以这是一个好方法……不是每首诗都必须全韵。有时你可以用半韵,而且它们可以非常有效,当然,前提是你知道自己在做什么。那么,来做这个写作练习怎么样?</span></span> </p></div>
 </section>
 
 <!-- S8 -->
 <section id="s8">
-  <div class="sec-head"><span class="sec-num">08</span><h2>问题二 · 太难或太易 · Lexile 方法</h2></div>
-  <div class="sec-time ui">45:00 – 49:00</div>
+  <div class="sec-head"><span class="sec-num">08</span><h2>全班练习 · cold / taste / apple / falter 的半韵</h2></div>
+  <div class="sec-time ui">41:15 – 45:00</div>
   <div class="keypoints ui"><b>要点</b><ul>
-    <li>先"把孩子放第一位"（呼应中文老师讲座）：从孩子的兴趣出发选书，别强迫</li>
-    <li>Chris 的做法：女儿爱"有趣的冷知识"，就买这类书放着、不逼，她自己会来拿</li>
-    <li><b>年龄大但读得吃力 → 找 High-Low（HL）书</b>：话题符合年龄、但语言难度调低（亚马逊书页会标 HL 和 Lexile 分）</li>
-    <li><b>Lexile 分数法找难度</b>：孩子能舒服读的书查出 Lexile（如 800），就找 850–900 的测试；还嫌易就再加 50；反之则往下找</li>
-    <li>HL 书通常在 400–800 之间，按话题浮动</li>
-</ul>
+    <li><b>assonance with cold</b>(O 音):Olivia “boat”、Claire “oat”“note”“coat”——全部正确</li>
+    <li><b>assonance with taste</b>(A 音):Claire 先说 “haste”,Tim 指出那是<b>全韵</b>(元音和辅音都相同);Claire 改 “hate”✓;Olivia “cape”✓、“bake”✓——“你们掌握窍门了,太棒了”</li>
+    <li><b>dissonance with apple</b>(-ple 的 UL 音):Tim 承认“这个难一点,我自己也在想”;答案:heckle、Olivia “echo”、Yujia “medical”、maple;“pineapple 其实是全韵”</li>
+    <li><b>dissonance with falter</b>(TER 音):Olivia、Claire 都没听过 falter,Tim 解释“to fail or falter”,提示“想以 TER 结尾的词”;Claire “greeter”、Tim “meter”、Trinity “vulture”、“cheater”。“Lovely! Great work, everyone!”</li>
+  </ul>
   </div>
-<div class="para"><p class="en"><span class="sent"><span class="se">First, put the child first — their interest. Find what your kid likes and give books accordingly. My oldest likes silly facts and information, so we bought books like that and just left them there. Eventually she came to them on her own, pulled them off the shelf, and read them by herself. Start with their interest, then work out from there.</span><span class="sz">首先，把孩子放第一位——从他们的兴趣出发。找出孩子喜欢什么，据此给书。我大女儿喜欢有趣的冷知识，我们就买这类书放着、不逼她。最后她自己来找，从架子上抽下来，自己读。先从他们的兴趣入手，再由此向外拓展。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">If your kid is a bit older and struggling, you don't want to give them little kiddie books. Search for 'high-low' books (marked HL). On Amazon, a children's book listing shows the publisher, page count, and lexile score. An HL means an age-appropriate, interesting topic with the language dialed down to be easier. So a kid really into astrophysics can't read a university text — but there are HL books on astrophysics in doable language.</span><span class="sz">如果孩子年龄稍大但读得吃力，你不会想给他们小小孩的书。去找'High-Low（高低）'书（标注 HL）。在亚马逊上，一本儿童书的信息会显示出版社、页数和 Lexile 分。标 HL 就表示：话题有趣、符合年龄，但语言难度被调低、更容易读。所以一个痴迷天体物理的孩子读不了大学教材——但有 HL 版的天体物理书，用他能读的语言写成。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">If the reading is too easy: find a book your child reads comfortably and Google its lexile score — that's just how difficult the language is, in vocabulary and sentence structure. Say it's 800. Then find a book at 850–900 and test them. Still easy? Go up another 50, to 950 or 1000. This helps you find the right level — not too hard, not too easy. It works backwards too: if a 750 book is challenging, look for 700 or 650.</span><span class="sz">如果读起来太容易：找一本孩子能轻松读的书，用 Google 查它的 Lexile 分——那就是语言在词汇和句式上的难度。假设是 800。那就找 850–900 的书来测试他。还嫌容易？再加 50，到 950 或 1000。这能帮你找到合适的难度——不太难，也不太易。反过来也行：如果一本 750 的书就吃力，就去找 700 或 650 的。</span></span> </p></div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>讲完定义马上<b>全班口头练习</b>,四组词从易到难:两组 assonance(元音容易听)→ 两组 dissonance(辅音更难)。这是把“听懂”变成“会用”的必要一步,而且口头练习比写更快、能覆盖更多学生。</li>
+    <li>Claire 的 “haste” 是最有价值的错误:她给了全韵。Tim 没有说“错”,而是解释“那是全韵,因为元音和辅音都一样”——<b>用错误来再讲一遍定义</b>,比再举十个正确例子更有效。</li>
+    <li>Tim 在 apple 那组说“我自己也在想”,在 falter 那组承认孩子可能不认识这个词——<b>老师示范“想不出来也没关系”</b>,降低了孩子开口的风险。</li>
+    <li>如果你是外人、想自己练:找一个朋友,你说一个词,对方在 5 秒内说一个只有元音相同的词,再说一个只有辅音相同的词,轮流来。</li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Tim:</b> What three words have assonance with cold? Why don't we try this as a class? Anyone? So, assonance… when it's the same vowel sound, so cold, it would be O.</span><span class="sz"><b>Tim:</b> 哪三个词和 cold 是元音半韵?我们全班一起试试?有人吗?Assonance……就是元音相同,所以 cold 的话,就是 O。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Boat?</span><span class="sz"><b>Olivia:</b> Boat?</span></span> <span class="sent"><span class="se"><b>Tim:</b> Boat? Nice. Any other ones?</span><span class="sz"><b>Tim:</b> Boat?不错。还有别的吗?</span></span> <span class="sent"><span class="se"><b>Claire:</b> Oat. Note.</span><span class="sz"><b>Claire:</b> Oat。Note。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Oats, I like that. Note, yeah, cold, note.</span><span class="sz"><b>Tim:</b> Oats,我喜欢。Note,对,cold、note。</span></span> <span class="sent"><span class="se"><b>Claire:</b> Coat.</span><span class="sz"><b>Claire:</b> Coat。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Coat. Yeah, I like that. Good stuff. Okay, how about 3 words with assonance with taste? So, the vowel sound in taste is, of course, A.</span><span class="sz"><b>Tim:</b> Coat。对,我喜欢。很好。好,那三个和 taste 元音半韵的词呢?Taste 里的元音当然是 A。</span></span> <span class="sent"><span class="se"><b>Claire:</b> Haste.</span><span class="sz"><b>Claire:</b> Haste。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Oh, that's a full rhyme, though, isn't it? Because taste, haste… both the vowels and the consonants. A sound. What's that?</span><span class="sz"><b>Tim:</b> 哦,不过那是全韵,对吧?因为 taste、haste……元音和辅音都一样。要 A 音。你说什么?</span></span> <span class="sent"><span class="se"><b>Claire:</b> Hate.</span><span class="sz"><b>Claire:</b> Hate。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Hate. Absolutely. Taste, hate. It's just got that A, but it doesn't have the rest of it, so it's a half rhyme, so yes. Any other ones?</span><span class="sz"><b>Tim:</b> Hate。完全正确。Taste、hate。它只有那个 A,没有其它部分,所以是半韵,对。还有吗?</span></span> <span class="sent"><span class="se"><b>Claire:</b> Olivia said cape.</span><span class="sz"><b>Claire:</b> Olivia 说 cape。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Cape? Absolutely, yes, CAPE. That's a great one, Olivia, yes! We're getting the hang of it, that's brilliant. And one more.</span><span class="sz"><b>Tim:</b> Cape?没错,对,CAPE。这个很棒,Olivia,对!我们掌握窍门了,太棒了。再来一个。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Bake.</span><span class="sz"><b>Olivia:</b> Bake。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Bake! Yes, love that. Correct! And what about dissonance with apple? So, dissonance is, of course, not the vowel sound, but the consonant. This one's a bit tougher, actually. Yeah, I'm trying to think myself, to be honest. Apple.</span><span class="sz"><b>Tim:</b> Bake!对,爱了。正确!那和 apple 辅音半韵呢?Dissonance 当然不是元音,而是辅音。这个其实难一点。说实话我自己也在想。Apple。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Pack full?</span><span class="sz"><b>Olivia:</b> Pack full?</span></span> <span class="sent"><span class="se"><b>Tim:</b> Heckle! Heckle, absolutely, yeah. Just think of that UL sound. Apple? Heckle.</span><span class="sz"><b>Tim:</b> Heckle!Heckle,没错,对。就想那个 UL 音。Apple?Heckle。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Echo.</span><span class="sz"><b>Olivia:</b> Echo。</span></span> <span class="sent"><span class="se"><b>Yujia:</b> Medical…</span><span class="sz"><b>Yujia:</b> Medical……</span></span> <span class="sent"><span class="se"><b>Tim:</b> Maple. Oh, that's interesting, yeah, maple. Pineapple… I mean, I think pineapple actually fully rhymes with apple, but maple, that's a great one. Okay, what 3 words are dissonant with falter?</span><span class="sz"><b>Tim:</b> Maple。哦,有意思,对,maple。Pineapple……我觉得 pineapple 其实和 apple 是全韵,但 maple 很棒。好,哪三个词和 falter 辅音半韵?</span></span> <span class="sent"><span class="se"><b>Claire:</b> Falter?</span><span class="sz"><b>Claire:</b> Falter?</span></span> <span class="sent"><span class="se"><b>Tim:</b> Falter, yeah. To fail or falter.</span><span class="sz"><b>Tim:</b> Falter,对。失败或动摇。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> I never heard of that word before.</span><span class="sz"><b>Olivia:</b> 我从没听过这个词。</span></span> <span class="sent"><span class="se"><b>Claire:</b> Me too.</span><span class="sz"><b>Claire:</b> 我也是。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Or think of something that ends in TER.</span><span class="sz"><b>Tim:</b> 或者想一个以 TER 结尾的词。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Lots of words end with -ter.</span><span class="sz"><b>Olivia:</b> 很多词以 -ter 结尾。</span></span> <span class="sent"><span class="se"><b>Claire:</b> Greeter. Greeter.</span><span class="sz"><b>Claire:</b> Greeter。Greeter。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Greeter, yeah. Meter. Vulture… Yeah, vulture, that's a great one, Trinity.</span><span class="sz"><b>Tim:</b> Greeter,对。Meter。Vulture……对,vulture,这个很棒,Trinity。</span></span> <span class="sent"><span class="se"><b>Claire:</b> Cheater.</span><span class="sz"><b>Claire:</b> Cheater。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Cheater. Falter, cheater, yeah, perfect. Lovely! Great work, everyone!</span><span class="sz"><b>Tim:</b> Cheater。Falter、cheater,对,完美。太好了!大家做得很棒!</span></span> </p></div>
 </section>
 
 <!-- S9 -->
 <section id="s9">
-  <div class="sec-head"><span class="sec-num">09</span><h2>问题三 · 只读一种书（Dogman 现象）</h2></div>
-  <div class="sec-time ui">49:00 – 55:00</div>
+  <div class="sec-head"><span class="sec-num">09</span><h2>写作任务 2 · 用头韵、重复、半韵改写 + 巡视</h2></div>
+  <div class="sec-time ui">45:00 – 57:20</div>
   <div class="keypoints ui"><b>要点</b><ul>
-    <li>孩子只读一类书（如一整柜《Dogman》漫画）——他至少在读，通常会自然长大跨出去</li>
-    <li>两种原因：① 就是"对上了眼"（Chris 小时候只读恐怖故事）；② 变得"舒适"了（像孩子只吃鸡块，不想挑战味蕾）</li>
-    <li><b>破局四招（慢而稳）：</b>① 同作者、不同题材/系列；② 同题材、不同作者（略难一点）；③ 问孩子朋友在读什么；④ 用找书网站</li>
-    <li>三个找书工具：按题材/作者给推荐、"5 books"按主题给5本、"相似作者地图"（越靠边越不同，可顺藤摸瓜慢慢拓展）</li>
-    <li>Chris 亲历：女儿爱 Dogman → 发现她其实爱"漫画"这个形式 → 换成更写实的图像小说 → 再引到"图像小说版经典文学" → 最后读原版经典</li>
-</ul>
+    <li>任务:Hopkins 在前两行用了头韵、重复、assonance 来描写鸟飞。<b>写两行,用上 alliteration、repetition、assonance、dissonance</b>——可以改写刚才那段,也可以写全新的东西;有纸笔的话,把描写对象画出来,把词写在它周围(像那幅画翅膀上写着 dapple-dawn-drawn、brute beauty)</li>
+    <li>Claire:“我还是不懂……我不擅长写作”;Olivia 替她翻译:“基本上就是改进那段”;Tim:“你很擅长写作,Claire,只要继续写,加点头韵就行”,并把四个定义贴到聊天框</li>
+    <li>Olivia 问 million / trillion / gazillion 算什么——Tim:全韵;“trillion contrition”才是半韵。Reya 举手去洗手间</li>
+    <li>Tim 给 Claire 换题:过山车、丛林里的老虎、“我现在动的样子”、<b>一块果冻</b>——“我特别想看你描写果冻怎么动”</li>
+    <li>Olivia:“assonance 太难记了,每次要用的时候就想不起来”;Tim 的解释:<b>你的大脑被训练了太久去找全韵,半韵感觉“有点不对”,所以要重新训练</b></li>
+    <li>巡视点评:Trinity “swift, silent and deadly”(S 头韵);Yujia 改写 Windhover “Golden wings soaring and gliding gleamingly”;Reya “big thing floating in space” 很吓人、很不祥——“是飞船还是小行星?”Reya:“我边写边想”→ Tim:“很好,读者读的时候也会冒出这些问题”;Olivia “a shining, shrinking, shooting star”;Claire high / wide(assonance ✓);Mark “whoosh whoosh swoosh pounce”;Olivia 文档变紫色,Tim:重新加载</li>
+  </ul>
   </div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Your kid reads only one book — 1,001 Dog Man. Does this look like anybody's bookshelf? This is hard because your kid IS reading. It's very one-dimensional, especially with comics. But sometimes it's just a phase. When I was a kid I only read scary stories — I borrowed one, loved it, and that was all I read. Eventually I branched out. If they're reading one thing, at least they're reading, and they'll probably grow out of it.</span><span class="sz">你的孩子只读一种书——一千零一本《Dogman》。这像不像谁家的书架？这很棘手，因为孩子'确实在读'。只是太单一，尤其是漫画。但有时这只是个阶段。我小时候只读恐怖故事——借了一本、爱上了，就只读这个。后来我自己拓展开了。如果他们在读一种东西，至少他们在读，而且多半会自己长出去。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">This is usually one of two reasons. Either it just clicks — scary stories clicked with me, I liked the thrill. Or they've become comfortable: they know the language, it's not a challenge, it's comfortable — like a kid who only eats chicken nuggets because it's comfortable food and doesn't want to test their palate.</span><span class="sz">这通常是两个原因之一。要么就是'对上了眼'——恐怖故事对上了我的胃口，我喜欢那种刺激。要么是他们变'舒适'了：语言熟悉、没有挑战、很舒服——就像孩子只吃鸡块，因为那是安心食物，不想挑战自己的味蕾。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Slow and steady is how you break out. If they love these books all by the same author, see if that author wrote something different — a different series, say. Writers write across a spectrum, so you keep the style and language they like but shift the topic. Or the opposite: same topic, different author, a little more challenging. If you have access to their friends, ask what they're reading — kids want to read what their friends read.</span><span class="sz">破局靠慢而稳。如果他们爱的这些书都是同一作者，看看这位作者有没有写过不同的东西——比如另一个系列。作家的写作是有光谱的，所以你保留他们喜欢的风格和语言，只挪动题材。或者反过来：同题材、不同作者，稍微难一点。如果你能接触到他们的朋友，问问他们在读什么——孩子想读朋友在读的书。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">With my daughter I realized she liked comics as a form, not Dave Pilkey specifically. So I bought graphic novels — a little less silly, more realistic — and threw them in the mix without taking Dog Man away. Slowly she read classic literature in graphic-novel format, which I then used to get her to read classic literature in regular format. Slowly but surely.</span><span class="sz">对我女儿，我意识到她喜欢的是'漫画'这个形式，而不是特指 Dave Pilkey。于是我买了图像小说——不那么无厘头、更写实——把它们掺进来，同时没把 Dogman 拿走。慢慢地，她读了图像小说版的经典文学，我再借此把她引向普通版的经典文学。慢，但稳。</span></span> </p></div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>任务 2 的设计是<b>“同一段文字、加一层技巧”</b>:不换题、只加工。这样学生的注意力全放在声音上,不用再想写什么。这是教技巧时最省力的任务结构。</li>
+    <li>Olivia 那句“assonance 太难记”引出本课最深的一段解释:<b>半韵难,不是因为知识难,而是因为耳朵的习惯</b>——我们从小被押韵儿歌训练成“只认全韵”,半韵会让脑子觉得“差一点”。理解这一点,学生才知道自己要练的是什么。</li>
+    <li>对 Reya “边写边想”的回应也重要:老师抛出“是飞船还是小行星?”不是要答案,而是示范<b>好的描写会让读者产生问题</b>。</li>
+    <li>对 Claire 的“我不会写”,Tim 的处理是<b>换对象、降门槛</b>(果冻),而不是再讲一遍技巧。</li>
+    <li>如果你是外人、想自己练:拿你写过的任意一段,不改内容,只把三个词换成和它旁边的词首字母相同的词,再把结尾两个词换成元音相同的词,读一遍。</li>
+  </ul>
+  </div>
+<div class="quote"><span class="tag ui">Tim · 任务 2 说明</span>
+<p class="en"><span class="sent"><span class="se">Alright, now I want you to follow these sentence suggestions to write a paragraph of description. So, Gerard Manley Hopkins uses alliteration and repetition and assonance in the first two lines to describe the bird flying. So, I want you to write out two lines of alliteration, repetition, assonance, and dissonance. See if you can do it in your own writing, and it can be about the thing that you've been describing already, or if you want, it can be about something completely new.</span><span class="sz">好,现在我要你们按这些句子提示写一段描写。Gerard Manley Hopkins 在前两行用头韵、重复和元音半韵来描写鸟飞。所以我要你们写两行,用上头韵、重复、assonance 和 dissonance。看看能不能在自己的写作里做到,可以写你已经在描写的那个东西,或者你想的话,写一个全新的东西。</span></span> <span class="sent"><span class="se">And then if you have time and a pen and paper, after you do that, I want you to draw your object and write out the words from your list around it, much like this drawing here. You can see along its wings, it says lines from the poem: dapple-dawn-drawn, brute beauty. That's just a fun exercise you can do if you want to. But for now, why don't you try and rewrite what you've written today, but include lots of alliteration, and assonance and dissonance, some half-rhymes!</span><span class="sz">然后如果你有时间、有纸笔,做完之后,我要你把你的对象画出来,把你清单里的词写在它周围,就像这幅画。你可以看到沿着它的翅膀写着诗里的句子:dapple-dawn-drawn、brute beauty。这只是一个你想做就做的有趣练习。但现在,不如试着把你今天写的改写一下,加进很多头韵、assonance 和 dissonance,一些半韵!</span></span> </p></div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Claire:</b> I still don't get…</span><span class="sz"><b>Claire:</b> 我还是不懂……</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Basically, we're going to try to, like, improve the paragraph.</span><span class="sz"><b>Olivia:</b> 基本上就是,我们要试着改进那段。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Yeah, either improve the paragraph using these techniques — alliteration, repetition, assonance and dissonance — or if you're really happy with your paragraph and you want to just carry on your description, you can carry on, but make sure that you include some assonance, some dissonance, some repetition, and some alliteration.</span><span class="sz"><b>Tim:</b> 对,要么用这些技巧改进那段——头韵、重复、assonance、dissonance——要么如果你对那段很满意、想接着写,你可以接着写,但要确保加进一些 assonance、dissonance、重复和头韵。</span></span> <span class="sent"><span class="se"><b>Claire:</b> I still don't care. I'm not good at writing.</span><span class="sz"><b>Claire:</b> 我还是不在乎。我不擅长写作。</span></span> <span class="sent"><span class="se"><b>Tim:</b> You're great at writing, Claire. All you gotta do is just keep writing, and make sure you include some alliteration. You know what, I'll write out the definitions of all of these on the chat, and that will help.</span><span class="sz"><b>Tim:</b> 你很擅长写作,Claire。你只需要继续写,确保加点头韵。这样吧,我把这些定义都写到聊天框里,那会有帮助。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> This million, trillion, and gazillion, counted as a…?</span><span class="sz"><b>Olivia:</b> 这个 million、trillion、gazillion,算是……?</span></span> <span class="sent"><span class="se"><b>Tim:</b> Trillion, gazillion. I think that's full rhyme. But if you said a trillion contrition, that would be a half rhyme.</span><span class="sz"><b>Tim:</b> Trillion、gazillion。我觉得那是全韵。但如果你说 a trillion contrition,那就是半韵。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> I have no idea where I stand.</span><span class="sz"><b>Olivia:</b> 我完全不知道自己在哪儿。</span></span> <span class="sent"><span class="se"><b>Reya:</b> Can I go to the toilet?</span><span class="sz"><b>Reya:</b> 我可以去洗手间吗?</span></span> <span class="sent"><span class="se"><b>Tim:</b> Of course you can, Reya. So, Claire, you've just got to be describing something moving, and it can be anything that you want, it doesn't have to be that painting. Can you describe the movement of a roller coaster, maybe? Or of a tiger in the jungle? Or of the way that I'm moving right now? A jelly, yeah, you could describe the movement of a jelly, absolutely, as long as you're using some assonance, some dissonance, some repetition, and some alliteration. I would love for you to describe the movement of a jelly. That sounds really fun.</span><span class="sz"><b>Tim:</b> 当然可以,Reya。Claire,你只需要描写一个在动的东西,可以是任何你想写的,不必是那幅画。你能描写过山车的运动吗?或者丛林里的老虎?或者我现在动的样子?一块果冻,对,你可以描写果冻的运动,完全可以,只要你用了一些 assonance、dissonance、重复和头韵。我特别想看你描写果冻怎么动。听起来真的很好玩。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Assonance is so hard to remember. I can't even think of another word. I know what the word is, but every time I need it, I…</span><span class="sz"><b>Olivia:</b> Assonance 太难记了。我连另一个词都想不出来。我知道那个词是什么,但每次我需要它的时候,我……</span></span> <span class="sent"><span class="se"><b>Tim:</b> I think it's an interesting one, isn't it? Because you've been taught for so long to find the thing that rhymes. And so your brain, I think, automatically goes to the thing that rhymes. So to then change it so it's, like, slightly wrong, almost, to just go for a half rhyme… your brain has to retrain. Lovely, Trinity, swift, silent, and deadly, lots of S sounds. Yujia's also writing about the Windhover now, great. Golden wings soaring and gliding gleamingly. Nice.</span><span class="sz"><b>Tim:</b> 我觉得这很有意思,对吧?因为你被教了那么久去找押韵的词。所以你的大脑,我想,会自动去找押韵的那个。那么要改成一个几乎“有点不对”的东西,只用半韵……你的大脑得重新训练。太好了,Trinity,swift, silent, and deadly,很多 S 音。Yujia 现在也在写 Windhover,很好。Golden wings soaring and gliding gleamingly。不错。</span></span> <span class="sent"><span class="se"><b>Tim:</b> It's quite scary, the one you've got, Reya, this big thing floating in space, I like it. I wanna see what you do with some half rhymes in there as well. It's quite ominous. Is it a spaceship? Is it an asteroid?</span><span class="sz"><b>Tim:</b> 你写的那个挺吓人的,Reya,这个漂在太空里的大东西,我喜欢。我想看看你在里面加些半韵会怎样。它很不祥。是飞船吗?是小行星吗?</span></span> <span class="sent"><span class="se"><b>Reya:</b> I don't know, actually. I'm just, like, thinking while I'm writing.</span><span class="sz"><b>Reya:</b> 其实我不知道。我就是边写边想。</span></span> <span class="sent"><span class="se"><b>Tim:</b> Yeah, that's good, thinking at the same time, absolutely. Don't worry, I'm not asking you for answers. I'm saying that this is great, because these are the questions that come up when I read it. It's good to have questions as you read. Nice, Olivia. A shining, shrinking, shooting star.</span><span class="sz"><b>Tim:</b> 对,那很好,边写边想,完全没问题。别担心,我不是要你给答案。我是说这很棒,因为这些是我读的时候冒出来的问题。读的时候有问题是好事。不错,Olivia。A shining, shrinking, shooting star。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> I actually saw a shooting star. It shrinks when it hits the ground, right?</span><span class="sz"><b>Olivia:</b> 我真的见过流星。它撞到地面的时候会缩小,对吧?</span></span> <span class="sent"><span class="se"><b>Tim:</b> Yeah, surely, right? Because stars are massive. The sun is a star. But Claire, you've got some great half-rhymes in there, high and wide. That's some great assonance there, good stuff. Whoosh, whoosh, swoosh, pounce. I like that, Mark. It's lovely, Yujia. Olivia's back, with a vengeance. Okay, I think it's probably about time to set some homework, so let's finish the sentence you're on, just one more minute, because I didn't really give you enough pre-warning there.</span><span class="sz"><b>Tim:</b> 对,肯定的,对吧?因为星星巨大。太阳就是一颗星星。Claire,你那里有一些很棒的半韵,high 和 wide。那是很棒的 assonance,很好。Whoosh, whoosh, swoosh, pounce。我喜欢,Mark。很美,Yujia。Olivia 回来了,带着复仇之心。好了,我想差不多该布置作业了,把你正在写的那句写完,再给一分钟,因为我刚才没给够提前预警。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Why is my work purple? I didn't do that! I just came back and it turned purple. Now look at this, I can't even write!</span><span class="sz"><b>Olivia:</b> 为什么我的作业变紫了?不是我弄的!我刚回来它就变紫了。你看,我连字都打不了!</span></span> <span class="sent"><span class="se"><b>Tim:</b> Maybe it was just highlighted. Yeah, just reload the page, maybe something just went wrong. It should have all your work saved still.</span><span class="sz"><b>Tim:</b> 也许只是被高亮了。对,重新加载页面,可能只是出了点问题。你的东西应该都还保存着。</span></span> </p></div>
 </section>
 
 <!-- S10 -->
 <section id="s10">
-  <div class="sec-head"><span class="sec-num">10</span><h2>问题四 · 读很多却没进步 → 缺引导</h2></div>
-  <div class="sec-time ui">55:00 – 57:00</div>
+  <div class="sec-head"><span class="sec-num">10</span><h2>作业与收尾 · “诗要大声读”</h2></div>
+  <div class="sec-time ui">57:20 – 60:41</div>
   <div class="keypoints ui"><b>要点</b><ul>
-    <li>孩子读很多、但英语课没起色、看不到成长——原因往往是"缺乏引导（guidance）"</li>
-    <li>吉他类比：13岁想要电吉他，爸爸买了吉他+一本教材就走了→他从没学会。多数人需要有人带一程</li>
-    <li><b>孩子可能读得很多，但没"读对"——没有深入地、诠释性地读</b>，只是"打勾式"翻过</li>
-    <li>呼应中文老师："阅读不是天生的，是一种需要学习的技能"——少数有天赋不用教，多数人需要帮助</li>
-    <li>帮助来源：先是家长，其次是老师</li>
-</ul>
+    <li><b>作业:选另一首 Gerard Manley Hopkins 的诗,找出里面所有的 assonance 和 dissonance</b>;Tim 在聊天框里给了诗集链接。Claire:“非常非常非常难”;Tim:“你能行,我相信你”</li>
+    <li>方法提示:<b>“全都是关于半韵和声音。最好的办法是找一首诗,自己大声读出来,听半韵。诗就应该大声读——这就是诗的特点”</b></li>
+    <li>Claire 提醒还有 Two Truths One Lie,只剩一分钟,Olivia:“我不想玩”,没人愿意,Tim:“好吧,我们试过了”</li>
+    <li>Olivia 报喜:英语考试 14 分满分;Tim:“Well done, Olivia!” 下周是<b>最后一周</b>;Olivia 发现 working document 里已经有了 Term 2;“Bye, everyone!”</li>
+  </ul>
   </div>
-<div class="para"><p class="en"><span class="sent"><span class="se">What if your kid is a voracious reader across the board, but doesn't do well in English class, or does decently with no real progress? That's because he lacks guidance. Quick example: at 13 I asked my dad for an electric guitar. He bought me one and a book about playing it, then said 'bye bye.' I never learned. Some people have the aptitude and become Jimi Hendrix — that's not most people. Most need someone to help them along.</span><span class="sz">如果你的孩子什么书都读、读得很凶，但英语课不行，或者还行却看不到真正的进步呢？那是因为他缺乏引导。举个例子：13 岁我向爸爸要电吉他。他买了一把，加一本弹奏教材，然后说'拜拜'。我从没学会。有些人天生有悟性，能成为吉米·亨德里克斯——但那不是大多数人。多数人需要有人带一程。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">So your kid might read a lot but not read the right way — not deeply and interpretively. He just reads, does the check-check, doesn't really think. As the Chinese teachers said last week: reading is not natural, it's a skill. You have to learn how to read, how to interpret. Some have the aptitude and don't need a teacher, but the majority need help — first from parents, then teachers.</span><span class="sz">所以你的孩子可能读很多，却没'读对'——没有深入地、诠释性地读。他只是读，打勾打勾，并不真正思考。就像中文老师们上周说的：阅读不是天生的，它是一种技能。你必须学会如何阅读、如何诠释。少数人有天赋、不需要老师，但大多数人需要帮助——先是家长，其次是老师。</span></span> </p></div>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li>作业设计与课堂完全对应:课上是“老师读、老师找”,回家是“自己读、自己找”,而且对象仍是同一位诗人——<b>用同一个作者做迁移,难度最小</b>。</li>
+    <li>“Poems should be read aloud”是本课的收束句,也是学半韵的唯一方法:半韵在纸上看不出来,只有耳朵能听到。</li>
+    <li>Two Truths One Lie 从开头移到结尾,最后被放弃——考试周的疲惫班级,Tim 选择不硬推。</li>
+    <li>如果你是外人、想自己练:在 Hopkins 诗集里挑《Pied Beauty》或《Spring》,大声读两遍,把听起来“像但不完全一样”的词对圈出来,分成元音相同 / 辅音相同两栏。</li>
+  </ul>
+  </div>
+<div class="para dialog"><p class="en"><span class="sent"><span class="se"><b>Tim:</b> Okay, everybody! So, your homework is to choose another Gerard Manley Hopkins poem that you like, and find all the examples of assonance and dissonance in it. So, I actually have a link here.</span><span class="sz"><b>Tim:</b> 好了,各位!你们的作业是选另一首你喜欢的 Gerard Manley Hopkins 的诗,找出里面所有 assonance 和 dissonance 的例子。我这里有一个链接。</span></span> <span class="sent"><span class="se"><b>Claire:</b> Very, very, very, very, very, very hard. Terribly hard.</span><span class="sz"><b>Claire:</b> 非常非常非常非常非常非常难。难得可怕。</span></span> <span class="sent"><span class="se"><b>Tim:</b> You've got this. I believe in you. Here is a link. So, you just have to remember, it's just all about half rhymes and sounds. So the best way to do this is to find a poem, read it out to yourself, and listen for the half rhymes. Poems should be read aloud, that's the thing about poems. Okay, everyone understand? Everyone is sleepy today.</span><span class="sz"><b>Tim:</b> 你能行。我相信你。这是链接。你们只需要记住,全都是关于半韵和声音。所以最好的办法是找一首诗,自己读出来,听半韵。诗就应该大声读,这就是诗的特点。好,大家明白了吗?今天所有人都困了。</span></span> <span class="sent"><span class="se"><b>Claire:</b> The exercise? Two truths, one lie?</span><span class="sz"><b>Claire:</b> 那个练习呢?两真一假?</span></span> <span class="sent"><span class="se"><b>Tim:</b> Oh, yeah, sure thing. Two truths, one lie. We might run out of time, because we've only got one minute, but let's give it a go. Who wants to do two truths, one lie?</span><span class="sz"><b>Tim:</b> 哦,对,当然。两真一假。我们可能没时间了,因为只剩一分钟,但试试看。谁想玩两真一假?</span></span> <span class="sent"><span class="se"><b>Olivia:</b> No, I don't want to do it.</span><span class="sz"><b>Olivia:</b> 不,我不想玩。</span></span> <span class="sent"><span class="se"><b>Tim:</b> No one wants to do it? You wanna do it, Claire? Okay. Well, we tried. Oh, you guys, I hope you get some rest, and I hope your exams all go well, or went well, and everything is okay.</span><span class="sz"><b>Tim:</b> 没人想玩?你想玩吗,Claire?好吧。嗯,我们试过了。哦,你们啊,希望你们好好休息,希望你们的考试都顺利,或者已经顺利了,一切都好。</span></span> <span class="sent"><span class="se"><b>Olivia:</b> 14 max for English. I got…</span><span class="sz"><b>Olivia:</b> 英语满分 14。我拿了……</span></span> <span class="sent"><span class="se"><b>Tim:</b> Yes, English! Well done, Olivia. Okay, see you next week, everyone, for our final week! Can you believe it?</span><span class="sz"><b>Tim:</b> 对,英语!做得好,Olivia。好,下周见,各位,我们的最后一周!你们敢信吗?</span></span> <span class="sent"><span class="se"><b>Olivia:</b> Term 2 in our working document? Was there a Term 2 in the working document?</span><span class="sz"><b>Olivia:</b> working document 里有 Term 2?working document 里怎么有个 Term 2?</span></span> <span class="sent"><span class="se"><b>Tim:</b> Because you're gonna be in term 2. Bye, everyone!</span><span class="sz"><b>Tim:</b> 因为你们要进第二学期了。再见,各位!</span></span> <span class="sent"><span class="se"><b>Claire:</b> Bye!</span><span class="sz"><b>Claire:</b> 再见!</span></span> </p></div>
 </section>
 
 <!-- S11 -->
 <section id="s11">
-  <div class="sec-head"><span class="sec-num">11</span><h2>家长怎么检查（不用读过原书）</h2></div>
-  <div class="sec-time ui">53:00 – 57:00</div>
+  <div class="sec-head"><span class="sec-num">11</span><h2>专业课程评析 · 以世界级课程分析师的视角</h2></div>
+  <div class="sec-time ui">课后</div>
   <div class="keypoints ui"><b>要点</b><ul>
-    <li><b>家长即使没读过那本书、甚至不说英文，也能用一串问题检查孩子有没有真读懂</b></li>
-    <li>① <b>复述</b>：给我讲讲——最先/接着/然后/最后（first, next, then, last），基础层能理清情节</li>
-    <li>② <b>抓重点</b>：这些事里最重要的一两件是什么？为什么重要？（逼他思考重要性）</li>
-    <li>③ <b>谈人物</b>：主角是谁？什么样的人？有什么事改变了他？（现场想不出，但一追问就会想）</li>
-    <li>④ <b>问主题</b>：这本书想告诉你什么？（孩子常给很表面的答案，可继续往深推）</li>
-    <li>⑤ <b>谈喜好</b>：你喜欢这本书吗？喜欢/不喜欢哪里？——故事结构、人物、语言、语气？</li>
-    <li>关键：这些问题可以用中文问、孩子用中文答，也不需要你读过原书</li>
-</ul>
+    <li><b>这堂课好不好:</b>好,而且是九周里“知识密度”最高的一节——在一个考试周、六个昏昏欲睡的孩子面前,Tim 用一首远超年级水平的诗,教会了全班三个此前从未听过的术语(alliteration / assonance / dissonance),并让每个人都写出了带声音的句子</li>
+    <li><b>到底教了什么:</b>①“画家不能发声,作家可以”——把 Painting with Words 从画面推进到声音;② 写运动的三步(轨迹 → 声音 → -ing 词);③ 头韵;④ 全韵 / 元音半韵 / 辅音半韵三层押韵;⑤ 诗要大声读</li>
+    <li><b>我怎样才能学会:</b>大声读《The Windhover》三遍 → 描写一样会动的东西(先画轨迹)→ 用 cold / taste / apple / falter 各造三个半韵 → 回到自己那段,只加声音、不改内容 → 找另一首诗,把半韵圈出来</li>
+    <li><b>能应用在哪:</b>任何需要“读起来有劲”的文字——诗、故事的动作场面、广告语、演讲稿的排比;也是欣赏英文诗歌和歌词的基本耳朵</li>
+    <li><b>哪里不好、哪里可以做得更好:</b>① <b>前 15 分钟的狗狗量表占了四分之一课时</b>,每人 2-3 分钟聊考试,导致 Two Truths One Lie 被挤掉、任务 2 的收尾只给了“一分钟”——建议量表限时 5 分钟、每人一句话;② <b>Claire 两次说“I still don’t get it / I’m not good at writing”</b>,Tim 的回应是鼓励 + 换题(果冻),但没有给她一个最小示范(如当场把她的一句话改成带头韵的版本),她全程的产出只有 high / wide 两个词;③ <b>assonance / dissonance 的讲解全靠听</b>——三组种子词、十几个例词一口气念完,聊天框里的定义要到任务 2 才贴出;对 Level 2 学生,应当先在幻灯片上把 pick → sick / pit / pack 三列并排放好,再念;④ <b>Trinity、Yujia 全程几乎没有被单独提问</b>(Yujia 不开麦,Trinity 只在 vulture 时被点名),巡视时的表扬集中在 Olivia、Claire、Mark;⑤ 《The Windhover》没有任何现代英语的释义,孩子只能“听热闹”——哪怕只解释 minion / dauphin / vermilion 三个词,前两行的画面就能立起来</li>
+  </ul>
   </div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Even if you're not a strong reader, or don't speak English, you can still check. Yanci posted some of these questions on WeChat — she stole them from me. First: give me a summary — a shortened version. If the kid goes blah blah, I say: what happened first, then, next, last? That guides them at a basic level. You don't have to have read the story; take them at their word.</span><span class="sz">即使你不是很强的读者，或者不说英文，你仍然能检查。言词在微信上发过其中一些问题——她'偷'了我的。第一：给我讲个梗概——一个缩短的版本。如果孩子支支吾吾，我就问：最先发生了什么？接着？然后？最后？这在基础层引导他们。你不必读过这个故事；姑且信他们说的。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">If they can do that, push further: of all that, what were the one, two, three most important things? The number doesn't matter. They'll say 'that time John did this was important.' Ask why. You haven't read it — take them at their word — but you're making them think about importance.</span><span class="sz">如果他们能做到，就再往前推：这些当中，最重要的一件、两件、三件事是什么？数字不重要。他们会说'约翰做那件事的时候很重要'。追问为什么。你没读过——姑且信他们——但你在逼他们思考'重要性'。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Go deeper: tell me about the characters — who's the main character, what's he like, did anything change him? They won't think of it on the spot, but if you press, they start to. If they can't tell you, recommend they go back and reread. Then, really deep: what was the point of the book, what was it trying to show you? Kids give something superficial like 'Voldemort is a bad guy and you defeat evil.' You're not wrong — but how does that apply to our real lives? Push a little there.</span><span class="sz">再深一层：跟我讲讲人物——主角是谁、他是什么样的人、有没有什么改变了他？他们当场想不出，但你一逼，他们就会开始想。如果他们答不上来，就建议他们回去重读。然后，真正深的：这本书的用意是什么、它想让你看到什么？孩子会给很表面的答案，比如'伏地魔是坏人，你要战胜邪恶'。你没说错——但这如何适用于我们的真实生活？在这里推一把。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">The last one isn't hard but kids don't think about it: what did you actually like about this book? Did you like it? What did you like — or not like? Think about the choices: the story structure, the characters, the language, the tone — was it funny? You can ask all of this in Chinese, and your kid can answer in Chinese. And you don't need to have read the book.</span><span class="sz">最后一个不难，但孩子想不到：你到底喜欢这本书哪里？你喜欢它吗？喜欢什么——或不喜欢什么？想想那些选择：故事结构、人物、语言、语气——它好笑吗？这些你都可以用中文问，孩子也可以用中文答。而且你根本不需要读过这本书。</span></span> </p></div>
-</section>
-
-<!-- S12 -->
-<section id="s12">
-  <div class="sec-head"><span class="sec-num">12</span><h2>自主阅读 vs 引导阅读</h2></div>
-  <div class="sec-time ui">57:00 – 63:00</div>
-  <div class="keypoints ui"><b>要点</b><ul>
-    <li><b>自主阅读的好处</b>：读自己想读的、没有节奏压力、快慢自便→培养"阅读的乐趣"</li>
-    <li><b>自主阅读的坏处</b>：容易只读一类、读太快/太慢（太慢会丢失线索）、没人提问→阅读变得很浅、错过关键；除非天赋异禀，否则难以完整发展阅读技能</li>
-    <li>烹饪类比：给一堆食材让孩子自己做饭，他也许能摸索出来，但缺信息缺技能，远不如有人教</li>
-    <li><b>引导阅读的坏处</b>："我不喜欢这本书"（但现实/职场本就要读不喜欢的东西）、有进度压力（正好逼练时间管理）、周复一周易变成"苦差"</li>
-    <li><b>引导阅读的好处</b>：什么都读（在家可能挑食）、节奏平稳、一起深入讨论、教文学分析技巧、更重要的是建立"人际联结"→ 追求整体性理解</li>
-</ul>
+  <div class="explain ui"><b>💡 这节在教什么</b><ul>
+    <li><b>设计逻辑:</b>这堂课是一条“<b>先体验、后命名</b>”的链:看画(字在画里)→ 听诗(耳朵先愉快)→ 学生自己发现 -ing 韵 → 写运动(不讲规则)→ 从诗里捞出头韵 → 命名三层押韵 → 口头练 → 回到自己的段落加一层 → 回家自己找。每个新术语出现之前,学生都已经先“听到”过它。</li>
+    <li><b>Tim 的一贯风格在这节课的体现:</b>不否定第一反应(“像涂鸦”“烧 CPU”都接住)、用学生自己的词做例子、承认自己也会卡住(apple 那组)、用换对象而不是重讲来救卡住的学生。</li>
+    <li><b>对整个单元的位置:</b>Week 9 是 Painting with Words 的最后一个技巧课——前八周教“用词画画面”,这周教“用词发声音”,下周收尾。这是单元设计里最有野心的一节,也是最容易在低年级失手的一节;Tim 靠“不求读懂、只求听见”把它做成了。</li>
+  </ul>
   </div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Pros of independent reading: they read what they want, at their own pace — no pressure — which makes it pleasurable and develops the joy of reading. But cons: they might read only one kind of book and burn out; read too quickly, or too slowly (and lose the thread); and since no one asks questions or helps, the reading can get really shallow — they miss the important stuff, why the writer wrote it. Unless they have a natural aptitude, they won't fully develop reading skills.</span><span class="sz">自主阅读的好处：读自己想读的、按自己的节奏——没有压力——这让阅读愉快，培养阅读的乐趣。但坏处：他们可能只读一类书然后倦怠；读得太快，或太慢（丢失线索）；而且因为没人提问、没人帮忙，阅读会变得很浅——他们错过重要的东西，错过作者为何而写。除非天赋异禀，否则无法完整发展阅读技能。</span></span> <span class="sent"><span class="se">It's like handing a kid a bunch of ingredients and saying 'cook dinner.' They might figure it out with time — but with a lot of missing information and skills. They won't cook as well as if they'd been taught.</span><span class="sz">这就像给孩子一堆食材说'做晚饭吧'。他们也许能慢慢摸索出来——但缺很多信息和技能。远不如有人教出来做得好。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Guided reading has negatives too: 'I don't like the book.' Well, sometimes you have to read things you don't like — at school, at work. How many of you only read what you like, versus what the boss requires, no matter how boring? Guided reading also has expectations — read this much each week, hit these points — which adds pressure. Kids aren't good at time management, so they need to develop it. And week after week it can become a chore.</span><span class="sz">引导阅读也有负面：'我不喜欢这本书。'可是有时你就得读不喜欢的东西——在学校、在职场。你们当中有多少人只读自己喜欢的，而不是老板要求的、再无聊也得读的？引导阅读也有要求——每周读这么多、要讲到这些点——这会带来压力。孩子不擅长时间管理，所以正好需要培养。而周复一周，它可能变成苦差。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">The pros of guided reading: we read everything — at home you might not. I pace it, keep consistent expectations, and the whole point is discussing together, going deeper, teaching literary analysis. But more importantly, making those interpersonal connections. We want a holistic understanding. We read fantasy, nonfiction (watch for certain things), realistic fiction, verse poetry (complex, a real workout), drama (helps with films), short stories, graphic novels — so whatever text they meet at school or in life, they've learned to analyze it.</span><span class="sz">引导阅读的好处：我们什么都读——在家你可能做不到。我把控节奏、保持一致的要求，而核心就是一起讨论、往深处走、教文学分析。但更重要的是，建立那些人际联结。我们追求整体性的理解。我们读奇幻、非虚构（要留意某些套路）、写实小说、诗歌（很复杂，是真正的锻炼）、戏剧（帮助理解电影）、短篇、图像小说——这样无论他们在学校或生活中遇到什么文本，都已学会分析它。</span></span> </p></div>
+<div class="quote"><span class="tag ui">一句话总结</span>
+<p class="en"><span class="sent"><span class="se">Painters can't make sounds, but writers can. Poems should be read aloud — that's the thing about poems.</span><span class="sz">画家发不出声音,但作家可以。诗就应该大声读——这就是诗的特点。</span></span> </p></div>
+<div class="quote"><span class="tag ui">留给你的一步:自己写一段</span>
+<p class="en"><span class="sent"><span class="se">Pick one moving thing — a kettle boiling, a cat jumping, a bus pulling away. Draw its path. Write four lines: one with alliteration, one with a repeated word, one whose last words share a vowel sound, one whose last words share a consonant. Then read it aloud and change any word that your mouth does not enjoy.</span><span class="sz">选一样会动的东西——烧开的水壶、跳起来的猫、开走的公交车。画出它的轨迹。写四行:一行用头韵,一行用重复的词,一行结尾两个词元音相同,一行结尾两个词辅音相同。然后大声读,把任何嘴巴不喜欢的词都换掉。</span></span> </p></div>
 </section>
-
-<!-- S13 -->
-<section id="s13">
-  <div class="sec-head"><span class="sec-num">13</span><h2>课程实例 · 技能怎么教</h2></div>
-  <div class="sec-time ui">63:00 – 67:00</div>
-  <div class="keypoints ui"><b>要点</b><ul>
-    <li>课程约 10 个级别，同一技能在不同级别反复练、逐级加深</li>
-    <li><b>故事结构</b>：从"故事的基本部件及其关系"到"英雄之旅"等各种情节模型；非虚构则学"作者如何组织文本（主旨+支撑信息）"→ 迁移到自己如何组织思路/写作/大纲/摘要</li>
-    <li><b>语气与情绪（Tone & Mood）</b>：Tone=人物/作者的感受，Mood=读者的感受；即便非虚构，也能从语言看出作者的真实立场</li>
-    <li>实例：一篇讲"爱达荷州农民减少"的文章，学生起初以为作者"中立无观点"；细读语言和例子后发现——作者其实立场鲜明，在做一种"未言明的说服"</li>
-    <li><b>作者的选择</b>：训练"读出言外之意/潜台词（subtext）"、推断（inference）——很多学生把一切都按字面理解，需要老师引导看到"字面之下"</li>
-</ul>
-  </div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Our course has about 10 levels, and we practice one skill at multiple levels, getting deeper. We start with basic story structure — the parts of a story and their relationships — then more complex ones like the hero's journey. With nonfiction, we learn how writers organize a text: a main topic supported by information. This helps students organize their own thoughts, writing, outlines, and summaries — good academic and career skills.</span><span class="sz">我们的课程约有 10 个级别，同一个技能会在多个级别练习、逐级加深。我们从基本的故事结构开始——故事的组成部分及其关系——再到更复杂的，比如英雄之旅。非虚构方面，我们学习作者如何组织文本：一个主旨，由信息支撑。这帮助学生组织自己的思路、写作、提纲和摘要——很好的学业和职业技能。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Tone and mood: tone is what the characters or writer feel; mood is what we feel. Even in nonfiction, we look at the writer's language to understand what they actually believe. I taught this passage last week: students read about the decrease of farmers in Idaho and first said the author was neutral, had no opinion. We reread, looked at the language and examples, and discovered he actually has a strong opinion — he's trying to get us on his side. A kind of unstated, persuasive argument.</span><span class="sz">语气与情绪：Tone 是人物或作者的感受；Mood 是我们读者的感受。即便在非虚构里，我们也通过作者的语言来理解他们真正相信什么。上周我教过一篇：学生读一篇关于爱达荷州农民减少的文章，起初说作者是中立的、没有观点。我们重读、细看语言和例子，发现他其实立场鲜明——他在试图把我们拉到他那一边。一种未言明的说服性论证。</span></span> <span class="sent"><span class="se">These traits help us understand and empathize, and with nonfiction they help us avoid bias and manipulation, read critically, and not get duped. I used this with Yanci's son — I gave him a news article and asked his opinion. He discovered it was very opinionated and not scientific, couched in scientific language. Good job to him.</span><span class="sz">这些能力帮我们理解和共情，而在非虚构里，它们帮我们规避偏见和操纵、批判性地阅读、不被蒙骗。我在言词的儿子身上用过这招——我给他一篇新闻，问他的看法。他发现那篇文章立场强烈、并不科学，只是披着科学语言的外衣。他做得很好。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Finally, authorial choices — what the writer does to create an emotional effect, and how we're affected. This develops reading between the lines, understanding subtext: when people choose certain words, what are they really trying to say? A lot of students, even older ones, take everything at face value and fail to see there are implied meanings beneath. With a teacher's help they learn to ask: what could be some alternative, implied meanings here? What can we infer? These inference skills are really helpful in real life.</span><span class="sz">最后是'作者的选择'——作者做了什么来营造情感效果、我们又如何被影响。这训练'读出字里行间'、理解潜台词：当人们选择某些词，他们真正想说的是什么？很多学生，甚至年纪较大的，都把一切按字面理解，看不到字面之下还有言外之意。在老师帮助下，他们学会问：这里可能还有哪些别的、隐含的意思？我们能推断出什么？这些推断能力在现实生活中真的很有用。</span></span> </p></div>
-</section>
-
-<!-- S14 -->
-<section id="s14">
-  <div class="sec-head"><span class="sec-num">14</span><h2>Q&A 精华</h2></div>
-  <div class="sec-time ui">67:00 – 80:00</div>
-  <div class="keypoints ui"><b>要点</b><ul>
-    <li><b>Q：怎么"骗"孩子读《Horrible Histories》？</b> A：先别逼；若她爱奇幻，就给"历史小说"（真实历史背景+她爱的龙等元素）当中间桥梁，慢慢引到历史</li>
-    <li><b>Q：怎么让孩子放下短视频、去读书？</b> A：先弄清她看哪类短视频（如游戏/音乐/明星）→ 给"相似主题的短篇/中篇/漫画"；如爱看 Taylor Swift 视频→给 Taylor Swift 写的书→再拓展到相关文化（如韩国/日本文学，当下很热门）。不会彻底取代短视频，但能补充</li>
-    <li><b>Q：孩子只爱读小说（fiction）有问题吗？</b> A：短期没问题，小说照样练语言、共情、联结；长期需读非虚构（学会识别作者偏见与论证技巧）。方法同上：给"融入现实元素的小说"（历史小说、偏科学的科幻）当跳板；17岁偏晚要多推，8–12岁则时间充裕、慢慢来</li>
-    <li><b>贯穿始终的方法论：从孩子当下的兴趣出发，用一两本"中间书"当桥，慢而稳地拓展</b></li>
-</ul>
-  </div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Q (Maggie): How can I trick my girl into reading Horrible Histories? A: First, why that specifically? I wouldn't force it — she won't go for it. If she likes fantasy, give her historical fiction: say she likes medieval, castles, dragons — find historical fiction set in a real place and time (England 1300) that features a dragon but incorporates real historical facts. That might make her interested in the history behind it. Then move toward lighter historical texts, maybe with one or two intermediary books.</span><span class="sz">问（Maggie）：怎么'骗'我女儿读《Horrible Histories》？答：首先，为什么非它不可？我不会硬逼——她不会买账。如果她喜欢奇幻，就给她历史小说：假设她喜欢中世纪、城堡、龙——找一本设定在真实时空（英格兰1300年）、有龙但又融入真实历史事实的历史小说。这也许能让她对背后的历史产生兴趣。然后再往更轻的历史文本走，也许用一两本过渡书。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Q (Xu Jun): How do I get her to read instead of watching short videos? A: Hard battle. First find out what kind she watches — my oldest likes gaming videos (Minecraft). That tells you where the interest lies. Then find short-form texts similar to that — a comic, a novella, short stories closely related to her interest. If she watches Taylor Swift videos, Taylor Swift has books — hand her one. From there you might branch out: she likes K-pop → give her Korean literature (very popular now; Japanese literature is the #1 translated literature in the UK right now). It won't break the TikTok habit, but it can supplement it.</span><span class="sz">问（徐军）：怎么让她读书而不是刷短视频？答：这是场硬仗。先弄清她看哪类——我大女儿爱看游戏视频（Minecraft）。这就告诉你兴趣在哪。然后找与之相似的短篇文本——一本漫画、一部中篇、与她兴趣紧密相关的短篇集。如果她看 Taylor Swift 的视频，Taylor Swift 有出书——递一本给她。由此可以向外拓展：她喜欢 K-pop → 给她韩国文学（现在很火；日本文学目前是英国翻译文学第一名）。这不会打破刷视频的习惯，但能作为补充。</span></span> </p></div>
-<div class="para"><p class="en"><span class="sent"><span class="se">Q (Clara): Is it a problem if my child only reads fiction? A: Not really, and maybe problematic only in the long run — in real life she'll have to read nonfiction unless she becomes a writer or editor. For now, fiction is good: it still develops language awareness, empathy, connections. What it lacks is hardcore information and scientific facts. Same approach: give her fiction that incorporates real-world stuff — historical fiction, or the more scientific end of science fiction — as a springboard.</span><span class="sz">问（Clara）：孩子只读小说（fiction）有问题吗？答：其实没什么，只是长远看可能有点问题——现实生活中她终究得读非虚构，除非她当作家或编辑。眼下，小说很好：它照样培养语言意识、共情、联结。它缺的是硬核信息和科学事实。方法相同：给她那种融入了现实内容的小说——历史小说，或更偏科学的那类科幻——当作跳板。</span></span> <span class="sent"><span class="se">Say she reads sci-fi set under the sea and likes it — ask, was it the ocean element you liked? If yes: 'if I gave you a short book about the ocean, would you read it?' She might say yes. A lot of fiction reading skills carry over to nonfiction, so she's not lost — but eventually you want her reading some nonfiction, mainly to learn author bias and argumentative techniques. She's 17, so that's a little late — push more. But at 8, 10, 12 you have lots of time. Slowly but surely.</span><span class="sz">假设她读了一本设定在海底的科幻并且喜欢——就问，你喜欢的是'海洋'这个元素吗？如果是：'如果我给你一本关于海洋的小书，你会读吗？'她可能会说好。很多小说的阅读技能会迁移到非虚构，所以她不算迷路——但你最终仍希望她读些非虚构，主要是为了学会识别作者偏见和论证技巧。她 17 岁了，稍微晚了点——要多推。但在 8 岁、10 岁、12 岁，你有大把时间。慢，但稳。</span></span> </p></div>
-</section>
-
-
-<footer class="ui">整理自 2025-03-09 FOGG 父母讲堂 Teacher Chris Zoom 转录 · 英文原文经口语清理、重组归纳 · 中文翻译供学习参考<br>💡 选中英文 → 弹出「高亮 / 查词 / 高亮+笔记」· 点已有高亮 → 菜单（写笔记 / 查词 / 删除）· 「📤 导出」一键打包全部笔记丢给 Claude</footer>
-<article class="class-study"><div class="class-hero"><div class="class-kicker">FOGG 课堂学习库 · 创意写作</div><h1>让文字发出声音</h1><div class="class-meta">2026.08.24 · 周一 7–8 PM · CW 1–2级 · Teacher Tim</div><div class="class-thesis">这堂课把诗歌从“看懂意思”推进到“听见声音”：学生朗读 Gerard Manley Hopkins 的《The Windhover》，辨认声音怎样模仿鸟的飞行，再把 alliteration、assonance、dissonance 与 half rhyme 写进自己的动态描写。</div></div>
-<nav class="class-nav"><a href="#cw-t-flow">课堂路径</a><a href="#cw-t-sounds">声音工具箱</a><a href="#cw-t-evidence">原声精读</a><a href="#cw-t-practice">复习练习</a><a href="#cw-t-homework">作业</a></nav>
-<div class="study-block" id="cw-t-flow"><h2>课堂路径</h2><p class="lead">老师先让孩子从鸟的图像和动作进入诗歌，再通过朗读听辨声音，最后把技巧转回自己的描写。</p><div class="lesson-flow"><div class="flow-card"><b>① 观察与预测</b>从鸟的形象讨论：诗人为什么会写一只鸟，又会选择哪些细节？<span class="source">00:16:49–00:20:15</span></div><div class="flow-card"><b>② 朗读诗歌</b>阅读 Hopkins 的《The Windhover》，先接受古老语言带来的陌生感。<span class="source">00:20:15–约00:31</span></div><div class="flow-card"><b>③ 听辨声音</b>寻找重复辅音、元音呼应、不协和音与半押韵，讨论它们怎样制造运动感。<span class="source">约00:31–00:46</span></div><div class="flow-card"><b>④ 改写描写</b>重写或延续自己的段落，让声音技巧真正进入句子。<span class="source">00:46:04–00:56:58</span></div></div></div>
-<div class="study-block" id="cw-t-sounds"><h2>声音工具箱</h2><p class="lead">这些术语不是为了背定义，而是为了控制读者朗读时的速度、触感和情绪。</p><div class="sound-row"><b>Alliteration<br>头韵</b><p>相邻词重复相同或相近的开头辅音。它能让一串动作显得迅速、连续，或突出某种声音质感。</p></div><div class="sound-row"><b>Assonance<br>元音和谐</b><p>词语内部重复相近的元音，让句子产生回响与流动感；Claire 的 high / wide 被老师指出是有效例子。</p></div><div class="sound-row"><b>Dissonance<br>不协和音</b><p>声音组合刻意不顺滑，读起来有摩擦或阻滞感，适合紧张、笨重、危险或突然变化的动作。</p></div><div class="sound-row"><b>Half rhyme<br>半押韵</b><p>词语听起来接近，却没有完全押韵。它保留联系，同时避免句子过分整齐和可预测。</p></div><span class="source">00:46:04–00:55:02</span></div>
-<div class="study-block" id="cw-t-evidence"><h2>原声精读</h2><p class="lead">诗歌的技巧要通过嘴巴和耳朵理解，而不是只靠眼睛辨认。</p><div class="para"><p class="en"><span class="sent"><span class="se">It's quite an old-fashioned poem. It might be quite hard to make sense of, but I want to see what you think of this.</span><span class="sz">诗歌语言可能古老、难懂，但第一步仍是先读、先感受，再说自己听到了什么。</span></span></p><span class="source">Teacher Tim · 00:20:19–00:20:34</span></div><div class="para"><p class="en"><span class="sent"><span class="se">Rewrite what you've written today, but include lots of alliteration, and assonance and dissonance, some half-rhymes.</span><span class="sz">把当天写过的描写重新写一遍，主动加入头韵、元音和谐、不协和音与半押韵。</span></span></p><span class="source">Teacher Tim · 00:46:04–00:46:29</span></div><div class="para"><p class="en"><span class="sent"><span class="se">Poems should be read aloud, that's the thing about poems.</span><span class="sz">诗歌应该被读出声；只有朗读，声音关系和半押韵才真正可感。</span></span></p><span class="source">Teacher Tim · 00:59:09–00:59:13</span></div></div>
-<div class="study-block" id="cw-t-practice"><h2>一段描写，做两次</h2><p class="lead">不要一次塞满所有术语。先写清动作，再有目的地调声音。</p><ol class="practice"><li>选择一个运动中的对象：鸟、果冻、风筝、落叶或滑板。</li><li>先写两句，只说明它怎样移动，不追求声音技巧。</li><li>圈出关键动作词，为其中一组加入头韵或元音回响。</li><li>朗读两版，判断哪一版更像对象真实的速度和质感。</li></ol><div class="question-box"><b>复盘问题</b><ul><li>声音是在帮助画面，还是只是在炫技？</li><li>哪几个词读起来最快？哪几个词让嘴巴“卡”一下？</li><li>如果换一种元音，动作的感觉会不会改变？</li></ul></div></div>
-<div class="study-block" id="cw-t-homework"><h2>课后任务</h2><p>另选一首自己喜欢的 Gerard Manley Hopkins 诗歌，朗读并找出其中的 assonance 与 dissonance。老师提醒：重点是听 half rhyme 和声音关系，因此要把诗读出声。</p><span class="source">Teacher Tim · 00:58:05–00:59:13</span></div></article>
+<footer class="ui">整理自 FOGG Level 2 创意写作课 Week 9 课堂录音(约60分钟,全程) · 英文原文经口语清理 · 中文翻译供学习参考</footer>
 </main>
 </div>
 
-<div id="hl-tip" class="ui">🖍 划线模式已开启 —— 选中英文文字即可高亮，点击已有高亮可删除</div>
+<div id="hl-tip" class="ui">划线模式已开启 —— 选中英文文字即可高亮，点击已有高亮可删除</div>
 
 <div id="sel-pop" class="ui">
-  <button id="pop-hl">🖍 高亮</button><div class="sep"></div><button id="pop-dict">📖 查词</button><div class="sep"></div><button id="pop-note">📝 高亮+笔记</button>
+  <button id="pop-hl">高亮</button><div class="sep"></div><button id="pop-dict">查词</button><div class="sep"></div><button id="pop-note">高亮+笔记</button>
 </div>
 <div id="dict-card" class="ui">
   <button class="close-x" id="dc-close">✕</button>
   <span class="dw" id="dc-word">…</span><span class="dp" id="dc-ph"></span><button class="say" id="dc-say" title="朗读">🔊</button>
   <div class="zh-big loading" id="dc-zh-big">翻译中…</div>
   <div class="dd" id="dc-def"></div>
-  <div class="dc-row"><button class="add" id="dc-add">＋ 存入生词本</button></div>
+  <div class="dc-row"><button class="add" id="dc-add">＋ 存入生词本</button><button class="add mine" id="dc-mine" style="display:none">✓ 设为我的生词</button></div>
 </div>
 <div id="note-modal" class="ui">
   <div class="box">
@@ -668,9 +358,9 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
   </div>
 </div>
 <div id="mark-menu" class="ui">
-  <button id="mm-note">📝 写/改笔记</button>
-  <button id="mm-dict">📖 查这个词</button>
-  <button class="danger" id="mm-del">🗑 删除这条高亮</button>
+  <button id="mm-note">写/改笔记</button>
+  <button id="mm-dict">查这个词</button>
+  <button class="danger" id="mm-del">删除这条高亮</button>
 </div>
 
 <div id="share-modal" class="ui">
@@ -679,19 +369,19 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
     <div class="sc-quote" id="sc-quote"></div>
     <div class="sc-note" id="sc-note" style="display:none"></div>
     <div class="sc-src"><span id="sc-src-txt"></span><span class="sc-brand">FOGG 学习笔记</span></div>
-    <div id="share-actions"><button class="cap" id="sc-cap">📸 截图保存</button><button class="cls" id="sc-close">关闭</button></div>
+    <div id="share-actions"><button class="cap" id="sc-cap">截图保存</button><button class="cls" id="sc-close">关闭</button></div>
   </div>
 </div>
 <div id="share-actions-wrap" style="display:none"></div>
 <div id="drawer" class="ui">
   <div class="tabs">
-    <button data-tab="vocab" class="on">📖 生词本</button>
-    <button data-tab="hl">🖍 划线笔记</button>
-    <button data-tab="note">📝 总笔记</button>
+    <button data-tab="vocab" class="on">生词本</button>
+    <button data-tab="hl">划线笔记</button>
+    <button data-tab="note">总笔记</button>
   </div>
   <div class="pane on" data-pane="vocab">
     <div class="vocab-stats">还不会 <b id="vc-unknown">0</b> ・ 已掌握 <b class="ok-n" id="vc-known">0</b> ・ 共 <span id="vc-total">0</span> 词　<span style="margin-left:auto;font-size:11px;color:#A8B8B4">点 ⭕ = 已掌握</span></div>
-    <div id="vocab-list"><p class="empty">还没有生词。选中英文单词 → 点「📖 查词收藏」。</p></div>
+    <div id="vocab-list"><p class="empty">还没有生词。选中英文单词 → 点「查词」。</p></div>
   </div>
   <div class="pane" data-pane="hl">
     <div id="hl-list"><p class="empty">还没有划线。开启划线模式后选中英文文字试试。</p></div>
@@ -703,7 +393,7 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
 
 <div id="sync-modal" class="ui">
   <div class="box">
-    <h3 style="color:var(--teal);margin-bottom:6px">☁️ 多设备同步设置</h3>
+    <h3 style="color:var(--teal);margin-bottom:6px">多设备同步设置</h3>
     <p style="font-size:12.5px;color:#6B8480;line-height:1.7;margin-bottom:12px">填入你的 <b>Gist ID</b> 和 <b>GitHub Token</b>，划线/笔记就会存到云端。在每台设备上填同一组，就能看到相同内容。（留空 = 只用本机保存）</p>
     <label style="font-size:12px;color:#8CA19D">Gist ID</label>
     <input id="sync-gist" class="sync-inp" placeholder="例如 3a1b...（那串字母数字）">
@@ -719,878 +409,26 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
 </div>
 
 <script>
-(function(){
-const NOTE_KEY='class-20260824-cw-tim-l12-notes', HL_KEY='class-20260824-cw-tim-l12-highlights', VC_KEY='class-20260824-cw-tim-l12-vocab';
-let notes={}, highlights=[], vocab=[], saveTimer=null;
-
-// ===== 云端同步（GitHub Gist）+ 本地兜底 =====
-const CFG_GIST='__cfg_gist_id', CFG_TOKEN='__cfg_gist_token';
-let gistId=localStorage.getItem(CFG_GIST)||'', gistToken=localStorage.getItem(CFG_TOKEN)||'';
-let cloudCache=null, pushTimer=null, cloudOn=false;
-
-function gistHeaders(){return {'Authorization':'token '+gistToken,'Accept':'application/vnd.github+json'}}
-async function cloudPull(){
-  if(!gistId||!gistToken)return null;
-  const r=await fetch('https://api.github.com/gists/'+gistId,{headers:gistHeaders()});
-  if(!r.ok)throw new Error('pull '+r.status);
-  const j=await r.json();
-  const f=j.files&&j.files['data.json'];
-  cloudCache=f&&f.content?JSON.parse(f.content):{};
-  return cloudCache;
-}
-async function cloudPush(obj){
-  if(!gistId||!gistToken)return;
-  const r=await fetch('https://api.github.com/gists/'+gistId,{
-    method:'PATCH',headers:gistHeaders(),
-    body:JSON.stringify({files:{'data.json':{content:JSON.stringify(obj)}}})
-  });
-  if(!r.ok)throw new Error('push '+r.status);
-}
-
-const store={
-  async get(k){
-    if(cloudOn&&cloudCache&&(k in cloudCache))return cloudCache[k];
-    try{return localStorage.getItem(k)}catch(e){return null}
-  },
-  async set(k,v){
-    try{localStorage.setItem(k,v)}catch(e){}
-    if(cloudOn){
-      if(!cloudCache)cloudCache={};
-      cloudCache[k]=v;
-      clearTimeout(pushTimer);
-      pushTimer=setTimeout(async()=>{
-        try{await cloudPush(cloudCache);cloudBadge('✓ 已同步到云端 '+nowT())}
-        catch(e){cloudBadge('⚠ 云端同步失败，已存本地')}
-      },900);
-    }
-  }
+window.PAGE_CONFIG={
+  key:'class-20260824-cw-tim-l12',
+  title:'Tim 创意写作课 Week 9',
+  exportTitle:'Tim 创意写作课 Week 9 · 让文字发出声音:《The Windhover》、头韵与半韵 · 我的学习笔记',
+  preset:[
+ {"word":"windhover","zh":"风鹰(红隼)","def":"A kestrel, a small falcon that hovers in the wind; the subject of Hopkins's poem."},
+ {"word":"stanza","zh":"诗节","def":"A group of lines in a poem, like a paragraph in prose."},
+ {"word":"alliteration","zh":"头韵","def":"Repeating the same starting sound in nearby words, e.g. dapple-dawn-drawn."},
+ {"word":"full rhyme","zh":"全韵","def":"Words whose ending vowel and consonant sounds are both the same, e.g. bat / cat."},
+ {"word":"half rhyme","zh":"半韵","def":"Words that almost rhyme: only the vowel or only the consonant matches."},
+ {"word":"assonance","zh":"元音半韵","def":"Words that share the same vowel sound but different consonants, e.g. taste / cape."},
+ {"word":"dissonance","zh":"辅音半韵","def":"Words that share the same consonant sound but different vowels, e.g. pick / pack."},
+ {"word":"rhythm","zh":"节奏","def":"The pattern of beats and stresses that makes words sound like music."},
+ {"word":"minion","zh":"宠儿;跟班","def":"A favourite or follower; the poem calls the falcon morning's minion."},
+ {"word":"dauphin","zh":"太子","def":"The eldest son of the French king; here, the prince of daylight."},
+ {"word":"vermilion","zh":"朱红","def":"A bright red-orange colour, as in gash gold-vermilion."},
+ {"word":"ominous","zh":"不祥的","def":"Giving the feeling that something bad is about to happen."}
+]
 };
-function nowT(){return new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'})}
-function cloudBadge(t){const s=document.getElementById('save-state');if(s)s.textContent=t}
-
-const state=document.getElementById('save-state');
-const sections=[...document.querySelectorAll('section')];
-
-function autoGrow(t){if(!t)return;t.style.height='auto';t.style.height=Math.max(t.scrollHeight,window.innerHeight*0.6)+'px';}
-
-// —— 分享卡片 & 工具 ——
-let vocabKnownOpen=false;
-const SHARE_EN=''; // 占位
-function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function openShareCard(o){
-  const q=document.getElementById('sc-quote');
-  q.className='sc-quote'+(o.en==='word'||/[a-zA-Z]/.test(o.quote)&&o.en!=='' ? ' sc-en':'');
-  q.innerHTML=escapeHtml(o.quote)+(o.zh?'<div class="sc-zh">'+escapeHtml(o.zh)+'</div>':'');
-  const n=document.getElementById('sc-note');
-  if(o.note){n.style.display='';n.textContent=o.note}else{n.style.display='none'}
-  document.getElementById('sc-src-txt').textContent=o.src||'';
-  document.getElementById('share-modal').classList.add('open');
-}
-(function(){
-  const m=document.getElementById('share-modal');
-  const close=()=>m.classList.remove('open');
-  const x=document.getElementById('sc-x'),c=document.getElementById('sc-close');
-  if(x)x.onclick=close;if(c)c.onclick=close;
-  m.addEventListener('click',e=>{if(e.target===m)close()});
-  const cap=document.getElementById('sc-cap');
-  if(cap)cap.onclick=async()=>{
-    const card=document.getElementById('share-card');
-    const actions=document.getElementById('share-actions');
-    if(typeof html2canvas==='undefined'){
-      // 动态载入截图库
-      await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s)}).catch(()=>{});
-    }
-    if(typeof html2canvas==='undefined'){setState('⚠ 截图组件需要联网，可手动系统截图');return}
-    actions.style.visibility='hidden';
-    try{
-      const canvas=await html2canvas(card,{backgroundColor:null,scale:2});
-      actions.style.visibility='';
-      canvas.toBlob(blob=>{
-        const url=URL.createObjectURL(blob);
-        const a=document.createElement('a');a.href=url;a.download='FOGG笔记卡片.png';a.click();
-        setTimeout(()=>URL.revokeObjectURL(url),1000);
-        setState('📸 卡片已保存为图片');
-      });
-    }catch(err){actions.style.visibility='';setState('⚠ 截图失败，可手动系统截图')}
-  };
-})();
-
-function setState(t){state.textContent=t}
-function scheduleSave(){setState('保存中…');try{localStorage.setItem('__last_read_class-20260824-cw-tim-l12',Date.now())}catch(e){}clearTimeout(saveTimer);saveTimer=setTimeout(saveAll,700)}
-async function saveAll(){
-  try{
-    await store.set(NOTE_KEY,JSON.stringify(notes));
-    await store.set(HL_KEY,JSON.stringify(highlights));
-    await store.set(VC_KEY,JSON.stringify(vocab));
-    setState(cloudOn?'✓ 已保存（同步中…）':'✓ 已保存 '+nowT());
-  }catch(e){setState('⚠ 保存失败，稍后自动重试');setTimeout(saveAll,3000)}
-}
-async function load(){
-  if(gistId&&gistToken){try{await cloudPull();cloudOn=true}catch(e){cloudOn=false}}
-  try{const v=await store.get(NOTE_KEY);if(v)notes=JSON.parse(v)}catch(e){}
-  try{const v=await store.get(HL_KEY);if(v)highlights=JSON.parse(v)}catch(e){}
-  try{const v=await store.get(VC_KEY);if(v)vocab=JSON.parse(v)}catch(e){}
-  const g=document.getElementById('global-note');if(notes.__global)g.value=notes.__global;autoGrow(g);
-  highlights.forEach((h,i)=>{if(!h.id)h.id='h'+Date.now()+'_'+i;applyHighlight(h.sec,h.text,h.id)});refreshMarkNoteStyles();
-  renderHlList();renderVocab();markVocabWords();
-  setState(cloudOn?('☁️ 已从云端载入 '+nowT()):(highlights.length||vocab.length||Object.keys(notes).length?'✓ 已恢复你的笔记 · 划线 · 术语':'已就绪'));
-  if(typeof updateCloudBtn==='function')updateCloudBtn();
-}
-
-// notes events
-document.addEventListener('input',e=>{
-  if(e.target.id==='global-note'){notes.__global=e.target.value;autoGrow(e.target);scheduleSave()}
-});
-
-// 把每段的逐句中文合并成一个整齐的翻译块
-document.querySelectorAll('.para,.quote').forEach(p=>{
-  const szs=[...p.querySelectorAll('.sz')];
-  if(!szs.length)return;
-  const normal=szs.filter(s=>!s.classList.contains('comment')).map(s=>s.textContent).join('');
-  const comment=szs.filter(s=>s.classList.contains('comment')).map(s=>s.textContent).join('');
-  const d=document.createElement('div');d.className='zh-block';
-  d.textContent=normal;
-  if(comment){const c=document.createElement('span');c.className='comment-line';c.textContent=comment;d.appendChild(c)}
-  p.appendChild(d);
-});
-
-// per-paragraph 中文 toggle buttons
-document.querySelectorAll('.para,.quote').forEach(p=>{
-  if(!p.querySelector('.zh-block'))return;
-  const b=document.createElement('button');
-  b.className='zh-btn';b.textContent='中';b.title='显示/隐藏本段中文';
-  b.onclick=e=>{e.stopPropagation();p.classList.toggle('zh-open');b.classList.toggle('on',p.classList.contains('zh-open'))};
-  p.appendChild(b);
-});
-
-// zh toggles
-const zhBtn=document.getElementById('zh-toggle');
-zhBtn.onclick=()=>{document.body.classList.toggle('show-zh');zhBtn.textContent=document.body.classList.contains('show-zh')?'隐藏全部中文':'显示全部中文';zhBtn.classList.toggle('primary')};
-// per-section: dblclick on section title toggles that section
-sections.forEach(s=>{const h=s.querySelector('h2');h.style.cursor='pointer';h.title='点击：切换本节中文';h.onclick=()=>s.classList.toggle('show-zh')});
-
-// ---- selection popup ----
-const pop=document.getElementById('sel-pop'),dictCard=document.getElementById('dict-card'),markMenu=document.getElementById('mark-menu');
-let curSel=null,curMark=null,curDict=null,suppressClickUntil=0;
-const IS_TOUCH = ('ontouchstart' in window) || navigator.maxTouchPoints>0;
-function placeAt(el,rect){
-  el.style.display=(el.id==='sel-pop')?'flex':'block';
-  const vw=document.documentElement.clientWidth,vh=document.documentElement.clientHeight;
-  const w=el.offsetWidth,h=el.offsetHeight;
-  // 触屏设备：菜单固定在屏幕底部中央，避免被 iPad 系统选择菜单（拷贝/翻译…）挡住
-  if(IS_TOUCH && (el.id==='sel-pop' || el.id==='mark-menu')){
-    el.style.left=Math.max(8,(vw-w)/2)+'px';
-    el.style.top=(vh-h-24)+'px';
-    el.classList.add('touch-dock');
-    return;
-  }
-  el.style.left=Math.max(8,Math.min(rect.left+rect.width/2-w/2,vw-w-8))+'px';
-  let top=rect.bottom+10;               // 默认贴在选区正下方
-  if(top+h>vh-8)top=rect.top-h-10;      // 下方放不下才翻到上方
-  el.style.top=Math.max(8,top)+'px';
-}
-// 滚动时收起浮层，避免错位
-window.addEventListener('scroll',()=>{pop.style.display='none';markMenu.style.display='none'},{passive:true});
-function showSelPopup(){
-  const sel=window.getSelection();
-  if(!sel||sel.isCollapsed){pop.style.display='none';return}
-  const text=sel.toString().replace(/\s+/g,' ').trim();
-  const node=sel.anchorNode;const anchor=node&&(node.nodeType===3?node.parentElement:node);
-  const en=anchor&&anchor.closest?anchor.closest('.en'):null;
-  if(!en||text.length<2){pop.style.display='none';return}
-  const sec=en.closest('.study-block, section');
-  let rect;try{rect=sel.getRangeAt(0).getBoundingClientRect()}catch(e){return}
-  curSel={text:text,sec:sec?sec.id:'',rect:rect,range:sel.getRangeAt(0).cloneRange()};
-  placeAt(pop,curSel.rect);
-}
-document.addEventListener('mouseup',e=>{
-  if(pop.contains(e.target)||dictCard.contains(e.target)||markMenu.contains(e.target))return;
-  setTimeout(showSelPopup,10);
-});
-let touchSelTimer=null,isTouch=false;
-document.addEventListener('touchstart',()=>{isTouch=true},{passive:true});
-document.addEventListener('selectionchange',()=>{
-  if(!isTouch)return;
-  clearTimeout(touchSelTimer);
-  touchSelTimer=setTimeout(showSelPopup,450);
-});
-document.addEventListener('touchend',e=>{
-  if(!isTouch)return;
-  if(pop.contains(e.target)||dictCard.contains(e.target)||markMenu.contains(e.target))return;
-  clearTimeout(touchSelTimer);
-  touchSelTimer=setTimeout(showSelPopup,350);
-},{passive:true});
-function wrapRange(range,hid){
-  // 用真实选区包裹，支持任意长度/跨段落。收集选区内的文本节点后逐个包裹。
-  try{
-    const root=range.commonAncestorContainer;
-    const rootEl=root.nodeType===1?root:root.parentElement;
-    const walker=document.createTreeWalker(rootEl,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
-      if(n.parentElement&&n.parentElement.closest('.sz,.zh-block'))return NodeFilter.FILTER_REJECT;
-      if(!range.intersectsNode(n))return NodeFilter.FILTER_REJECT;
-      return NodeFilter.FILTER_ACCEPT;
-    }});
-    const targets=[];
-    while(walker.nextNode())targets.push(walker.currentNode);
-    if(!targets.length)return false;
-    let wrapped=false;
-    for(const node of targets){
-      let s=0,e=node.data.length;
-      if(node===range.startContainer)s=range.startOffset;
-      if(node===range.endContainer)e=range.endOffset;
-      if(s>=e)continue;
-      let t=node;
-      if(s>0)t=t.splitText(s);
-      if(e-s<t.data.length)t.splitText(e-s);
-      const mk=document.createElement('mark');mk.dataset.hid=hid;
-      t.parentNode.insertBefore(mk,t);mk.appendChild(t);
-      wrapped=true;
-    }
-    return wrapped;
-  }catch(err){return false}
-}
-function doHighlight(withNote){
-  if(!curSel)return;
-  const savedRange=curSel.range;
-  window.getSelection().removeAllRanges();
-  pop.style.display='none';
-  suppressClickUntil=Date.now()+450;
-  const hid='h'+Date.now();
-  // 优先用真实选区包裹（任意长度都行），失败再退回文本匹配
-  let ok=savedRange?wrapRange(savedRange,hid):false;
-  if(!ok)ok=applyHighlight(curSel.sec,curSel.text,hid);
-  if(ok){
-    const h={id:hid,sec:curSel.sec,text:curSel.text,note:''};
-    highlights.push(h);
-    refreshMarkNoteStyles();renderHlList();scheduleSave();
-    if(withNote){
-      openNoteModal(h.text,'',val=>{h.note=val;refreshMarkNoteStyles();renderHlList();scheduleSave()});
-    }
-  }else{
-    setState('⚠ 这段没能高亮，换个选法再试一次');
-  }
-}
-document.getElementById('pop-hl').onclick=()=>doHighlight(false);
-document.getElementById('pop-note').onclick=()=>doHighlight(true);
-document.getElementById('pop-dict').onclick=()=>{
-  if(!curSel)return;
-  const rect=curSel.rect,t=curSel.text,s=curSel.sec;
-  window.getSelection().removeAllRanges();pop.style.display='none';
-  openDict(t,s,rect);
-};
-
-// ---- dictionary card: 中文翻译优先 ----
-async function translateZh(text){
-  try{
-    const r=await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q='+encodeURIComponent(text));
-    if(!r.ok)throw 0;
-    const j=await r.json();
-    return (j[0]||[]).map(x=>x[0]).join('');
-  }catch(e){
-    try{
-      const r=await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair=en|zh-CN');
-      const j=await r.json();
-      return j.responseData&&j.responseData.translatedText||'';
-    }catch(e2){return ''}
-  }
-}
-async function openDict(text,sec,rect){
-  const clean=text.trim();
-  const isLong=clean.length>120;
-  const isPhrase=/\s/.test(clean);
-  const word=isLong?clean:(isPhrase?clean:(clean.match(/[a-zA-Z][a-zA-Z'\-]*/)||[clean])[0].toLowerCase());
-  curDict={word:word,sec:sec,phonetic:'',def:'',audio:'',zh:'',long:isLong};
-  const dw=document.getElementById('dc-word');
-  dw.className=isLong?'dw long':'dw';
-  dw.textContent=isLong?'📖 选段翻译':word;
-  document.getElementById('dc-ph').textContent='';
-  document.getElementById('dc-say').style.display=isLong?'none':'';
-  document.getElementById('dc-add').style.display=isLong?'none':'';
-  const dd=document.getElementById('dc-def');
-  dd.className=isLong?'orig-small':'dd';
-  dd.textContent=isLong?clean:'';
-  const zhBig=document.getElementById('dc-zh-big');
-  zhBig.className='zh-big loading';zhBig.textContent='翻译中…';
-  placeAt(dictCard,rect);
-  const q=clean.slice(0,450);
-  const jobs=[translateZh(q).then(zh=>{
-    if(curDict&&curDict.word===word){
-      curDict.zh=zh;
-      zhBig.className='zh-big';
-      zhBig.textContent=zh||'⚠ 翻译服务连不上（需要联网）';
-    }
-  })];
-  if(!isPhrase&&!isLong){
-    jobs.push((async()=>{
-      try{
-        const res=await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(word));
-        if(!res.ok)return;
-        const e0=(await res.json())[0]||{};
-        if(!curDict||curDict.word!==word)return;
-        curDict.phonetic=e0.phonetic||((e0.phonetics||[]).find(p=>p.text)||{}).text||'';
-        curDict.audio=((e0.phonetics||[]).find(p=>p.audio)||{}).audio||'';
-        const defs=[];
-        (e0.meanings||[]).slice(0,2).forEach(m=>{
-          const d=m.definitions&&m.definitions[0];
-          if(d)defs.push(m.partOfSpeech+'. '+d.definition);
-        });
-        curDict.def=defs.join('　');
-        document.getElementById('dc-ph').textContent=curDict.phonetic;
-        document.getElementById('dc-def').textContent=curDict.def;
-      }catch(e){}
-    })());
-  }
-  await Promise.all(jobs);
-}
-function openDictStored(v,rect){
-  curDict={word:v.word,sec:v.sec,phonetic:v.phonetic||'',def:v.def||'',audio:'',zh:v.zh||'',long:false};
-  const dw=document.getElementById('dc-word');
-  dw.className='dw';dw.textContent=v.word;
-  document.getElementById('dc-ph').textContent=v.phonetic||'';
-  document.getElementById('dc-say').style.display='';
-  document.getElementById('dc-add').style.display='none';
-  const dd=document.getElementById('dc-def');
-  dd.className='dd';dd.textContent=v.def||'';
-  const zhBig=document.getElementById('dc-zh-big');
-  zhBig.className='zh-big';zhBig.textContent=v.zh||'（未填中文，可在生词本里补）';
-  placeAt(dictCard,rect);
-}
-document.getElementById('dc-say').onclick=e=>{
-  e.stopPropagation();
-  if(curDict&&curDict.audio){new Audio(curDict.audio).play().catch(()=>{})}
-  else if(curDict&&window.speechSynthesis){const u=new SpeechSynthesisUtterance(curDict.word);u.lang='en-GB';speechSynthesis.speak(u)}
-};
-document.getElementById('dc-add').onclick=e=>{
-  e.stopPropagation();
-  if(!curDict)return;
-  const ex=vocab.find(v=>v.word===curDict.word);
-  if(ex){ex.zh=curDict.zh||ex.zh;ex.def=curDict.def||ex.def;ex.phonetic=curDict.phonetic||ex.phonetic}
-  else vocab.unshift({word:curDict.word,phonetic:curDict.phonetic,def:curDict.def,zh:curDict.zh,known:false,sec:curDict.sec,ts:Date.now()});
-  renderVocab();markVocabWords();scheduleSave();
-  dictCard.style.display='none';
-  setState('✓ 已存入生词本');
-};
-document.getElementById('dc-close').onclick=()=>dictCard.style.display='none';
-
-// ---- note modal (centered) ----
-const noteModal=document.getElementById('note-modal');
-let noteCb=null;
-function openNoteModal(quote,initial,cb){
-  document.getElementById('nm-quote').textContent='“'+quote+'”';
-  const ta=document.getElementById('nm-text');
-  ta.value=initial||'';
-  noteCb=cb;
-  noteModal.classList.add('open');
-  setTimeout(()=>ta.focus(),50);
-}
-document.getElementById('nm-ok').onclick=()=>{
-  noteModal.classList.remove('open');
-  if(noteCb)noteCb(document.getElementById('nm-text').value);
-  noteCb=null;
-};
-document.getElementById('nm-cancel').onclick=()=>{noteModal.classList.remove('open');noteCb=null};
-noteModal.addEventListener('click',e=>{if(e.target===noteModal){noteModal.classList.remove('open');noteCb=null}});
-
-// ---- click on a highlight => menu ----
-document.addEventListener('click',e=>{
-  // 来自弹出菜单自身的点击（如「查词」按钮）不算“点外面”，否则刚打开的卡片会被同一下点击关掉
-  if(pop.contains(e.target)||markMenu.contains(e.target)||dictCard.contains(e.target))return;
-  if(e.target.classList&&e.target.classList.contains('vocab-mark')){
-    const v=vocab.find(x=>x.word.toLowerCase()===e.target.textContent.toLowerCase());
-    if(v){openDictStored(v,e.target.getBoundingClientRect());return}
-  }
-  if(e.target.tagName==='MARK'){
-    if(Date.now()<suppressClickUntil)return;
-    curMark=e.target;
-    placeAt(markMenu,e.target.getBoundingClientRect());
-    return;
-  }
-  // 点空白处：全部收起
-  markMenu.style.display='none';
-  dictCard.style.display='none';
-  const drawer=document.getElementById('drawer');
-  if(drawer.classList.contains('open')&&!drawer.contains(e.target)&&e.target.id!=='drawer-btn'&&!e.target.closest('#drawer-btn'))drawer.classList.remove('open');
-});
-function findHl(markEl){
-  return highlights.find(h=>h.id===markEl.dataset.hid);
-}
-document.getElementById('mm-note').onclick=()=>{
-  markMenu.style.display='none';
-  const h=curMark&&findHl(curMark);if(!h)return;
-  openNoteModal(h.text,h.note,val=>{h.note=val;refreshMarkNoteStyles();renderHlList();scheduleSave()});
-};
-document.getElementById('mm-dict').onclick=()=>{
-  markMenu.style.display='none';
-  if(!curMark)return;
-  const sec=curMark.closest('.study-block, section');
-  openDict(curMark.textContent,sec?sec.id:'',curMark.getBoundingClientRect());
-};
-document.getElementById('mm-del').onclick=()=>{
-  markMenu.style.display='none';
-  const h=curMark&&findHl(curMark);
-  if(h){removeHighlightMarks(h.id);highlights.splice(highlights.indexOf(h),1)}
-  else if(curMark){curMark.outerHTML=curMark.textContent}
-  renderHlList();scheduleSave();
-};
-function refreshMarkNoteStyles(){
-  document.querySelectorAll('mark[data-hid]').forEach(m=>{
-    const h=findHl(m);m.classList.toggle('has-note',!!(h&&h.note));
-  });
-}
-
-
-// ---- 在原文中标出已收藏的生词（蓝色） ----
-function markVocabWords(){
-  document.querySelectorAll('span.vocab-mark').forEach(s=>{s.replaceWith(document.createTextNode(s.textContent))});
-  document.querySelectorAll('.class-study .en').forEach(en=>en.normalize());
-  const words=vocab.filter(v=>!v.known&&!/\s/.test(v.word)).map(v=>v.word);
-  if(!words.length)return;
-  const re=new RegExp('\\b('+words.map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')\\b','gi');
-  document.querySelectorAll('.class-study .en').forEach(en=>{
-    const parts=en.innerHTML.split(/(<[^>]+>)/);
-    let changed=false;
-    for(let i=0;i<parts.length;i++){
-      if(parts[i].startsWith('<'))continue;
-      if(re.test(parts[i])){
-        parts[i]=parts[i].replace(re,'<span class="vocab-mark" title="已在生词本，点击复习">$1</span>');
-        changed=true;
-      }
-      re.lastIndex=0;
-    }
-    if(changed)en.innerHTML=parts.join('');
-  });
-}
-
-// ---- vocabulary drawer: compact rows ----
-function renderVocab(){
-  const box=document.getElementById('vocab-list');
-  const unknownArr=vocab.filter(v=>!v.known);
-  const knownArr=vocab.filter(v=>v.known);
-  document.getElementById('vc-total').textContent=vocab.length;
-  document.getElementById('vc-unknown').textContent=unknownArr.length;
-  document.getElementById('vc-known').textContent=knownArr.length;
-  if(!vocab.length){box.innerHTML='<p class="empty">还没有术语。选中关键词 → 点「📖 收藏」。</p>';return}
-  function row(v){
-    const gi=vocab.indexOf(v);
-    return '<div class="vocab-item'+(v.known?' known':'')+'" data-i="'+gi+'">'
-      +'<div class="main"><span class="w" data-i="'+gi+'" title="点开看卡片">'+escapeHtml(v.word)+'</span><span class="ph">'+escapeHtml(v.phonetic||'')+'</span>'
-      +'<input class="zh-inline" data-i="'+gi+'" placeholder="中文…" value="'+String(v.zh||'').replace(/"/g,'&quot;')+'"></div>'
-      +'<button class="kbtn'+(v.known?' on':'')+'" data-i="'+gi+'" title="'+(v.known?'点击取消已掌握':'标记为已掌握')+'">'+(v.known?'✅':'⭕')+'</button>'
-      +'<button class="rm" data-i="'+gi+'" title="删除">✕</button>'
-      +'</div>';
-  }
-  let html=unknownArr.map(row).join('');
-  if(knownArr.length){
-    html+='<div class="known-head'+(vocabKnownOpen?' open':'')+'" id="known-head"><span class="caret">▸</span>已掌握 '+knownArr.length+' 个'+(vocabKnownOpen?'（点击收起）':'（点击展开）')+'</div>';
-    if(vocabKnownOpen)html+='<div id="known-wrap">'+knownArr.map(row).join('')+'</div>';
-  }
-  box.innerHTML=html;
-  const kh=document.getElementById('known-head');
-  if(kh)kh.onclick=()=>{vocabKnownOpen=!vocabKnownOpen;renderVocab()};
-  box.querySelectorAll('.kbtn').forEach(b=>b.onclick=(e)=>{e.stopPropagation();vocab[+b.dataset.i].known=!vocab[+b.dataset.i].known;renderVocab();markVocabWords();scheduleSave()});
-  box.querySelectorAll('.rm').forEach(b=>b.onclick=(e)=>{e.stopPropagation();vocab.splice(+b.dataset.i,1);renderVocab();markVocabWords();scheduleSave()});
-  box.querySelectorAll('.zh-inline').forEach(inp=>{inp.onclick=(e)=>e.stopPropagation();inp.oninput=()=>{vocab[+inp.dataset.i].zh=inp.value;scheduleSave()}});
-  // 点词 → 分享卡片
-  box.querySelectorAll('.w').forEach(w=>w.onclick=(e)=>{
-    e.stopPropagation();
-    const v=vocab[+w.dataset.i];
-    const title=document.querySelector('#'+v.sec+' h2');
-    const speaker=SHARE_EN;
-    openShareCard({quote:v.word, zh:v.zh||'', note:'', src:'§ '+(title?title.textContent:(v.sec||'')), en:'word'});
-  });
-}
-
-// ---- drawer tabs ----
-function switchTab(name){
-  if(name==='note')setTimeout(()=>autoGrow(document.getElementById('global-note')),20);
-  document.querySelectorAll('#drawer .tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));
-  document.querySelectorAll('#drawer .pane').forEach(p=>p.classList.toggle('on',p.dataset.pane===name));
-}
-document.querySelectorAll('#drawer .tabs button').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
-
-function applyHighlight(secId,text,hid){
-  const sec=document.getElementById(secId);if(!sec)return false;
-  const target=text.replace(/\s+/g,' ').trim();
-  const esc=target.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/ /g,'[\\s\\u00a0]+');
-  const re=new RegExp(esc);
-  for(const en of sec.querySelectorAll('.en')){
-    // 收集英文文本节点（跳过隐藏的中文 .sz）
-    const walker=document.createTreeWalker(en,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
-      return n.parentElement&&n.parentElement.closest('.sz,.zh-block')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT;
-    }});
-    const nodes=[];let full='';
-    while(walker.nextNode()){nodes.push({node:walker.currentNode,start:full.length});full+=walker.currentNode.data}
-    const m=re.exec(full);
-    if(!m)continue;
-    const s0=m.index,e0=m.index+m[0].length;
-    // 找出每个文本节点内需要包裹的区间
-    const segs=[];
-    for(const rec of nodes){
-      const ns=rec.start,ne=rec.start+rec.node.data.length;
-      const s=Math.max(s0,ns),e=Math.min(e0,ne);
-      if(s<e)segs.push({node:rec.node,s:s-ns,e:e-ns});
-    }
-    // 倒序包裹，避免 splitText 影响后续偏移
-    for(let i=segs.length-1;i>=0;i--){
-      const g=segs[i];
-      let t=g.node;
-      if(g.s>0)t=t.splitText(g.s);
-      if(g.e-g.s<t.data.length)t.splitText(g.e-g.s);
-      const mk=document.createElement('mark');
-      mk.dataset.hid=hid;
-      t.parentNode.insertBefore(mk,t);
-      mk.appendChild(t);
-    }
-    return true;
-  }
-  return false;
-}
-function removeHighlightMarks(hid){
-  document.querySelectorAll('mark[data-hid="'+hid+'"]').forEach(mk=>{
-    const p=mk.parentNode;
-    while(mk.firstChild)p.insertBefore(mk.firstChild,mk);
-    p.removeChild(mk);p.normalize();
-  });
-}
-function renderHlList(){
-  const box=document.getElementById('hl-list');
-  if(!highlights.length){box.innerHTML='<p class="empty">还没有划线。选中文字 → 点「🖍 高亮」。</p>';return}
-  box.innerHTML=highlights.map((h,i)=>{
-    const title=document.querySelector('#'+h.sec+' h2');
-    const src=title?title.textContent:h.sec;
-    let inner='<span class="del" data-i="'+i+'" title="删除">✕</span>';
-    inner+='<span class="htext">'+escapeHtml(h.text)+'</span>';
-    if(h.note){inner+='<span class="hnote">'+escapeHtml(h.note)+'</span>';}
-    else{inner+='<button class="addnote" data-i="'+i+'">➕ 写笔记</button>';}
-    inner+='<span class="src">§ '+escapeHtml(src)+'</span>';
-    return '<div class="hl-item" data-i="'+i+'">'+inner+'</div>';
-  }).join('');
-  // 点整条 → 分享卡片
-  box.querySelectorAll('.hl-item').forEach(el=>{
-    el.onclick=(e)=>{
-      if(e.target.closest('.del')||e.target.closest('.addnote')||e.target.closest('.hnoteinp'))return;
-      const i=+el.dataset.i;const h=highlights[i];
-      const title=document.querySelector('#'+h.sec+' h2');
-      openShareCard({quote:h.text, zh:'', note:h.note||'', src:'§ '+(title?title.textContent:h.sec), en:''+SHARE_EN});
-    };
-  });
-  box.querySelectorAll('.del').forEach(d=>d.onclick=(e)=>{
-    e.stopPropagation();
-    const h=highlights[+d.dataset.i];
-    if(h.id)removeHighlightMarks(h.id);
-    highlights.splice(+d.dataset.i,1);renderHlList();scheduleSave();
-  });
-  box.querySelectorAll('.addnote').forEach(b=>b.onclick=(e)=>{
-    e.stopPropagation();
-    const i=+b.dataset.i;
-    const item=b.closest('.hl-item');
-    b.outerHTML='<input class="hnoteinp" data-i="'+i+'" placeholder="写下你的想法…" value="">';
-    const inp=item.querySelector('.hnoteinp');inp.focus();
-    inp.onclick=(ev)=>ev.stopPropagation();
-    inp.oninput=()=>{highlights[i].note=inp.value;refreshMarkNoteStyles();scheduleSave()};
-    inp.onblur=()=>{if(inp.value.trim())renderHlList()};
-  });
-}
-
-// ---- export study notes ----
-document.getElementById('export-btn').onclick=async()=>{
-  const lines=['# Chris 讲座《到底什么是阅读能力》· 我的学习笔记','','导出时间：'+new Date().toLocaleString('zh-CN'),''];
-  if(notes.__global){lines.push('## 总笔记','',notes.__global,'')}
-  const bySec={};
-  highlights.forEach(h=>{(bySec[h.sec]=bySec[h.sec]||[]).push(h)});
-  sections.forEach(s=>{
-    const t=s.querySelector('h2').textContent;
-    const hs=bySec[s.id]||[],n=notes[s.id];
-    if(!hs.length&&!n)return;
-    lines.push('## '+t,'');
-    hs.forEach(h=>{
-      lines.push('- 🖍 “'+h.text+'”');
-      if(h.note)lines.push('  - 📝 '+h.note);
-    });
-    if(n)lines.push('','📝 本节笔记：'+n);
-    lines.push('');
-  });
-  if(vocab.length){
-    lines.push('## 生词本（还不会 '+vocab.filter(v=>!v.known).length+' / 共 '+vocab.length+'）','');
-    vocab.forEach(v=>lines.push('- **'+v.word+'** '+(v.phonetic||'')+' — '+(v.zh||String(v.def||'').split('\n')[0])+(v.known?'　✅已掌握':'　❌还不会')));
-    lines.push('');
-  }
-  const md=lines.join('\n');
-  let copied=false;
-  try{await navigator.clipboard.writeText(md);copied=true}catch(e){}
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([md],{type:'text/markdown'}));
-  a.download='chris-talk-my-notes.md';a.click();
-  setState(copied?'✓ 已复制到剪贴板 + 下载 .md，可直接丢给 Claude':'✓ 已下载 .md，可直接丢给 Claude');
-};
-
-// drawer
-document.getElementById('drawer-btn').onclick=()=>document.getElementById('drawer').classList.toggle('open');
-
-// scroll spy
-const links=[...document.querySelectorAll('.map a')];
-if(window.IntersectionObserver){
-const obs=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+en.target.id))}})},{rootMargin:'-20% 0px -70% 0px'});
-sections.forEach(s=>obs.observe(s));
-}
-
-
-// ---- 同步设置 UI 逻辑 ----
-const syncModal=document.getElementById('sync-modal');
-function openSync(){
-  document.getElementById('sync-gist').value=gistId;
-  document.getElementById('sync-token').value=gistToken;
-  document.getElementById('sync-status').innerHTML=cloudOn?'<span class="cloud-dot on"></span>已连接云端':'<span class="cloud-dot"></span>当前仅本机保存';
-  syncModal.classList.add('open');
-}
-document.getElementById('sync-btn').onclick=openSync;
-document.getElementById('sync-close2').onclick=()=>syncModal.classList.remove('open');
-syncModal.addEventListener('click',e=>{if(e.target===syncModal)syncModal.classList.remove('open')});
-document.getElementById('sync-clear').onclick=()=>{
-  localStorage.removeItem(CFG_GIST);localStorage.removeItem(CFG_TOKEN);
-  gistId='';gistToken='';cloudOn=false;cloudCache=null;
-  updateCloudBtn();
-  document.getElementById('sync-status').innerHTML='<span class="cloud-dot"></span>已断开，改用本机保存';
-};
-document.getElementById('sync-save').onclick=async()=>{
-  const gid=document.getElementById('sync-gist').value.trim();
-  const tok=document.getElementById('sync-token').value.trim();
-  const st=document.getElementById('sync-status');
-  if(!gid||!tok){st.textContent='请把两个都填上';return}
-  st.textContent='正在连接…';
-  gistId=gid;gistToken=tok;
-  try{
-    const cloud=await cloudPull();          // 试着拉云端
-    cloudOn=true;
-    localStorage.setItem(CFG_GIST,gid);localStorage.setItem(CFG_TOKEN,tok);
-    // 若云端为空，把本机现有内容推上去（首次上传）
-    const empty=!cloud||Object.keys(cloud).length===0;
-    if(empty){
-      cloudCache={};
-      cloudCache[NOTE_KEY]=localStorage.getItem(NOTE_KEY)||'';
-      cloudCache[HL_KEY]=localStorage.getItem(HL_KEY)||'';
-      cloudCache[VC_KEY]=localStorage.getItem(VC_KEY)||'';
-      await cloudPush(cloudCache);
-      st.innerHTML='<span class="cloud-dot on"></span>已连接，本机内容已上传到云端';
-    }else{
-      st.innerHTML='<span class="cloud-dot on"></span>已连接，正在载入云端内容…';
-    }
-    updateCloudBtn();
-    await reloadFromStore();                 // 重新用云端数据渲染
-    st.innerHTML='<span class="cloud-dot on"></span>同步成功！其它设备填同一组即可看到相同内容';
-    setTimeout(()=>syncModal.classList.remove('open'),1200);
-  }catch(e){
-    cloudOn=false;
-    st.innerHTML='⚠ 连接失败：请检查 Gist ID 和 Token 是否正确（Token 需勾选 gist 权限）';
-  }
-};
-function updateCloudBtn(){
-  const b=document.getElementById('sync-btn');
-  b.innerHTML=(cloudOn?'<span class="cloud-dot on"></span>':'<span class="cloud-dot"></span>')+'☁️ 同步';
-}
-// 清空当前内存并按 store 重新载入（切换云端后刷新界面）
-async function reloadFromStore(){
-  document.querySelectorAll('mark[data-hid]').forEach(mk=>{const p=mk.parentNode;while(mk.firstChild)p.insertBefore(mk.firstChild,mk);p.removeChild(mk);p.normalize()});
-  document.querySelectorAll('span.vocab-mark').forEach(s=>s.replaceWith(document.createTextNode(s.textContent)));
-  notes={};highlights=[];vocab=[];
-  await load();
-}
-
-
-// ---- 字体大小调节 ----
-(function(){
-  const FS_KEY='__fs_level';
-  const LEVELS=[14,15.5,16.5,18.5,21];           // 5 档字号(px)
-  const NAMES=['小','较小','标准','较大','大'];
-  let idx=parseInt(localStorage.getItem(FS_KEY));
-  if(isNaN(idx)||idx<0||idx>4)idx=2;
-  function apply(){
-    document.documentElement.style.setProperty('--fs',LEVELS[idx]+'px');
-    const c=document.getElementById('fs-cur');if(c)c.textContent=NAMES[idx];
-    localStorage.setItem(FS_KEY,idx);
-    if(typeof autoGrow==='function')autoGrow(document.getElementById('global-note'));
-  }
-  const minus=document.getElementById('fs-minus'),plus=document.getElementById('fs-plus');
-  if(minus)minus.onclick=()=>{if(idx>0){idx--;apply()}};
-  if(plus)plus.onclick=()=>{if(idx<4){idx++;apply()}};
-  apply();
-})();
-
-
-// ---- 阅读书签（钉 / 跳，分开两个按钮） ----
-(function(){
-  const BM_KEY='__bookmark_y';
-  const pinBtn=document.getElementById('bm-pin');
-  const goBtn=document.getElementById('bm-go');
-  function flashAt(y){
-    const mid=y+window.innerHeight*0.35;
-    const paras=document.querySelectorAll('.para,.quote,.sec-head');
-    let best=null,bd=1e9;
-    paras.forEach(p=>{const r=p.getBoundingClientRect();const top=r.top+window.scrollY;const d=Math.abs(top-mid);if(d<bd){bd=d;best=p}});
-    if(best){best.classList.add('bm-flash');setTimeout(()=>best.classList.remove('bm-flash'),1200);}
-  }
-  if(pinBtn)pinBtn.onclick=()=>{
-    localStorage.setItem(BM_KEY,String(Math.round(window.scrollY)));
-    setState('📌 已钉书签，之后点「🔖 回书签」就能跳回来');
-  };
-  if(goBtn)goBtn.onclick=()=>{
-    const y=parseInt(localStorage.getItem(BM_KEY));
-    if(isNaN(y)){setState('还没有书签，先点「📌 钉这里」钉一个');return}
-    window.scrollTo({top:y,behavior:'smooth'});
-    flashAt(y);
-    setState('🔖 已跳回书签位置');
-  };
-})();
-
-
-// ================= 朗读 Read-Aloud =================
-(function(){
-  if(!('speechSynthesis' in window)) return;
-  var synth=window.speechSynthesis;
-  var IS_SENT = document.querySelector('.sent')!==null;  // louise/chris vs reading
-
-  // 收集朗读单元：{el, en, zh}
-  var UNITS=[];
-  function buildUnits(){
-    UNITS=[];
-    if(IS_SENT){
-      document.querySelectorAll('.class-study .para .sent, .class-study .quote .sent').forEach(function(s){
-        var se=s.querySelector('.se'), sz=s.querySelector('.sz');
-        UNITS.push({el:s, en:se?se.textContent.trim():'', zh:sz?sz.textContent.trim():''});
-      });
-    }else{
-      // reading：把每个 p.en 的中文按句号/问号/叹号切句，包成 span.tts-sent
-      document.querySelectorAll('.class-study .para p.en, .class-study .quote p.en').forEach(function(p){
-        if(p.dataset.ttsReady) return;
-        // 保留说话人 chip
-        var chip=p.querySelector('.spk');
-        var chipHtml=chip?chip.outerHTML:'';
-        var raw=p.textContent;
-        if(chip) raw=raw.replace(chip.textContent,'');
-        raw=raw.trim();
-        var parts=raw.match(/[^。！？]*[。！？]?/g).filter(function(x){return x.trim().length});
-        p.innerHTML=chipHtml+parts.map(function(t){return '<span class="tts-sent">'+t+'</span>';}).join('');
-        p.dataset.ttsReady='1';
-      });
-      document.querySelectorAll('.tts-sent').forEach(function(s){
-        UNITS.push({el:s, en:'', zh:s.textContent.trim()});
-      });
-    }
-  }
-
-  var bar=document.getElementById('tts-bar');
-  var playBtn=document.getElementById('tts-play');
-  var rateEl=document.getElementById('tts-rate');
-  var lang='en', scope='para', rate=1.0, idx=-1, playing=false, stopFlag=false;
-  if(!IS_SENT){ lang='zh'; // 全中文页面默认读中文，并隐藏 EN 选项
-    var le=document.querySelector('#tts-lang button[data-lang="en"]'); if(le)le.style.display='none';
-    var lz=document.querySelector('#tts-lang button[data-lang="zh"]'); if(lz)lz.classList.add('on');
-    var len=document.querySelector('#tts-lang button[data-lang="en"]'); 
-    document.querySelector('#tts-lang button[data-lang="en"]').classList.remove('on');
-  }
-
-  function pickVoice(l){
-    var vs=synth.getVoices();
-    if(l==='zh'){
-      return vs.find(function(v){return /zh|Chinese|普通话|Yue/i.test(v.lang+v.name)}) || null;
-    }
-    return vs.find(function(v){return /en[-_]GB/i.test(v.lang)}) || vs.find(function(v){return /^en/i.test(v.lang)}) || null;
-  }
-
-  function clearHi(){document.querySelectorAll('.tts-reading').forEach(function(e){e.classList.remove('tts-reading')})}
-  function highlight(i){
-    clearHi();
-    if(i<0||i>=UNITS.length) return;
-    var el=UNITS[i].el; el.classList.add('tts-reading');
-    var r=el.getBoundingClientRect();
-    if(r.top<80||r.bottom>window.innerHeight-140){ window.scrollTo({top:window.scrollY+r.top-window.innerHeight*0.4, behavior:'smooth'}); }
-  }
-
-  function textOf(i){ var u=UNITS[i]; if(!u)return ''; return (lang==='zh'? (u.zh||u.en) : (u.en||u.zh)); }
-
-  function speakFrom(i){
-    stopFlag=false;
-    if(i>=UNITS.length){ stop(); return; }
-    idx=i; highlight(i);
-    var txt=textOf(i);
-    if(!txt){ next(); return; }
-    var u=new SpeechSynthesisUtterance(txt);
-    u.rate=rate; u.lang=(lang==='zh'?'zh-CN':'en-GB');
-    var v=pickVoice(lang); if(v)u.voice=v;
-    u.onend=function(){
-      if(stopFlag) return;
-      if(scope==='para'){ if(idx+1<UNITS.length){ speakFrom(idx+1);} else stop(); }
-      else { stop(); } // 单句/从这句起读到结尾同 para；此处 scope=='from' 也连读
-    };
-    u.onerror=function(){ if(!stopFlag){ if(idx+1<UNITS.length)speakFrom(idx+1); else stop(); } };
-    synth.cancel(); synth.speak(u);
-    playing=true; playBtn.textContent='⏸';
-  }
-
-  function play(){
-    buildUnits();
-    if(!UNITS.length) return;
-    bar.classList.add('on');
-    if(synth.paused){ synth.resume(); playing=true; playBtn.textContent='⏸'; return; }
-    var start = idx>=0? idx : 0;
-    speakFrom(start);
-  }
-  function pause(){ if(synth.speaking&&!synth.paused){ synth.pause(); playing=false; playBtn.textContent='▶'; } }
-  function stop(){ stopFlag=true; synth.cancel(); playing=false; playBtn.textContent='▶'; clearHi(); }
-  function next(){ stopFlag=true; synth.cancel(); if(idx+1<UNITS.length) speakFrom(idx+1); }
-  function prev(){ stopFlag=true; synth.cancel(); if(idx-1>=0) speakFrom(idx-1); else speakFrom(0); }
-
-  playBtn.onclick=function(){ if(playing){ pause(); } else { play(); } };
-  document.getElementById('tts-next').onclick=next;
-  document.getElementById('tts-prev').onclick=prev;
-  document.getElementById('tts-x').onclick=function(){ stop(); bar.classList.remove('on'); };
-  document.getElementById('tts-slow').onclick=function(){ rate=Math.max(0.5, Math.round((rate-0.1)*10)/10); rateEl.textContent=rate.toFixed(1)+'×'; if(playing&&idx>=0)speakFrom(idx); };
-  document.getElementById('tts-fast').onclick=function(){ rate=Math.min(2.0, Math.round((rate+0.1)*10)/10); rateEl.textContent=rate.toFixed(1)+'×'; if(playing&&idx>=0)speakFrom(idx); };
-  document.querySelectorAll('#tts-lang button').forEach(function(b){ b.onclick=function(){
-    document.querySelectorAll('#tts-lang button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
-    lang=b.dataset.lang; if(playing){ speakFrom(idx<0?0:idx); }
-  };});
-  document.querySelectorAll('#tts-scope button').forEach(function(b){ b.onclick=function(){
-    document.querySelectorAll('#tts-scope button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
-    scope=b.dataset.scope;
-  };});
-
-  // 点句子 → 从这句开始读（capture 阶段，先于高亮词的 stopPropagation）
-  document.addEventListener('click',function(e){
-    if(scope!=='from') return;              // 只在"从这句起"模式拦截
-    if(!bar.classList.contains('on')) return; // 朗读条没开时不拦截
-    var s=e.target.closest('.tts-sent, .sent');
-    if(!s) return;
-    e.stopPropagation(); e.preventDefault();
-    buildUnits();
-    var i=UNITS.findIndex(function(u){return u.el===s;});
-    if(i>=0){ speakFrom(i); }
-  }, true);
-
-  // 工具栏 🔊 按钮
-  var trig=document.getElementById('tts-trigger');
-  if(trig)trig.onclick=function(){ bar.classList.toggle('on'); if(bar.classList.contains('on')){ buildUnits(); } else { stop(); } };
-
-  // voices 异步加载
-  if(synth.getVoices().length===0){ synth.onvoiceschanged=function(){}; }
-  // 离开页面停止
-  window.addEventListener('beforeunload',function(){ synth.cancel(); });
-})();
-
-
-// —— 更多菜单 ——
-(function(){
-  var mb=document.getElementById('more-btn'), mm=document.getElementById('more-menu');
-  if(!mb) return;
-  mb.onclick=function(e){ e.stopPropagation(); mm.classList.toggle('on'); };
-  document.addEventListener('click',function(e){ if(!e.target.closest('.more-wrap')) mm.classList.remove('on'); });
-  // 点菜单里的按钮后收起
-  mm.querySelectorAll('button,a').forEach(function(b){ b.addEventListener('click',function(){ setTimeout(function(){mm.classList.remove('on')},50); }); });
-})();
-
-load();
-})();
 </script>
-
+<script src="../../../../app.js"></script>
 </body>
 </html>
