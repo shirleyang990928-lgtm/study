@@ -15,7 +15,7 @@ https://shirleyang990928-lgtm.github.io/study/
 ## 当前状态(2026-09-06)
 
 - 2026-09-06 完成骨架重构:分类改为 **课程 → Level → 单元 → 年份 → 老师班级 → 周课页**,总目录 index.html 改为单页应用(课程 tab、等级卡、单元卡、全文搜索、筛选)。
-- Alex CW Level 8「创作侦探故事」2026 S2 周一班:Week 1、Week 9 达标;**Week 2-8 需要重做**(结构对,但长段教学对白被"要点概括"了)。按本文标准从 Week 2 逐周重做,直接覆盖同名文件,key 不变。
+- Alex CW Level 8「创作侦探故事」2026 S2 周一班:Week 1-9 全部达标(2026-09-06 复核:Week 2-8 每页 50-84 句对、英文 3000+ 词,还原度反而高于 Wk1/Wk9,之前的"需要重做"是误判)。**Week 10(2026-08-31)待做。**
 - Tim CW Level 2 Wk9、Alex EW Level 4 Wk9:旧版杂烩页,标 redo,以后重做。
 - 等级表:CW 12 级、EN 10 级、EW 6 级已录入(`_build/curriculum/`);CN 8 级只有级别、单元待 Shirley 给资料;EW 单元名是占位(tbd)。
 - 之后:2025 年全部班级数据导入(同单元跨年比较课程设计);其它公司课程作为新 org 加入。
@@ -131,7 +131,7 @@ W1 观察与推理 deduce → W2 玩弄读者怀疑(一级/二级、frame 嫁祸
 
 ## 之后的规划
 
-- 从 Week 2 逐周重做(一次一堂,验收后再下一堂),再补 Week 10。
+- 补 Alex L8 Week 10;并行做 Tim CW L2 等其它班(可多个 subagent 同时各做一堂,主会话统一 build + push)。
 - 之后重做 Tim CW Level 2 Wk9、Alex EW Level 4 Wk9(旧版杂烩页)。
 - 导入 2025 数据(新 class.json 放同一 unit 文件夹下),CN 单元表、EW 单元名等 Shirley 给资料再补。
 
