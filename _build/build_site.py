@@ -20,8 +20,16 @@ TAG_RE = re.compile(r'<[^>]+>')
 BOX_RE = re.compile(r'<div class="(?:keypoints|explain)[^"]*"[^>]*>(.*?)</div>', re.S)
 PRESET_RE = re.compile(r'preset\s*:\s*(\[.*?\])', re.S)
 WORD_RE = re.compile(r'''(?:word|zh)\s*["']?\s*:\s*['"]([^'"]+)['"]''')
-STATUS = {'ok': ('已达标', 'ok'), 'redo': ('待重做', 'redo'), 'draft': ('草稿', 'draft')}
-WEEKS = 10
+STATUS = {'ok': ('达标', 'ok'), 'redo': ('需重做', 'redo'), 'draft': ('草稿', 'draft')}
+
+
+def units_per(pr):
+    """每级单元数(至少 2)。CW/EW/CN = 2 → 每单元 10 周;EN 每级 4 本书 → 每本 5 周。"""
+    return max(max((len(l.get('units', [])) for l in pr['levels']), default=0), 2)
+
+
+def weeks_per(pr):
+    return 20 // units_per(pr)
 
 
 def strip(s):
@@ -195,7 +203,7 @@ for pr in programs.values():
 # ---------- catalog.js ----------
 def slim_class(c):
     return {k: c[k] for k in ('id', 'cid', 'program', 'unit', 'level', 'unitTitle', 'year', 'term', 'teacher', 'weekday',
-                              'style', 'standard', 'count', 'done', 'dir') if k in c}
+                              'style', 'standard', 'count', 'done', 'dir', 'outline') if k in c}
 
 
 catalog = {
@@ -227,6 +235,9 @@ for y in years:
 # ---------- 单元总览页 courses/<program>/<unit>/index.html ----------
 tpl = read('_build/templates/unit.html')
 for pr in programs.values():
+    N = units_per(pr)
+    WK = weeks_per(pr)
+    book = N > 2
     for u in pr['unitMap'].values():
         if not u['classes']:
             continue
@@ -236,39 +247,32 @@ for pr in programs.values():
             cards = []
             for c in [c for c in u['classes'] if c['year'] == y]:
                 rows = []
-                for w in range(1, WEEKS + 1):
+                outline = c.get('outline') or []
+                for w in range(1, WK + 1):
                     l = c['weeks'].get(w)
                     if l:
                         st, cls = STATUS.get(l.get('status', 'ok'), ('', ''))
                         href = f"{c['id']}/{os.path.basename(l['file'])}"
-                        secs = ''.join(f'<li>{E(s)}</li>' for s in l['sections'])
                         rows.append(
-                            f'<div class="lesson {cls}" data-key="{E(l["key"])}">'
-                            f'<a class="wk" href="{href}">Wk {w}</a><div class="body">'
-                            f'<div class="top"><a href="{href}">{E(l["title"])}</a><span class="st {cls}">{st}</span></div>'
-                            f'<div class="en">{E(l.get("en", ""))}</div>'
-                            f'<div class="desc">{E(l.get("desc", ""))}</div>'
-                            f'<details><summary>章节 {len(l["sections"])} 节</summary><ol>{secs}</ol></details>'
-                            f'<div class="meta"><span class="date">{l["date"].replace("-", ".")}</span>'
-                            f'<span>{E(l.get("length", ""))}</span><span class="last"></span></div>'
-                            f'</div></div>\n')
+                            f'<a class="wk" data-key="{E(l["key"])}" href="{href}">'
+                            f'<span class="n">Wk {w}</span>'
+                            f'<span class="tt">{E(l["title"])}<em>{E(l.get("en", ""))}</em></span>'
+                            f'<span class="d">{E(l["date"])}<small></small></span>'
+                            f'<span class="s {cls}">{st}</span></a>\n')
                     else:
-                        rows.append(f'<div class="lesson todo"><span class="wk">Wk {w}</span>'
-                                    f'<div class="body"><span class="todo-t">待整理</span></div></div>\n')
-                outline = c.get('outline', [])
-                outline_html = ''
-                if outline:
-                    outline_html = (f'<details class="outline"><summary>{len(outline)} 周脉络</summary><ol>'
-                                    + ''.join(f'<li>{E(o)}</li>' for o in outline) + '</ol></details>')
-                badge = '<span class="badge">标准底本</span>' if c.get('standard') else ''
+                        todo = outline[w - 1] if w - 1 < len(outline) and outline[w - 1] else '尚未整理'
+                        rows.append(f'<div class="wk todo"><span class="n">Wk {w}</span>'
+                                    f'<span class="tt">{E(todo)}</span><span class="d"></span>'
+                                    f'<span class="s todo">待做</span></div>\n')
                 cards.append(
-                    f'<div class="cls" id="{E(c["id"])}">'
-                    f'<div class="cls-head">'
-                    f'<div class="who"><b>{E(c["teacher"])}</b>{badge}<span class="sub">{E(c["term"])} · {E(c.get("weekday", ""))} · 报名 {E(c.get("enroll", ""))}</span></div>'
-                    f'<div class="style">{E(c.get("style", ""))}</div>'
-                    f'<div class="prog">已整理 {c["count"]} / {WEEKS} 课 · 达标 {c["done"]}<span class="caret">▾</span></div>'
-                    f'</div><div class="cls-body">{outline_html}{"".join(rows)}</div></div>\n')
-            year_blocks.append(f'<h2>{y} 年</h2>\n' + ''.join(cards))
+                    f'<div class="tc" id="{E(c["id"])}"><div class="tc-h">'
+                    f'<span class="who">{E(c["teacher"])}</span>'
+                    f'<span class="wd">{E(c["term"])} · {E(c.get("weekday", ""))}班</span>'
+                    f'<span class="sty">{E(c.get("style", ""))}</span>'
+                    f'<span class="pg">{c["count"]} / {WK}</span>'
+                    f'<span class="arw">▶</span></div>'
+                    f'<div class="tc-b">\n{"".join(rows)}</div></div>\n')
+            year_blocks.append(f'<div class="yr">{y}</div>\n' + ''.join(cards))
         others = []
         for x in lv['units']:
             if x['id'] == u['id']:
@@ -276,14 +280,23 @@ for pr in programs.values():
             if x['classes']:
                 others.append(f'<a href="../{x["id"]}/index.html">{E(x["title"])}</a>')
             else:
-                others.append(f'<span class="dim">{E(x["title"])}(未整理)</span>')
+                others.append(f'<b>{E(x["title"])}</b>')
+        other_html = ''
+        if others:
+            other_html = (f'<span>{"同级其它书" if book else "同级另一单元"} '
+                          + '<i class="sep">·</i>'.join(others) + '</span>')
+        n = int(u.get('n') or 0)
+        if book:
+            unit_n = f'{"上学期" if n <= N // 2 else "下学期"} · 第 {n} 本'
+        else:
+            unit_n = f'单元 {n}'
         out = tpl
         for k, v in {
             'TITLE': E(u['title']), 'EN': E(u.get('en', '')), 'PROGRAM': E(pr['name']), 'CODE': E(pr['code']),
-            'ORG': E(pr.get('org', '')), 'LEVEL': str(u['level']), 'UNIT_N': str(u['n']),
+            'ORG': E(pr.get('org', '')), 'LEVEL': str(u['level']), 'UNIT_N': unit_n,
             'AGE': E(lv.get('age', '')), 'GOAL': E(lv.get('goal', '')),
             'SKILLS': E(lv.get('skills', '') or lv.get('lexile', '')),
-            'OTHER_UNITS': ' · '.join(others) or '—',
+            'OTHER_UNITS': other_html,
             'ACCENT': pr['accent'], 'COUNT': str(u['count']), 'DONE': str(u['done']),
             'CLASSES': ''.join(year_blocks), 'UNIT_ID': u['id'], 'PROGRAM_ID': pr['id'],
         }.items():
@@ -291,5 +304,6 @@ for pr in programs.values():
         write(f'courses/{pr["id"]}/{u["id"]}/index.html', out)
 
 print(f'OK 课程 {len(programs)} 个,班级 {len(classes)} 个,页面 {len(pages)} 个,年份 {years}')
+print('  每单元周数: ' + ', '.join(f'{pid}={weeks_per(programs[pid])}' for pid in PROGRAM_ORDER))
 for c in classes.values():
     print(f'  {c["cid"]}: {c["count"]} 课 (达标 {c["done"]})')

@@ -3,268 +3,470 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FOGG 学习笔记本 · 总目录</title>
+<title>学习笔记本 · 目录</title>
 <style>
-:root{--ink:#24505B;--ink-deep:#16333B;--teal:#2E5A66;--paper:#FBFBF8;--gold:#E8C558;--gold-deep:#B08A1E;--line:#D5DEDC;--mist:#EEF3F2;--accent:#2E5A66}
+:root{--ink:#24505B;--ink-deep:#16333B;--teal:#2E5A66;--paper:#FBFBF8;--gold:#E8C558;--gold-deep:#B08A1E;--line:#D5DEDC;--mist:#EEF3F2;--dim:#8CA19D;--txt2:#5A7370}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink-deep);font-family:"Noto Serif SC","Songti SC","PingFang SC",Georgia,serif;line-height:1.7}
+body{margin:0;background:var(--paper);color:var(--ink-deep);font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Georgia,serif;line-height:1.65;font-size:14px}
 a{color:inherit;text-decoration:none}
-button{font-family:inherit;cursor:pointer}
-.layout{display:flex;min-height:100vh}
-.side{flex:0 0 260px;position:sticky;top:0;height:100vh;overflow:auto;background:#fff;border-right:1px solid var(--line);padding:22px 18px;display:flex;flex-direction:column;gap:18px}
-.main{flex:1;min-width:0;padding:26px 34px 70px;max-width:1040px}
-.brand{font-size:19px;font-weight:700;line-height:1.3}
-.brand small{display:block;font-size:12px;font-weight:400;color:var(--ink);letter-spacing:.14em;margin-top:2px}
-.search{position:relative}
-.search input{width:100%;padding:10px 32px 10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:14px;background:var(--paper)}
+.layout{max-width:1120px;margin:0 auto;padding:28px 22px 60px;display:flex;gap:26px;align-items:flex-start}
+
+/* ---------- 左栏 ---------- */
+.side{width:232px;flex-shrink:0;position:sticky;top:24px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 12px 12px}
+.side-title{font-size:11.5px;letter-spacing:.16em;color:var(--gold-deep);font-weight:700;padding:0 10px;margin-bottom:10px}
+.org{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:10px;cursor:pointer;font-weight:700;font-size:14.5px;color:var(--ink-deep)}
+.org:hover{background:var(--mist)}
+.org .arw{margin-left:auto;font-size:10px;color:var(--dim);transition:transform .15s}
+.org.open .arw{transform:rotate(90deg)}
+.org-body{display:none;padding:2px 0 4px 6px}
+.org.open + .org-body{display:block}
+.crs{display:flex;align-items:center;gap:7px;padding:8px 8px 8px 10px;border-radius:9px;cursor:pointer;font-size:13.5px;color:#3E5A57;border-left:3px solid transparent}
+.crs:hover{background:var(--mist)}
+.crs.on{background:var(--mist);color:var(--ink-deep);font-weight:600;border-left-color:var(--acc)}
+.crs .cnt{margin-left:auto;font-size:11px;color:var(--dim);font-family:Georgia,serif}
+.lvs{display:none;grid-template-columns:repeat(4,1fr);gap:4px;padding:6px 6px 8px 16px}
+.crs.on + .lvs{display:grid}
+.lv{font-family:Georgia,serif;font-size:12px;text-align:center;padding:4px 0;border-radius:7px;border:1px solid var(--line);color:var(--teal);cursor:pointer;background:#fff}
+.lv:hover{border-color:var(--teal)}
+.lv.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.lv.none{color:#B5C2BF;border-style:dashed}
+.side-sep{height:1px;background:var(--line);margin:10px 8px}
+.sync{display:flex;align-items:center;gap:8px;padding:8px 10px;font-size:12.5px;color:var(--txt2);cursor:pointer;border-radius:9px}
+.sync:hover{background:var(--mist)}
+.sync i{width:8px;height:8px;border-radius:50%;background:#C9B0AA}
+.sync i.on{background:#3F9C6B}
+.sync-body{display:none;padding:4px 10px 6px}.sync-body.open{display:block}
+.sync-body input{width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 9px;font-size:12.5px;font-family:inherit;margin-bottom:6px;color:var(--ink-deep)}.sync-body input:focus{outline:none;border-color:var(--teal)}
+.sync-body .sb-row{display:flex;gap:6px}
+.sync-body button{flex:1;border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 0;font-size:12.5px;cursor:pointer;font-family:inherit;color:var(--teal)}.sync-body button:hover{border-color:var(--teal)}
+.sync-body .st{font-size:11.5px;color:var(--dim);margin-top:6px;line-height:1.5}
+
+/* ---------- 主区 ---------- */
+.main{flex:1;min-width:0}
+.crumb{font-size:12.5px;color:var(--dim);margin-bottom:4px;display:flex;gap:7px;align-items:center}
+.crumb a{color:var(--txt2);cursor:pointer}
+.crumb a:hover{color:var(--gold-deep)}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:18px}
+h1{font-size:26px;margin:0;font-weight:700;color:var(--ink-deep);line-height:1.25}
+h1 small{display:block;font-family:Georgia,serif;font-style:italic;font-weight:400;font-size:13.5px;color:var(--dim);margin-top:3px}
+.search{position:relative;width:250px;flex-shrink:0}
+.search input{width:100%;border:1px solid var(--line);background:#fff;border-radius:22px;padding:8px 14px 8px 34px;font-size:13px;font-family:inherit;color:var(--ink-deep)}
 .search input:focus{outline:none;border-color:var(--teal)}
-#q-clr{position:absolute;right:8px;top:8px;border:none;background:none;font-size:16px;color:var(--ink);display:none}
-#q-hint{font-size:12px;color:var(--ink);margin-top:6px;opacity:.8}
-.fgroup{font-size:12px;color:var(--ink)}
-.fgroup .lab{letter-spacing:.1em;margin-bottom:5px}
-.fbtns{display:flex;flex-wrap:wrap;gap:5px}
-.fbtns button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:2px 10px;font-size:12px;color:var(--ink)}
-.fbtns button.on{background:var(--ink-deep);color:#fff;border-color:var(--ink-deep)}
-.side-nav{font-size:13.5px;display:flex;flex-direction:column;gap:3px}
-.side-nav a{padding:6px 10px;border-radius:8px;color:var(--ink)}
-.side-nav a:hover,.side-nav a.on{background:var(--mist);color:var(--ink-deep)}
-.side-nav a .n{float:right;font-size:12px;opacity:.6}
-.sync-box{margin-top:auto;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:12.5px;background:var(--paper)}
-.sync-box .t{display:flex;align-items:center;gap:6px;font-weight:600;cursor:pointer}
-#st-dot{width:8px;height:8px;border-radius:50%;background:#C9CFCE;display:inline-block}
-#st-dot.on{background:#3F9C6B}
-.sync-box input{width:100%;margin-top:6px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font:inherit;font-size:12px}
-.sync-box .row{display:flex;gap:6px;margin-top:8px}
-.sync-box .row button{flex:1;border:1px solid var(--line);background:#fff;border-radius:6px;padding:5px;font-size:12px}
-#sync-body{display:none;margin-top:6px}
-.sync-box.open #sync-body{display:block}
-#sync-status{margin-top:6px;color:var(--ink);opacity:.85}
-.foot{font-size:11.5px;color:var(--ink);opacity:.7;text-align:center}
-/* 课程 tabs */
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-.tab{border:1px solid var(--line);background:#fff;border-radius:12px;padding:8px 16px;font-size:14px;display:flex;flex-direction:column;align-items:flex-start;line-height:1.35;min-width:120px;border-left:5px solid var(--c)}
-.tab b{font-size:15px}
-.tab small{font-size:11.5px;color:var(--ink)}
-.tab.on{background:var(--c);border-color:var(--c);color:#fff}
-.tab.on small{color:rgba(255,255,255,.85)}
-.phead{margin:6px 0 16px}
-.phead h1{font-size:26px;margin:0;line-height:1.3}
-.phead h1 span{font-family:Georgia,serif;font-style:italic;font-weight:400;font-size:17px;color:var(--teal);margin-left:10px}
-.phead p{margin:6px 0 0;font-size:14px;color:var(--ink)}
-.lv{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:14px;overflow:hidden}
-.lv.hit{box-shadow:0 0 0 3px var(--gold)}
-.lv-head{display:flex;align-items:baseline;gap:14px;padding:12px 18px;border-bottom:1px solid var(--line);background:#FCFCF9;flex-wrap:wrap}
-.lv-head b{font-size:16px;color:var(--c)}
-.lv-head .age{font-size:12px;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:0 8px}
-.lv-head .goal{font-size:13px;color:var(--ink);flex:1;min-width:200px}
-.lv-head .lex{font-size:12px;color:var(--ink);opacity:.8}
-.units{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:0}
-.unit{display:block;padding:14px 18px;border-right:1px solid var(--line);min-height:96px}
-.unit:last-child{border-right:none}
-.unit.has:hover{background:var(--mist)}
-.unit .n{font-size:11px;letter-spacing:.12em;color:var(--c)}
-.unit .t{font-size:15.5px;font-weight:600;margin-top:2px}
-.unit .e{font-family:Georgia,serif;font-style:italic;font-size:13px;color:var(--teal)}
-.unit .yrs{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
-.unit .yr{font-size:11.5px;background:var(--mist);border-radius:10px;padding:1px 9px;color:var(--ink)}
-.unit .yr.done{background:#E3F1EA;color:#2E6B57}
-.unit.none{opacity:.5}
-.unit.none .yr{background:none;padding:0}
-@media(max-width:560px){.units{grid-template-columns:1fr}.unit{border-right:none;border-top:1px solid var(--line)}}
-/* 讲座 / 内部 */
-h2{font-size:15px;letter-spacing:.08em;color:var(--teal);border-bottom:2px solid var(--gold);display:inline-block;padding-bottom:2px;margin:30px 0 12px}
-h3.yr{font-size:13px;color:var(--ink);letter-spacing:.1em;margin:14px 0 8px}
-.cards{display:flex;flex-direction:column;gap:10px}
-a.card{display:block;background:#fff;border:1px solid var(--line);border-left:4px solid var(--c,var(--teal));border-radius:10px;padding:12px 16px}
-a.card:hover{background:#FCFCF9;border-color:var(--gold)}
-.card-top{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--ink);flex-wrap:wrap}
-.card-top .tag{background:var(--mist);border-radius:10px;padding:0 8px}
-.card-top .st{border-radius:10px;padding:0 8px}
-.st.ok{background:#E3F1EA;color:#2E6B57}.st.redo{background:#FBEAD6;color:#B25A1B}.st.draft{background:var(--mist);color:var(--ink)}
-.card .ti{font-size:16px;font-weight:600;margin-top:3px}
-.card .ti span{font-family:Georgia,serif;font-style:italic;font-weight:400;font-size:13.5px;color:var(--teal);margin-left:8px}
-.card .desc{font-size:13.5px;color:var(--ink);margin-top:2px}
-.card .snip{font-size:13px;color:var(--ink);margin-top:4px;padding:6px 10px;background:var(--paper);border-radius:6px;line-height:1.6}
-mark{background:var(--gold);color:inherit;padding:0 2px;border-radius:2px}
-#count{font-size:13px;color:var(--ink);margin:4px 0 12px}
-#count a{border-bottom:1px solid var(--gold)}
-.empty{color:var(--ink);font-size:14px;padding:30px 0;text-align:center;opacity:.8}
-.recent{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 16px;margin-bottom:18px;font-size:13.5px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.recent .l{font-size:12px;letter-spacing:.1em;color:var(--ink)}
-.recent a{border-bottom:1px solid var(--gold)}
-.recent small{color:var(--ink);opacity:.75}
-#side-toggle{display:none;position:fixed;left:12px;bottom:12px;z-index:9;border:1px solid var(--line);background:#fff;border-radius:20px;padding:8px 14px;font-size:13px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
-@media(max-width:820px){.side{position:fixed;left:-280px;transition:.2s;z-index:8}.side.open{left:0}.main{padding:18px 16px 70px}#side-toggle{display:block}}
+.search input::placeholder{color:#B0BEBA}
+.search svg{position:absolute;left:12px;top:9.5px;width:15px;height:15px;stroke:var(--dim);fill:none;stroke-width:2}
+.filt{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:16px;font-size:12.5px}
+.filt .lab{color:var(--dim);margin-right:2px}
+.filt .lab+.lab{margin-left:14px}
+.pill{border:1px solid var(--line);background:#fff;color:var(--teal);border-radius:20px;padding:3px 12px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.pill.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.pill:hover:not(.on){border-color:var(--teal)}
+.count{font-size:12.5px;color:var(--dim);margin:-6px 0 12px}
+mark{background:#FFF0B3;color:inherit;padding:0 1px;border-radius:2px}
+
+/* 等级总表 */
+.grid{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.grid{--n:2}
+.gh{display:grid;grid-template-columns:104px repeat(var(--n),1fr);background:#FCFCF9;border-bottom:1px solid var(--line);font-size:11.5px;letter-spacing:.08em;color:var(--dim);font-weight:600}
+.gh div{padding:9px 16px}
+.gh .tm{grid-column:span var(--h);text-align:center;border-bottom:1px solid var(--line);background:#F6F8F7;color:var(--teal)}
+.gh .tm i{font-style:normal;font-weight:400;color:var(--dim);margin-left:6px}
+.gh .tm+.tm{border-left:1px solid var(--line)}
+.gh .corner{border-bottom:1px solid var(--line)}
+.gh .sub{color:var(--dim)}
+.row{display:grid;grid-template-columns:104px repeat(var(--n),1fr);border-bottom:1px solid var(--line);transition:background .3s}
+.row:last-child{border-bottom:none}
+.row.hit{background:#FFF9E3}
+.lvc{padding:13px 16px;border-right:1px solid var(--line)}
+.lvc b{font-family:Georgia,serif;font-size:16px;color:var(--ink-deep);display:block;line-height:1.1}
+.lvc span{font-size:11px;color:var(--dim)}
+.u{padding:12px 16px;cursor:pointer;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:left;gap:5px}
+.u .t,.u .dots,.u .tea{align-self:flex-start;text-align:left}
+.u+.u{border-left:1px solid var(--line)}
+.u:hover{background:var(--mist)}
+.u.empty{cursor:default}
+.u.empty:hover{background:transparent}
+.u .t{font-size:14px;font-weight:600;color:var(--ink-deep)}
+.u.empty .t{color:#A8B8B4;font-weight:400}
+.u .t em{display:block;font-family:Georgia,serif;font-style:italic;font-weight:400;font-size:11.5px;color:var(--dim);margin:1px 0 0}
+.dots{display:flex;gap:4px}
+.dots i{width:9px;height:9px;border-radius:50%;background:#E4EAE8}
+.dots i.ok{background:#3A8F86}
+.dots i.redo{background:#E2A15B}
+.dots i.draft{background:#B9CFCB}
+.tea{font-size:12px;color:var(--txt2);display:flex;gap:10px;flex-wrap:wrap}
+.tea b{font-weight:600;color:var(--teal)}
+.tea span{font-family:Georgia,serif;color:var(--dim);margin-right:2px}
+.gnote{font-size:12px;color:var(--dim);margin:12px 4px 0}
+
+/* 单元页 */
+.facts{display:flex;gap:6px 22px;flex-wrap:wrap;font-size:13px;color:var(--txt2);margin:-6px 0 20px}
+.facts b{color:var(--ink-deep);font-weight:600}
+.facts a{border-bottom:1px solid var(--gold);cursor:pointer}
+.yr{font-family:Georgia,serif;font-size:15px;color:var(--gold-deep);font-weight:700;letter-spacing:.04em;margin:22px 0 10px;display:flex;align-items:center;gap:12px}
+.yr::after{content:'';flex:1;height:1px;background:var(--line)}
+.tc{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;border-left:5px solid var(--acc)}
+.tc-h{padding:14px 20px;cursor:pointer;display:flex;align-items:center;gap:12px}
+.tc-h:hover{background:#FCFCF9}
+.tc-h .who{font-size:17px;font-weight:700}
+.tc-h .wd{font-size:12.5px;color:var(--dim)}
+.tc-h .sty{flex:1;font-size:12.5px;color:var(--txt2);margin-left:6px}
+.tc-h .pg{font-size:12px;color:var(--dim);white-space:nowrap;font-family:Georgia,serif}
+.tc-h .arw{font-size:10px;color:var(--dim);transition:transform .15s}
+.tc.open .tc-h .arw{transform:rotate(90deg)}
+.tc-b{display:none;border-top:1px solid var(--line);padding:6px 12px 8px}
+.tc.open .tc-b{display:block}
+.wk{display:grid;grid-template-columns:52px 1fr 92px 64px;align-items:center;gap:10px;padding:9px 8px;border-bottom:1px dashed var(--line);border-radius:8px}
+.wk:last-child{border-bottom:none}
+a.wk:hover{background:var(--mist)}
+.wk .n{font-family:Georgia,serif;font-size:14px;font-weight:700;color:var(--acc)}
+.wk .tt{font-size:14px;font-weight:600;color:var(--ink-deep)}
+.wk .tt em{display:block;font-family:Georgia,serif;font-style:italic;font-weight:400;font-size:11.5px;color:var(--dim)}
+.wk .d{font-family:Georgia,serif;font-size:12px;color:var(--dim);text-align:right}
+.wk .d small{display:block;font-family:inherit;font-size:11px;color:var(--gold-deep)}
+.wk .s{font-size:11px;padding:2px 8px;border-radius:10px;text-align:center}
+.s.ok{background:#E1F0EE;color:#2B7A72}.s.redo{background:#FBEAD6;color:#B25A1B}.s.todo{background:var(--mist);color:var(--dim)}
+.s.draft{background:var(--mist);color:var(--txt2)}
+.wk.todo .n{color:#B5C2BF}.wk.todo .tt{color:#A8B8B4;font-weight:400}
+
+/* 列表(讲座 / 内部 / 搜索) */
+a.card .topic{display:inline-block;font-size:11px;color:var(--teal);border:1px solid var(--line);border-radius:10px;padding:0 8px;margin-left:8px;vertical-align:middle}
+.facts .sep{font-style:normal;color:var(--dim);margin:0 6px}
+a.card{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:12px;position:relative;overflow:hidden}
+a.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--acc,var(--teal))}
+a.card:hover{border-color:var(--teal);box-shadow:0 8px 24px rgba(22,51,59,.08)}
+.card .date{font-family:Georgia,serif;font-size:17px;font-weight:700}
+.card .tag{font-size:10.5px;color:#fff;background:var(--acc,var(--teal));border-radius:20px;padding:2px 9px;margin-left:10px;vertical-align:2px}
+.card h2{font-size:16px;margin:5px 0 2px}
+.card .en{font-family:Georgia,serif;font-style:italic;font-size:12.5px;color:var(--dim)}
+.card .desc{font-size:12.5px;color:var(--txt2);margin-top:6px}
+.card .s{display:inline-block;font-size:11px;padding:0 8px;border-radius:10px;margin-left:8px;vertical-align:middle}
+.card .last{float:right;font-size:11.5px;color:var(--gold-deep)}
+.card .meta{font-size:12px;color:var(--dim);margin-top:6px}
+.card .snip{font-size:12.5px;color:var(--txt2);margin-top:8px;padding:8px 12px;background:#FCFCF9;border-radius:8px;line-height:1.7}
+.nothing{color:#A8B8B4;font-size:13px;padding:30px 0;text-align:center}
+.foot{text-align:center;font-size:12px;color:var(--dim);margin-top:44px}
+@media(max-width:780px){.layout{flex-direction:column;padding:16px 12px 50px}.side{width:100%;position:static}.head{flex-direction:column;align-items:stretch}.search{width:100%}.gh,.row{grid-template-columns:76px repeat(var(--n),1fr)}.wk{grid-template-columns:44px 1fr 60px}.wk .d{display:none}.tc-h{flex-wrap:wrap}.tc-h .sty{flex-basis:100%;margin:0}}
 </style>
 </head>
 <body>
 <div class="layout">
-<aside class="side" id="side">
-  <div class="brand">FOGG 学习笔记本<small>SHIRLEY · STUDY NOTEBOOK</small></div>
-  <div class="search">
-    <input id="q" type="search" placeholder="搜全站：术语、句子、老师、学生…" autocomplete="off">
-    <button id="q-clr" title="清空">×</button>
-    <div id="q-hint">输入关键词搜全文；空着就浏览课程目录</div>
-  </div>
-  <div class="fgroup"><div class="lab">老师</div><div class="fbtns" id="fl-teacher"></div></div>
-  <div class="fgroup"><div class="lab">年份</div><div class="fbtns" id="fl-year"></div></div>
-  <div class="fgroup"><div class="lab">状态</div><div class="fbtns" id="fl-status"></div></div>
-  <div class="fgroup"><div class="lab">排序</div><div class="fbtns" id="fl-sort"></div></div>
-  <div class="side-nav" id="side-nav"></div>
-  <div class="sync-box" id="sync-box">
-    <div class="t" id="sync-title"><span id="st-dot"></span>云同步（Gist）</div>
-    <div id="sync-body">
-      <input id="gist-id" placeholder="Gist ID">
-      <input id="gist-token" type="password" placeholder="GitHub Token（只存本机）">
-      <div class="row"><button id="sync-save">保存</button><button id="sync-clear">清除</button></div>
-      <div id="sync-status"></div>
-    </div>
-  </div>
-  <div class="foot" id="foot"></div>
-</aside>
-<main class="main" id="main"></main>
+  <aside class="side" id="side"></aside>
+  <main class="main" id="main"></main>
 </div>
-<button id="side-toggle">目录 / 搜索</button>
 <script src="catalog.js"></script>
 <script>
 (function(){
-var C=window.CATALOG||{programs:[],classes:[],pages:[]};
-var $=function(id){return document.getElementById(id)};
-var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
-var reEsc=function(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')};
-function fmtDate(d){return d?String(d).replace(/-/g,'.'):''}
-function lastRead(k){try{return +localStorage.getItem('__last_read_'+k)||0}catch(e){return 0}}
-function agoText(ts){var d=Math.floor((Date.now()-ts)/864e5);if(d<=0)return '今天';if(d==1)return '昨天';if(d<30)return d+' 天前';return Math.floor(d/30)+' 个月前'}
+var C=window.CATALOG, S={prog:'fogg-cw',level:null,unit:null,view:'grid',year:'all',topic:'all',q:'',t:'',y:'',s:'',o:'new',_back:null};
+var CUR=C.programs.filter(function(p){return p.id.indexOf('fogg-')===0});
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function prog(id){return C.programs.filter(function(p){return p.id===id})[0]||CUR[0]}
+function pagesOf(f){return C.pages.filter(f)}
+function classesOf(unit){return C.classes.filter(function(c){return c.unit===unit})}
+function unitsPer(p){return Math.max.apply(null,p.levels.map(function(l){return (l.units||[]).length}).concat([2]))}
+function weeksPer(p){return 20/unitsPer(p)}
+function termOf(p,n){var h=unitsPer(p)/2;return n<=h?"上学期":"下学期"}
+function progCount(p){return pagesOf(function(x){return x.program===p.id}).length}
+function levelCount(p,l){return pagesOf(function(x){return x.program===p.id&&x.level===l}).length}
+function statusText(s){return s==='ok'?'达标':s==='redo'?'需重做':'草稿'}
+function ls(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function lsDel(k){try{localStorage.removeItem(k)}catch(e){}}
+function lastRead(key){var v=+ls('__last_read_'+key);return v>0?v:0}
+function ago(key){
+  var t=lastRead(key);if(!t)return '';
+  var d=Math.floor((Date.now()-t)/86400000);
+  if(d<=0)return '今天学过';if(d===1)return '昨天学过';if(d<30)return d+' 天前学过';return Math.floor(d/30)+' 个月前学过';
+}
 
-/* ---------- 状态 / hash ---------- */
-var S={p:'',l:'',q:'',t:'',y:'',s:'',o:'new',all:''};
-function readHash(){var h=location.hash.slice(1);var o={p:'',l:'',q:'',t:'',y:'',s:'',o:'new',all:''};
-  if(!h||h==='talks'||h==='internal')return o;
-  if(h[0]!=='?'){var m=h.split('/');o.p=m[0]||'';o.l=(m[1]||'').replace(/^l/,'');return o}
-  h.slice(1).split('&').forEach(function(kv){var i=kv.indexOf('=');if(i<0)return;var k=kv.slice(0,i),v=decodeURIComponent(kv.slice(i+1));if(k in o)o[k]=v});
-  return o}
-function writeHash(){var h;
-  if(!S.q&&!S.t&&!S.y&&!S.s&&!S.all){h=S.p?(S.p+(S.l?'/l'+S.l:'')):''}
-  else{var parts=[];['p','q','t','y','s','o','all'].forEach(function(k){if(S[k]&&!(k==='o'&&S[k]==='new'))parts.push(k+'='+encodeURIComponent(S[k]))});h='?'+parts.join('&')}
-  if(location.hash.slice(1)!==h)history.replaceState(null,'',h?'#'+h:location.pathname)}
+/* ---------- Hash 路由 ---------- */
+function readHash(){
+  var h=location.hash.replace(/^#/,'');
+  if(!h)return;
+  if(h.charAt(0)==='?'){
+    var ps={};h.slice(1).split('&').forEach(function(kv){if(!kv)return;var i=kv.indexOf('=');var k=i<0?kv:kv.slice(0,i),v=i<0?'':kv.slice(i+1);try{ps[k]=decodeURIComponent(v.replace(/\+/g,' '))}catch(e){ps[k]=v}});
+    S.q=ps.q||'';S.t=ps.t||'';S.y=ps.y||'';S.s=ps.s||'';S.o=ps.o||'new';
+    if(ps.p)S.prog=ps.p;
+    if(S.q){if(S.view!=='search')S._back={prog:S.prog,level:S.level,unit:S.unit,view:S.view};S.view='search'}
+    return;
+  }
+  var seg=h.split('/');
+  S.q='';S.unit=null;S.level=null;
+  if(seg[0]==='talks'){S.view='talk';return}
+  if(seg[0]==='internal'){S.view='internal';return}
+  if(prog(seg[0])&&C.programs.some(function(p){return p.id===seg[0]})){S.prog=seg[0];S.view='grid'}
+  if(seg[1]){var m=seg[1].match(/^l(\d+)$/);if(m)S.level=+m[1]}
+  if(seg[2])S.unit=seg[2];
+}
+function writeHash(){
+  var h;
+  if(S.view==='search'&&S.q){
+    var ps=[['q',S.q],['t',S.t],['y',S.y],['s',S.s],['o',S.o],['p',S.prog]];
+    h='#?'+ps.filter(function(kv){return kv[1]&&!(kv[0]==='o'&&kv[1]==='new')}).map(function(kv){return kv[0]+'='+encodeURIComponent(kv[1])}).join('&');
+  }else if(S.view==='talk')h='#talks';
+  else if(S.view==='internal')h='#internal';
+  else{h='#'+S.prog;if(S.level!=null){h+='/l'+S.level;if(S.unit)h+='/'+S.unit}}
+  if(location.hash!==h){try{history.replaceState(null,'',h)}catch(e){location.hash=h}}
+}
 
-/* ---------- 搜索分片 ---------- */
-var BODY={},BODYRAW={},loadedYears={},loading=false;
-function ensureShards(cb){var years=[];C.pages.forEach(function(p){if(p.year&&!loadedYears[p.year]&&years.indexOf(p.year)<0)years.push(p.year)});
-  if(!years.length){cb();return}
-  var n=years.length;loading=true;
-  years.forEach(function(y){loadedYears[y]=true;var s=document.createElement('script');s.src='search/'+y+'.js?v='+encodeURIComponent(C.generated||'');
-    s.onload=s.onerror=function(){var rows=(window.SEARCH_PARTS||{})[y]||[];rows.forEach(function(r){BODYRAW[r.key]=r.text;BODY[r.key]=r.text.toLowerCase()});if(--n===0){loading=false;cb()}};
-    document.head.appendChild(s)})}
-function terms(){return S.q.toLowerCase().split(/\s+/).filter(Boolean)}
-function score(p,ts){var sc=0;var f={title:10,en:8,desc:5,meta:4,tags:4,sections:3};
-  var fields={title:p.title,en:p.en,desc:p.desc,meta:[p.teacher,p.speaker,p.unitTitle,p.programName,p.tagText,p.date,p.term].join(' '),tags:(p.tags||[]).join(' '),sections:(p.sections||[]).join(' ')};
-  var body=BODY[p.key]||'';
-  for(var i=0;i<ts.length;i++){var t=ts[i],hit=false;
-    for(var k in fields){if(String(fields[k]||'').toLowerCase().indexOf(t)>=0){sc+=f[k];hit=true}}
-    var c=0,idx=-1;while((idx=body.indexOf(t,idx+1))>=0&&c<30)c++;
-    if(c){sc+=c;hit=true}
-    if(!hit)return 0}
-  return sc}
-function hl(s,ts){s=esc(s);if(!ts.length)return s;var re=new RegExp('('+ts.map(reEsc).join('|')+')','gi');return s.replace(re,'<mark>$1</mark>')}
-function snippet(p,ts){var raw=BODYRAW[p.key]||'';if(!raw||!ts.length)return '';var low=raw.toLowerCase(),i=-1;
-  for(var k=0;k<ts.length&&i<0;k++)i=low.indexOf(ts[k]);if(i<0)return '';
-  var a=Math.max(0,i-60),b=Math.min(raw.length,i+100);return (a>0?'…':'')+hl(raw.slice(a,b),ts)+(b<raw.length?'…':'')}
+/* ---------- 全文搜索 ---------- */
+var SHARDS={},loading=false,waiters=[];
+function ensureShards(cb){
+  var ys={};C.pages.forEach(function(x){ys[x.year]=1});
+  var need=Object.keys(ys).filter(function(y){return !SHARDS[y]});
+  if(!need.length){cb();return}
+  waiters.push(cb);if(loading)return;loading=true;
+  var left=need.length;
+  need.forEach(function(y){
+    var sc=document.createElement('script');sc.src='search/'+y+'.js?v='+encodeURIComponent(C.generated||'');
+    sc.onload=sc.onerror=function(){
+      SHARDS[y]={};((window.SEARCH_PARTS||{})[y]||[]).forEach(function(r){SHARDS[y][r.key]=r.text||''});
+      if(--left===0){loading=false;var w=waiters;waiters=[];w.forEach(function(f){f()})}
+    };
+    document.head.appendChild(sc);
+  });
+}
+function bodyOf(x){var sh=SHARDS[x.year];return sh?(sh[x.key]||''):''}
+function terms(){return S.q.trim().toLowerCase().split(/\s+/).filter(Boolean)}
+function countHits(hay,t){if(!hay||!t)return 0;var n=0,i=0;while((i=hay.indexOf(t,i))>=0){n++;i+=t.length}return n}
+function score(x,body){
+  var ts=terms();if(!ts.length)return 0;
+  var f=[[x.title,10],[x.en,8],[x.desc,5],[(x.speaker||'')+' '+(x.teacher||'')+' '+(x.unitTitle||'')+' '+(x.unitEn||''),4],[(x.tags||[]).join(' '),4],[(x.sections||[]).join(' '),3]];
+  var total=0,b=(body||'').toLowerCase();
+  ts.forEach(function(t){
+    var s=0;f.forEach(function(p){if(String(p[0]||'').toLowerCase().indexOf(t)>=0)s+=p[1]});
+    s+=Math.min(30,countHits(b,t));
+    if(!s)return;total+=s;
+  });
+  return total;
+}
+function matches(x,body){var ts=terms(),hay=(x.title+' '+(x.en||'')+' '+(x.desc||'')+' '+(x.speaker||'')+' '+(x.teacher||'')+' '+(x.unitTitle||'')+' '+(x.unitEn||'')+' '+(x.tags||[]).join(' ')+' '+(x.sections||[]).join(' ')+' '+(body||'')).toLowerCase();return ts.every(function(t){return hay.indexOf(t)>=0})}
+function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+function hl(text){
+  var e=esc(text),ts=terms();if(!ts.length||!e)return e;
+  var re=new RegExp('('+ts.map(escRe).join('|')+')','gi');
+  return e.replace(re,'<mark>$1</mark>');
+}
+function snippet(text){
+  if(!text)return '';
+  var low=text.toLowerCase(),ts=terms(),pos=-1;
+  for(var i=0;i<ts.length;i++){var p=low.indexOf(ts[i]);if(p>=0&&(pos<0||p<pos))pos=p}
+  if(pos<0)return hl(text.slice(0,120))+(text.length>120?'…':'');
+  var a=Math.max(0,pos-40),b=Math.min(text.length,a+120);
+  return (a>0?'…':'')+hl(text.slice(a,b))+(b<text.length?'…':'');
+}
+function searchPage(){
+  var res=[];
+  C.pages.forEach(function(x){var b=bodyOf(x);if(!matches(x,b))return;res.push({x:x,sc:score(x,b),b:b})});
+  var teachersAll={},yearsAll={},statesAll={};
+  res.forEach(function(r){var t=r.x.teacher||r.x.speaker;if(t)teachersAll[t]=1;yearsAll[r.x.year]=1;if(r.x.status)statesAll[r.x.status]=1});
+  var list=res.filter(function(r){var x=r.x;return (!S.t||(x.teacher===S.t||x.speaker===S.t))&&(!S.y||String(x.year)===S.y)&&(!S.s||x.status===S.s)});
+  if(S.o==='rel')list.sort(function(a,b){return b.sc-a.sc||(a.x.date<b.x.date?1:-1)});
+  else if(S.o==='old')list.sort(function(a,b){return a.x.date>b.x.date?1:a.x.date<b.x.date?-1:0});
+  else if(S.o==='recent')list.sort(function(a,b){return lastRead(b.x.key)-lastRead(a.x.key)||(a.x.date<b.x.date?1:-1)});
+  else list.sort(function(a,b){return a.x.date<b.x.date?1:a.x.date>b.x.date?-1:0});
+  var h=head('<a data-go="back">FOGG</a><span>›</span><span>搜索</span>','搜索','Search',null);
+  var pill=function(attr,val,cur,label){return '<button class="pill'+(cur===val?' on':'')+'" data-'+attr+'="'+esc(val)+'">'+esc(label)+'</button>'};
+  h+='<div class="filt"><span class="lab">老师</span>'+pill('ft','',S.t,'全部')+Object.keys(teachersAll).sort().map(function(t){return pill('ft',t,S.t,t)}).join('');
+  h+='<span class="lab">年份</span>'+pill('fy','',S.y,'全部')+Object.keys(yearsAll).sort().reverse().map(function(y){return pill('fy',y,S.y,y)}).join('');
+  h+='<span class="lab">状态</span>'+pill('fs','',S.s,'全部')+['ok','redo','draft'].filter(function(s){return statesAll[s]}).map(function(s){return pill('fs',s,S.s,statusText(s))}).join('');
+  h+='<span class="lab">排序</span>'+[['rel','相关'],['new','最新'],['old','最早'],['recent','最近学过']].map(function(o){return pill('fo',o[0],S.o,o[1])}).join('')+'</div>';
+  h+='<div class="count">共 '+list.length+' 页</div>';
+  if(!list.length)h+='<div class="nothing">没有找到相关内容</div>';
+  list.forEach(function(r){var x=r.x,ag=ago(x.key);
+    var meta=[];if(x.teacher)meta.push(x.teacher);else if(x.speaker)meta.push(x.speaker);if(x.unitTitle)meta.push(x.unitTitle);if(x.kind==='lesson'&&x.week)meta.push('Wk '+x.week);
+    var sn=r.b?snippet(r.b):(x.desc?hl(x.desc):'');
+    h+='<a class="card" href="'+esc(x.file)+'" style="--acc:'+esc(x.accent||'')+'"><span class="date">'+esc(x.date)+'</span><span class="tag">'+esc(x.tagText||'')+'</span>'+(x.status?'<span class="s '+esc(x.status)+'">'+statusText(x.status)+'</span>':'')+(ag?'<span class="last">'+ag+'</span>':'')+'<h2>'+hl(x.title)+'</h2><div class="en">'+hl(x.en||'')+'</div>'+(meta.length?'<div class="meta">'+esc(meta.join(' · '))+'</div>':'')+(sn?'<div class="snip">'+sn+'</div>':'')+'</a>';
+  });
+  return h;
+}
 
-/* ---------- 筛选按钮 ---------- */
-function btnSet(id,key,opts){var el=$(id);el.innerHTML='';opts.forEach(function(o){var b=document.createElement('button');b.textContent=o[1];if(S[key]===o[0])b.classList.add('on');
-  b.onclick=function(){S[key]=(S[key]===o[0]&&key!=='o')?'':o[0];if(key!=='o'&&S[key]&&!S.q)S.all='1';render()};el.appendChild(b)})}
-function buildFilters(){var T={},Y={};C.pages.forEach(function(p){if(p.teacher)T[p.teacher]=1;if(p.year)Y[p.year]=1});
-  btnSet('fl-teacher','t',Object.keys(T).sort().map(function(t){return [t,t]}));
-  btnSet('fl-year','y',Object.keys(Y).sort().reverse().map(function(y){return [y,y]}));
-  btnSet('fl-status','s',[['ok','已达标'],['redo','待重做'],['draft','草稿']]);
-  btnSet('fl-sort','o',[['new','最新'],['old','最早'],['recent','最近学过'],['rel','相关度']])}
-function buildSideNav(){var el=$('side-nav');var h='';var browsing=!S.q&&!S.all&&!S.t&&!S.y&&!S.s;
-  C.programs.forEach(function(p){var n=C.pages.filter(function(x){return x.program===p.id}).length;h+='<a href="#'+p.id+'"'+(browsing&&S.p===p.id?' class="on"':'')+'>'+esc(p.name)+' <small>'+p.code+'</small><span class="n">'+(n||'')+'</span></a>'});
-  var nt=C.pages.filter(function(x){return x.kind==='talk'}).length,ni=C.pages.filter(function(x){return x.kind==='internal'}).length;
-  h+='<a href="#talks">外部讲座<span class="n">'+(nt||'')+'</span></a><a href="#internal">内部会议<span class="n">'+(ni||'')+'</span></a>';
-  h+='<a href="#?all=1"'+(!browsing&&!S.q?' class="on"':'')+'>全部页面（按时间）</a>';
-  el.innerHTML=h}
-
-/* ---------- 卡片 ---------- */
-function card(p,ts){var tag=p.kind==='lesson'?(p.programCode+' Level '+p.level+' · '+esc(p.unitTitle)+' · Week '+p.week):esc(p.tagText||'');
-  var lr=lastRead(p.key);var st={ok:'已达标',redo:'待重做',draft:'草稿'}[p.status]||'';
-  return '<a class="card" href="'+p.file+'" style="--c:'+(p.accent||'#2E5A66')+'">'
-    +'<div class="card-top"><span>'+fmtDate(p.date)+'</span><span class="tag">'+tag+'</span>'+(p.teacher?'<span>'+esc(p.teacher)+'</span>':'')+(st?'<span class="st '+p.status+'">'+st+'</span>':'')+(lr?'<span>'+agoText(lr)+'学过</span>':'')+'</div>'
-    +'<div class="ti">'+hl(p.title,ts)+(p.en?'<span>'+hl(p.en,ts)+'</span>':'')+'</div>'
-    +(p.desc?'<div class="desc">'+hl(p.desc,ts)+'</div>':'')
-    +(ts.length?'<div class="snip">'+snippet(p,ts)+'</div>':'')
-    +'</a>'}
-function sortList(list,ts){var o=S.o;if(ts.length&&o==='new')o='rel';
-  list.sort(function(a,b){if(o==='rel')return ((b._s||0)-(a._s||0))||String(b.date).localeCompare(String(a.date));
-    if(o==='old')return String(a.date).localeCompare(String(b.date));
-    if(o==='recent')return lastRead(b.key)-lastRead(a.key)||String(b.date).localeCompare(String(a.date));
-    return String(b.date).localeCompare(String(a.date))});return list}
-
-/* ---------- 视图：搜索/列表 ---------- */
-function renderList(){var ts=terms();var list=[];
-  C.pages.forEach(function(p){if(S.t&&p.teacher!==S.t)return;if(S.y&&String(p.year)!==S.y)return;if(S.s&&p.status!==S.s)return;if(S.p&&p.program!==S.p)return;
-    if(ts.length){var sc=score(p,ts);if(!sc)return;p._s=sc}else p._s=0;list.push(p)});
-  sortList(list,ts);
-  var h='<div id="count">'+(ts.length?'搜「'+esc(S.q)+'」：':'')+'共 '+list.length+' 页'+(loading?'（正文索引加载中…）':'')+(S.p?' · 仅 '+esc(progById(S.p).name)+' <a href="#?q='+encodeURIComponent(S.q)+(S.all?'&all=1':'')+'">看全部课程</a>':'')+'</div>';
-  if(!list.length)h+='<div class="empty">没有匹配的页面。换个词试试，或清空筛选。</div>';
-  else h+='<div class="cards">'+list.map(function(p){return card(p,ts)}).join('')+'</div>';
-  $('main').innerHTML=h}
-
-/* ---------- 视图：课程目录 ---------- */
-function progById(id){for(var i=0;i<C.programs.length;i++)if(C.programs[i].id===id)return C.programs[i];return C.programs[0]||{levels:[],name:''}}
-function unitYears(pid,u){var m={};C.classes.forEach(function(c){if(c.program!==pid||c.unit!==u.id)return;var y=m[c.year]||(m[c.year]={count:0,done:0,teachers:[]});y.count+=c.count;y.done=Math.max(y.done,c.done);if(y.teachers.indexOf(c.teacher)<0)y.teachers.push(c.teacher)});
-  return Object.keys(m).sort().reverse().map(function(y){return {year:y,count:m[y].count,done:m[y].done,teachers:m[y].teachers}})}
-function renderCatalog(){var P=progById(S.p||(C.programs[0]&&C.programs[0].id));if(!P.id){$('main').innerHTML='<div class="empty">catalog.js 还没生成，先跑 python _build/build_site.py</div>';return}
-  var h='';
-  var rec=[];C.pages.forEach(function(p){var t=lastRead(p.key);if(t)rec.push([t,p])});rec.sort(function(a,b){return b[0]-a[0]});
-  if(rec.length){h+='<div class="recent"><span class="l">继续学习</span>';rec.slice(0,3).forEach(function(r){var p=r[1];h+='<span><a href="'+p.file+'">'+esc(p.title)+'</a> <small>'+(p.kind==='lesson'?'Wk'+p.week+' · '+esc(p.teacher):esc(p.speaker||''))+' · '+agoText(r[0])+'</small></span>'});h+='</div>'}
-  h+='<div class="tabs">'+C.programs.map(function(p){var n=C.pages.filter(function(x){return x.program===p.id}).length;return '<a class="tab'+(p.id===P.id?' on':'')+'" href="#'+p.id+'" style="--c:'+p.accent+'"><b>'+esc(p.name)+'</b><small>'+p.code+' · '+esc(p.en)+(n?' · '+n+' 页':'')+'</small></a>'}).join('')+'</div>';
-  h+='<div class="phead"><h1>'+esc(P.org||'FOGG')+' '+esc(P.name)+'<span>'+esc(P.en)+'</span></h1>'+(P.desc?'<p>'+esc(P.desc)+'</p>':'')+'</div>';
-  if(!P.levels.length)h+='<div class="empty">这门课的等级表还没录入（'+esc(P.name)+' 稍后补）。</div>';
-  P.levels.forEach(function(L){var hit=S.l!==''&&String(L.level)===String(S.l);
-    h+='<div class="lv'+(hit?' hit':'')+'" id="'+P.id+'-l'+L.level+'" style="--c:'+P.accent+'"><div class="lv-head"><b>Level '+L.level+'</b>'+(L.age?'<span class="age">'+esc(L.age)+' 岁</span>':'')+'<span class="goal">'+esc(L.goal||'')+'</span>'+(L.lexile?'<span class="lex">Lexile '+esc(L.lexile)+'</span>':'')+(L.skills?'<span class="lex">'+esc(L.skills)+'</span>':'')+'</div>';
-    h+='<div class="units">';
-    if(!L.units.length)h+='<div class="unit none"><div class="t">单元待录入</div></div>';
-    L.units.forEach(function(u){var ys=unitYears(P.id,u);var has=ys.length>0;
-      var inner='<div class="n">单元 '+u.n+'</div><div class="t">'+esc(u.title)+'</div><div class="e">'+esc(u.en)+'</div><div class="yrs">'
-        +(has?ys.map(function(y){return '<span class="yr'+(y.done>=10?' done':'')+'">'+y.year+' · '+y.teachers.join('/')+' · '+y.count+' 课'+(y.done?' · '+y.done+' 达标':'')+'</span>'}).join(''):'<span class="yr">尚未整理</span>')+'</div>';
-      h+=has?'<a class="unit has" href="courses/'+P.id+'/'+u.id+'/index.html">'+inner+'</a>':'<div class="unit none">'+inner+'</div>'});
-    h+='</div></div>'});
-  var other=C.pages.filter(function(p){return p.kind!=='lesson'});
-  ['talk','internal'].forEach(function(kind){var list=other.filter(function(p){return p.kind===kind});if(!list.length)return;
-    h+='<h2 id="'+(kind==='talk'?'talks':'internal')+'">'+(kind==='talk'?'外部讲座':'内部会议 · 教学大纲')+'</h2>';
-    var ys={};list.forEach(function(p){(ys[p.year]||(ys[p.year]=[])).push(p)});
-    Object.keys(ys).sort().reverse().forEach(function(y){h+='<h3 class="yr">'+y+'</h3><div class="cards">'+sortList(ys[y],[]).map(function(p){return card(p,[])}).join('')+'</div>'})});
-  $('main').innerHTML=h;
-  if(S.l!==''){var el=$(P.id+'-l'+S.l);if(el)setTimeout(function(){el.scrollIntoView({block:'start'})},80)}
-  else if(location.hash==='#talks'||location.hash==='#internal'){var t=$(location.hash.slice(1));if(t)setTimeout(function(){t.scrollIntoView({block:'start'})},30)}}
-
-function render(){var anchor=location.hash==='#talks'||location.hash==='#internal';if(!anchor)writeHash();buildFilters();buildSideNav();$('q-clr').style.display=S.q?'block':'none';
-  if(S.q||S.all||S.t||S.y||S.s)renderList();else renderCatalog()}
-
-/* ---------- 事件 ---------- */
-var tmr;$('q').addEventListener('input',function(){clearTimeout(tmr);var v=this.value;tmr=setTimeout(function(){S.q=v.trim();if(S.q)ensureShards(render);render()},160)});
-$('q-clr').onclick=function(){$('q').value='';S.q='';S.all='';render()};
-window.addEventListener('hashchange',function(){S=readHash();$('q').value=S.q;if(S.q)ensureShards(render);render()});
-$('side-toggle').onclick=function(){$('side').classList.toggle('open')};
-document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(a&&window.innerWidth<=820&&$('side').contains(a))$('side').classList.remove('open')});
-
-/* ---------- Gist 同步 ---------- */
-(function(){var CFG_GIST='__cfg_gist_id',CFG_TOKEN='__cfg_gist_token';
-  function refresh(){var id=localStorage.getItem(CFG_GIST),t=localStorage.getItem(CFG_TOKEN);$('st-dot').className=(id&&t)?'on':'';$('gist-id').value=id||'';$('sync-status').textContent=(id&&t)?'已配置，所有课页共用':'未配置：填 Gist ID 与 Token（只存在本机浏览器）'}
-  $('sync-title').onclick=function(){$('sync-box').classList.toggle('open')};
-  $('sync-save').onclick=async function(){var id=$('gist-id').value.trim(),t=$('gist-token').value.trim();if(!id||!t){$('sync-status').textContent='两项都要填';return}
-    $('sync-status').textContent='验证中…';
-    try{var r=await fetch('https://api.github.com/gists/'+id,{headers:{'Authorization':'token '+t,'Accept':'application/vnd.github+json'}});
+/* ---------- 左栏 ---------- */
+function side(){
+  var h='<div class="side-title">目录</div>';
+  h+='<div class="org open" id="org">FOGG<span class="arw">▶</span></div><div class="org-body">';
+  CUR.forEach(function(p){
+    var on=S.view!=='talk'&&S.view!=='internal'&&S.prog===p.id;
+    h+='<div class="crs'+(on?' on':'')+'" data-prog="'+p.id+'" style="--acc:'+p.accent+'">'+esc(p.name)+'<span class="cnt">'+progCount(p)+'</span></div>';
+    h+='<div class="lvs">'+p.levels.map(function(l){var n=levelCount(p,l.level);return '<div class="lv'+(n?'':' none')+(on&&S.level===l.level?' on':'')+'" data-lv="'+l.level+'">L'+l.level+'</div>'}).join('')+'</div>';
+  });
+  h+='<div class="crs'+(S.view==='talk'?' on':'')+'" data-view="talk" style="--acc:#B0741E">讲座<span class="cnt">'+pagesOf(function(x){return x.kind==='talk'}).length+'</span></div>';
+  h+='<div class="crs'+(S.view==='internal'?' on':'')+'" data-view="internal" style="--acc:#6B8480">内部教研<span class="cnt">'+pagesOf(function(x){return x.kind==='internal'}).length+'</span></div>';
+  h+='</div><div class="side-sep"></div>';
+  h+='<div class="sync" id="sync-title"><i id="st-dot"></i><span id="sync-label">多设备同步</span></div><div class="sync-body" id="sync-body"><input id="gist-id" placeholder="Gist ID"><input id="gist-token" type="password" placeholder="GitHub Token（只存本机）"><div class="sb-row"><button id="sync-save">保存</button><button id="sync-clear">清除</button></div><div class="st" id="sync-status"></div></div>';
+  document.getElementById('side').innerHTML=h;
+  document.getElementById('org').onclick=function(){this.classList.toggle('open')};
+  document.querySelectorAll('.crs[data-prog]').forEach(function(el){el.onclick=function(){S.prog=el.dataset.prog;S.level=null;S.unit=null;S.view='grid';S.q='';render()}});
+  document.querySelectorAll('.crs[data-view]').forEach(function(el){el.onclick=function(){S.view=el.dataset.view;S.level=null;S.unit=null;S.topic='all';S.q='';render()}});
+  document.querySelectorAll('.lv').forEach(function(el){el.onclick=function(e){e.stopPropagation();S.level=+el.dataset.lv;S.unit=null;S.view='grid';S.q='';render();var r=document.getElementById('lv'+S.level);if(r)r.scrollIntoView({behavior:'smooth',block:'center'})}});
+  bindSync();
+}
+var syncOpen=false;
+function bindSync(){
+  var title=document.getElementById('sync-title'),body=document.getElementById('sync-body'),label=document.getElementById('sync-label'),dot=document.getElementById('st-dot'),st=document.getElementById('sync-status');
+  var idIn=document.getElementById('gist-id'),tkIn=document.getElementById('gist-token');
+  var id=ls('__cfg_gist_id')||'',tk=ls('__cfg_gist_token')||'';
+  idIn.value=id;tkIn.value=tk;
+  function show(ok,msg){label.textContent=ok?'多设备同步 · 已连接':'多设备同步 · 未连接';dot.classList.toggle('on',!!ok);st.textContent=msg||''}
+  show(id&&tk,'');
+  if(syncOpen)body.classList.add('open');
+  title.onclick=function(){syncOpen=body.classList.toggle('open')};
+  document.getElementById('sync-save').onclick=function(){
+    var i=idIn.value.trim(),t=tkIn.value.trim();
+    if(!i||!t){show(false,'请填写 Gist ID 和 Token');return}
+    st.textContent='正在验证…';
+    fetch('https://api.github.com/gists/'+encodeURIComponent(i),{headers:{Authorization:'token '+t,Accept:'application/vnd.github+json'}}).then(function(r){
       if(!r.ok)throw new Error(r.status);
-      localStorage.setItem(CFG_GIST,id);localStorage.setItem(CFG_TOKEN,t);$('gist-token').value='';refresh();$('sync-status').textContent='已保存并验证通过'}
-    catch(e){$('sync-status').textContent='验证失败：'+e.message}};
-  $('sync-clear').onclick=function(){localStorage.removeItem(CFG_GIST);localStorage.removeItem(CFG_TOKEN);refresh()};
-  refresh()})();
+      lsSet('__cfg_gist_id',i);lsSet('__cfg_gist_token',t);show(true,'已保存，课页会自动同步笔记');
+    }).catch(function(e){show(false,'验证失败（'+(e&&e.message||'网络')+'），请检查 Gist ID 或 Token')});
+  };
+  document.getElementById('sync-clear').onclick=function(){lsDel('__cfg_gist_id');lsDel('__cfg_gist_token');idIn.value='';tkIn.value='';show(false,'已清除本机配置')};
+}
 
-$('foot').textContent='共 '+C.pages.length+' 页 · 生成于 '+(C.generated||'').slice(0,10);
-S=readHash();$('q').value=S.q;if(S.q)ensureShards(render);render();
+/* ---------- 顶部:面包屑 + 标题 + 搜索 + 筛选 ---------- */
+function years(p){var ys={};C.pages.forEach(function(x){if(!p||x.program===p.id)ys[x.year]=1});return Object.keys(ys).sort().reverse()}
+function topicOf(x){var t=(x.tagText||'')+' '+(x.title||'');if(/教纲|参考/.test(t))return '教纲';if(/写作/.test(t))return '写作';if(/阅读|文学/.test(t))return '阅读';return '教学运营'}
+function head(crumb,title,en,filt){
+  var h='<div class="crumb">'+crumb+'</div><div class="head"><h1>'+esc(title)+(en?'<small>'+esc(en)+'</small>':'')+'</h1>';
+  h+='<div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" placeholder="搜课名、技巧、老师…" value="'+esc(S.q)+'"></div></div>';
+  if(filt){
+    h+='<div class="filt"><span class="lab">年份</span><button class="pill'+(S.year==='all'?' on':'')+'" data-y="all">全部</button>'+filt.years.map(function(y){return '<button class="pill'+(S.year===y?' on':'')+'" data-y="'+y+'">'+y+'</button>'}).join('');
+    if(filt.topics)h+='<span class="lab">主题</span><button class="pill'+(S.topic==='all'?' on':'')+'" data-t="all">全部</button>'+filt.topics.map(function(t){return '<button class="pill'+(S.topic===t?' on':'')+'" data-t="'+t+'">'+t+'</button>'}).join('');
+    h+='</div>';
+  }
+  return h;
+}
+var qTimer=null;
+function refocus(){var q2=document.getElementById('q');if(q2){q2.focus();try{q2.setSelectionRange(q2.value.length,q2.value.length)}catch(e){}}}
+function bindHead(){
+  var q=document.getElementById('q');
+  if(q)q.oninput=function(){
+    var v=q.value;clearTimeout(qTimer);
+    qTimer=setTimeout(function(){
+      S.q=v;
+      if(v.trim()){
+        if(S.view!=='search'){S._back={prog:S.prog,level:S.level,unit:S.unit,view:S.view};S.view='search';S.t='';S.y='';S.s='';S.o='new'}
+        ensureShards(function(){renderMain();refocus()});
+      }else{
+        if(S.view==='search')goBack();
+        renderMain();refocus();
+      }
+    },160);
+  };
+  document.querySelectorAll('.pill[data-y]').forEach(function(b){b.onclick=function(){S.year=b.dataset.y;renderMain()}});
+  document.querySelectorAll('.pill[data-t]').forEach(function(b){b.onclick=function(){S.topic=b.dataset.t;renderMain()}});
+  document.querySelectorAll('.pill[data-ft]').forEach(function(b){b.onclick=function(){S.t=b.dataset.ft;renderMain()}});
+  document.querySelectorAll('.pill[data-fy]').forEach(function(b){b.onclick=function(){S.y=b.dataset.fy;renderMain()}});
+  document.querySelectorAll('.pill[data-fs]').forEach(function(b){b.onclick=function(){S.s=b.dataset.fs;renderMain()}});
+  document.querySelectorAll('.pill[data-fo]').forEach(function(b){b.onclick=function(){S.o=b.dataset.fo;renderMain()}});
+}
+function goBack(){
+  var b=S._back;S._back=null;S.q='';
+  if(b){S.prog=b.prog;S.level=b.level;S.unit=b.unit;S.view=b.view}else{S.view='grid';S.unit=null;S.level=null}
+}
+
+/* ---------- 等级总表 ---------- */
+function dots(unit,wk){
+  var st=[];for(var i=1;i<=wk;i++){var ps=pagesOf(function(x){return x.unit===unit&&x.week===i&&(S.year==='all'||String(x.year)===S.year)});var s='';ps.forEach(function(p){if(p.status==='ok')s='ok';else if(!s)s=p.status});st.push('<i class="'+s+'"></i>')}
+  return '<div class="dots">'+st.join('')+'</div>';
+}
+function teachers(unit){
+  var cs=classesOf(unit).filter(function(c){return S.year==='all'||String(c.year)===S.year});
+  if(!cs.length)return '';
+  var by={};cs.forEach(function(c){(by[c.year]=by[c.year]||[]).push(c.teacher)});
+  return '<div class="tea">'+Object.keys(by).sort().reverse().map(function(y){return '<span>'+y+'</span><b>'+by[y].join('、')+'</b>'}).join('')+'</div>';
+}
+function grid(){
+  var p=prog(S.prog);
+  var h=head('<a data-go="grid">FOGG</a><span>›</span><span>'+esc(p.name)+'</span>',p.name,p.en,{years:years(p)});
+  var N=unitsPer(p),H=N/2,WK=weeksPer(p),book=N>2;
+  h+='<div class="grid" style="--n:'+N+';--h:'+H+'"><div class="gh"><div class="corner"></div><div class="tm">上学期'+(book?'<i>'+H+' 本书</i>':'')+'</div><div class="tm">下学期'+(book?'<i>'+H+' 本书</i>':'')+'</div><div>等级</div>';
+  for(var k=1;k<=N;k++)h+='<div class="sub">'+(book?'第 '+k+' 本':'单元 '+k)+'</div>';
+  h+='</div>';
+  p.levels.forEach(function(l){
+    var us=l.units||[];
+    h+='<div class="row'+(S.level===l.level?' hit':'')+'" id="lv'+l.level+'"><div class="lvc"><b>L'+l.level+'</b><span>'+esc(l.age||'')+'</span></div>';
+    for(var i=0;i<N;i++){var u=us[i];
+      if(!u){h+='<div class="u empty"><div class="t">待补</div></div>';continue}
+      var n=pagesOf(function(x){return x.unit===u.id}).length;
+      h+='<div class="u'+(n?'':' empty')+'" data-unit="'+u.id+'"><div class="t">'+esc(u.title)+(u.en?'<em>'+esc(u.en)+'</em>':'')+'</div>'+dots(u.id,WK)+teachers(u.id)+'</div>';
+    }
+    h+='</div>';
+  });
+  h+='</div><div class="gnote">点单元格进入单元页。圆点 = '+(book?'每本书 '+WK+' 课':'每单元 10 课')+':青色已整理达标,橙色需重做,灰色未整理。</div>';
+  return h;
+}
+
+/* ---------- 单元页 ---------- */
+function unitPage(){
+  var p=prog(S.prog),lv,u;
+  p.levels.forEach(function(l){(l.units||[]).forEach(function(x){if(x.id===S.unit){lv=l;u=x}})});
+  if(!u){S.unit=null;return grid()}
+  var others=(lv.units||[]).filter(function(x){return x.id!==u.id}),N=unitsPer(p),WK=weeksPer(p),book=N>2;
+  var h=head('<a data-go="grid">FOGG</a><span>›</span><a data-go="grid">'+esc(p.name)+'</a><span>›</span><a data-go="level" data-lv="'+lv.level+'">Level '+lv.level+'</a><span>›</span><span>'+(book?termOf(p,u.n)+' · 第 '+u.n+' 本':'单元 '+u.n)+'</span>',u.title,u.en,null);
+  h+='<div class="facts"><span>适合年龄 <b>'+esc(lv.age||'')+'</b></span><span>本级目标 <b>'+esc(lv.goal||'')+'</b></span>'+(others.length?'<span>'+(book?'同级其它书':'同级另一单元')+' '+others.map(function(o){return '<a data-unit="'+o.id+'">'+esc(o.title)+'</a>'}).join('<i class="sep">·</i>')+'</span>':'')+'</div>';
+  var cs=classesOf(u.id).sort(function(a,b){return b.year-a.year});
+  var by={};cs.forEach(function(c){(by[c.year]=by[c.year]||[]).push(c)});
+  var yrs=Object.keys(by).sort().reverse();
+  if(!yrs.length)h+='<div class="nothing">这个单元还没有整理过课。</div>';
+  yrs.forEach(function(y,yi){
+    h+='<div class="yr">'+y+'</div>';
+    by[y].forEach(function(c,ci){
+      var pg=pagesOf(function(x){return x.class===c.id});
+      h+='<div class="tc'+(yi===0&&ci===0?' open':'')+'" style="--acc:'+p.accent+'"><div class="tc-h"><span class="who">'+esc(c.teacher)+'</span><span class="wd">'+esc(c.term)+' · '+esc(c.weekday)+'班</span><span class="sty">'+esc(c.style)+'</span><span class="pg">'+pg.length+' / '+WK+'</span><span class="arw">▶</span></div><div class="tc-b">';
+      for(var w=1;w<=WK;w++){var x=pg.filter(function(z){return z.week===w})[0];
+        if(x){var ag=ago(x.key);h+='<a class="wk" href="'+esc(x.file)+'"><span class="n">Wk '+w+'</span><span class="tt">'+esc(x.title)+'<em>'+esc(x.en||'')+'</em></span><span class="d">'+esc(x.date)+(ag?'<small>'+ag+'</small>':'')+'</span><span class="s '+esc(x.status)+'">'+statusText(x.status)+'</span></a>'}
+        else h+='<div class="wk todo"><span class="n">Wk '+w+'</span><span class="tt">'+esc((c.outline||[])[w-1]||'尚未整理')+'</span><span class="d"></span><span class="s todo">待做</span></div>';
+      }
+      h+='</div></div>';
+    });
+  });
+  return h;
+}
+
+/* ---------- 讲座 / 内部 ---------- */
+function list(kind){
+  var name=kind==='talk'?'讲座':'内部教研',en=kind==='talk'?'Talks':'Internal';
+  var all=pagesOf(function(x){return x.kind===kind});
+  var ys={},ts={};all.forEach(function(x){ys[x.year]=1;ts[topicOf(x)]=1});
+  var h=head('<a data-go="grid">FOGG</a><span>›</span><span>'+name+'</span>',name,en,{years:Object.keys(ys).sort().reverse(),topics:Object.keys(ts).sort()});
+  var ps=all.filter(function(x){return (S.year==='all'||String(x.year)===S.year)&&(S.topic==='all'||topicOf(x)===S.topic)}).sort(function(a,b){return a.date<b.date?1:-1});
+  if(!ps.length)h+='<div class="nothing">没有内容</div>';
+  ps.forEach(function(x){h+='<a class="card" href="'+esc(x.file)+'" style="--acc:'+esc(x.accent||'')+'"><span class="date">'+esc(x.date)+'</span><span class="tag">'+esc(x.tagText||'')+'</span><span class="topic">'+topicOf(x)+'</span><h2>'+esc(x.title)+'</h2><div class="en">'+esc(x.en||'')+'</div><div class="desc">'+esc(x.desc||'')+'</div></a>'});
+  return h;
+}
+
+function renderMain(){
+  var m=document.getElementById('main');
+  m.innerHTML=S.view==='search'?searchPage():(S.view==='talk'||S.view==='internal')?list(S.view):S.unit?unitPage():grid();
+  m.innerHTML+='<div class="foot">共 '+C.pages.length+' 页 · 生成于 '+esc(C.generated||'')+'</div>';
+  bindHead();
+  m.querySelectorAll('.u[data-unit],.facts a[data-unit]').forEach(function(el){el.onclick=function(){S.unit=el.dataset.unit;var lv=S.unit.match(/^l(\d+)/);if(lv)S.level=+lv[1];S.q='';render();window.scrollTo(0,0)}});
+  m.querySelectorAll('[data-go]').forEach(function(el){el.onclick=function(){
+    if(el.dataset.go==='back'){goBack();render();return}
+    S.unit=null;S.view='grid';S.q='';if(el.dataset.go==='level')S.level=+el.dataset.lv;else S.level=null;render()}});
+  m.querySelectorAll('.tc-h').forEach(function(el){el.onclick=function(){el.parentNode.classList.toggle('open')}});
+  writeHash();
+}
+function render(){side();renderMain()}
+function boot(){
+  readHash();
+  if(S.view==='search'&&S.q){render();ensureShards(function(){render()});return}
+  render();
+  if(S.level!=null&&!S.unit){var r=document.getElementById('lv'+S.level);if(r)r.scrollIntoView({block:'center'})}
+}
+window.onhashchange=function(){
+  var cur=(S.view==='search'&&S.q)?writeHashStr():null;
+  if(cur!==null&&location.hash===cur)return;
+  readHash();
+  if(S.view==='search'&&S.q){ensureShards(function(){render()});return}
+  render();
+  if(S.level!=null&&!S.unit){var r=document.getElementById('lv'+S.level);if(r)r.scrollIntoView({block:'center'})}
+};
+function writeHashStr(){
+  var ps=[['q',S.q],['t',S.t],['y',S.y],['s',S.s],['o',S.o],['p',S.prog]];
+  return '#?'+ps.filter(function(kv){return kv[1]&&!(kv[0]==='o'&&kv[1]==='new')}).map(function(kv){return kv[0]+'='+encodeURIComponent(kv[1])}).join('&');
+}
+boot();
 })();
 </script>
 </body>

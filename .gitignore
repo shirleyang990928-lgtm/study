@@ -15,3 +15,4 @@ build_wk*.py
 __pycache__/
 .DS_Store
 Thumbs.db
+_design/
