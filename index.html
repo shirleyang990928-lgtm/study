@@ -3,54 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FOGG 学习笔记本 · 目录</title>
+<title>学习笔记本 · 目录</title>
 <style>
 :root{--ink:#24505B;--ink-deep:#16333B;--teal:#2E5A66;--paper:#FBFBF8;--gold:#E8C558;--gold-deep:#B08A1E;--line:#D5DEDC;--mist:#EEF3F2}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
 .layout{max-width:1140px;margin:0 auto;padding:40px 28px 80px;display:flex;gap:36px;align-items:flex-start}
-.side{width:250px;flex-shrink:0;position:sticky;top:24px;font-size:13.5px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 14px}
-.side .side-title{font-size:12px;letter-spacing:.1em;color:var(--gold-deep);font-weight:700;text-transform:uppercase;margin-bottom:14px;padding:0 4px}
-.nav-item{display:flex;align-items:center;gap:9px;padding:11px 12px;border-radius:11px;cursor:pointer;color:#4A6360;font-size:13.5px;font-weight:600;margin-bottom:3px}
+.side{width:250px;flex-shrink:0;position:sticky;top:24px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 12px;max-height:calc(100vh - 48px);overflow:auto}
+.side-title{font-size:11px;letter-spacing:.12em;color:var(--gold-deep);font-weight:700;text-transform:uppercase;padding:2px 10px 10px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:11px;color:#4A6360;font-size:13.5px;font-weight:600;cursor:pointer;text-decoration:none;user-select:none}
 .nav-item:hover{background:var(--mist)}
 .nav-item.active{background:var(--teal);color:#fff}
-.nav-item .cnt{margin-left:auto;font-size:11px;font-weight:400;background:var(--mist);color:#8CA19D;border-radius:10px;padding:1px 8px}
-.nav-item.active .cnt{background:rgba(255,255,255,.2);color:#fff}
-.nav-sep{font-size:11px;letter-spacing:.08em;color:#B0BEBA;font-weight:700;margin:14px 4px 8px;text-transform:uppercase}
-.nav-sep:first-child{margin-top:0}
-.nav-item.has-sub .arw{font-size:9px;color:#9AAAA6;transition:transform .15s;margin-left:2px}
+.nav-item .cnt{margin-left:auto;font-size:11px;background:var(--mist);color:#6B8480;border-radius:20px;padding:0 8px;line-height:18px;font-weight:600}
+.nav-item.active .cnt{background:rgba(255,255,255,.22);color:#fff}
+.nav-item .redo{font-size:10px;color:#C0603A;background:#FBEDE6;border-radius:20px;padding:0 6px;line-height:16px}
+.nav-item.active .redo{background:rgba(255,255,255,.22);color:#fff}
+.nav-item .arw{font-size:10px;color:#9AAAA6;transition:transform .15s;width:12px;text-align:center}
 .nav-item.open .arw{transform:rotate(90deg)}
-.nav-sub{margin:0 0 6px 14px;border-left:1.5px solid var(--line);padding-left:8px;overflow:hidden;transition:max-height .2s ease;max-height:0}
-.nav-item.open + .nav-sub{max-height:600px}
-.nav-lv{padding:7px 10px;border-radius:8px;cursor:pointer;color:#5A7370;font-size:12.5px}
-.nav-lv:hover{background:var(--mist)}
-.nav-lv.active{background:var(--teal);color:#fff}
+.nav-item.active .arw{color:#fff}
+.nav-sub{display:none;margin-left:14px;padding-left:6px;border-left:1.5px solid var(--line)}
+.nav-item.open+.nav-sub{display:block}
+.nav-sub .nav-item{font-size:13px;font-weight:500;padding:7px 10px}
+.nav-sub .nav-sub .nav-item{font-size:12.5px}
+.nav-sep{font-size:11px;letter-spacing:.1em;color:#B0BEBA;text-transform:uppercase;font-weight:700;padding:14px 10px 6px}
 .main{flex:1;min-width:0}
 .eyebrow{font-size:13px;letter-spacing:.14em;color:var(--gold-deep);font-weight:600;text-transform:uppercase}
 h1{font-size:27px;color:var(--ink-deep);margin:8px 0 6px;font-weight:700}
 h1 .sub{display:block;font-size:14px;color:#6B8480;font-weight:400;margin-top:6px}
-.intro{font-size:13.5px;color:#5A7370;margin:14px 0 20px}
-.filters{padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:22px;display:flex;flex-direction:column;gap:11px}
+.intro{font-size:13.5px;color:#5A7370;margin:14px 0 18px}
+.search{position:relative;margin-bottom:16px}
+.search input{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:13px 44px 13px 44px;font-size:15px;background:#fff;font-family:inherit;color:var(--ink-deep)}
+.search input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(46,90,102,.12)}
+.search .ico{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:16px;color:#9AAAA6;pointer-events:none}
+.search .clr{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:none;background:var(--mist);color:#6B8480;border-radius:20px;width:28px;height:28px;cursor:pointer;font-size:14px;display:none}
+.search.has .clr{display:block}
+.search .hint{font-size:12px;color:#9AAAA6;margin-top:6px;padding-left:4px}
+.filters{padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:22px;display:flex;flex-direction:column;gap:10px}
 .fl-row{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
 .fl-label{font-size:12px;color:#8CA19D;font-weight:600;min-width:52px;padding-top:6px;flex-shrink:0}
 .fl-set{display:flex;gap:8px;flex-wrap:wrap;flex:1}
-.fl-set button{border:1px solid var(--line);background:#fff;color:var(--teal);border-radius:20px;padding:5px 14px;font-size:12.5px;cursor:pointer}
+.fl-set button{border:1px solid var(--line);background:#fff;color:var(--teal);border-radius:20px;padding:5px 14px;font-size:12.5px;cursor:pointer;font-family:inherit}
 .fl-set button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
 .sort-set button{color:var(--gold-deep);border-color:#E7D9A8}
 .sort-set button.on{background:var(--gold-deep);color:#fff;border-color:var(--gold-deep)}
-.count{font-size:12.5px;color:#8CA19D;margin-bottom:18px}
+.count{font-size:12.5px;color:#8CA19D;margin-bottom:18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.count .crumb{color:var(--teal);font-weight:600}
+.count .crumb a{color:inherit;text-decoration:none}
+.count .crumb a:hover{text-decoration:underline}
+.unit-head{--accent:var(--teal);background:#fff;border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:14px;padding:20px 24px;margin-bottom:22px}
+.unit-head .uh-eyebrow{font-size:12px;letter-spacing:.08em;color:var(--gold-deep);font-weight:700}
+.unit-head h2{font-size:21px;color:var(--ink-deep);margin:4px 0 2px}
+.unit-head .en{font-size:13px;color:#9AAAA6;font-style:italic}
+.unit-head p{font-size:13.5px;color:#5A7370;margin:10px 0 14px}
+.unit-head .uh-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.unit-head .btn{background:var(--accent);color:#fff;text-decoration:none;font-size:13px;font-weight:600;border-radius:10px;padding:8px 16px}
+.unit-head .btn:hover{filter:brightness(1.08)}
+.unit-head .prog{font-size:12.5px;color:#6B8480}
+.unit-head .bar{flex:1;min-width:120px;max-width:260px;height:6px;background:var(--mist);border-radius:6px;overflow:hidden}
+.unit-head .bar i{display:block;height:100%;background:var(--accent)}
 .cat{margin-bottom:30px}
-.cat-title{font-size:13px;letter-spacing:.06em;color:var(--gold-deep);font-weight:700;margin:0 0 14px;padding-bottom:8px;border-bottom:1px dashed var(--line)}
-a.card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin-bottom:14px;transition:transform .12s,box-shadow .12s,border-color .12s;position:relative;overflow:hidden}
-a.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent,var(--teal))}
-a.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(22,51,59,.1);border-color:var(--teal)}
-.card-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.card .date{font-family:Georgia,serif;font-size:19px;font-weight:700;color:var(--ink-deep);line-height:1}
-.card .tag{font-size:10.5px;color:#fff;background:var(--accent,var(--teal));border-radius:20px;padding:2px 9px}
-.card h2{font-size:17px;color:var(--ink-deep);margin:7px 0 3px;font-weight:700}
-.card .en{font-family:Georgia,serif;font-size:12.5px;color:#9AAAA6;font-style:italic;margin-bottom:7px}
-.card .desc{font-size:12.5px;color:#5A7370;margin-bottom:9px}
-.card .meta{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;color:#8CA19D}
+.cat-title{font-size:13px;letter-spacing:.06em;color:var(--gold-deep);font-weight:700;margin:0 0 14px;padding-bottom:8px;border-bottom:1px dashed var(--line);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.cat-title a{color:var(--teal);text-decoration:none;font-size:12px;font-weight:500;margin-left:auto}
+.cat-title a:hover{text-decoration:underline}
+.cat-title .sub{font-size:12px;color:#9AAAA6;font-weight:400}
+a.card{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 22px 18px 24px;margin-bottom:12px;text-decoration:none;color:inherit;position:relative;transition:transform .12s,box-shadow .12s}
+a.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:14px 0 0 14px;background:var(--accent,var(--teal))}
+a.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(36,80,91,.10)}
+.card-top{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.card-top .date{font-family:Georgia,'Times New Roman',serif;font-size:19px;font-weight:700;color:var(--ink-deep)}
+.card-top .wk{font-size:11px;font-weight:700;color:#fff;background:var(--accent,var(--teal));border-radius:6px;padding:1px 8px;letter-spacing:.04em}
+.card-top .tag{font-size:11px;color:var(--gold-deep);background:#FBF5DE;border-radius:20px;padding:1px 10px;font-weight:600}
+.card-top .st{font-size:11px;border-radius:20px;padding:1px 9px;font-weight:600}
+.card-top .st.redo{color:#C0603A;background:#FBEDE6}
+.card-top .st.draft{color:#7A6A9E;background:#EFEBF6}
+.card-top .st.ok{color:#2E6B57;background:#E6F2EC}
+.card h2{font-size:17px;color:var(--ink-deep);margin:0 0 3px;font-weight:700;line-height:1.45}
+.card .en{font-size:12.5px;color:#9AAAA6;font-style:italic;margin-bottom:6px}
+.card .desc{font-size:12.5px;color:#5A7370;line-height:1.7}
+.card .snip{font-size:12.5px;color:#4A6360;background:#FBF8EC;border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:8px;line-height:1.7}
+.card .snip .lbl{font-size:11px;color:var(--gold-deep);font-weight:700;margin-right:6px}
+mark{background:#FFF0A6;color:inherit;border-radius:3px;padding:0 1px}
+.card .meta{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:#8CA19D;margin-top:10px}
+.card .meta .unit{color:var(--teal)}
 .empty{color:#A8B8B4;font-size:13px;padding:30px 0;text-align:center}
 .sync-box{margin-top:30px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px}
 .sync-box .sync-title{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--ink-deep);font-weight:700;cursor:pointer}
@@ -73,10 +107,10 @@ a.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(22,51,59,.1);
 .foot{margin-top:34px;font-size:12px;color:#A8B8B4;text-align:center;line-height:1.9}
 .side-toggle{display:none}
 @media(max-width:820px){
-.layout{flex-direction:column;gap:0}
-.side{width:100%;position:static;margin-bottom:6px;display:none}
+.layout{flex-direction:column;gap:0;padding:24px 16px 60px}
+.side{width:100%;position:static;margin-bottom:6px;display:none;max-height:none}
 .side.show{display:block}
-.side-toggle{display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 14px;font-size:13px;color:var(--teal);cursor:pointer}
+.side-toggle{display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 14px;font-size:13px;color:var(--teal);cursor:pointer;font-family:inherit}
 h1{font-size:23px}
 }
 </style>
@@ -90,8 +124,14 @@ h1{font-size:23px}
   <div class="main">
     <div class="eyebrow">FOGG 学习资料库</div>
     <h1>学习笔记本 · 目录<span class="sub">讲座、教研与每周课堂内容的可复习知识库</span></h1>
-    <p class="intro">左侧按「年份 → 课型 → 级别」快速定位,或用下面的筛选浏览。每页都支持划线、笔记、生词、书签、朗读、云同步。</p>
+    <p class="intro">左侧按「课型 → 级别 → 单元」或「讲座 → 年份」定位,也可以直接搜索:标题、章节、要点、生词都能搜到。每页都支持划线、笔记、生词、书签、朗读、云同步。</p>
     <button class="side-toggle" id="side-toggle">📂 打开导航</button>
+    <div class="search" id="search">
+      <span class="ico">🔍</span>
+      <input id="q" type="search" placeholder="搜索:red herring、开头、Kaelyn、PEEL、阅读理解……" autocomplete="off">
+      <button class="clr" id="q-clr" title="清空">✕</button>
+      <div class="hint" id="q-hint"></div>
+    </div>
     <div class="filters" id="filters">
       <div class="fl-row">
         <span class="fl-label">老师</span>
@@ -102,15 +142,20 @@ h1{font-size:23px}
         <div id="fl-year" class="fl-set"></div>
       </div>
       <div class="fl-row">
+        <span class="fl-label">状态</span>
+        <div id="fl-status" class="fl-set"></div>
+      </div>
+      <div class="fl-row">
         <span class="fl-label">排序</span>
-        <div class="fl-set sort-set">
-          <button id="sort-new" class="on">最新</button>
-          <button id="sort-old">最早</button>
-          <button id="sort-recent">最近在学</button>
+        <div class="fl-set sort-set" id="fl-sort">
+          <button data-v="new" class="on">最新</button>
+          <button data-v="old">最早</button>
+          <button data-v="recent">最近在学</button>
         </div>
       </div>
     </div>
     <div class="count" id="count"></div>
+    <div id="unit-head"></div>
     <div id="catalog"></div>
     <div class="sync-box" id="sync-box">
       <div class="sync-title" id="sync-title"><span class="st-dot" id="st-dot"></span>☁️ 多设备同步设置<span class="caret">▸</span></div>
@@ -127,147 +172,326 @@ h1{font-size:23px}
         <div class="sync-status" id="sync-status"></div>
       </div>
     </div>
-    <div class="foot">Shirley 造物日记 · FOGG 学习笔记本<br>划线 · 批注 · 生词 · 书签 · 云端同步 · 一键导出</div>
+    <div class="foot" id="foot">Shirley 造物日记 · FOGG 学习笔记本<br>划线 · 批注 · 生词 · 书签 · 云端同步 · 一键导出</div>
   </div>
 </div>
+<script src="catalog.js"></script>
 <script>
-var TYPE_NAMES={cw:'✍️ CW 创意写作', ew:'🗣️ EW 议论文', cn:'📖 中文阅读', en:'🔎 英文精读', inner:'🏢 内部讲座', outer:'🎤 外部讲座'};
-var GROUP_NAMES={'class':'🏫 课堂内容','talk':'🎤 讲座'};
-var GROUP_ORDER=['class','talk'];
-var TYPE_ORDER=['cw','ew','cn','en','inner','outer'];
-var COURSES = [
-  {file:'class-2026-08-24-mon-cw-alex-l8-wk9.html', lastKey:'cls-20260824-cw-alex-l8-wk9', teacher:'Alex', group:'class', type:'cw', level:8, accent:'#C0603A', date:'2026-08-24', tagText:'CW 8级 · Wk9', title:'侦探小说与悬念（Week 9 课堂实录）', en:'Detective Stories & Suspense', desc:'Kaelyn 的侦探小说 + 老师逐句点评（埋钩子/延迟揭示/克制/删冗余），海盗逃脱与四子棋训练"观察+推理"，隐藏主线 = puzzle→story。', speaker:'Teacher Alex', length:'约58分钟 · 周一'},
-  {file:'class-2026-06-29-mon-cw-alex-l8-wk1.html', lastKey:'cls-20260629-cw-alex-l8-wk1', teacher:'Alex', group:'class', type:'cw', level:8, accent:'#C0603A', date:'2026-06-29', tagText:'CW 8级 · Wk1', title:'侦探故事入门与推理（Week 1 课堂实录）', en:'Intro to Detective Stories', desc:'侦探故事的核心=悬念;用"找企鹅"练观察、用六个"细节谜题"练推理(deduce),识破谎言与不在场证明(alibi),最后 Lady Lavinia 谜案 + 本周作业。', speaker:'Teacher Alex', length:'约60分钟 · 周一'},
-  {file:'class-2026-07-06-mon-cw-alex-l8-wk2.html', lastKey:'cls-20260706-cw-alex-l8-wk2', teacher:'Alex', group:'class', type:'cw', level:8, accent:'#C0603A', date:'2026-07-06', tagText:'CW 8级 · Wk2', title:'玩弄读者的怀疑 · 创造你的侦探（Week 2 课堂实录）', en:'Playing with the Reader\'s Suspicions', desc:'从"一级答案"到 Kaelyn 的"二级侦探"(栽赃 frame);给三名嫌疑人写审讯问题——第二人称、alibi 强弱、间接/开放提问与语域;下半场用 Top Trumps 技能卡设计自己的侦探(quintessential/cantankerous/antihero/族裔),四步作业。', speaker:'Teacher Alex', length:'约59分钟 · 周一'},
-  {file:'class-2026-07-13-mon-cw-alex-l8-wk3.html', lastKey:'cls-20260713-cw-alex-l8-wk3', teacher:'Alex', group:'class', type:'cw', level:8, accent:'#C0603A', date:'2026-07-13', tagText:'CW 8级 · Wk3', title:'五种开头与作者的选择（Week 3 课堂实录）', en:'Five Ways to Open a Crime Story', desc:'精读《The Light of Day》开篇(第一人称、跳出来的叙述者);五种开头各拿走什么张力,全班投票"从罪犯开始";metonym / anachronistic / penultimate;一对一辅导:Alice 罗马尼亚→新加坡(secondment)、Kaelyn 的 they 之争、xuanying 的 build slower。', speaker:'Teacher Alex', length:'约60分钟 · 周一'},
-  {file:'class-2026-07-20-mon-cw-alex-l8-wk4.html', lastKey:'cls-20260720-cw-alex-l8-wk4', teacher:'Alex', group:'class', type:'cw', level:8, accent:'#C0603A', date:'2026-07-20', tagText:'CW 8级 · Wk4', title:'犯罪现场写作工坊与罪犯档案（Week 4 课堂实录）', en:'Crime Scene Workshop: Hold Back', desc:'钩子与克制;四段作业开头点评(第二人称凶手、they→the figure);一张犯罪现场图→限时写作→逐句实时点评:计划≠故事、overwriting、血的真实颜色、别泄露头条、老爷钟;xuanying "Two murders in one day?" = show don\'t tell;罪犯档案:两副面孔、勒索、激情犯罪。', speaker:'Teacher Alex', length:'约58分钟 · 周一'},
-  {file:'class-2026-07-27-mon-cw-alex-l8-wk5.html', lastKey:'cls-20260727-cw-alex-l8-wk5', teacher:'Alex', group:'class', type:'cw', level:8, accent:'#C0603A', date:'2026-07-27', tagText:'CW 8级 · Wk5', title:'六条规则与先写结局（Week 5 课堂实录）', en:'Six Rules & Write the Ending First', desc:'四个反派亮相,"侦探就是凶手"的代价;侦探故事六条规则:公平 / 阵容与 red herring(词源:猎犬追鱼)/ 读者不是福尔摩斯 / 反向工程 / plot hole / 别低估孩子;打破时间顺序先写最后一幕;辅导:双重身份的两条出路、反派获胜与一粒希望的种子。', speaker:'Teacher Alex', length:'约61分钟 · 周一'},
-  {file:'class-2026-08-03-mon-cw-alex-l8-wk6.html', lastKey:'cls-20260803-cw-alex-l8-wk6', teacher:'Alex', group:'class', type:'cw', level:8, accent:'#C0603A', date:'2026-08-03', tagText:'CW 8级 · Wk6', title:'Cluedo 谋杀案与可信的动机（Week 6 课堂实录）', en:'Cluedo: A Body, a Room, a Weapon', desc:'随机抽人物 / 房间 / 凶器(Colonel Mustard·图书馆·烛台…),脑暴动机:秘密赌徒的秘密必须藏得住、纵火、名媛入邪教、铅管暗示激情犯罪;范文"被注视的感觉";尽快把侦探送到庄园;动机→alibi→有计划 vs 激情:什么时候"没有谜"。', speaker:'Teacher Alex', length:'约61分钟 · 周一'},
-  {file:'class-2026-08-10-mon-cw-alex-l8-wk7.html', lastKey:'cls-20260810-cw-alex-l8-wk7', teacher:'Alex', group:'class', type:'cw', level:8, accent:'#C0603A', date:'2026-08-10', tagText:'CW 8级 · Wk7', title:'克里斯蒂的配方与语域切换（Week 7 课堂实录）', en:'Christie\'s Formula & a Lighter Case', desc:'三段 Cluedo 开头点评(rap vs rasp、简·奥斯汀腔);TED-Ed 视频:隔绝设定、2D 人物、读者记得却读错的线索、叙述者即凶手;刻板印象为何"正面"也有害;校园奖杯失窃案:把简单案子升级,换语气、不用侦探、斜体内心独白。', speaker:'Teacher Alex', length:'约59分钟 · 周一'},
-  {file:'class-2026-08-17-mon-cw-alex-l8-wk8.html', lastKey:'cls-20260817-cw-alex-l8-wk8', teacher:'Alex', group:'class', type:'cw', level:8, accent:'#C0603A', date:'2026-08-17', tagText:'CW 8级 · Wk8', title:'谜题与诡计:故事下面的机关（Week 8 课堂实录）', en:'Riddles: The Trick Beneath the Story', desc:'奖杯失窃三段开头点评(整篇就是钩子、强动词);五道侦探谜题(神秘访客:"哪一句说不通?"、月份拼名、冰里的毒);自己设计一道并互解:可解性、题外信息=作弊、鸡脚谜题、玻璃碎片、谜题 vs 故事;作业:把谜题扩写成完整故事。', speaker:'Teacher Alex', length:'约58分钟 · 周一'},
-  {file:'class-2026-08-24-cw-tim-l1-2.html', lastKey:'class-20260824-cw-tim-l12', teacher:'Tim', group:'class', type:'cw', level:1, accent:'#2E6B57', date:'2026-08-24', tagText:'CW 1–2级 · 待重做', title:'让文字发出声音', en:'Writing with Sound', desc:'（其他 AI 所做，待重做）精读 Hopkins《The Windhover》，用朗读辨认头韵、元音和谐、不协和音与半押韵。', speaker:'Teacher Tim', length:'待重做'},
-  {file:'class-2026-08-24-ew-alex-l3-4.html', lastKey:'class-20260824-ew-alex-l34', teacher:'Alex', group:'class', type:'ew', level:3, accent:'#7A6A9E', date:'2026-08-24', tagText:'EW 3–4级 · 待重做', title:'自由如何写成一篇论证', en:'Turning Freedom into an Argument', desc:'（其他 AI 所做，待重做）围绕"自由意味着什么"完成四部分反思性议论文，用 PEEL 组织。', speaker:'Teacher Alex', length:'待重做'},
-  {file:'reading-talk-study.html', lastKey:'reading-talk', teacher:'圆桌', group:'talk', type:'outer', level:'', accent:'#2E6B57', date:'2024-08-04', tagText:'中文阅读专场', title:'小学孩子阅读的关键是什么？', en:'', desc:'言词 × 宁宇 × 清滢 × 李洋 四位老师圆桌：阅读是复杂社会行为、读了≠读懂、别功利化、扬长避短、家长怎么陪读。', speaker:'宁宇 · 清滢 · 李洋', length:'约115分钟 · 全中文'},
-  {file:'louise-talk-study.html', lastKey:'louise-talk', teacher:'Louise', group:'talk', type:'outer', level:'', accent:'#B0741E', date:'2025-03-28', tagText:'Inkhead 创意写作', title:'我们如何教孩子写作', en:'How We Teach Children Writing', desc:'Louise（伦敦 Inkhead 创始人）谈：为乐趣而读写、用文字作画、工作坊教学法、找到孩子的声音。', speaker:'Louise', length:'约60分钟 · 中英对照'},
-  {file:'chris-talk-study.html', lastKey:'chris-talk', teacher:'Chris', group:'talk', type:'outer', level:'', accent:'#2E5A66', date:'2025-03-09', tagText:'阅读能力专场', title:'到底什么是阅读能力', en:'What Is Reading, Really?', desc:'Teacher Chris 谈：阅读即诠释、诠释的四个层次、AI 时代还要读吗、四个常见难题、家长怎么检查。', speaker:'Teacher Chris', length:'约80分钟 · 中英对照'},
-  {file:'meeting-talk-study.html', lastKey:'meeting-talk', teacher:'言词', group:'talk', type:'inner', level:'', accent:'#7A6A9E', date:'2025-02-21', tagText:'内部运营会议', title:'播报老师如何抓课堂重点', en:'', desc:'言词与播报老师的内部会议：三门课分别怎么抓重点、做宣传素材、如何转述给家长（含翻译的重要性）。', speaker:'言词 × 播报组', length:'约14分钟 · 内部'},
-  {file:'syllabus1-talk-study.html', lastKey:'syllabus1-talk', teacher:'言词', group:'talk', type:'inner', level:'', accent:'#2E6B57', date:'2025-02-21', tagText:'教纲研读 ①', title:'研读新加坡文学教纲（上）', en:'MOE Literature in English Syllabus', desc:'研读新加坡教育部中学文学教纲：为什么世界领先、文学课培养什么样的人、认知/社交/情感三维度、思维导图笔记法。', speaker:'言词（Yanci）', length:'约66分钟 · 内部'},
-  {file:'syllabus2-talk-study.html', lastKey:'syllabus2-talk', teacher:'言词', group:'talk', type:'inner', level:'', accent:'#B0741E', date:'2025-03-14', tagText:'教纲研读 ②', title:'研读新加坡文学教纲（下）', en:'MOE Syllabus · Case Studies', desc:'文学课培养目标、批判性思考、精读 vs 泛读，配 Chris 课堂实录与学生案例。', speaker:'言词 × 唐慧 × Google', length:'约90分钟 · 内部'},
-  {file:'syllabus-ref.html', lastKey:'syllabus-ref', teacher:'MOE', group:'talk', type:'inner', level:'', accent:'#2E5A66', date:'2025-02-21', tagText:'配套参考', title:'新加坡文学教纲 · 参考页', en:'Reference', desc:'两场教纲研读的配套参考：核心框架、培养目标、能力维度，供随时查阅对照（含 CCSS 对照）。', speaker:'MOE 文件整理', length:'参考资料'}
-];
-var sortMode="new", curType=null, curLevel=null, filterTeacher=null, filterYear=null;
-function fmtDate(d){return d.replace(/-/g,'.');}
-function yearOf(c){return c.date.slice(0,4);}
-function lastRead(k){var v=parseInt(localStorage.getItem("__last_read_"+k));return isNaN(v)?0:v;}
-function agoText(ts){if(!ts)return"还没开始读";var d=Date.now()-ts,day=86400000;if(d<3600000)return"刚刚学过";if(d<day)return"今天学过";if(d<2*day)return"昨天学过";var n=Math.floor(d/day);return n<30?n+" 天前学过":Math.floor(n/30)+" 个月前学过";}
-function markActive(){
-  document.querySelectorAll('.nav-item').forEach(function(x){x.classList.toggle('active',x.dataset.type===curType&&curLevel===null);});
-  document.querySelectorAll('.nav-lv').forEach(function(x){x.classList.toggle('active',x.dataset.type===curType&&String(curLevel)===x.dataset.lv);});
+(function(){
+'use strict';
+var C=window.CATALOG||{units:[],pages:[],typeNames:{}};
+var TYPE_NAMES={cw:'✍️ CW 创意写作',ew:'🗣️ EW 议论文',cn:'📖 中文阅读',en:'🔎 英文精读',lr:'📚 LR 文学阅读',inner:'🏢 内部讲座',outer:'🎤 外部讲座'};
+var TYPE_ORDER=['cw','ew','cn','en','lr'];
+var STATUS_TXT={ok:'✓ 已达标',redo:'待重做',draft:'草稿'};
+var UNITS={};C.units.forEach(function(u){UNITS[u.id]=u;});
+var PAGES=C.pages.slice();
+PAGES.forEach(function(p){
+  p.u=UNITS[p.unit]||null;
+  p.unitTitle=p.u?p.u.title:'';
+  p._t=(p.title||'').toLowerCase();
+  p._e=(p.en||'').toLowerCase();
+  p._d=(p.desc||'').toLowerCase();
+  p._m=[p.teacher,p.tagText,p.unitTitle,p.speaker,p.term,p.date,String(p.year)].join(' ').toLowerCase();
+  p._s=(p.sections||[]).join(' | ').toLowerCase();
+  p._g=(p.tags||[]).join(' ').toLowerCase();
+});
+var BODY={},BODYRAW={};   // key -> 正文文本(按年懒加载 search/<year>.js)
+var loadedYears={};
+var YEARS=[];PAGES.forEach(function(p){if(YEARS.indexOf(p.year)<0)YEARS.push(p.year);});YEARS.sort(function(a,b){return b-a;});
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function fmtDate(d){return (d||'').replace(/-/g,'.');}
+function lastRead(k){var v=parseInt(localStorage.getItem('__last_read_'+k));return isNaN(v)?0:v;}
+function agoText(ts){if(!ts)return'还没开始读';var d=Date.now()-ts,day=86400000;if(d<3600000)return'刚刚学过';if(d<day)return'今天学过';if(d<2*day)return'昨天学过';var n=Math.floor(d/day);return n<30?n+' 天前学过':Math.floor(n/30)+' 个月前学过';}
+function lvText(l){return l?'L'+l+' 级':'';}
+function $(id){return document.getElementById(id);}
+
+// ---------- 状态 ----------
+var state={sel:{all:1},q:'',teacher:'',year:'',status:'',sort:'new'};
+
+function matchSel(p,s){
+  if(s.all)return true;
+  if(s.unit)return p.unit===s.unit;
+  if(s.kind==='lesson')return p.kind==='lesson'&&(!s.type||p.type===s.type)&&(!s.level||p.level===s.level);
+  if(s.kind==='talk')return p.kind!=='lesson';
+  if(s.ttype)return p.kind!=='lesson'&&p.type===s.ttype&&(!s.year||p.year===s.year);
+  return true;
 }
-// 侧边：内容类型（课堂课型带级别子层 / 讲座内外）
+function selKey(s){return JSON.stringify(s);}
+function selCrumb(s){
+  var a=[];
+  if(s.all)return '全部';
+  if(s.unit){var u=UNITS[s.unit];a.push('课堂内容',TYPE_NAMES[u.type]||u.type,lvText(u.level),u.title);}
+  else if(s.kind==='lesson'){a.push('课堂内容');if(s.type)a.push(TYPE_NAMES[s.type]||s.type);if(s.level)a.push(lvText(s.level));}
+  else if(s.kind==='talk')a.push('讲座');
+  else if(s.ttype){a.push('讲座',TYPE_NAMES[s.ttype]||s.ttype);if(s.year)a.push(s.year+' 年');}
+  return a.join(' › ');
+}
+
+// ---------- 左侧树 ----------
+function cnt(s){var n=0;PAGES.forEach(function(p){if(matchSel(p,s))n++;});return n;}
+function item(label,s,opts){
+  opts=opts||{};
+  var h='<div class="nav-item'+(opts.sub?' has-sub':'')+'" data-sel=\''+esc(selKey(s))+'\'>';
+  if(opts.sub)h+='<span class="arw">▶</span>';
+  h+='<span class="lb">'+esc(label)+'</span>';
+  if(opts.redo)h+='<span class="redo">待重做 '+opts.redo+'</span>';
+  h+='<span class="cnt">'+cnt(s)+'</span></div>';
+  return h;
+}
 function buildTree(){
-  var nav=document.getElementById('tree');nav.innerHTML='';
-  function addSep(t){var s=document.createElement('div');s.className='nav-sep';s.textContent=t;nav.appendChild(s);}
-  function addClassType(t){
-    var inT=COURSES.filter(function(c){return c.type===t;}); if(!inT.length)return;
-    var el=document.createElement('div');el.className='nav-item has-sub open';el.dataset.type=t;
-    el.innerHTML=TYPE_NAMES[t]+'<span class="cnt">'+inT.length+'</span><span class="arw">▸</span>';
-    nav.appendChild(el);
-    var sub=document.createElement('div');sub.className='nav-sub';
-    var levels=[...new Set(inT.map(function(c){return c.level;}))].sort(function(a,b){return a-b;});
-    levels.forEach(function(lv){
-      var lvEl=document.createElement('div');lvEl.className='nav-lv';lvEl.dataset.type=t;lvEl.dataset.lv=String(lv);
-      lvEl.textContent=lv+' 级（'+inT.filter(function(c){return c.level===lv;}).length+'）';
-      lvEl.onclick=function(e){e.stopPropagation();curType=t;curLevel=lv;filterTeacher=null;filterYear=null;markActive();render();};
-      sub.appendChild(lvEl);
+  var h='';
+  h+=item('🏠 全部',{all:1});
+  h+='<div class="nav-sep">🏫 课堂内容</div>';
+  var lessonUnits=C.units.slice().sort(function(a,b){return b.year-a.year||String(a.level).localeCompare(String(b.level),undefined,{numeric:true})||a.title.localeCompare(b.title);});
+  var types=[];lessonUnits.forEach(function(u){if(types.indexOf(u.type)<0)types.push(u.type);});
+  types.sort(function(a,b){var ia=TYPE_ORDER.indexOf(a),ib=TYPE_ORDER.indexOf(b);return (ia<0?99:ia)-(ib<0?99:ib);});
+  h+=item('全部课堂',{kind:'lesson'});
+  types.forEach(function(t){
+    h+=item(TYPE_NAMES[t]||t,{kind:'lesson',type:t},{sub:1});
+    h+='<div class="nav-sub">';
+    var levels=[];lessonUnits.forEach(function(u){if(u.type===t&&levels.indexOf(u.level)<0)levels.push(u.level);});
+    levels.sort(function(a,b){return String(a).localeCompare(String(b),undefined,{numeric:true});});
+    levels.forEach(function(l){
+      var us=lessonUnits.filter(function(u){return u.type===t&&u.level===l;});
+      h+=item(lvText(l),{kind:'lesson',type:t,level:l},{sub:1});
+      h+='<div class="nav-sub">';
+      us.forEach(function(u){h+=item(u.term+' · '+u.teacher+' · '+u.title,{unit:u.id},{redo:u.redo});});
+      h+='</div>';
     });
-    nav.appendChild(sub);
-    el.onclick=function(){
-      // 点课型名字：切换展开/折叠 + 选中该课型
-      el.classList.toggle('open');
-      curType=t;curLevel=null;filterTeacher=null;filterYear=null;markActive();render();
-    };
+    h+='</div>';
+  });
+  h+='<div class="nav-sep">🎤 讲座</div>';
+  h+=item('全部讲座',{kind:'talk'});
+  ['outer','inner'].forEach(function(tt){
+    var ys=[];PAGES.forEach(function(p){if(p.kind!=='lesson'&&p.type===tt&&ys.indexOf(p.year)<0)ys.push(p.year);});
+    if(!ys.length)return;
+    ys.sort(function(a,b){return b-a;});
+    h+=item(TYPE_NAMES[tt],{ttype:tt},{sub:1});
+    h+='<div class="nav-sub">';
+    ys.forEach(function(y){h+=item(y+' 年',{ttype:tt,year:y});});
+    h+='</div>';
+  });
+  $('tree').innerHTML=h;
+  $('tree').onclick=function(e){
+    var it=e.target.closest('.nav-item');if(!it)return;
+    var s=JSON.parse(it.getAttribute('data-sel'));
+    var isArrow=e.target.classList.contains('arw');
+    if(it.classList.contains('has-sub')&&(isArrow||it.classList.contains('active'))){it.classList.toggle('open');return;}
+    if(it.classList.contains('has-sub'))it.classList.add('open');
+    setSel(s);
+    if(window.innerWidth<=820)$('side').classList.remove('show');
+  };
+}
+function markTree(){
+  var k=selKey(state.sel);
+  var items=$('tree').querySelectorAll('.nav-item');
+  for(var i=0;i<items.length;i++){
+    var it=items[i];
+    var on=it.getAttribute('data-sel')===k;
+    it.classList.toggle('active',on);
+    if(on){it.classList.add('open');var p=it.parentElement;while(p&&p.id!=='tree'){if(p.classList.contains('nav-sub')&&p.previousElementSibling)p.previousElementSibling.classList.add('open');p=p.parentElement;}}
   }
-  function addTalkType(t){
-    var n=COURSES.filter(function(c){return c.type===t;}).length; if(!n)return;
-    var el=document.createElement('div');el.className='nav-item';el.dataset.type=t;
-    el.innerHTML=TYPE_NAMES[t]+'<span class="cnt">'+n+'</span>';
-    el.onclick=function(){curType=t;curLevel=null;filterTeacher=null;filterYear=null;markActive();render();};
-    nav.appendChild(el);
-  }
-  addSep('🏫 课堂内容');
-  ['cw','ew','cn','en'].forEach(addClassType);
-  addSep('🎤 讲座');
-  ['inner','outer'].forEach(addTalkType);
-}function scopedList(){
-  return COURSES.filter(function(c){
-    if(c.type!==curType)return false;
-    if(curLevel!==null&&c.level!==curLevel)return false;
-    return true;
+}
+function setSel(s){state.sel=s;state.teacher='';state.year='';state.status='';markTree();render();}
+
+// ---------- 搜索分片 ----------
+function ensureShards(){
+  YEARS.forEach(function(y){
+    if(loadedYears[y])return;loadedYears[y]=1;
+    var sc=document.createElement('script');sc.src='search/'+y+'.js?v='+(C.generated||'');
+    sc.onload=function(){var part=(window.SEARCH_PARTS||{})[String(y)]||[];part.forEach(function(r){BODY[r.key]=(r.text||'').toLowerCase();BODYRAW[r.key]=r.text||'';});render();};
+    document.head.appendChild(sc);
   });
 }
-function buildFilters(){
-  var inScope=scopedList();
-  // 老师
-  var tbox=document.getElementById('fl-teacher');tbox.innerHTML='';
-  var teachers=[...new Set(inScope.map(function(c){return c.teacher;}))];
-  var tAll=document.createElement('button');tAll.textContent='全部';tAll.className=!filterTeacher?'on':'';
-  tAll.onclick=function(){filterTeacher=null;render();};tbox.appendChild(tAll);
-  teachers.forEach(function(tc){var b=document.createElement('button');b.textContent=tc;b.className=(filterTeacher===tc)?'on':'';b.onclick=function(){filterTeacher=tc;render();};tbox.appendChild(b);});
-  if(teachers.length<=1)tAll.style.display='none';
-  // 年份
-  var ybox=document.getElementById('fl-year');ybox.innerHTML='';
-  var years=[...new Set(inScope.map(yearOf))].sort(function(a,b){return b.localeCompare(a);});
-  var yAll=document.createElement('button');yAll.textContent='全部';yAll.className=!filterYear?'on':'';
-  yAll.onclick=function(){filterYear=null;render();};ybox.appendChild(yAll);
-  years.forEach(function(yr){var b=document.createElement('button');b.textContent=yr;b.className=(filterYear===yr)?'on':'';b.onclick=function(){filterYear=yr;render();};ybox.appendChild(b);});
-  if(years.length<=1)yAll.style.display='none';
+function terms(){return state.q.trim().toLowerCase().split(/\s+/).filter(Boolean);}
+function score(p,ts){
+  var total=0;
+  for(var i=0;i<ts.length;i++){
+    var t=ts[i],s=0;
+    if(p._t.indexOf(t)>=0)s+=10;
+    if(p._e.indexOf(t)>=0)s+=8;
+    if(p._d.indexOf(t)>=0)s+=5;
+    if(p._m.indexOf(t)>=0)s+=4;
+    if(p._g.indexOf(t)>=0)s+=4;
+    if(p._s.indexOf(t)>=0)s+=3;
+    var b=BODY[p.key];if(b&&b.indexOf(t)>=0)s+=1;
+    if(!s)return 0;
+    total+=s;
+  }
+  return total;
+}
+function reEsc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function hl(text,ts){
+  var out=esc(text);
+  if(!ts.length)return out;
+  var re=new RegExp('('+ts.map(reEsc).join('|')+')','gi');
+  return out.replace(re,'<mark>$1</mark>');
+}
+function snippet(p,ts){
+  var b=BODY[p.key];
+  var src=null,label='';
+  if(b){var lo=b,at=-1;for(var i=0;i<ts.length;i++){var j=lo.indexOf(ts[i]);if(j>=0&&(at<0||j<at))at=j;}
+    if(at>=0){src=BODYRAW[p.key]||b;var s0=Math.max(0,at-34),s1=Math.min(src.length,at+80);src=(s0>0?'…':'')+src.slice(s0,s1)+(s1<src.length?'…':'');label='正文';}}
+  if(!src){var hits=(p.sections||[]).filter(function(sec){var l=sec.toLowerCase();return ts.some(function(t){return l.indexOf(t)>=0;});});
+    if(hits.length){src=hits.slice(0,3).join(' / ');label='章节';}}
+  if(!src)return '';
+  return '<div class="snip"><span class="lbl">'+label+'</span>'+hl(src,ts)+'</div>';
+}
+
+// ---------- 筛选按钮 ----------
+function btnSet(id,vals,cur,fmt,onpick){
+  var el=$(id),h='<button data-v=""'+(cur===''?' class="on"':'')+'>全部</button>';
+  vals.forEach(function(v){h+='<button data-v="'+esc(v)+'"'+(String(cur)===String(v)?' class="on"':'')+'>'+esc(fmt(v))+'</button>';});
+  el.innerHTML=h;
+  el.onclick=function(e){var b=e.target.closest('button');if(!b)return;onpick(b.getAttribute('data-v'));render();};
+}
+function buildFilters(base){
+  var teachers=[],years=[],sts=[];
+  base.forEach(function(p){if(p.teacher&&teachers.indexOf(p.teacher)<0)teachers.push(p.teacher);if(years.indexOf(p.year)<0)years.push(p.year);var st=p.status||'ok';if(sts.indexOf(st)<0)sts.push(st);});
+  years.sort(function(a,b){return b-a;});
+  sts.sort();
+  btnSet('fl-teacher',teachers,state.teacher,function(v){return v;},function(v){state.teacher=v;});
+  btnSet('fl-year',years,state.year,function(v){return v+' 年';},function(v){state.year=v;});
+  btnSet('fl-status',sts,state.status,function(v){return STATUS_TXT[v]||v;},function(v){state.status=v;});
+  $('fl-status').parentElement.style.display=sts.length>1?'':'none';
+  var sb=$('fl-sort').querySelectorAll('button');for(var i=0;i<sb.length;i++)sb[i].classList.toggle('on',sb[i].getAttribute('data-v')===state.sort);
+}
+$('fl-sort').onclick=function(e){var b=e.target.closest('button');if(!b)return;state.sort=b.getAttribute('data-v');render();};
+
+// ---------- 卡片 ----------
+function card(p,ts,showWk,showUnit){
+  var st=p.status||'ok';
+  var h='<a class="card" href="'+esc(p.file)+'" style="--accent:'+esc(p.accent||'#2E5A66')+'">';
+  h+='<div class="card-top"><span class="date">'+fmtDate(p.date)+'</span>';
+  if(showWk&&p.week!=null)h+='<span class="wk">Wk '+p.week+'</span>';
+  if(p.tagText)h+='<span class="tag">'+esc(p.tagText)+'</span>';
+  if(st!=='ok')h+='<span class="st '+esc(st)+'">'+esc(STATUS_TXT[st]||st)+'</span>';
+  h+='</div><h2>'+hl(p.title,ts)+'</h2>';
+  if(p.en)h+='<div class="en">'+hl(p.en,ts)+'</div>';
+  h+='<div class="desc">'+hl(p.desc||'',ts)+'</div>';
+  if(ts.length)h+=snippet(p,ts);
+  h+='<div class="meta"><span>🎙 '+esc(p.speaker||p.teacher||'')+'</span>';
+  if(p.level)h+='<span>'+esc(lvText(p.level))+'</span>';
+  if(p.length)h+='<span>⏱ '+esc(p.length)+'</span>';
+  if(p.sections&&p.sections.length)h+='<span>📑 '+p.sections.length+' 节</span>';
+  h+='<span>📖 '+agoText(lastRead(p.key))+'</span>';
+  if(showUnit&&p.u)h+='<span class="unit">📚 '+esc(p.u.title)+'</span>';
+  h+='</div></a>';
+  return h;
+}
+function unitHead(u){
+  var done=u.count-u.redo,pct=u.count?Math.round(done/u.count*100):0;
+  return '<div class="unit-head" style="--accent:'+esc(u.accent)+'"><div class="uh-eyebrow">'+esc(u.term)+' · '+esc(TYPE_NAMES[u.type]||u.type)+' · '+esc(lvText(u.level))+' · '+esc(u.teacher)+(u.weekday?' · '+esc(u.weekday):'')+'</div>'
+    +'<h2>'+esc(u.title)+'</h2>'+(u.en?'<div class="en">'+esc(u.en)+'</div>':'')+'<p>'+esc(u.desc||'')+'</p>'
+    +'<div class="uh-row"><a class="btn" href="'+esc(u.file)+'">📚 打开单元总览</a><span class="prog">已达标 '+done+' / '+u.count+' 课</span><div class="bar"><i style="width:'+pct+'%"></i></div></div></div>';
+}
+
+// ---------- 渲染 ----------
+function sortList(list,mode,byWeek){
+  list.sort(function(a,b){
+    if(mode==='recent'){var d=lastRead(b.key)-lastRead(a.key);if(d)return d;}
+    if(byWeek&&mode!=='old')return (a.week||0)-(b.week||0)||a.date.localeCompare(b.date);
+    if(byWeek)return (b.week||0)-(a.week||0)||b.date.localeCompare(a.date);
+    return mode==='old'?a.date.localeCompare(b.date):b.date.localeCompare(a.date);
+  });
 }
 function render(){
-  if(!curType){ // 默认：展开最新一个类别
-    // 找"最新一门课"所属的 type
-    var newest=[...COURSES].sort(function(a,b){return b.date.localeCompare(a.date);})[0];
-    curType=newest?newest.type:'cw';
-    markActive();
-  }
-  buildFilters();
-  var list=COURSES.filter(function(c){
-    if(c.type!==curType)return false;
-    if(curLevel!==null&&c.level!==curLevel)return false;
-    if(filterTeacher&&c.teacher!==filterTeacher)return false;
-    if(filterYear&&yearOf(c)!==filterYear)return false;
+  var ts=terms();
+  var base=PAGES.filter(function(p){return matchSel(p,state.sel);});
+  buildFilters(base);
+  var list=base.filter(function(p){
+    if(state.teacher&&p.teacher!==state.teacher)return false;
+    if(state.year&&String(p.year)!==String(state.year))return false;
+    if(state.status&&(p.status||'ok')!==state.status)return false;
     return true;
   });
-  document.getElementById('count').textContent=TYPE_NAMES[curType]+(curLevel!==null?('　·　'+curLevel+' 级'):'')+'　·　共 '+list.length+' 份'+(filterTeacher?('　·　'+filterTeacher):'')+(filterYear?('　·　'+filterYear+'年'):'');
-  var box=document.getElementById('catalog');box.innerHTML='';
-  if(!list.length){box.innerHTML='<div class="empty">这个类别下暂时还没有内容</div>';return;}
-  // 按年份分组
-  var years=[...new Set(list.map(yearOf))];
-  years.sort(function(a,b){ return sortMode==='old'?a.localeCompare(b):b.localeCompare(a); });
-  years.forEach(function(yr){
-    var arr=list.filter(function(c){return yearOf(c)===yr;});
-    arr.sort(function(a,b){
-      if(sortMode==='recent')return lastRead(b.lastKey)-lastRead(a.lastKey);
-      return sortMode==='old'?a.date.localeCompare(b.date):b.date.localeCompare(a.date);
+  var s=state.sel,cat=$('catalog'),h='';
+  $('unit-head').innerHTML=(s.unit&&UNITS[s.unit]&&!ts.length)?unitHead(UNITS[s.unit]):'';
+  $('search').classList.toggle('has',!!state.q);
+  if(ts.length){
+    ensureShards();
+    var scored=[];
+    list.forEach(function(p){var r=score(p,ts);if(r)scored.push({p:p,r:r});});
+    scored.sort(function(a,b){return b.r-a.r||b.p.date.localeCompare(a.p.date);});
+    var allLoaded=YEARS.every(function(y){return (window.SEARCH_PARTS||{})[String(y)];});
+    $('q-hint').textContent=allLoaded?'搜索范围:标题、简介、章节、要点框、生词表':'正在加载正文索引…';
+    $('count').innerHTML='<span class="crumb">'+esc(selCrumb(s))+'</span><span>搜「'+esc(state.q.trim())+'」找到 '+scored.length+' 页</span>';
+    if(!scored.length){cat.innerHTML='<div class="empty">没有找到。试试换个词,或去掉左侧/上方的筛选。</div>';return;}
+    scored.forEach(function(x){h+=card(x.p,ts,x.p.kind==='lesson',true);});
+    cat.innerHTML=h;return;
+  }
+  $('q-hint').textContent='';
+  $('count').innerHTML='<span class="crumb">'+esc(selCrumb(s))+'</span><span>共 '+list.length+' 页</span>';
+  if(!list.length){cat.innerHTML='<div class="empty">这里还没有内容。</div>';return;}
+  if(s.unit){
+    sortList(list,state.sort,true);
+    list.forEach(function(p){h+=card(p,ts,true,false);});
+  }else if(s.kind==='lesson'||(s.all&&false)){
+    // 按单元分组
+    var groups={},order=[];
+    list.forEach(function(p){var k=p.unit||'_';if(!groups[k]){groups[k]=[];order.push(k);}groups[k].push(p);});
+    order.sort(function(a,b){var ua=UNITS[a]||{year:0,title:''},ub=UNITS[b]||{year:0,title:''};return ub.year-ua.year||ua.title.localeCompare(ub.title);});
+    order.forEach(function(k){
+      var u=UNITS[k],g=groups[k];sortList(g,state.sort,true);
+      h+='<div class="cat"><div class="cat-title">'+(u?esc(u.term+' · '+u.teacher+' · '+u.title)+'<span class="sub">'+esc(lvText(u.level))+' · '+g.length+' 课'+(u.redo?' · 待重做 '+u.redo:'')+'</span><a href="'+esc(u.file)+'">📚 单元总览 ›</a>':'其他')+'</div>';
+      g.forEach(function(p){h+=card(p,ts,true,false);});
+      h+='</div>';
     });
-    var cat=document.createElement('div');cat.className='cat';
-    var h=document.createElement('div');h.className='cat-title';h.textContent=yr+' 年（'+arr.length+'）';cat.appendChild(h);
-    arr.forEach(function(c){
-      var a=document.createElement('a');a.className='card';a.href=c.file;a.style.setProperty('--accent',c.accent);
-      var enH=c.en?'<div class="en">'+c.en+'</div>':'';
-      var lvH=(c.level!==''&&c.level!=null)?('<span>🎯 '+c.level+' 级</span>'):'';
-      a.innerHTML='<div class="card-top"><span class="date">'+fmtDate(c.date)+'</span><span class="tag">'+c.tagText+'</span></div><h2>'+c.title+'</h2>'+enH+'<div class="desc">'+c.desc+'</div><div class="meta"><span>🎙 '+c.speaker+'</span>'+lvH+'<span>⏱ '+c.length+'</span><span>📖 '+agoText(lastRead(c.lastKey))+'</span></div>';
-      cat.appendChild(a);
-    });
-    box.appendChild(cat);
-  });
+  }else{
+    sortList(list,state.sort,false);
+    if(state.sort==='recent'){list.forEach(function(p){h+=card(p,ts,p.kind==='lesson',true);});}
+    else{
+      var cur=null;
+      list.forEach(function(p){
+        if(p.year!==cur){if(cur!==null)h+='</div>';cur=p.year;h+='<div class="cat"><div class="cat-title">'+cur+' 年</div>';}
+        h+=card(p,ts,p.kind==='lesson',true);
+      });
+      if(cur!==null)h+='</div>';
+    }
+  }
+  cat.innerHTML=h;
+  writeHash();
 }
-function setSort(m,id){sortMode=m;['sort-new','sort-old','sort-recent'].forEach(function(x){var b=document.getElementById(x);if(b)b.classList.toggle('on',x===id);});render();}
-document.getElementById('sort-new').onclick=function(){setSort('new','sort-new')};
-document.getElementById('sort-old').onclick=function(){setSort('old','sort-old')};
-document.getElementById('sort-recent').onclick=function(){setSort('recent','sort-recent')};
-document.getElementById('side-toggle').onclick=function(){var s=document.getElementById('side');s.classList.toggle('show');this.textContent=s.classList.contains('show')?'📂 收起导航':'📂 打开导航';};
-buildTree();render();
+
+// ---------- URL 状态 ----------
+function writeHash(){
+  var s=state.sel,parts=[];
+  if(s.unit)parts.push('u='+encodeURIComponent(s.unit));
+  else if(s.kind==='lesson')parts.push('k=lesson'+(s.type?'&t='+s.type:'')+(s.level?'&l='+encodeURIComponent(s.level):''));
+  else if(s.kind==='talk')parts.push('k=talk');
+  else if(s.ttype)parts.push('tt='+s.ttype+(s.year?'&y='+s.year:''));
+  if(state.q)parts.push('q='+encodeURIComponent(state.q));
+  if(state.sort!=='new')parts.push('o='+state.sort);
+  var nh=parts.length?'#'+parts.join('&'):'';
+  if(location.hash!==nh)history.replaceState(null,'',nh||location.pathname+location.search);
+  lastHash=location.hash;
+}
+function readHash(){
+  var hsh=location.hash.replace(/^#/,'');if(!hsh)return;
+  var m={};hsh.split('&').forEach(function(kv){var i=kv.indexOf('=');if(i>0)m[kv.slice(0,i)]=decodeURIComponent(kv.slice(i+1));});
+  if(m.u&&UNITS[m.u])state.sel={unit:m.u};
+  else if(m.k==='lesson'){state.sel={kind:'lesson'};if(m.t)state.sel.type=m.t;if(m.l)state.sel.level=m.l;}
+  else if(m.k==='talk')state.sel={kind:'talk'};
+  else if(m.tt){state.sel={ttype:m.tt};if(m.y)state.sel.year=parseInt(m.y);}
+  if(m.q){state.q=m.q;$('q').value=m.q;}
+  if(m.o)state.sort=m.o;
+}
+
+// ---------- 搜索框 ----------
+var qt=null;
+$('q').addEventListener('input',function(){clearTimeout(qt);var v=this.value;qt=setTimeout(function(){state.q=v;render();writeHash();},120);});
+$('q').addEventListener('keydown',function(e){if(e.key==='Escape'){this.value='';state.q='';render();}});
+$('q-clr').onclick=function(){$('q').value='';state.q='';render();$('q').focus();};
+$('side-toggle').onclick=function(){$('side').classList.toggle('show');};
+$('foot').innerHTML+='<br>目录 '+esc(C.generated||'')+' 生成 · '+PAGES.length+' 页 · '+C.units.length+' 个单元';
+
+buildTree();readHash();markTree();render();
+if(state.q)ensureShards();
+var lastHash=location.hash;
+window.addEventListener('hashchange',function(){if(location.hash===lastHash)return;lastHash=location.hash;state.sel={all:1};state.q='';$('q').value='';state.sort='new';state.teacher='';state.year='';state.status='';readHash();markTree();render();if(state.q)ensureShards();});
+})();
+
 (function(){
 var CFG_GIST='__cfg_gist_id',CFG_TOKEN='__cfg_gist_token';
 var box=document.getElementById('sync-box'),title=document.getElementById('sync-title'),dot=document.getElementById('st-dot');

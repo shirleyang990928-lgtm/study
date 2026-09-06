@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}} · 单元总览 · FOGG 学习笔记本</title>
+<style>
+:root{--ink:#24505B;--ink-deep:#16333B;--teal:#2E5A66;--paper:#FBFBF8;--gold:#E8C558;--gold-deep:#B08A1E;--line:#D5DEDC;--mist:#EEF3F2;--accent:{{ACCENT}}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink-deep);font-family:"Noto Serif SC","Songti SC","PingFang SC",Georgia,serif;line-height:1.7}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 60px}
+.crumb{font-size:13px;color:var(--ink);margin-bottom:18px;display:flex;gap:10px;flex-wrap:wrap}
+.crumb a:hover{color:var(--gold-deep)}
+.hero{background:#fff;border:1px solid var(--line);border-left:6px solid var(--accent);border-radius:12px;padding:26px 28px;margin-bottom:22px}
+.eyebrow{font-size:12px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase}
+.hero h1{margin:6px 0 2px;font-size:30px;line-height:1.3}
+.hero .en{font-family:Georgia,serif;font-style:italic;color:var(--teal);margin-bottom:12px}
+.hero .desc{color:var(--ink)}
+.facts{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:14px;font-size:13px;color:var(--ink)}
+.facts b{color:var(--ink-deep)}
+.progress{margin-top:12px;font-size:13px}
+.bar{height:8px;background:var(--mist);border-radius:4px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--accent);width:calc({{DONE}} / {{COUNT}} * 100%)}
+h2{font-size:16px;letter-spacing:.06em;color:var(--teal);border-bottom:2px solid var(--gold);display:inline-block;padding-bottom:2px;margin:26px 0 12px}
+.outline{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 22px 16px 40px;margin:0;font-size:14.5px}
+.outline li{margin:4px 0}
+.outline:empty{display:none}
+.lesson{display:flex;gap:16px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px;transition:.15s}
+.lesson:hover{border-color:var(--accent);box-shadow:0 4px 18px rgba(36,80,91,.08)}
+.wk{flex:0 0 64px;height:64px;border-radius:10px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+.body{flex:1;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--ink)}
+.st{padding:1px 8px;border-radius:10px;font-size:11px}
+.st.ok{background:#E3F1EA;color:#2E6B57}.st.redo{background:#FBEAD6;color:#B25A1B}
+.lesson h3{margin:4px 0 2px;font-size:18px}
+.lesson h3 a:hover{color:var(--gold-deep)}
+.lesson .en{font-family:Georgia,serif;font-style:italic;color:var(--teal);font-size:14px}
+.lesson .desc{font-size:14px;color:var(--ink);margin:6px 0}
+details{font-size:13px;color:var(--ink)}
+summary{cursor:pointer;color:var(--teal)}
+details ol{margin:6px 0 0;padding-left:22px}
+.meta{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink);margin-top:8px}
+.foot{text-align:center;font-size:12px;color:var(--ink);margin-top:40px;opacity:.8}
+@media(max-width:600px){.hero h1{font-size:24px}.lesson{gap:12px}.wk{flex-basis:50px;height:50px;font-size:13px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="crumb"><a href="../../index.html">🏠 目录</a><span>›</span><span>{{YEAR}}</span><span>›</span><span>{{TYPE}}</span><span>›</span><span>{{LEVEL}}</span><span>›</span><b>{{TITLE}}</b></div>
+  <div class="hero">
+    <div class="eyebrow">{{TERM}} · {{TYPE}} · {{LEVEL}} · 单元总览</div>
+    <h1>{{TITLE}}</h1>
+    <div class="en">{{EN}}</div>
+    <div class="desc">{{DESC}}</div>
+    <div class="facts"><span>🎙 老师 <b>{{TEACHER}}</b></span><span>📅 {{WEEKDAY}}</span><span>📚 共 <b>{{COUNT}}</b> 课</span><span>🗂 {{UNIT_ID}}</span></div>
+    <div class="progress">达标进度 <b>{{DONE}}</b> / {{COUNT}}<div class="bar"><i></i></div></div>
+  </div>
+  <h2>单元脉络</h2>
+  <ol class="outline">{{OUTLINE}}</ol>
+  <h2>课程列表</h2>
+  {{LESSONS}}
+  <div class="foot">Shirley 造物日记 · FOGG 学习笔记本 · 本页由 build_site.py 自动生成</div>
+</div>
+<script>
+(function(){
+  function ago(k){var t=+localStorage.getItem('__last_read_'+k)||0;if(!t)return '还没开始读';var d=Math.floor((Date.now()-t)/864e5);if(d<=0)return '今天学过';if(d==1)return '昨天学过';if(d<30)return d+' 天前学过';return Math.floor(d/30)+' 个月前学过'}
+  document.querySelectorAll('.lesson').forEach(function(el){el.querySelector('.last').textContent='📖 '+ago(el.dataset.key)});
+})();
+</script>
+</body>
+</html>

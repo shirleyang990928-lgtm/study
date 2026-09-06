@@ -1,0 +1,21 @@
+{
+ "id": "2026s2-cw-l7-8-alex-mon",
+ "year": 2026, "term": "2026 S2",
+ "type": "cw", "level": "7-8", "teacher": "Alex", "weekday": "周一",
+ "title": "侦探小说单元", "en": "Detective Fiction Unit",
+ "desc": "9 周从「观察与推理」走到「从谜题到故事」:玩弄读者怀疑、开头五种方式、反派档案、连环杀手与三法则、Cluedo 群戏、逐句精修、工坊互评,最后写出一篇完整的侦探故事。",
+ "accent": "#C0603A",
+ "speaker": "Teacher Alex", "length": "约60分钟 · 周一",
+ "zoom": "CW_26_S2_MON_L7-8_Alex",
+ "outline": [
+  "W1 观察与推理 deduce",
+  "W2 玩弄读者怀疑(一级/二级、frame 嫁祸、审问问题、打造侦探)",
+  "W3 分享侦探 + 开头五种方式 + 视角代词",
+  "W4 开头反馈、看图写场景、作者的选择、反派档案",
+  "W5 连环杀手、侦探即凶手、三法则、red herring、先写结局",
+  "W6 逆向工程、Cluedo 群戏、动机+alibi",
+  "W7 逐句精修、克里斯蒂视频、人物层次、奖杯失窃案",
+  "W8 工坊互评、解谜、riddle vs story",
+  "W9 从谜题到故事"
+ ]
+}

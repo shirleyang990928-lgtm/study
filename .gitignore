@@ -1,0 +1,17 @@
+node_modules/
+package.json
+package-lock.json
+_handover/
+_migrate/
+.claude/
+*.vtt
+wk*_blocks.txt
+wk*_body*.html
+wk*_nav.html
+wk*_preset.json
+wk*_meta.json
+build_wk*.py
+!_build/build_wk*.py
+__pycache__/
+.DS_Store
+Thumbs.db

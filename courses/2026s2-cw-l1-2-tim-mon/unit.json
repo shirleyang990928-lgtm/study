@@ -1,0 +1,11 @@
+{
+ "id": "2026s2-cw-l1-2-tim-mon",
+ "year": 2026, "term": "2026 S2",
+ "type": "cw", "level": "1-2", "teacher": "Tim", "weekday": "周一",
+ "title": "低年级创意写作", "en": "Creative Writing L1-2",
+ "desc": "Tim 老师的 1-2 级创意写作课。目前只有 Week 9 一堂(旧版页面,待按标准重做),其余周次待补。",
+ "accent": "#2E6B57",
+ "speaker": "Teacher Tim", "length": "约60分钟 · 周一",
+ "zoom": "CW_26_S2_MON_L1-2_Tim",
+ "outline": []
+}
