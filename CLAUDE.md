@@ -8,8 +8,7 @@ https://shirleyang990928-lgtm.github.io/study/
 ## 你的任务
 
 把每堂课的 Zoom VTT 转录做成一个课堂页 HTML,放进对应班级文件夹,跑 `python _build/build_site.py`,`git push` 上线。
-**一次只做一堂课。做完停下来给 Shirley 验收,她说"继续"再做下一堂。** 每堂课之间 `/clear`。
-不要一次做多堂——历史证明一次做多会滑标准(要点概括代替原文)。
+**现行做法(2026-09-08 起):教学还原版,每堂课一个 Sonnet subagent,一批 8–10 堂并行,主会话统一 build + push(见下「课堂页标准 · 教学还原版」)。** 主会话自己不写课页(一次做多堂会滑标准)。
 每堂课页设计完全一样(只有文字不同),不要自创新版式;能省 token 就省,质量不能降。
 
 ## 当前状态(2026-09-06)
@@ -17,6 +16,7 @@ https://shirleyang990928-lgtm.github.io/study/
 - 2026-09-06 完成骨架重构:分类改为 **课程 → Level → 单元 → 年份 → 老师班级 → 周课页**,总目录 index.html 改为单页应用(课程 tab、等级卡、单元卡、全文搜索、筛选)。
 - Alex CW Level 8「创作侦探故事」2026 S2 周一班:Week 1-10 全部达标(2026-09-06 完成)。
 - Tim CW Level 2「Painting with Words」2026 S2 周一班(`l02-u1-painting-with-words/2026s2-tim-mon`):Week 1、3、4、6、7、8、9、10 达标(2026-09-06 由多个 subagent 并行完成;Wk9 旧杂烩页已重做,key 沿用 `class-20260824-cw-tim-l12`;Wk8 为代课老师 Louise)。**Week 2(07-06)、Week 5(07-27)的 Zoom 录音只有约 30 秒,无课页,待 Shirley 决定(查 Zoom 后台 / 做占位 draft / 跳过)。**
+- 2026-09-08:周一/周二/周三 2026 S2 各班(逐句版)已上线。周四/周五共 82 堂按教学还原版由 Sonnet subagent 批量制作中:Louise CW L1 周四、Will CW L1 周四(W1=07-09,W2 代课 Ben)、Fran CW L4 周四、George EN L1 周四(W1=08-06)、Alex EW L2 周四 7pm、Alex EW L4 周四 8pm(跳 07-16)、Tim CW L4 周五 7pm/8pm、Ben EW L6 周五(跳 07-10、07-31)、Alex CW L3 周五(仅 08-21,按 W1)。这些班的 class.json `style` 为「(待补充)」,单元归属(按招生范围推断的教材等级)待 Shirley 确认。
 - Alex EW Level 4 Wk9:旧版杂烩页,标 redo,以后重做。
 - 等级表:CW 12 级、EN 10 级、EW 6 级已录入(`_build/curriculum/`);CN 8 级只有级别、单元待 Shirley 给资料;EW 单元名是占位(tbd)。
 - 之后:2025 年全部班级数据导入(同单元跨年比较课程设计);其它公司课程作为新 org 加入。
@@ -71,7 +71,30 @@ _build/                    构建脚本与样板(见流水线)
 文件名 = 日期 + Zoom 课程标题 + 录制 ID。同步脚本 `FOGG Skill Work/zoom-api/sync-zoom-transcripts.ps1`,日志 `Zoom_Transcripts/_sync-index.jsonl`。
 中间产物(blocks/body/nav/preset/meta)放在 scratchpad 或仓库根目录(已 .gitignore),不要提交。
 
-## 课堂页质量标准(死线 — 只能更好,不能更差)
+## 课堂页标准 · 教学还原版(2026-09-08 起的现行标准)
+
+Shirley 2026-09-08 定:以后所有课页按「教学还原版」做,样板 `samples/harriet-l6-wk07-lite.html`(版式只有文字不同)。规则全文在 `_build/COMMON_BRIEF_LITE.md`,要点:
+
+- 目标读者是不上课的中文运营,要「看完就懂这节教了什么、怎么教、好在哪坏在哪」,不是逐句转录。
+- 6–8 个 section,每节:`.sec-head`(编号+标题)→ `.sec-time`(时间段+环节性质)→ 3–6 段 `<p class="narr">` 旁白(每段 ≤130 字,一段一个意思,可高亮)→ 3–5 条中英原话引文(`.para.dialog`)→ 黄框 `.keypoints` → 墨绿框 `.explain`。
+- 每个教学环节都不能跳;学生作品原文、老师当堂改稿前后逐字保留;出版书原文长段只中英概括并注书名。
+- 最后一节「专业课程评析」必含单独一条「哪里不好、可以做得更好」(具体到环节/学生/时间分配 + 可操作建议),只夸不达标。
+- preset 约 10 个术语;key 格式 `cls-YYYYMMDD-<type>-<seg>-l<level>-wkN`(同一老师两个班用 seg 区分,如 tim7/tim8、alex/alex8;代课周 key 仍用原老师 seg)。
+- 每页约 1.2–2 万 token 产出;逐句版(下文)只用于 Shirley 点名要逐句的课。
+
+### 流水线(教学还原版,多堂并行)
+
+```
+python _build/vtt2lite.py "<VTT>" <SP>/lite/<tag>/wkNN.txt     # 压缩转录(去填充词/合并同说话人),放 scratchpad,绝不进仓库
+# 每个班一份 BRIEF_<tag>.md(周→压缩转录→输出页名表 + key 格式 + program/unit/class),生成脚本见 scratchpad gen_briefs.py 的思路
+# 每堂课一个 Sonnet subagent(model "sonnet"),prompt:先读 COMMON_BRIEF_LITE.md + BRIEF_<tag>.md,只做 W<N>
+#   subagent 自己:读完压缩转录 → Write body/nav/preset/meta → assemble.py → testwkX.js,不 git 不 build_site
+python _build/build_site.py && node _build/testwkX.js <本批所有页>   # 主会话每批统一跑,然后 commit + push
+```
+
+主会话不做重活,只发 agent、校验、提交。一批 8–10 个 agent 并行。
+
+## 课堂页质量标准 · 逐句版(旧标准,仅按需使用)
 
 以 `_build/TEMPLATE-week1-standard.html`(= courses/fogg-cw/l08-u1-crime-story/2026s2-alex-mon/wk01-2026-06-29.html)为样板,逐条对照:
 

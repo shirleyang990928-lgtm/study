@@ -21,6 +21,8 @@ def main():
         print(__doc__); sys.exit(2)
     meta = json.loads(rd(sys.argv[1]))
     nav = rd(sys.argv[2]).rstrip('\n')
+    if 'class="map"' not in nav:
+        nav = '  <nav class="map" id="map">' + chr(10) + nav + chr(10) + '  </nav>'
     body = rd(sys.argv[3]).rstrip('\n')
     preset = rd(sys.argv[4]).strip()
     json.loads(preset)  # 校验
