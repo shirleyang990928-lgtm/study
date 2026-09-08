@@ -11,14 +11,18 @@ https://shirleyang990928-lgtm.github.io/study/
 **现行做法(2026-09-08 起):教学还原版,每堂课一个 Sonnet subagent,一批 8–10 堂并行,主会话统一 build + push(见下「课堂页标准 · 教学还原版」)。** 主会话自己不写课页(一次做多堂会滑标准)。
 每堂课页设计完全一样(只有文字不同),不要自创新版式;能省 token 就省,质量不能降。
 
-## 当前状态(2026-09-06)
+## 当前状态(2026-09-08)
 
-- 2026-09-06 完成骨架重构:分类改为 **课程 → Level → 单元 → 年份 → 老师班级 → 周课页**,总目录 index.html 改为单页应用(课程 tab、等级卡、单元卡、全文搜索、筛选)。
-- Alex CW Level 8「创作侦探故事」2026 S2 周一班:Week 1-10 全部达标(2026-09-06 完成)。
-- Tim CW Level 2「Painting with Words」2026 S2 周一班(`l02-u1-painting-with-words/2026s2-tim-mon`):Week 1、3、4、6、7、8、9、10 达标(2026-09-06 由多个 subagent 并行完成;Wk9 旧杂烩页已重做,key 沿用 `class-20260824-cw-tim-l12`;Wk8 为代课老师 Louise)。**Week 2(07-06)、Week 5(07-27)的 Zoom 录音只有约 30 秒,无课页,待 Shirley 决定(查 Zoom 后台 / 做占位 draft / 跳过)。**
-- 2026-09-08:周一/周二/周三 2026 S2 各班(逐句版)已上线。周四/周五共 82 堂按教学还原版由 Sonnet subagent 批量制作中:Louise CW L1 周四、Will CW L1 周四(W1=07-09,W2 代课 Ben)、Fran CW L4 周四、George EN L1 周四(W1=08-06)、Alex EW L2 周四 7pm、Alex EW L4 周四 8pm(跳 07-16)、Tim CW L4 周五 7pm/8pm、Ben EW L6 周五(跳 07-10、07-31)、Alex CW L3 周五(仅 08-21,按 W1)。这些班的 class.json `style` 为「(待补充)」,单元归属(按招生范围推断的教材等级)待 Shirley 确认。
-- Alex EW Level 4 Wk9:旧版杂烩页,标 redo,以后重做。
-- 等级表:CW 12 级、EN 10 级、EW 6 级已录入(`_build/curriculum/`);CN 8 级只有级别、单元待 Shirley 给资料;EW 单元名是占位(tbd)。
+- 骨架:课程 → Level → 单元 → 年份 → 老师班级 → 周课页;总目录 index.html 是单页应用(课程 tab、等级卡、单元卡、全文搜索、筛选)。
+- **2026 S2 全部班级已上线**:21 个班、189 个页面。周一/周二/周三各班为逐句版;周四/周五 10 个班共 82 堂已按「教学还原版」由 Sonnet subagent 批量做完并 push(Louise CW L1 周四、Will CW L1 周四、Fran CW L4 周四、George EN L1 周四、Alex EW L2 周四 7pm、Alex EW L4 周四 8pm、Tim CW L4 周五 7pm/8pm、Ben EW L6 周五、Alex CW L3 周五)。82 堂共花 subagent token 约 651 万,平均每堂约 7.9 万。
+- 待 Shirley 确认:这 10 个班 class.json 的 `style` 仍是「(待补充)」;EW 三个单元名仍是占位(`l02-u1-tbd`/`l04-u1-tbd`/`l06-u1-tbd`);Tim 周五 7pm 某学生的名字(EJ / Joshua / Iger,说话人标 YIZHE,现统一写 EJ)。
+- **Alex CW Level 3 周五 4pm 班是 1对2 试课,不算正常体系**,只有 08-21 一堂录音;class.json 已 `standard:false`,`style` 写明,Wk2-10 的 outline 写明原因。
+- **缺周原因已全部写进各班 class.json 的 `outline`**(单元页上代替「尚未整理」显示):
+  - 录音截断/只有几十秒,做不了:Tim CW L2 周一 W2(07-06)、W5(07-27);Louise CW L6 周二8pm W4(07-21);Harriet CW L9 周二 W6(08-04);Louise CW L11 周三 W3(07-15);Alex EW L4 周一 W3(07-13)、W4(07-20);Alex EW L4 周四8pm W3(07-16);Ben EW L6 周五 W2(07-10)、W5(07-31)。
+  - Zoom 当周根本没有录音文件:Fran CW L4 周三 W4(07-22);Ben CW L6 周一 W9(08-24);George EN L7 周二 W10(09-01)。
+  - 本来就没上满 10 周:Will CW L1 周四 07-09 开课,只有 9 周;George EN L1 周四 08-06 开课,只有 5 周。
+- Alex EW Level 4 Wk9、Fran CW L4 周三有 1 堂:旧版杂烩页,标 redo,以后重做。
+- 等级表:CW 12 级、EN 10 级、EW 6 级已录入(`_build/curriculum/`);CN 8 级只有级别、单元待 Shirley 给资料。
 - 之后:2025 年全部班级数据导入(同单元跨年比较课程设计);其它公司课程作为新 org 加入。
 
 ## 分类原则(Shirley 定的,不要改)
