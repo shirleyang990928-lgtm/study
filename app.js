@@ -196,7 +196,7 @@ function showSelPopup(){
   if(!sel||sel.isCollapsed){pop.style.display='none';return}
   const text=sel.toString().replace(/\s+/g,' ').trim();
   const node=sel.anchorNode;const anchor=node&&(node.nodeType===3?node.parentElement:node);
-  const en=anchor&&anchor.closest?anchor.closest('.en,.keypoints,.explain,.sec-head'):null;
+  const en=anchor&&anchor.closest?anchor.closest('.en,.keypoints,.explain,.sec-head,.narr'):null;
   if(!en||text.length<2){pop.style.display='none';return}
   // 中文译文区不参与（避免和 .sz 冲突）
   if(anchor.closest&&anchor.closest('.sz,.zh-block')){pop.style.display='none';return}
@@ -531,7 +531,7 @@ function applyHighlight(secId,text,hid){
   const target=text.replace(/\s+/g,' ').trim();
   const esc=target.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/ /g,'[\\s\\u00a0]+');
   const re=new RegExp(esc);
-  for(const en of sec.querySelectorAll('.en,.keypoints,.explain,.sec-head')){
+  for(const en of sec.querySelectorAll('.en,.keypoints,.explain,.sec-head,.narr')){
     // 收集英文文本节点（跳过隐藏的中文 .sz）
     const walker=document.createTreeWalker(en,NodeFilter.SHOW_TEXT,{acceptNode:n=>{
       return n.parentElement&&n.parentElement.closest('.sz,.zh-block')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT;
