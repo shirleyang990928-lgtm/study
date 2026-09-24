@@ -906,21 +906,106 @@ async function reloadFromStore(){
   mm.querySelectorAll('button,a').forEach(function(b){ b.addEventListener('click',function(){ setTimeout(function(){mm.classList.remove('on')},50); }); });
 })();
 
-// ---- 大脑库来源页:自测题展开 + 「我的输出」自动保存(课页没有这些元素时静默) ----
+// ---- 大脑库来源页 v2:自动保存 / 挖空复述 / 对照原版 / 只看提示 / 自测自评(课页没有这些元素时静默) ----
 (function(){
-  const OUT_KEY=KEYBASE+'-output';
   document.addEventListener('click',e=>{const qt=e.target.closest('.quiz .qt');if(qt&&qt.parentNode)qt.parentNode.classList.toggle('open')});
-  const ta=document.getElementById('my-output');
-  if(!ta)return;
-  let outTimer=null;
-  async function restore(){try{const v=await store.get(OUT_KEY);if(v!=null&&ta.value!==v)ta.value=v}catch(e){}}
-  ta.addEventListener('input',()=>{
-    setState('保存中…');try{localStorage.setItem(LAST_READ_KEY,Date.now())}catch(e){}
-    clearTimeout(outTimer);
-    outTimer=setTimeout(async()=>{try{await store.set(OUT_KEY,ta.value);setState(cloudOn?'✓ 已保存（同步中…）':'✓ 已保存 '+nowT())}catch(e){setState('⚠ 保存失败')}},700);
+
+  // 1) 所有 textarea[data-save] + 旧 #my-output 自动保存到 <key>-<name>
+  const tas=[...new Set([...document.querySelectorAll('textarea[data-save],#my-output')])];
+  const taKey=ta=>KEYBASE+'-'+(ta.getAttribute('data-save')||'output');
+  tas.forEach(ta=>{
+    let tm=null;
+    ta.addEventListener('input',()=>{
+      setState('保存中…');try{localStorage.setItem(LAST_READ_KEY,Date.now())}catch(e){}
+      clearTimeout(tm);
+      tm=setTimeout(async()=>{try{await store.set(taKey(ta),ta.value);setState(cloudOn?'✓ 已保存（同步中…）':'✓ 已保存 '+nowT())}catch(e){setState('⚠ 保存失败')}},700);
+    });
   });
-  const _load=load;
-  load=async function(){await _load.apply(this,arguments);await restore()};
+  if(tas.length){
+    const _load=load;
+    load=async function(){
+      await _load.apply(this,arguments);
+      for(const ta of tas){if(ta===document.activeElement)continue;try{const v=await store.get(taKey(ta));if(v!=null&&ta.value!==v)ta.value=v}catch(e){}}
+    };
+  }
+
+  // 2) 挖空复述(每次都取活元素:句子 DOM 会被重建,不能缓存)
+  const Q=()=>[...document.querySelectorAll('main .cz')];
+  const isUnit=c=>!c.closest('.sz');            // 计数按概念:中英一对算一个
+  const bCz=document.getElementById('btn-cloze');
+  let bar=null;
+  function czCount(){if(!bar)return;const u=Q().filter(isUnit);const n=u.filter(c=>c.classList.contains('open')).length;bar.querySelector('.cb-n').textContent='已揭开 '+n+'/'+u.length}
+  function czPair(c){ // 同一句里中英对应的那个空
+    const st=c.closest('.sent');if(!st)return[c];
+    const side=c.closest('.se')?'.se':(c.closest('.sz')?'.sz':null);if(!side)return[c];
+    const other=side==='.se'?'.sz':'.se';
+    const i=[...st.querySelectorAll(side+' .cz')].indexOf(c);
+    const o=st.querySelectorAll(other+' .cz')[i];
+    return o?[c,o]:[c];
+  }
+  function setCloze(on){
+    document.body.classList.toggle('cloze',on);
+    if(bCz)bCz.classList.toggle('on',on);
+    if(!on)Q().forEach(c=>c.classList.remove('open'));
+    if(on&&!bar){
+      bar=document.createElement('div');bar.id='cloze-bar';bar.className='ui';
+      bar.innerHTML='<button data-cb="open">全部揭开</button><button data-cb="close">全部盖上</button><span class="cb-n"></span><button data-cb="exit">退出</button>';
+      document.body.appendChild(bar);
+      bar.addEventListener('click',e=>{const b=e.target.closest('button[data-cb]');if(!b)return;const a=b.getAttribute('data-cb');
+        if(a==='exit'){setCloze(false);return}
+        Q().forEach(c=>c.classList.toggle('open',a==='open'));czCount();});
+    }
+    czCount();
+  }
+  if(bCz){
+    if(!Q().length)bCz.title='本页还没有挖空标记';
+    bCz.addEventListener('click',()=>setCloze(!document.body.classList.contains('cloze')));
+  }
+  document.addEventListener('click',e=>{
+    if(!document.body.classList.contains('cloze'))return;
+    const c=e.target.closest&&e.target.closest('main .cz');if(!c)return;
+    e.stopPropagation();e.preventDefault();
+    const on=!c.classList.contains('open');czPair(c).forEach(x=>x.classList.toggle('open',on));czCount();
+  },true);
+
+  // 3) 一句话核心:对照原版
+  document.addEventListener('click',e=>{
+    const b=e.target.closest('.reveal-btn');if(!b)return;
+    const r=b.closest('.reveal');if(!r)return;
+    const o=r.classList.toggle('open');b.textContent=o?'收起原版':'对照原版';
+  });
+
+  // 4) 只看提示
+  const bRv=document.getElementById('btn-review');
+  if(bRv)bRv.addEventListener('click',()=>{const on=document.body.classList.toggle('cues-only');bRv.classList.toggle('on',on);window.scrollTo(0,0)});
+
+  // 5) 自测题:自由回忆 + 4 档自评 + 间隔复习(__sched / __quiz_log,只存本机)
+  const IVL=[1,3,7,14,30];
+  const dstr=d=>{const p=n=>(n<10?'0':'')+n;return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())};
+  const readJ=(k,def)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?def:v}catch(e){return def}};
+  function rateItem(id,r){
+    const s=readJ('__sched',{});const cur=s[id]||null;
+    let idx=0;if(cur&&cur.ivl){for(let i=0;i<IVL.length;i++)if(IVL[i]<=cur.ivl)idx=i}
+    const ni=Math.min(IVL.length-1,r===0?0:r===1?idx:r===2?idx+1:idx+2);
+    const ivl=IVL[ni];const d=new Date();d.setDate(d.getDate()+ivl);
+    s[id]={due:dstr(d),ivl:ivl,n:((cur&&cur.n)||0)+1,r:r};
+    try{localStorage.setItem('__sched',JSON.stringify(s))}catch(e){}
+    return ivl;
+  }
+  document.querySelectorAll('.quiz .qa').forEach((qa,k)=>{const q=qa.querySelector('.q');if(q&&!q.hasAttribute('data-n'))q.setAttribute('data-n',String((+qa.getAttribute('data-i')||k)+1))});
+  document.addEventListener('click',e=>{
+    const sh=e.target.closest('.qa .qa-show');
+    if(sh){const qa=sh.closest('.qa');const o=qa.classList.toggle('shown');sh.textContent=o?'收起答案':'看答案';return}
+    const rb=e.target.closest('.qa .rate button[data-r]');if(!rb)return;
+    const qa=rb.closest('.qa');const i=+qa.getAttribute('data-i')||0;const r=+rb.getAttribute('data-r');
+    rb.parentNode.querySelectorAll('button[data-r]').forEach(b=>b.classList.toggle('on',b===rb));
+    const ivl=rateItem(KEYBASE+'#'+i,r);
+    const log=readJ('__quiz_log',[]);log.push({key:KEYBASE,i:i,r:r,ok:r>=2,t:Date.now()});
+    try{localStorage.setItem('__quiz_log',JSON.stringify(log.slice(-500)))}catch(e){}
+    let nd=rb.parentNode.querySelector('.next-due');
+    if(!nd){nd=document.createElement('span');nd.className='next-due';rb.parentNode.appendChild(nd)}
+    nd.textContent='下次复习：'+ivl+' 天后';
+  });
 })();
 
 load();

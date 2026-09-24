@@ -166,6 +166,12 @@ a.card:hover{border-color:var(--teal);box-shadow:0 8px 24px rgba(22,51,59,.08)}
 .lib-panel .words a{display:inline-block;margin:6px 6px 0 0;padding:2px 10px;border-radius:8px;background:#fff;border:1px solid var(--line);color:var(--ink-deep);font-size:13px}
 .lib-panel .words a small{color:var(--dim);margin-left:6px}
 .lib-panel .none{color:#A8B8B4;font-size:13px;padding:8px 0}
+.home-rv{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 16px;padding:12px 16px;border:1.5px solid var(--teal);border-radius:12px;background:var(--mist);cursor:pointer}
+.home-rv b{color:var(--teal);font-size:15px}.home-rv span{color:var(--txt2);font-size:13px;flex:1}.home-rv em{font-style:normal;color:var(--teal);font-weight:600;font-size:13px}
+.lib-panel .rc-kind{font-size:12px;color:var(--dim);margin:4px 0 2px}.lib-panel .rc-pos{font-size:12px;color:var(--txt2);margin:2px 0 6px}
+.lib-panel .rc-note{font-size:12.5px;color:var(--txt2);background:var(--mist);border-radius:8px;padding:5px 10px;margin:4px 0 8px}
+.lib-panel .rc-ta{display:block;width:100%;box-sizing:border-box;min-height:70px;margin:6px 0 10px;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:14px;line-height:1.7;resize:vertical;background:#fff}
+.lib-panel .rc-lab{font-size:12px;color:var(--dim)}
 .card.book{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:12px;position:relative;overflow:hidden}
 .card.book::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--acc,var(--teal))}
 .card.book ul{margin:8px 0 0;padding:0;list-style:none}
@@ -412,7 +418,7 @@ function teachers(unit){
 }
 function grid(){
   var p=prog(S.prog);
-  var h=head('<a data-go="grid">FOGG</a><span>›</span><span>'+esc(p.name)+'</span>',p.name,p.en,{years:years(p)});
+  var h=head('<a data-go="grid">FOGG</a><span>›</span><span>'+esc(p.name)+'</span>',p.name,p.en,{years:years(p)});h+=homeReview();
   var N=unitsPer(p),H=N/2,WK=weeksPer(p),book=N>2;
   h+='<div class="grid" style="--n:'+N+';--h:'+H+'"><div class="gh"><div class="corner"></div><div class="tm">上学期'+(book?'<i>'+H+' 本书</i>':'')+'</div><div class="tm">下学期'+(book?'<i>'+H+' 本书</i>':'')+'</div><div>等级</div>';
   for(var k=1;k<=N;k++)h+='<div class="sub">'+(book?'第 '+k+' 本':'单元 '+k)+'</div>';
@@ -489,7 +495,7 @@ function library(){
   var all=sources();
   var dsel=S.disc!=='all'?LIB.disciplines.filter(function(d){return d.id===S.disc})[0]:null;
   var h=head(dsel?'<a data-disc-go="all">大脑库</a><span>›</span><span>'+esc(dsel.name)+'</span>':'<span>大脑库</span>',dsel?dsel.name:'大脑库','Brain Library',null);
-  h+='<div class="lib-bar"><button class="pill big'+(S.lpanel==='quiz'?' on':'')+'" data-lpanel="quiz">考我</button><button class="pill big'+(S.lpanel==='review'?' on':'')+'" data-lpanel="review">今日复习</button></div>';
+  h+='<div class="lib-bar"><button class="pill big'+(S.lpanel==='review'?' on':'')+'" data-lpanel="review">今日复习 <b>'+reviewItems().length+'</b> 条</button><button class="pill big'+(S.lpanel==='quiz'?' on':'')+'" data-lpanel="quiz">考我</button></div>';
   h+='<div id="lib-panel">'+(S.lpanel==='quiz'?quizPanel():S.lpanel==='review'?reviewPanel():'')+'</div>';
   var pill=function(attr,val,cur,label){return '<button class="pill'+(cur===val?' on':'')+'" data-'+attr+'="'+esc(val)+'">'+esc(label)+'</button>'};
   var typesUsed={};all.forEach(function(x){typesUsed[x.type]=1});
@@ -505,78 +511,131 @@ function library(){
   return h;
 }
 function bindLib(m){
-  m.querySelectorAll('[data-lpanel]').forEach(function(b){b.onclick=function(){S.lpanel=S.lpanel===b.dataset.lpanel?null:b.dataset.lpanel;if(S.lpanel==='quiz'&&!QZ.cur)quizNext();renderMain()}});
+  m.querySelectorAll('[data-lpanel]').forEach(function(b){b.onclick=function(){var v=b.dataset.lpanel;S.lpanel=S.lpanel===v?null:v;if(S.lpanel==='quiz'&&!QZ.cur)quizNext();if(S.lpanel==='review')rvStart();renderMain()}});
   m.querySelectorAll('.pill[data-disc],[data-disc-go]').forEach(function(b){b.onclick=function(){S.disc=b.dataset.disc||b.dataset.discGo;render()}});
   m.querySelectorAll('.pill[data-ltype]').forEach(function(b){b.onclick=function(){S.ltype=b.dataset.ltype;renderMain()}});
   var pn=document.getElementById('lib-panel');if(!pn)return;
+  pn.oninput=function(e){if(e.target.classList&&e.target.classList.contains('rc-ta'))(S.lpanel==='quiz'?QZ:RV).typed=e.target.value};
   pn.onclick=function(e){
-    var t=e.target.closest('[data-qa],[data-rev]');if(!t)return;
-    if(t.dataset.qa==='show'){QZ.show=true}
-    else if(t.dataset.qa==='ok'||t.dataset.qa==='no'){quizLog(t.dataset.qa==='ok');quizNext()}
-    else if(t.dataset.qa==='skip'){quizNext()}
+    var t=e.target.closest('[data-qa],[data-rate],[data-rev]');if(!t)return;
+    var quiz=S.lpanel==='quiz',st=quiz?QZ:RV;
+    if(t.dataset.qa==='show'){st.show=true}
+    else if(t.dataset.qa==='skip'){if(quiz)quizNext();else rvSkip()}
+    else if(t.dataset.qa==='restart'){rvStart()}
+    else if(t.dataset.rate!=null){
+      var it=quiz?QZ.cur:RV.items[RV.pos];
+      if(it){var ivl=rateIt(it,+t.dataset.rate);st.note='上一条 · '+RATES[+t.dataset.rate]+' · 下次复习：'+ivl+' 天后'}
+      if(quiz)quizNext();else{RV.pos++;RV.show=false;RV.typed=''}
+    }
     else if(t.dataset.rev){var k=t.dataset.rev;lsSet('__rev_'+k,(parseInt(ls('__rev_'+k))||0)+1);lsSet('__last_read_'+k,Date.now())}
-    pn.innerHTML=S.lpanel==='quiz'?quizPanel():reviewPanel();
+    pn.innerHTML=quiz?quizPanel():reviewPanel();
+    var pb=m.querySelector('[data-lpanel="review"] b');if(pb)pb.textContent=reviewItems().length;
   };
 }
+/* 间隔复习调度(与 app.js 同一套):__sched["<key>#<i>" | "<key>@<word>"]={due:"YYYY-MM-DD",ivl,n,r} */
+var IVL=[1,3,7,14,30],RATES=['忘了','模糊','记得','很熟'];
+function dstr(d){function p(n){return (n<10?'0':'')+n}return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())}
+function readJ(k,def){try{var v=JSON.parse(ls(k));return v==null?def:v}catch(e){return def}}
+function schedAll(){var s=readJ('__sched',{});return s&&typeof s==='object'&&!Array.isArray(s)?s:{}}
+function rateItem(id,r){
+  var s=schedAll(),cur=s[id]||null,idx=0,i;
+  if(cur&&cur.ivl){for(i=0;i<IVL.length;i++)if(IVL[i]<=cur.ivl)idx=i}
+  var ni=Math.min(IVL.length-1,r===0?0:r===1?idx:r===2?idx+1:idx+2),ivl=IVL[ni],d=new Date();d.setDate(d.getDate()+ivl);
+  s[id]={due:dstr(d),ivl:ivl,n:((cur&&cur.n)||0)+1,r:r};lsSet('__sched',JSON.stringify(s));return ivl;
+}
+function itemId(it){return it.kind==='vocab'?it.key+'@'+it.word:it.key+'#'+it.i}
+function rateIt(it,r){
+  var ivl=rateItem(itemId(it),r);
+  if(it.kind==='quiz'){var l=quizLogAll();l.push({key:it.key,i:it.i,r:r,ok:r>=2,t:Date.now()});if(l.length>500)l=l.slice(l.length-500);lsSet(QLOG_KEY,JSON.stringify(l))}
+  return ivl;
+}
+/* 自由回忆卡片(考我 / 今日复习共用) */
+function recallCard(it,st,skipLabel){
+  var v=it.kind==='vocab',h='';
+  if(v)h+='<div class="rc-kind">生词卡 · 先说出英文单词</div><div class="qq">'+esc(it.zh||it.def)+'</div>';
+  else h+='<div class="rc-kind">自测题</div><div class="qq">'+esc(it.q)+'</div><textarea class="rc-ta" placeholder="先写 / 说出答案，再看答案">'+esc(st.typed||'')+'</textarea>';
+  if(st.show){
+    h+='<div class="aa">'+(v?'<b>'+esc(it.word)+'</b>'+(it.zh&&it.def?' · '+esc(it.def):''):esc(it.a))+'</div>';
+    h+='<div class="row"><span class="rc-lab">自评</span>'+RATES.map(function(l,r){return '<button class="pill" data-rate="'+r+'">'+l+'</button>'}).join('')+'<a href="'+esc(it.file)+'">去看这页 · '+esc(it.title)+' →</a></div>';
+  }else{
+    h+='<div class="row"><button class="pill on" data-qa="show">'+(v?'翻面':'看答案')+'</button><button class="pill" data-qa="skip">'+skipLabel+'</button><a href="'+esc(it.file)+'">来自 · '+esc(it.title)+'</a></div>';
+  }
+  return h;
+}
 /* 考我 */
-var QZ={cur:null,show:false};
+var QZ={cur:null,show:false,typed:'',note:''};
 var QLOG_KEY='__quiz_log';
 function quizLogAll(){try{var v=JSON.parse(ls(QLOG_KEY)||'[]');return Array.isArray(v)?v:[]}catch(e){return []}}
-function quizLog(ok){
-  if(!QZ.cur)return;var l=quizLogAll();l.push({key:QZ.cur.key,i:QZ.cur.i,ok:!!ok,t:Date.now()});
-  if(l.length>500)l=l.slice(l.length-500);lsSet(QLOG_KEY,JSON.stringify(l));
-}
 function quizPool(){
-  var pool=[];sources().forEach(function(x){(x.quiz||[]).forEach(function(q,i){if(q&&q.q&&q.a)pool.push({key:x.key,i:i,q:q.q,a:q.a,title:x.title,file:x.file})})});
+  var pool=[];sources().forEach(function(x){(x.quiz||[]).forEach(function(q,i){if(q&&q.q&&q.a)pool.push({kind:'quiz',key:x.key,i:i,q:q.q,a:q.a,title:x.title,file:x.file,disc:x.discipline||x.program||''})})});
   return pool;
 }
+function vocabPool(){
+  var ws=[];
+  C.pages.forEach(function(x){var v=readJ(x.key+'-vocab',[]);
+    if(Array.isArray(v))v.forEach(function(w){if(w&&w.word&&w.known===false&&(w.zh||w.def))ws.push({kind:'vocab',key:x.key,word:w.word,zh:w.zh||'',def:w.def||'',title:x.title,file:x.file,disc:x.discipline||x.program||''})});
+  });
+  return ws;
+}
 function quizNext(){
-  QZ.show=false;var pool=quizPool();if(!pool.length){QZ.cur=null;return}
-  var last={};quizLogAll().forEach(function(e){last[e.key+'#'+e.i]=e.ok});
-  var ws=pool.map(function(p){var k=p.key+'#'+p.i;var w=!(k in last)?2:last[k]?1:3;if(QZ.cur&&QZ.cur.key===p.key&&QZ.cur.i===p.i&&pool.length>1)w=0;return w});
+  QZ.show=false;QZ.typed='';var pool=quizPool();if(!pool.length){QZ.cur=null;return}
+  var last={};quizLogAll().forEach(function(e){last[e.key+'#'+e.i]=e.r!=null?e.r:(e.ok?2:0)});
+  var W=[4,3,1,.5];
+  var ws=pool.map(function(p){var k=p.key+'#'+p.i;var w=!(k in last)?2:W[last[k]]||2;if(QZ.cur&&QZ.cur.key===p.key&&QZ.cur.i===p.i&&pool.length>1)w=0;return w});
   var sum=ws.reduce(function(a,b){return a+b},0),r=Math.random()*sum,acc=0,pick=pool[0];
   for(var i=0;i<pool.length;i++){acc+=ws[i];if(r<acc){pick=pool[i];break}}
   QZ.cur=pick;
 }
 function quizPanel(){
-  var l=quizLogAll(),n=l.length,m=l.filter(function(e){return e.ok}).length;
-  var h='<div class="lib-panel"><div class="hd"><span>考我 · 从所有大脑库页面的自测题里随机抽一题,答错的会更常出现</span><span>已答 <b>'+n+'</b> · 正确 <b>'+m+'</b></span></div>';
+  var l=quizLogAll(),n=l.length,m=l.filter(function(e){return e.r!=null?e.r>=2:e.ok}).length;
+  var h='<div class="lib-panel"><div class="hd"><span>考我 · 从所有大脑库页面的自测题里抽一题：先自己答，再看答案自评，忘了的会更常出现</span><span>已答 <b>'+n+'</b> · 记得 <b>'+m+'</b></span></div>';
+  if(QZ.note)h+='<div class="rc-note">'+esc(QZ.note)+'</div>';
   if(!QZ.cur)quizNext();
   if(!QZ.cur)return h+'<div class="none">还没有自测题。大脑库页面的 page-meta.quiz 里有题就会出现在这里。</div></div>';
-  var c=QZ.cur;
-  h+='<div class="qq">'+esc(c.q)+'</div>';
-  if(QZ.show){
-    h+='<div class="aa">'+esc(c.a)+'</div><div class="row"><button class="pill on" data-qa="ok">记住了</button><button class="pill" data-qa="no">没记住</button><a href="'+esc(c.file)+'">去看这页 · '+esc(c.title)+' →</a></div>';
-  }else{
-    h+='<div class="row"><button class="pill on" data-qa="show">看答案</button><button class="pill" data-qa="skip">换一题</button><a href="'+esc(c.file)+'">来自 · '+esc(c.title)+'</a></div>';
-  }
-  return h+'</div>';
+  return h+recallCard(QZ.cur,QZ,'换一题')+'</div>';
 }
-/* 今日复习 */
-var REV_INT=[1,3,7,14,30];
+/* 今日复习:到期的自测题 + 生词卡,各页/各学科交错 */
+var REV_INT=[1,3,7,14,30],RV={items:null,pos:0,show:false,typed:'',note:''};
+function reviewItems(){
+  var s=schedAll(),td=dstr(new Date()),by={},groups=[];
+  quizPool().concat(vocabPool()).forEach(function(it){
+    var e=s[itemId(it)];if(e&&e.due&&e.due>td)return;
+    it.due=e&&e.due?e.due:'9999';
+    if(!by[it.key]){by[it.key]={disc:it.disc,q:[]};groups.push(by[it.key])}by[it.key].q.push(it);
+  });
+  groups.forEach(function(g){g.q.sort(function(a,b){return a.due<b.due?-1:a.due>b.due?1:0});g.top=g.q[0].due});
+  groups.sort(function(a,b){return a.top<b.top?-1:a.top>b.top?1:0});
+  var dg={},dk=[];groups.forEach(function(g){if(!dg[g.disc]){dg[g.disc]=[];dk.push(g.disc)}dg[g.disc].push(g)});
+  var pages=[],more=true,r,j;
+  for(r=0;more;r++){more=false;dk.forEach(function(d){if(dg[d][r]){pages.push(dg[d][r]);more=true}})}
+  var out=[];more=true;
+  for(j=0;more;j++){more=false;pages.forEach(function(g){if(g.q[j]){out.push(g.q[j]);more=true}})}
+  return out;
+}
+function rvStart(){RV.items=reviewItems().slice(0,20);RV.pos=0;RV.show=false;RV.typed='';RV.note=''}
+function rvSkip(){if(RV.items&&RV.items.length-RV.pos>1){RV.items.push(RV.items.splice(RV.pos,1)[0])}RV.show=false;RV.typed=''}
 function reviewDue(){
   var now=Date.now(),due=[];
   C.pages.forEach(function(x){var last=lastRead(x.key);if(!last)return;var n=parseInt(ls('__rev_'+x.key))||0;var days=(now-last)/86400000;if(days>=REV_INT[Math.min(n,4)])due.push({x:x,n:n,days:Math.floor(days)})});
   due.sort(function(a,b){return b.days-a.days});return due;
 }
-function reviewWords(){
-  var ws=[];
-  C.pages.forEach(function(x){var v;try{v=JSON.parse(ls(x.key+'-vocab')||'[]')}catch(e){v=[]}
-    if(Array.isArray(v))v.forEach(function(w){if(w&&w.word&&w.known===false)ws.push({word:w.word,zh:w.zh||'',file:x.file,title:x.title,own:!w.preset})});
-  });
-  for(var i=ws.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=ws[i];ws[i]=ws[j];ws[j]=t}
-  ws.sort(function(a,b){return (b.own?1:0)-(a.own?1:0)});
-  return ws.slice(0,8);
-}
 function reviewPanel(){
-  var due=reviewDue(),ws=reviewWords();
-  var h='<div class="lib-panel"><div class="hd"><span>今日复习 · 间隔 1 / 3 / 7 / 14 / 30 天,学过的课页和大脑库页都算</span><span>到期 <b>'+due.length+'</b> 页</span></div>';
-  if(!due.length)h+='<div class="none">今天没有到期的页面。学过的页面会按间隔在这里出现。</div>';
-  due.forEach(function(d){var x=d.x;h+='<div class="rv"><span><a href="'+esc(x.file)+'">'+esc(x.title)+'</a><small>'+esc(x.tagText||'')+' · '+ago(x.key)+' · 第 '+(d.n+1)+' 次复习</small></span><button class="pill" data-rev="'+esc(x.key)+'">已复习</button></div>'});
-  h+='<div class="sub">生词抽查 · 8 个还没掌握的词</div>';
-  if(!ws.length)h+='<div class="none">还没有生词。在页面里点词加入生词本后会出现在这里。</div>';
-  else h+='<div class="words">'+ws.map(function(w){return '<a href="'+esc(w.file)+'" title="'+esc(w.title)+'">'+esc(w.word)+(w.zh?'<small>'+esc(w.zh)+'</small>':'')+'</a>'}).join('')+'</div>';
+  if(!RV.items)rvStart();
+  var total=reviewItems().length,it=RV.items[RV.pos];
+  var h='<div class="lib-panel"><div class="hd"><span>今日复习 · 到期的自测题和生词卡，各页各学科交错，一次最多 20 条</span><span>今天到期 <b>'+total+'</b> 条</span></div>';
+  if(RV.note)h+='<div class="rc-note">'+esc(RV.note)+'</div>';
+  if(it)h+='<div class="rc-pos">第 <b>'+(RV.pos+1)+'</b> / '+RV.items.length+' 条</div>'+recallCard(it,RV,'先跳过');
+  else if(RV.items.length)h+='<div class="none">这一轮 '+RV.items.length+' 条做完了。'+(total?' <button class="pill" data-qa="restart">再来一轮（还剩 '+total+' 条）</button>':'今天的复习全部完成。')+'</div>';
+  else h+='<div class="none">今天没有到期的题和生词。大脑库页面的自测题、你加进生词本的词，会按 1 / 3 / 7 / 14 / 30 天出现在这里。</div>';
+  var due=reviewDue();
+  h+='<div class="sub">到期页面 · 按上次打开时间 1 / 3 / 7 / 14 / 30 天</div>';
+  if(!due.length)h+='<div class="none">今天没有到期的页面。</div>';
+  due.forEach(function(d){var x=d.x;h+='<div class="rv"><span><a href="'+esc(x.file)+'">'+esc(x.title)+'</a><small>'+ago(x.key)+' · 第 '+(d.n+1)+' 次复习</small></span><button class="pill" data-rev="'+esc(x.key)+'">已复习</button></div>'});
   return h+'</div>';
+}
+function homeReview(){
+  var n=reviewItems().length;if(!n)return '';
+  return '<div class="home-rv" data-home-rv="1"><b>今日复习 '+n+' 条</b><span>到期的自测题和生词卡，先回忆再看答案</span><em>开始 →</em></div>';
 }
 
 function renderMain(){
@@ -590,6 +649,7 @@ function renderMain(){
     S.unit=null;S.view='grid';S.q='';if(el.dataset.go==='level')S.level=+el.dataset.lv;else S.level=null;render()}});
   m.querySelectorAll('.tc-h').forEach(function(el){el.onclick=function(){el.parentNode.classList.toggle('open')}});
   if(S.view==='library')bindLib(m);
+  m.querySelectorAll('[data-home-rv]').forEach(function(el){el.onclick=function(){S.view='library';S.unit=null;S.disc='all';S.lpanel='review';rvStart();render();window.scrollTo(0,0)}});
   writeHash();
 }
 function render(){side();renderMain()}

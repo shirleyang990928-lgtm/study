@@ -328,3 +328,52 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
 .links a:hover{border-bottom-color:var(--teal)}
 .links .lk-tag{display:inline-block;font-size:11px;color:#6B8580;background:var(--mist);border-radius:6px;padding:1px 7px;margin-right:6px;vertical-align:1px}
 .links i{font-family:Georgia,serif}
+/* ===== 大脑库 v2 · 提取练习(挖空/先想再读/对照原版/提示问题/自评/版式) ===== */
+#btn-cloze.on,#btn-review.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+body.cloze .cz{color:transparent;border:1.5px dashed var(--teal);border-radius:999px;min-width:2.4em;display:inline-block;cursor:pointer;background:#fff;padding:0 .35em;line-height:1.35;vertical-align:baseline;user-select:none}
+body.cloze .cz *{color:transparent}
+body.cloze .cz.big{border:2px dashed var(--ink-deep);background:var(--mist);padding:.12em .5em}
+body.cloze .cz.open,body.cloze .cz.open *{color:inherit}
+body.cloze .cz.open{border:1.5px solid var(--gold-deep);background:#FFFDF4}
+body.cloze .sent{display:block;margin-bottom:8px}
+body.cloze .sz{display:block;color:#4E6964;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif}
+body.cloze .zh-block,body.cloze .zh-btn{display:none!important}
+#cloze-bar{display:none;position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:120;background:#fff;border:1px solid var(--line);border-radius:999px;box-shadow:0 6px 20px rgba(22,51,59,.14);padding:6px 10px;gap:6px;align-items:center;font-size:13px;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;color:var(--ink-deep)}
+body.cloze #cloze-bar{display:flex}
+#cloze-bar button{border:1px solid var(--line);background:#fff;color:var(--teal);border-radius:999px;padding:4px 12px;font-size:12.5px;cursor:pointer;font-family:inherit}
+#cloze-bar button:hover{border-color:var(--teal)}
+#cloze-bar button[data-cb="exit"]{background:var(--teal);color:#fff;border-color:var(--teal)}
+#cloze-bar .cb-n{padding:0 6px;color:#4E6964}
+.pretest{background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold-deep);border-radius:0 12px 12px 0;padding:14px 18px;margin:0 0 22px;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif}
+.pretest h3{font-size:15px;color:var(--ink-deep);margin:0 0 8px}
+.pretest ol{margin:0 0 10px 1.3em;padding:0;font-size:15px;line-height:1.75;color:#33534F}
+textarea[data-save]{display:block;width:100%;box-sizing:border-box;min-height:84px;border:1.5px dashed #B9CBC7;border-radius:10px;padding:10px 12px;margin:8px 0;font-size:14.5px;line-height:1.8;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#FFFDF4;color:#4A4632;resize:vertical}
+textarea[data-save]:focus{outline:none;border-color:var(--gold-deep);border-style:solid}
+.reveal{margin:0 0 18px}
+.reveal-body{display:none;margin-top:10px}
+.reveal.open .reveal-body{display:block}
+.reveal-btn,.qa-show{border:1px solid var(--teal);background:#fff;color:var(--teal);border-radius:999px;padding:4px 14px;font-size:13px;cursor:pointer;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif}
+.reveal-btn:hover,.qa-show:hover{background:var(--mist)}
+.reveal.open .reveal-btn{background:var(--teal);color:#fff}
+.cue{background:var(--mist);border-radius:10px;padding:9px 14px;margin:14px 0 6px;font-size:15px;line-height:1.7;color:#33534F;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif}
+.cue b{color:var(--teal);margin-right:8px;font-size:12.5px;letter-spacing:.05em}
+body.cues-only main section>*:not(.sec-head):not(.cue):not(.pretest):not(.quiz):not(:has(.cue,.pretest,.quiz)){display:none}
+body.cues-only main .pretest>*:not(h3):not(ol){display:none}
+body.cues-only main .quiz>*:not(.qa){display:none}
+body.cues-only main .quiz .qa>*:not(.q){display:none}
+body.cues-only main>header .meta,body.cues-only main>footer{display:none}
+.quiz .qa{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0;box-shadow:0 2px 8px rgba(36,80,91,.05);font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif}
+.quiz .qa .q{background:none;border:0;box-shadow:none;padding:0;margin:0 0 6px;font-size:15.5px;line-height:1.7;font-weight:600;color:var(--ink-deep);cursor:default}
+.quiz .qa .q::before{content:"Q" attr(data-n);display:inline-block;font-size:11px;color:#fff;background:var(--teal);border-radius:6px;padding:1px 7px;margin-right:8px;vertical-align:2px;font-weight:600}
+.quiz .qa .a,.quiz .qa .rate{display:none}
+.quiz .qa.shown .a{display:block;margin-top:10px;font-size:15px;line-height:1.75}
+.quiz .qa.shown .rate{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px}
+.rate button{border:1px solid var(--line);background:#fff;color:var(--teal);border-radius:999px;padding:4px 13px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.rate button:hover{border-color:var(--teal)}
+.rate button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.next-due{font-size:12.5px;color:var(--gold-deep);margin-left:4px}
+body.src-page main section{max-width:640px}
+body.src-page .para .en,body.src-page .narr{font-size:calc(var(--fs) + .5px);line-height:1.7}
+body.src-page .narr{font-style:normal;color:#4E6964}
+body.src-page .sz,body.src-page .zh-block{color:#4E6964}
+body.src-page .keypoints,body.src-page .explain,body.src-page .links li{font-size:16px;line-height:1.7}

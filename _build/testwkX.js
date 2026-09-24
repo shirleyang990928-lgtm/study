@@ -12,7 +12,7 @@ async function test(f){
   if(!html.includes('href="'+want+'index.html"')){console.log(f,'FAIL: 回到目录链接应为 '+want+'index.html');return false;}
   html=html.replace(cssTag,function(){return '<style>'+css+'</style>'});
   html=html.replace(jsTag,function(){return '<script>'+js+'</script>'});
-  html=html.replace('<body>',function(){return '<body><script>window.__spoken=[];window.speechSynthesis={getVoices:function(){return[{lang:"en-GB"},{lang:"zh-CN"}]},speak:function(u){window.__spoken.push(u.text)},cancel:function(){},paused:false};window.SpeechSynthesisUtterance=function(t){this.text=t}</script>'});
+  html=html.replace(/<body([^>]*)>/,function(m,a){return '<body'+a+'><script>window.__spoken=[];window.speechSynthesis={getVoices:function(){return[{lang:"en-GB"},{lang:"zh-CN"}]},speak:function(u){window.__spoken.push(u.text)},cancel:function(){},paused:false};window.SpeechSynthesisUtterance=function(t){this.text=t}</script>'});
   const dom=new JSDOM(html,{runScripts:'dangerously',url:'http://localhost/',pretendToBeVisual:true});
   const w=dom.window;w.fetch=function(){return Promise.reject(new Error('x'))};w.scrollTo=function(){};
   await new Promise(function(r){setTimeout(r,900)});

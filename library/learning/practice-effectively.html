@@ -30,34 +30,38 @@
  "status": "ok",
  "quiz": [
   {
-   "q": "视频里对「练习」的定义是什么?和「重复」有什么区别?",
-   "a": "练习 = 以进步为目标的重复(repetition of an action with the goal of improvement)。单纯重复不一定进步;练习必须朝着「更好」这个方向。"
+   "q": "视频里对「练习」的定义是什么？和单纯的「重复」有什么区别？",
+   "a": "练习 = 以进步为目标的重复。单纯重复不一定进步；练习必须朝着「更好」这个方向。"
   },
   {
-   "q": "重复练习在大脑里到底改变了什么?",
-   "a": "改变的是白质里的轴突:每次重复,轴突外面就多裹一层髓鞘(myelin)。髓鞘像电线绝缘皮,让神经信号跑得更快、更省能量,于是动作更流畅。"
+   "q": "重复练习在大脑里到底改变了什么？说说这条机制的传导链条。",
+   "a": "改变的是白质里的轴突：每次重复，轴突外面多裹一层髓鞘。髓鞘像电线绝缘皮，让信号跑得更快、更省能量，动作更流畅。"
   },
   {
-   "q": "「肌肉记忆」这个说法为什么不准确?",
-   "a": "肌肉本身不记东西,记住动作的是大脑和神经通路。所谓肌肉记忆,其实是被反复髓鞘化的神经通路——信号走得快,动作才像「不用想」。"
+   "q": "「肌肉记忆」这个说法为什么不准确？真正记住动作的是什么？",
+   "a": "肌肉本身不记东西，记住动作的是大脑和神经通路。所谓肌肉记忆，其实是被反复髓鞘化的神经通路。"
   },
   {
-   "q": "视频承认「要练多少小时才能精通」有魔法数字吗?它给出的公式是什么?",
-   "a": "没有魔法数字(不存在一个对所有人都成立的小时数)。视频的说法:精通 = 时间 × 练习质量,两者都要。"
+   "q": "「要练多少小时才能精通」有魔法数字吗？视频给出的公式是什么？",
+   "a": "没有一个对所有人都成立的小时数。视频的说法是：精通 = 时间 × 练习质量，两者都要，只堆时间不够。"
   },
   {
-   "q": "有效练习有哪四个特征?",
-   "a": "1 持续稳定(consistent);2 高度专注(focused);3 针对当前能力边缘的弱点(targets weaknesses at the edge of one's ability);再加上一点:练习内容要有明确目标,不是漫无目的地重复。"
+   "q": "有效练习有哪几个特征？为什么「边缘」这个词很关键？",
+   "a": "持续稳定（consistent）、高度专注（focused）、针对当前能力边缘的弱点。太容易的不用练，太难的练不动，进步只发生在刚好够不着的地方。"
   },
   {
-   "q": "视频给了哪四条可操作的练习建议?各自背后的研究证据是什么?",
-   "a": "① 专注、排除干扰(关手机、关电脑)——一项跟踪 260 名学生的研究发现,他们平均学习约 6 分钟就会分心。② 先慢后快:慢动作练对了再加速。③ 多次、短时、有间隔的重复:顶尖表演者每周练 50–60 小时,但分成多段短时练习。④ 生动的心理练习(想象):144 名篮球运动员两周实验,只在脑里想象投篮的一组,进步几乎和真投篮的一组一样。"
+   "q": "视频给了哪四条可操作的建议？各自的研究证据是什么？",
+   "a": "① 专注、排除干扰——260 名学生平均 6 分钟就分心；② 先慢后快；③ 多次、短时、有间隔的重复——顶尖表演者每周 50–60 小时但分成多段；④ 生动的心理练习——144 名篮球运动员两周实验，想象组进步接近实练组。"
+  },
+  {
+   "q": "为什么说「一万小时定律」被这支视频委婉地反驳了？",
+   "a": "视频强调精通是时间 × 质量，而不是单纯的小时数；很多人练了几十年却不再进步，正是因为不再针对弱点练，说明时间够长不等于精通。"
   }
  ]
 }
 </script>
 </head>
-<body>
+<body class="src-page">
 <div class="wrap">
 <aside class="ui">
   <div class="map-title">大脑库学习地图</div>
@@ -98,6 +102,7 @@
   <span class="fs-btns"><button class="fs-a1" id="fs-minus" title="缩小字体">A−</button><span class="fs-cur ui" id="fs-cur">标准</span><button class="fs-a2" id="fs-plus" title="放大字体">A+</button></span>
   <button class="btn" id="bm-pin" title="把当前位置钉为书签">钉这里</button><button class="btn" id="bm-go" title="跳回你钉的书签位置">回书签</button>
   <button class="btn tts-btn" id="tts-trigger" title="朗读">朗读</button>
+  <button class="btn" id="btn-cloze" title="重点词挖空，用嘴复述">挖空复述</button><button class="btn" id="btn-review" title="只看每节提示问题，自己回忆">只看提示</button>
   <span class="more-wrap">
     <button class="btn more-btn" id="more-btn" title="更多">更多</button>
     <div class="more-menu" id="more-menu">
@@ -123,22 +128,40 @@
 <p class="narr">这是一支 TED-Ed 科普短片。它想回答两个问题：<b>练习为什么有用</b>（大脑里到底发生了什么），以及<b>怎样练才算有效</b>（四条可操作的建议）。它不是讲某一门技能，而是讲「学会任何技能」背后的通用机制，所以放在大脑库「学习方法」这一科。</p>
 </section>
 
+<div class="pretest">
+<h3>先想再读</h3>
+<ol>
+<li>练习和「重复」有什么不一样？你猜大脑里发生了什么变化？</li>
+<li>「肌肉记忆」这个说法，你觉得准不准确？为什么？</li>
+<li>要练多久才能精通一件事，你觉得有没有一个统一的小时数？</li>
+</ol>
+<textarea data-save="pretest" placeholder="先猜,猜错也有用"></textarea>
+</div>
+
 <section id="s2">
 <div class="sec-head"><span class="sec-num">02</span><h2>一句话核心（费曼法）</h2></div>
-<div class="keypoints ui"><b>用一句话讲给十岁小孩听：</b><br>每次你专心、慢慢地把一个动作做对一次，大脑里管这个动作的「电线」就多裹一层绝缘皮，信号跑得更快——所以练习不是「记进肌肉」，而是把脑里的线路越修越粗。</div>
-<p class="narr">再往下压一层：<b>练习 = 以进步为目标的重复</b>。光是重复不算练习，「朝着更好」才算。视频的所有建议（专注、先慢后快、分段间隔、想象练习）都是在保证「每一次重复都在往进步的方向走」。</p>
-<p class="narr">如果只能记一个词，记 <b>myelin（髓鞘）</b>：它是把「练习有用」从一句鸡汤变成一个生理事实的关键。</p>
+<div class="reveal">
+<textarea data-save="core" placeholder="先用自己的话写一句…"></textarea>
+<button type="button" class="reveal-btn">对照原版</button>
+<div class="reveal-body">
+<div class="keypoints ui"><b>用一句话讲给十岁小孩听：</b><br>每次你专心、慢慢地把一个动作做对一次，大脑里管这个动作的「电线」就多裹一层<span class="cz big">绝缘皮</span>，信号跑得更快——所以练习不是「记进肌肉」，而是把脑里的线路越修越粗。</div>
+<p class="narr">再往下压一层：<b><span class="cz big">练习 = 以进步为目标的重复</span></b>。光是重复不算练习，「朝着更好」才算。视频的所有建议（专注、先慢后快、分段间隔、想象练习）都是在保证「每一次重复都在往进步的方向走」。</p>
+<p class="narr">如果只能记一个词，记 <b><span class="cz big">myelin（髓鞘）</span></b>：它是把「练习有用」从一句鸡汤变成一个生理事实的关键。</p>
+</div>
+</div>
+<p class="cue"><b>提示问题</b>练习和单纯的重复，区别到底在哪一步?</p>
 </section>
 
 <section id="s3">
 <div class="sec-head"><span class="sec-num">03</span><h2>论证脉络</h2></div>
-<p class="narr"><b>① 先定义。</b>视频一开始就纠正一个常见误区：很多人把「练习」当成「多做几遍」。它的定义是 the repetition of an action with the goal of improvement——重复是形式，进步是目标。这一步很重要，因为后面所有建议都从这个定义推出来。</p>
-<p class="narr"><b>② 大脑里发生了什么。</b>大脑分灰质和白质。灰质负责处理信息、把感觉刺激导向神经细胞；白质主要是脂肪组织和轴突（axon）——轴突像电线，把电信号从一个神经元送到下一个。每一次重复动作，轴突外面就多裹一层髓鞘（myelin），像给电线加绝缘皮。绝缘皮越厚，信号走得越快、越省能量，动作就越流畅。</p>
-<p class="narr"><b>③ 证据来源。</b>视频提到的证据主要是小鼠实验：在小鼠身上观察到练习行为与髓鞘增加相关。据此它推论「肌肉记忆」其实并不存在于肌肉——肌肉不记事，记住动作的是被反复髓鞘化的神经通路（neural pathway）。</p>
-<p class="narr"><b>④ 要练多久？</b>视频明确说：没有一个对所有人都成立的魔法小时数。精通（mastery）是<b>时间 × 练习质量</b>的乘积。这一句其实是在否定流行的「一万小时定律」——练的时间够长但质量差，不会精通。</p>
-<p class="narr"><b>⑤ 有效练习长什么样。</b>三个特征：持续稳定（consistent）、高度专注（focused）、针对自己当前能力边缘的弱点（targets weaknesses at the edge of one's ability）。注意「边缘」两个字：太容易的不用练，太难的练不动，进步发生在刚好够不着的地方。</p>
-<p class="narr"><b>⑥ 四条建议。</b>一，专注、排除干扰——关掉电脑和手机；一项跟踪 260 名学生的研究发现他们平均学 6 分钟就分心。二，先慢后快——慢速下把动作做对，肌肉协调建立后再逐步加速。三，多次、短时、有间隔的重复——顶尖表演者每周练 50–60 小时，但拆成多段短练。四，生动的心理练习——144 名篮球运动员两周实验，只在脑里想象投篮的一组，进步几乎和真投篮的一组一样。</p>
+<p class="narr"><b>① 先定义。</b>视频一开始就纠正一个常见误区：很多人把「练习」当成「多做几遍」。它的定义是 <span class="cz">the repetition of an action with the goal of improvement</span>——重复是形式，进步是目标。这一步很重要，因为后面所有建议都从这个定义推出来。</p>
+<p class="narr"><b>② 大脑里发生了什么。</b>大脑分灰质和白质。灰质负责处理信息、把感觉刺激导向神经细胞；白质主要是脂肪组织和<span class="cz">轴突（axon）</span>——轴突像电线，把电信号从一个神经元送到下一个。每一次重复动作，轴突外面就多裹一层<span class="cz big">髓鞘（myelin）</span>，像给电线加绝缘皮。绝缘皮越厚，信号走得越快、越省能量，动作就越流畅。</p>
+<p class="narr"><b>③ 证据来源。</b>视频提到的证据主要是小鼠实验：在小鼠身上观察到练习行为与髓鞘增加相关。据此它推论「肌肉记忆」其实并不存在于肌肉——肌肉不记事，记住动作的是被反复髓鞘化的<span class="cz">神经通路（neural pathway）</span>。</p>
+<p class="narr"><b>④ 要练多久？</b>视频明确说：没有一个对所有人都成立的魔法小时数。<span class="cz big">精通（mastery）是时间 × 练习质量</span>的乘积。这一句其实是在否定流行的「一万小时定律」——练的时间够长但质量差，不会精通。</p>
+<p class="narr"><b>⑤ 有效练习长什么样。</b>三个特征：持续稳定（consistent）、高度专注（focused）、<span class="cz">针对自己当前能力边缘的弱点</span>（targets weaknesses at the edge of one's ability）。注意「边缘」两个字：太容易的不用练，太难的练不动，进步发生在刚好够不着的地方。</p>
+<p class="narr"><b>⑥ 四条建议。</b>一，<span class="cz">专注、排除干扰</span>——关掉电脑和手机；一项跟踪 260 名学生的研究发现他们平均学 6 分钟就分心。二，<span class="cz">先慢后快</span>——慢速下把动作做对，肌肉协调建立后再逐步加速。三，<span class="cz">多次、短时、有间隔的重复</span>——顶尖表演者每周练 50–60 小时，但拆成多段短练。四，<span class="cz">生动的心理练习</span>——144 名篮球运动员两周实验，只在脑里想象投篮的一组，进步几乎和真投篮的一组一样。</p>
 <div class="explain ui"><b>💡 这段论证的结构：</b>定义 → 机制 → 证据 → 否定误区（魔法数字 / 肌肉记忆）→ 特征 → 方法。这是一个标准的「科普说明文」骨架：先告诉你东西是什么，再告诉你为什么，最后告诉你怎么做。写议论文或课堂讲解时可以直接借这个骨架。</div>
+<p class="cue"><b>提示问题</b>视频用哪四步论证顺序，把「练习有用」讲成了一个可信的道理?</p>
 </section>
 
 <section id="s4">
@@ -146,42 +169,44 @@
 <p class="narr">下面这些词都已进入本页的生词本（点右上「生词本」可以逐个标记掌握情况）。神经科学类的词不必背拼写，但要能用中文说清它在这个论证里的角色。</p>
 <div class="explain ui">
 <ul>
-<li><b>practice</b> 练习 —— 以进步为目标的重复；不是「多做几遍」。</li>
-<li><b>grey matter</b> 灰质 —— 处理信息、把感觉刺激导向神经细胞的脑组织。</li>
-<li><b>white matter</b> 白质 —— 主要由脂肪组织和轴突组成，在脑区之间传信号。</li>
-<li><b>axon</b> 轴突 —— 神经细胞伸出的长纤维，像电线传电信号。</li>
-<li><b>myelin / myelination</b> 髓鞘 / 髓鞘化 —— 包在轴突外的脂质绝缘层；重复练习让它一层层加厚，信号更快。</li>
-<li><b>sheath</b> 鞘、护套 —— 包在外面的套子，myelin sheath 即髓鞘。</li>
-<li><b>insulation</b> 绝缘 —— 阻止能量外泄的包裹层，视频用它比喻髓鞘。</li>
-<li><b>neural pathway</b> 神经通路 —— 一串传递信号的神经元；技能练熟 = 这条通路被反复髓鞘化。</li>
-<li><b>muscle memory</b> 肌肉记忆 —— 日常说法；视频指出它其实在大脑而不在肌肉。</li>
-<li><b>mastery</b> 精通 —— 视频公式：时间 × 练习质量。</li>
-<li><b>deliberate practice</b> 刻意练习 —— 有目标、专注、针对能力边缘弱点、按反馈调整的练习（视频描述的「有效练习」）。</li>
-<li><b>mental practice / visualization</b> 心理练习 / 想象练习 —— 在脑中生动细致地想象完成动作。</li>
-<li><b>repetition</b> 重复 —— 练习的形式；只有朝进步的重复才算练习。</li>
-<li><b>coordination</b> 协调能力 —— 多个动作配合得又准又顺；衡量练习效果的指标。</li>
+<li><b><span class="cz big">practice</span></b> 练习 —— 以进步为目标的重复；不是「多做几遍」。</li>
+<li><b><span class="cz">grey matter</span></b> 灰质 —— 处理信息、把感觉刺激导向神经细胞的脑组织。</li>
+<li><b><span class="cz">white matter</span></b> 白质 —— 主要由脂肪组织和轴突组成，在脑区之间传信号。</li>
+<li><b><span class="cz">axon</span></b> 轴突 —— 神经细胞伸出的长纤维，像电线传电信号。</li>
+<li><b><span class="cz big">myelin / myelination</span></b> 髓鞘 / 髓鞘化 —— 包在轴突外的脂质绝缘层；重复练习让它一层层加厚，信号更快。</li>
+<li><b><span class="cz">sheath</span></b> 鞘、护套 —— 包在外面的套子，myelin sheath 即髓鞘。</li>
+<li><b><span class="cz">insulation</span></b> 绝缘 —— 阻止能量外泄的包裹层，视频用它比喻髓鞘。</li>
+<li><b><span class="cz big">neural pathway</span></b> 神经通路 —— 一串传递信号的神经元；技能练熟 = 这条通路被反复髓鞘化。</li>
+<li><b><span class="cz big">muscle memory</span></b> 肌肉记忆 —— 日常说法；视频指出它其实在大脑而不在肌肉。</li>
+<li><b><span class="cz big">mastery</span></b> 精通 —— 视频公式：时间 × 练习质量。</li>
+<li><b><span class="cz">deliberate practice</span></b> 刻意练习 —— 有目标、专注、针对能力边缘弱点、按反馈调整的练习（视频描述的「有效练习」）。</li>
+<li><b><span class="cz">mental practice / visualization</span></b> 心理练习 / 想象练习 —— 在脑中生动细致地想象完成动作。</li>
+<li><b><span class="cz">repetition</span></b> 重复 —— 练习的形式；只有朝进步的重复才算练习。</li>
+<li><b><span class="cz">coordination</span></b> 协调能力 —— 多个动作配合得又准又顺；衡量练习效果的指标。</li>
 </ul>
 </div>
+<p class="cue"><b>提示问题</b>这些术语里，哪一个是把「练习」和「大脑」连起来的关键词?</p>
 </section>
 
 <section id="s5">
 <div class="sec-head"><span class="sec-num">05</span><h2>中英原句精选</h2></div>
 <p class="narr">只挑五句最值得记的。每句都能在视频里听到原文；中文是我的理解性翻译，不是字幕。</p>
 <div class="quote"><span class="tag ui">定义 · 练习是什么</span>
-<p class="en"><span class="sent"><span class="se">Practice is the repetition of an action with the goal of improvement.</span><span class="sz">练习，就是以进步为目标的重复。</span></span></p>
+<p class="en"><span class="sent"><span class="se">Practice is the <span class="cz big">repetition of an action</span> with the <span class="cz big">goal of improvement</span>.</span><span class="sz">练习，就是以<span class="cz big">进步为目标</span>的<span class="cz big">重复</span>。</span></span></p>
 </div>
 <div class="quote"><span class="tag ui">机制 · 髓鞘</span>
-<p class="en"><span class="sent"><span class="se">Practice increases myelin — a layer of insulation that wraps around the axons.</span><span class="sz">练习会增加髓鞘——一层裹在轴突外面的「绝缘皮」。</span></span></p>
+<p class="en"><span class="sent"><span class="se">Practice increases <span class="cz big">myelin</span> — a layer of <span class="cz">insulation</span> that wraps around the axons.</span><span class="sz">练习会增加<span class="cz big">髓鞘</span>——一层裹在轴突外面的<span class="cz">「绝缘皮」</span>。</span></span></p>
 </div>
 <div class="quote"><span class="tag ui">纠正误区 · 肌肉记忆</span>
-<p class="en"><span class="sent"><span class="se">Our muscles don't have memory. What we call muscle memory is stronger neural pathways.</span><span class="sz">肌肉没有记忆。我们说的「肌肉记忆」，其实是更强的神经通路。</span></span></p>
+<p class="en"><span class="sent"><span class="se">Our muscles don't have memory. What we call <span class="cz big">muscle memory</span> is stronger <span class="cz">neural pathways</span>.</span><span class="sz">肌肉没有记忆。我们说的<span class="cz big">「肌肉记忆」</span>，其实是更强的<span class="cz">神经通路</span>。</span></span></p>
 </div>
 <div class="quote"><span class="tag ui">否定魔法数字</span>
-<p class="en"><span class="sent"><span class="se">Mastery isn't simply about the amount of hours; it's the quality and effectiveness of that practice.</span><span class="sz">精通不只看练了多少小时，更看练习的质量和效果。</span></span></p>
+<p class="en"><span class="sent"><span class="se">Mastery isn't simply about the amount of hours; it's the <span class="cz">quality and effectiveness</span> of that practice.</span><span class="sz">精通不只看练了多少小时，更看<span class="cz">练习的质量和效果</span>。</span></span></p>
 </div>
 <div class="quote"><span class="tag ui">方法 · 能力边缘</span>
-<p class="en"><span class="sent"><span class="se">Effective practice is consistent, intensely focused, and targets weaknesses at the edge of one's ability.</span><span class="sz">有效的练习：持续稳定、高度专注、盯着自己能力边缘的弱点。</span></span></p>
+<p class="en"><span class="sent"><span class="se">Effective practice is consistent, intensely focused, and targets <span class="cz big">weaknesses at the edge of one's ability</span>.</span><span class="sz">有效的练习：持续稳定、高度专注、盯着自己<span class="cz big">能力边缘的弱点</span>。</span></span></p>
 </div>
+<p class="cue"><b>提示问题</b>这五句话里，哪一句最能反驳「肌肉记忆」这个日常说法?</p>
 </section>
 
 <section id="s6">
@@ -191,6 +216,7 @@
 <p class="narr"><b>追问三：想象练习对新手有用吗？</b>篮球实验里的运动员本来就会投篮，脑里有现成的动作模型可以「回放」。一个完全不会的人闭眼想象弹琴，脑里没有可回放的东西，效果会差很多。所以心理练习更像是<b>巩固</b>而不是<b>启蒙</b>的工具。</p>
 <p class="narr"><b>反例：一万小时。</b>「一万小时定律」是对 Ericsson 研究的流行误读，视频其实在委婉地反驳它。反例很多：很多人开了三十年车、打了二十年字，水平早就停在「够用」上不再进步——因为不再针对弱点练，不是时间不够。</p>
 <div class="keypoints ui"><b>我的判断：</b>机制部分（髓鞘）要打七折听；方法部分（专注、分段、针对弱点、想象巩固）证据链比较完整，可以直接用。最实用的一条是「6 分钟就分心」——它把「专注」从一句口号变成一个可以计时的东西。</div>
+<p class="cue"><b>提示问题</b>视频哪一步论证被我打了折扣，为什么?</p>
 </section>
 
 <section id="s7">
@@ -202,18 +228,62 @@
 <li class="ext"><span class="lk-tag">外部</span><a href="https://www.youtube.com/watch?v=f2O6mQkFiiw" target="_blank" rel="noopener">原视频 · TED-Ed「How to practice effectively」</a><br>进一步阅读：Anders Ericsson &amp; Robert Pool《Peak》——刻意练习的一手来源，不是「一万小时」。</li>
 <li class="ext"><span class="lk-tag">外部</span>Fields, R. D.「White Matter Matters」（<i>Scientific American</i>, 2008）<br>髓鞘与学习的综述。想核对第 6 节「证据有多硬」可以从这里查。</li>
 </ul>
+<p class="cue"><b>提示问题</b>FOGG 课堂上哪个具体环节，其实就是在落实这支视频的某条原则?</p>
 </section>
 
 <section id="s8">
 <div class="sec-head"><span class="sec-num">08</span><h2>自测题</h2></div>
 <p class="narr">先不看答案，自己在心里答一遍，再点开对照。这些题也会进入总目录「大脑库 → 考我」的随机抽题池。</p>
 <div class="quiz" id="quiz">
-<div class="q"><div class="qt">视频里对「练习」的定义是什么？和「重复」有什么区别？</div><div class="a">练习 = 以进步为目标的重复。单纯重复不一定进步；练习必须朝着「更好」这个方向。</div></div>
-<div class="q"><div class="qt">重复练习在大脑里到底改变了什么？</div><div class="a">白质里的轴突：每次重复，轴突外面多裹一层髓鞘。髓鞘像电线绝缘皮，让信号跑得更快、更省能量，动作更流畅。</div></div>
-<div class="q"><div class="qt">「肌肉记忆」这个说法为什么不准确？</div><div class="a">肌肉本身不记东西，记住动作的是大脑和神经通路。所谓肌肉记忆，其实是被反复髓鞘化的神经通路。</div></div>
-<div class="q"><div class="qt">「要练多少小时才能精通」有魔法数字吗？视频给出的公式是什么？</div><div class="a">没有。精通 = 时间 × 练习质量，两者都要。</div></div>
-<div class="q"><div class="qt">有效练习有哪几个特征？</div><div class="a">持续稳定（consistent）、高度专注（focused）、针对当前能力边缘的弱点（targets weaknesses at the edge of one's ability）。</div></div>
-<div class="q"><div class="qt">视频给了哪四条可操作的建议？各自的研究证据是什么？</div><div class="a">① 专注、排除干扰——260 名学生平均 6 分钟就分心；② 先慢后快；③ 多次、短时、有间隔的重复——顶尖表演者每周 50–60 小时但分成多段；④ 生动的心理练习——144 名篮球运动员两周实验，想象组进步接近实练组。</div></div>
+<div class="qa" data-i="0">
+<p class="q">视频里对「练习」的定义是什么？和单纯的「重复」有什么区别？</p>
+<textarea data-save="quiz-0" placeholder="先写/说出答案"></textarea>
+<button type="button" class="qa-show">看答案</button>
+<div class="a">练习 = 以进步为目标的重复。单纯重复不一定进步；练习必须朝着「更好」这个方向。</div>
+<div class="rate"><button data-r="0">忘了</button><button data-r="1">模糊</button><button data-r="2">记得</button><button data-r="3">很熟</button></div>
+</div>
+<div class="qa" data-i="1">
+<p class="q">重复练习在大脑里到底改变了什么？说说这条机制的传导链条。</p>
+<textarea data-save="quiz-1" placeholder="先写/说出答案"></textarea>
+<button type="button" class="qa-show">看答案</button>
+<div class="a">改变的是白质里的轴突：每次重复，轴突外面多裹一层髓鞘。髓鞘像电线绝缘皮，让信号跑得更快、更省能量，动作更流畅。</div>
+<div class="rate"><button data-r="0">忘了</button><button data-r="1">模糊</button><button data-r="2">记得</button><button data-r="3">很熟</button></div>
+</div>
+<div class="qa" data-i="2">
+<p class="q">「肌肉记忆」这个说法为什么不准确？真正记住动作的是什么？</p>
+<textarea data-save="quiz-2" placeholder="先写/说出答案"></textarea>
+<button type="button" class="qa-show">看答案</button>
+<div class="a">肌肉本身不记东西，记住动作的是大脑和神经通路。所谓肌肉记忆，其实是被反复髓鞘化的神经通路。</div>
+<div class="rate"><button data-r="0">忘了</button><button data-r="1">模糊</button><button data-r="2">记得</button><button data-r="3">很熟</button></div>
+</div>
+<div class="qa" data-i="3">
+<p class="q">「要练多少小时才能精通」有魔法数字吗？视频给出的公式是什么？</p>
+<textarea data-save="quiz-3" placeholder="先写/说出答案"></textarea>
+<button type="button" class="qa-show">看答案</button>
+<div class="a">没有一个对所有人都成立的小时数。视频的说法是：精通 = 时间 × 练习质量，两者都要，只堆时间不够。</div>
+<div class="rate"><button data-r="0">忘了</button><button data-r="1">模糊</button><button data-r="2">记得</button><button data-r="3">很熟</button></div>
+</div>
+<div class="qa" data-i="4">
+<p class="q">有效练习有哪几个特征？为什么「边缘」这个词很关键？</p>
+<textarea data-save="quiz-4" placeholder="先写/说出答案"></textarea>
+<button type="button" class="qa-show">看答案</button>
+<div class="a">持续稳定（consistent）、高度专注（focused）、针对当前能力边缘的弱点。太容易的不用练，太难的练不动，进步只发生在刚好够不着的地方。</div>
+<div class="rate"><button data-r="0">忘了</button><button data-r="1">模糊</button><button data-r="2">记得</button><button data-r="3">很熟</button></div>
+</div>
+<div class="qa" data-i="5">
+<p class="q">视频给了哪四条可操作的建议？各自的研究证据是什么？</p>
+<textarea data-save="quiz-5" placeholder="先写/说出答案"></textarea>
+<button type="button" class="qa-show">看答案</button>
+<div class="a">① 专注、排除干扰——260 名学生平均 6 分钟就分心；② 先慢后快；③ 多次、短时、有间隔的重复——顶尖表演者每周 50–60 小时但分成多段；④ 生动的心理练习——144 名篮球运动员两周实验，想象组进步接近实练组。</div>
+<div class="rate"><button data-r="0">忘了</button><button data-r="1">模糊</button><button data-r="2">记得</button><button data-r="3">很熟</button></div>
+</div>
+<div class="qa" data-i="6">
+<p class="q">为什么说「一万小时定律」被这支视频委婉地反驳了？</p>
+<textarea data-save="quiz-6" placeholder="先写/说出答案"></textarea>
+<button type="button" class="qa-show">看答案</button>
+<div class="a">视频强调精通是时间 × 质量，而不是单纯的小时数；很多人练了几十年却不再进步，正是因为不再针对弱点练，说明时间够长不等于精通。</div>
+<div class="rate"><button data-r="0">忘了</button><button data-r="1">模糊</button><button data-r="2">记得</button><button data-r="3">很熟</button></div>
+</div>
 </div>
 </section>
 
@@ -221,66 +291,72 @@
 <div class="sec-head"><span class="sec-num">09</span><h2>我的输出</h2></div>
 <p class="narr">费曼法的最后一步：不看上面任何内容，用自己的话写一段——这支视频讲了什么、我信哪部分、我打算怎么改自己的练习。写完可以对照第 2 节看漏了什么。这个框会自动保存（也跟着云同步）。</p>
 <div class="my-output ui">
-<div class="note-label">用自己的话写一段（自动保存）</div>
-<textarea id="my-output" placeholder="例：这支视频说练习之所以有用，是因为……我最想试的一条建议是……因为我现在练习时最大的问题是……"></textarea>
+<div class="note-label">用我的话说（自动保存）</div>
+<textarea data-save="out-own" placeholder="例：这支视频说练习之所以有用，是因为……"></textarea>
+<div class="note-label">我生活里的例子（自动保存）</div>
+<textarea data-save="out-example" placeholder="我自己练过的一件事，对照这支视频哪里做对了、哪里没做对……"></textarea>
+<div class="note-label">什么时候不适用（自动保存）</div>
+<textarea data-save="out-limit" placeholder="哪种情况下这些建议可能不成立、要打折扣……"></textarea>
+<textarea id="my-output" data-save="output" hidden></textarea>
 </div>
 </section>
 <footer class="ui">大脑库 · 学习笔记,非原文转录 · 来源见页首</footer>
 <section id="s10">
 <div class="sec-head"><span class="sec-num">10</span><h2>原文全文 · Full Transcript</h2></div>
 <p class="narr">完整英文原稿逐句中英对照。来源：TED-Ed「How to practice effectively...for just about anything」（Annie Bosler &amp; Don Greene，2017），<a href="https://www.youtube.com/watch?v=f2O6mQkFiiw" target="_blank" rel="noopener">原视频</a>，CC BY-NC-ND 4.0。点句子可划线、加生词、朗读；「显示全部中文」可展开译文。</p>
+<p class="narr ui" style="font-size:13px;color:#8CA19D">这里放全文是用来核对的；学习请点工具栏「挖空复述」，自己先说出来再对照，不要只是读一遍。</p>
 <div class="para"><p class="en">
-<span class="sent"><span class="se">Mastering any physical skill, be it performing a pirouette, playing an instrument, or throwing a baseball, takes practice.</span><span class="sz">掌握任何一项身体技能——无论是跳一个芭蕾旋转、演奏乐器，还是投棒球——都需要练习。</span></span>
-<span class="sent"><span class="se">Practice is the repetition of an action with the goal of improvement, and it helps us perform with more ease, speed, and confidence.</span><span class="sz">练习就是为了进步而反复重复一个动作，它能让我们做起来更轻松、更快、更有信心。</span></span>
-<span class="sent"><span class="se">So what does practice do in our brains to make us better at things?</span><span class="sz">那么练习到底在我们大脑里做了什么，让我们做事变得更好？</span></span>
-<span class="sent"><span class="se">Our brains have two kinds of neural tissue: grey matter and white matter.</span><span class="sz">我们的大脑有两种神经组织：灰质和白质。</span></span>
-<span class="sent"><span class="se">The grey matter processes information in the brain, directing signals and sensory stimuli to nerve cells, while white matter is mostly made up of fatty tissue and nerve fibers.</span><span class="sz">灰质负责处理大脑中的信息，把信号和感觉刺激传导给神经细胞；白质则主要由脂肪组织和神经纤维组成。</span></span>
-<span class="sent"><span class="se">In order for our bodies to move, information needs to travel from the brain's grey matter, down the spinal cord, through a chain of nerve fibers called axons to our muscles.</span><span class="sz">身体要能动起来，信息需要从大脑灰质出发，沿脊髓向下，经过一串叫做轴突的神经纤维，最终传到肌肉。</span></span>
-<span class="sent"><span class="se">So how does practice or repetition affect the inner workings of our brains?</span><span class="sz">那么练习或重复到底怎样影响大脑内部的运作呢？</span></span>
+<span class="sent"><span class="se">Mastering any physical skill, be it performing a pirouette, playing an instrument, or throwing a baseball, takes <span class="cz big">practice</span>.</span><span class="sz">掌握任何一项身体技能——无论是跳一个芭蕾旋转、演奏乐器，还是投棒球——都需要<span class="cz big">练习</span>。</span></span>
+<span class="sent"><span class="se">Practice is the <span class="cz big">repetition of an action</span> with the <span class="cz big">goal of improvement</span>, and it helps us perform with more ease, speed, and confidence.</span><span class="sz">练习就是<span class="cz big">为了进步</span>而<span class="cz big">反复重复一个动作</span>，它能让我们做起来更轻松、更快、更有信心。</span></span>
+<span class="sent"><span class="se">So what does practice do in our <span class="cz">brains</span> to make us better at things?</span><span class="sz">那么练习到底在我们<span class="cz">大脑</span>里做了什么，让我们做事变得更好？</span></span>
+<span class="sent"><span class="se">Our brains have two kinds of neural tissue: <span class="cz big">grey matter</span> and <span class="cz big">white matter</span>.</span><span class="sz">我们的大脑有两种神经组织：<span class="cz big">灰质</span>和<span class="cz big">白质</span>。</span></span>
+<span class="sent"><span class="se">The grey matter processes information in the brain, directing signals and sensory stimuli to <span class="cz">nerve cells</span>, while white matter is mostly made up of fatty tissue and <span class="cz">nerve fibers</span>.</span><span class="sz">灰质负责处理大脑中的信息，把信号和感觉刺激传导给<span class="cz">神经细胞</span>；白质则主要由脂肪组织和<span class="cz">神经纤维</span>组成。</span></span>
+<span class="sent"><span class="se">In order for our bodies to move, information needs to travel from the brain's grey matter, down the spinal cord, through a chain of nerve fibers called <span class="cz big">axons</span> to our muscles.</span><span class="sz">身体要能动起来，信息需要从大脑灰质出发，沿脊髓向下，经过一串叫做<span class="cz big">轴突</span>的神经纤维，最终传到肌肉。</span></span>
+<span class="sent"><span class="se">So how does <span class="cz">practice or repetition</span> affect the inner workings of our brains?</span><span class="sz">那么<span class="cz">练习或重复</span>到底怎样影响大脑内部的运作呢？</span></span>
 </p></div>
 <div class="para"><p class="en">
-<span class="sent"><span class="se">The axons that exist in the white matter are wrapped with a fatty substance called myelin.</span><span class="sz">存在于白质中的轴突，外面包裹着一种叫做髓鞘的脂肪物质。</span></span>
-<span class="sent"><span class="se">And it's this myelin covering, or sheath, that seems to change with practice.</span><span class="sz">正是这层髓鞘包膜，似乎会随着练习而发生变化。</span></span>
-<span class="sent"><span class="se">Myelin is similar to insulation on electrical cables.</span><span class="sz">髓鞘的作用有点像电缆外面的绝缘层。</span></span>
-<span class="sent"><span class="se">It prevents energy loss from electrical signals that the brain uses, moving them more efficiently along neural pathways.</span><span class="sz">它能防止大脑使用的电信号能量流失，让信号更高效地沿神经通路传递。</span></span>
-<span class="sent"><span class="se">Some recent studies in mice suggest that the repetition of a physical motion increases the layers of myelin sheath that insulates the axons.</span><span class="sz">一些近期针对小鼠的研究表明，反复做某个动作会增加包裹轴突的髓鞘层数。</span></span>
-<span class="sent"><span class="se">And the more layers, the greater the insulation around the axon chains, forming a sort of superhighway for information connecting your brain to your muscles.</span><span class="sz">髓鞘层数越多，轴突链周围的绝缘就越强，从而在大脑和肌肉之间形成一条信息传递的「超级高速公路」。</span></span>
-<span class="sent"><span class="se">So while many athletes and performers attribute their successes to muscle memory, muscles themselves don't really have memory.</span><span class="sz">因此，尽管许多运动员和表演者把自己的成功归功于「肌肉记忆」，但肌肉本身其实并没有记忆能力。</span></span>
-<span class="sent"><span class="se">Rather, it may be the myelination of neural pathways that gives these athletes and performers their edge with faster and more efficient neural pathways.</span><span class="sz">真正给这些运动员和表演者带来优势的，可能是神经通路的髓鞘化，让神经通路变得更快、更高效。</span></span>
+<span class="sent"><span class="se">The axons that exist in the white matter are wrapped with a fatty substance called <span class="cz big">myelin</span>.</span><span class="sz">存在于白质中的轴突，外面包裹着一种叫做<span class="cz big">髓鞘</span>的脂肪物质。</span></span>
+<span class="sent"><span class="se">And it's this myelin covering, or <span class="cz">sheath</span>, that seems to change with practice.</span><span class="sz">正是这层髓鞘包膜，也就是<span class="cz">鞘</span>，似乎会随着练习而发生变化。</span></span>
+<span class="sent"><span class="se">Myelin is similar to <span class="cz">insulation</span> on electrical cables.</span><span class="sz">髓鞘的作用有点像电缆外面的<span class="cz">绝缘</span>层。</span></span>
+<span class="sent"><span class="se">It prevents energy loss from electrical signals that the brain uses, moving them more efficiently along <span class="cz">neural pathways</span>.</span><span class="sz">它能防止大脑使用的电信号能量流失，让信号更高效地沿<span class="cz">神经通路</span>传递。</span></span>
+<span class="sent"><span class="se">Some recent studies in mice suggest that the <span class="cz">repetition</span> of a physical motion increases the layers of myelin sheath that insulates the axons.</span><span class="sz">一些近期针对小鼠的研究表明，<span class="cz">反复</span>做某个动作会增加包裹轴突的髓鞘层数。</span></span>
+<span class="sent"><span class="se">And the more layers, the greater the insulation around the axon chains, forming a sort of <span class="cz big">superhighway</span> for information connecting your brain to your muscles.</span><span class="sz">髓鞘层数越多，轴突链周围的绝缘就越强，从而在大脑和肌肉之间形成一条信息传递的「<span class="cz big">超级高速公路</span>」。</span></span>
+<span class="sent"><span class="se">So while many athletes and performers attribute their successes to <span class="cz big">muscle memory</span>, muscles themselves don't really have memory.</span><span class="sz">因此，尽管许多运动员和表演者把自己的成功归功于「<span class="cz big">肌肉记忆</span>」，但肌肉本身其实并没有记忆能力。</span></span>
+<span class="sent"><span class="se">Rather, it may be the myelination of neural pathways that gives these athletes and performers their <span class="cz">edge</span> with faster and more efficient neural pathways.</span><span class="sz">真正给这些运动员和表演者带来<span class="cz">优势</span>的，可能是神经通路的髓鞘化，让神经通路变得更快、更高效。</span></span>
 </p></div>
 <div class="para"><p class="en">
-<span class="sent"><span class="se">There are many theories that attempt to quantify the number of hours, days, and even years of practice that it takes to master a skill.</span><span class="sz">有很多理论都试图量化掌握一项技能到底需要多少小时、多少天甚至多少年的练习。</span></span>
-<span class="sent"><span class="se">While we don't yet have a magic number, we do know that mastery isn't simply about the amount of hours of practice.</span><span class="sz">虽然目前还没有一个确切的「神奇数字」，但我们确实知道，精通一项技能不只是练习时间的多少。</span></span>
-<span class="sent"><span class="se">It's also the quality and effectiveness of that practice.</span><span class="sz">练习的质量和有效性同样重要。</span></span>
-<span class="sent"><span class="se">Effective practice is consistent, intensely focused, and targets content or weaknesses that lie at the edge of one's current abilities.</span><span class="sz">有效的练习是持续稳定、高度专注的，并且针对的是刚好处于个人当前能力边缘的内容或弱点。</span></span>
+<span class="sent"><span class="se">There are many theories that attempt to quantify the number of hours, days, and even years of practice that it takes to <span class="cz">master</span> a skill.</span><span class="sz">有很多理论都试图量化<span class="cz">掌握</span>一项技能到底需要多少小时、多少天甚至多少年的练习。</span></span>
+<span class="sent"><span class="se">While we don't yet have a <span class="cz big">magic number</span>, we do know that mastery isn't simply about the amount of hours of practice.</span><span class="sz">虽然目前还没有一个确切的「<span class="cz big">神奇数字</span>」，但我们确实知道，精通一项技能不只是练习时间的多少。</span></span>
+<span class="sent"><span class="se">It's also the <span class="cz">quality and effectiveness</span> of that practice.</span><span class="sz">练习的<span class="cz">质量和有效性</span>同样重要。</span></span>
+<span class="sent"><span class="se"><span class="cz big">Effective practice</span> is consistent, intensely focused, and targets content or weaknesses that lie at the <span class="cz big">edge of one's current abilities</span>.</span><span class="sz"><span class="cz big">有效的练习</span>是持续稳定、高度专注的，并且针对的是<span class="cz big">刚好处于个人当前能力边缘</span>的内容或弱点。</span></span>
 </p></div>
 <div class="para"><p class="en">
 <span class="sent"><span class="se">So if effective practice is the key, how can we get the most out of our practice time?</span><span class="sz">既然有效练习才是关键，那我们要怎样才能让练习时间发挥最大效果呢？</span></span>
 <span class="sent"><span class="se">Try these tips.</span><span class="sz">试试下面这些方法。</span></span>
-<span class="sent"><span class="se">Focus on the task at hand.</span><span class="sz">专注于当下要做的事情。</span></span>
-<span class="sent"><span class="se">Minimize potential distractions by turning off the computer or TV and putting your cell phone on airplane mode.</span><span class="sz">关掉电脑或电视，把手机调成飞行模式，尽量减少潜在的干扰。</span></span>
-<span class="sent"><span class="se">In one study, researchers observed 260 students studying.</span><span class="sz">在一项研究中，研究者观察了260名学生学习的情况。</span></span>
-<span class="sent"><span class="se">On average, those students were able to stay on task for only six minutes at a time.</span><span class="sz">平均下来，这些学生每次只能保持专注六分钟。</span></span>
+<span class="sent"><span class="se"><span class="cz">Focus</span> on the task at hand.</span><span class="sz"><span class="cz">专注</span>于当下要做的事情。</span></span>
+<span class="sent"><span class="se">Minimize potential <span class="cz">distractions</span> by turning off the computer or TV and putting your cell phone on airplane mode.</span><span class="sz">关掉电脑或电视，把手机调成飞行模式，尽量减少潜在的<span class="cz">干扰</span>。</span></span>
+<span class="sent"><span class="se">In one study, researchers observed <span class="cz">260 students</span> studying.</span><span class="sz">在一项研究中，研究者观察了<span class="cz">260名学生</span>学习的情况。</span></span>
+<span class="sent"><span class="se">On average, those students were able to stay on task for only <span class="cz big">six minutes</span> at a time.</span><span class="sz">平均下来，这些学生每次只能保持专注<span class="cz big">六分钟</span>。</span></span>
 <span class="sent"><span class="se">Laptops, smartphones, and particularly Facebook were the root of most distractions.</span><span class="sz">笔记本电脑、智能手机，尤其是Facebook，是大部分分心的根源。</span></span>
 </p></div>
 <div class="para"><p class="en">
-<span class="sent"><span class="se">Start out slowly or in slow-motion.</span><span class="sz">一开始要慢慢来，或者用慢动作练习。</span></span>
-<span class="sent"><span class="se">Coordination is built with repetitions, whether correct or incorrect.</span><span class="sz">协调性是靠一次次重复建立起来的，不管动作对不对。</span></span>
+<span class="sent"><span class="se">Start out <span class="cz">slowly</span> or in slow-motion.</span><span class="sz">一开始要<span class="cz">慢慢</span>来，或者用慢动作练习。</span></span>
+<span class="sent"><span class="se"><span class="cz">Coordination</span> is built with repetitions, whether correct or incorrect.</span><span class="sz"><span class="cz">协调性</span>是靠一次次重复建立起来的，不管动作对不对。</span></span>
 <span class="sent"><span class="se">If you gradually increase the speed of the quality repetitions, you have a better chance of doing them correctly.</span><span class="sz">如果你逐渐提高高质量重复动作的速度，就更有可能把动作做对。</span></span>
 </p></div>
 <div class="para"><p class="en">
-<span class="sent"><span class="se">Next, frequent repetitions with allotted breaks are common practice habits of elite performers.</span><span class="sz">此外，频繁重复并搭配安排好的休息，是顶尖表演者共同的练习习惯。</span></span>
-<span class="sent"><span class="se">Studies have shown that many top athletes, musicians, and dancers spend 50-60 hours per week on activities related to their craft.</span><span class="sz">研究表明，许多顶尖运动员、音乐家和舞者，每周会花50到60个小时在与自己专业相关的活动上。</span></span>
+<span class="sent"><span class="se">Next, <span class="cz big">frequent repetitions with allotted breaks</span> are common practice habits of elite performers.</span><span class="sz">此外，<span class="cz big">频繁重复并搭配安排好的休息</span>，是顶尖表演者共同的练习习惯。</span></span>
+<span class="sent"><span class="se">Studies have shown that many top athletes, musicians, and dancers spend <span class="cz">50-60 hours per week</span> on activities related to their craft.</span><span class="sz">研究表明，许多顶尖运动员、音乐家和舞者，每周会花<span class="cz">50到60个小时</span>在与自己专业相关的活动上。</span></span>
 <span class="sent"><span class="se">Many divide their time used for effective practice into multiple daily practice sessions of limited duration.</span><span class="sz">他们中许多人会把用于有效练习的时间，分成每天多次、每次时长有限的练习。</span></span>
 </p></div>
 <div class="para"><p class="en">
 <span class="sent"><span class="se">And finally, practice in your brain in vivid detail.</span><span class="sz">最后一点：在脑海中生动细致地练习。</span></span>
-<span class="sent"><span class="se">It's a bit surprising, but a number of studies suggest that once a physical motion has been established, it can be reinforced just by imagining it.</span><span class="sz">这点可能有些出人意料，但不少研究表明，一旦一个身体动作已经建立起来，仅仅靠想象它就能强化这个动作。</span></span>
-<span class="sent"><span class="se">In one study, 144 basketball players were divided into two groups.</span><span class="sz">在一项研究中，144名篮球运动员被分成了两组。</span></span>
-<span class="sent"><span class="se">Group A physically practiced one-handed free throws while Group B only mentally practiced them.</span><span class="sz">A组通过实际动作练习单手罚球，B组则只在脑海中进行想象练习。</span></span>
+<span class="sent"><span class="se">It's a bit surprising, but a number of studies suggest that once a physical motion has been established, it can be reinforced just by <span class="cz big">imagining</span> it.</span><span class="sz">这点可能有些出人意料，但不少研究表明，一旦一个身体动作已经建立起来，仅仅靠<span class="cz big">想象</span>它就能强化这个动作。</span></span>
+<span class="sent"><span class="se">In one study, <span class="cz">144 basketball players</span> were divided into two groups.</span><span class="sz">在一项研究中，<span class="cz">144名篮球运动员</span>被分成了两组。</span></span>
+<span class="sent"><span class="se">Group A physically practiced one-handed free throws while Group B only <span class="cz">mentally practiced</span> them.</span><span class="sz">A组通过实际动作练习单手罚球，B组则只在脑海中进行<span class="cz">想象练习</span>。</span></span>
 <span class="sent"><span class="se">When they were tested at the end of the two week experiment, the intermediate and experienced players in both groups had improved by nearly the same amount.</span><span class="sz">在为期两周的实验结束后进行测试时，两组中的中等水平和经验丰富的球员，进步幅度几乎相同。</span></span>
 <span class="sent"><span class="se">As scientists get closer to unraveling the secrets of our brains, our understanding of effective practice will only improve.</span><span class="sz">随着科学家离揭开大脑奥秘越来越近，我们对有效练习的理解也会不断加深。</span></span>
-<span class="sent"><span class="se">In the meantime, effective practice is the best way we have of pushing our individual limits, achieving new heights, and maximizing our potential.</span><span class="sz">与此同时，有效练习仍是我们目前所拥有的、突破个人极限、达到新高度、最大限度发挥潜力的最好方式。</span></span>
+<span class="sent"><span class="se">In the meantime, <span class="cz big">effective practice</span> is the best way we have of pushing our individual limits, achieving new heights, and maximizing our potential.</span><span class="sz">与此同时，<span class="cz big">有效练习</span>仍是我们目前所拥有的、突破个人极限、达到新高度、最大限度发挥潜力的最好方式。</span></span>
 </p></div>
 </section>
 </main>
