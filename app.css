@@ -372,7 +372,8 @@ body.cues-only main>header .meta,body.cues-only main>footer{display:none}
 .rate button:hover{border-color:var(--teal)}
 .rate button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
 .next-due{font-size:12.5px;color:var(--gold-deep);margin-left:4px}
-body.src-page main section{max-width:640px}
+body.src-page .wrap{max-width:1560px}
+body.src-page main section{max-width:none}
 body.src-page .para .en,body.src-page .narr{font-size:calc(var(--fs) + .5px);line-height:1.7}
 body.src-page .narr{font-style:normal;color:#4E6964}
 body.src-page .sz,body.src-page .zh-block{color:#4E6964}
