@@ -22,6 +22,7 @@ a{color:inherit;text-decoration:none}
 .org.open + .org-body{display:block}
 .crs{display:flex;align-items:center;gap:7px;padding:8px 8px 8px 10px;border-radius:9px;cursor:pointer;font-size:13.5px;color:#3E5A57;border-left:3px solid transparent}
 .crs:hover{background:var(--mist)}
+.crs.none{color:var(--dim);opacity:.6}
 .crs.on{background:var(--mist);color:var(--ink-deep);font-weight:600;border-left-color:var(--acc)}
 .crs .cnt{margin-left:auto;font-size:11px;color:var(--dim);font-family:Georgia,serif}
 .lvs{display:none;grid-template-columns:repeat(4,1fr);gap:4px;padding:6px 6px 8px 16px}
@@ -319,13 +320,18 @@ function side(){
   });
   h+='<div class="crs'+(S.view==='talk'?' on':'')+'" data-view="talk" style="--acc:#B0741E">讲座<span class="cnt">'+pagesOf(function(x){return x.kind==='talk'}).length+'</span></div>';
   h+='<div class="crs'+(S.view==='internal'?' on':'')+'" data-view="internal" style="--acc:#6B8480">内部教研<span class="cnt">'+pagesOf(function(x){return x.kind==='internal'}).length+'</span></div>';
-  h+='<div class="crs'+(S.view==='library'?' on':'')+'" data-view="library" style="--acc:#6A4BA8">大脑库<span class="cnt">'+pagesOf(function(x){return x.kind==='source'}).length+'</span></div>';
+  h+='</div>';
+  var src=pagesOf(function(x){return x.kind==='source'}),lib=S.view==='library';
+  h+='<div class="org open" id="org2" style="margin-top:6px">大脑库<span class="arw">▶</span></div><div class="org-body">';
+  h+='<div class="crs'+(lib&&S.disc==='all'?' on':'')+'" data-view="library" data-disc="all" style="--acc:#6A4BA8">全部<span class="cnt">'+src.length+'</span></div>';
+  LIB.disciplines.forEach(function(d){var c=src.filter(function(x){return x.discipline===d.id}).length;h+='<div class="crs'+(lib&&S.disc===d.id?' on':'')+(c?'':' none')+'" data-view="library" data-disc="'+d.id+'" style="--acc:'+d.accent+'">'+esc(d.name)+'<span class="cnt">'+c+'</span></div>'});
   h+='</div><div class="side-sep"></div>';
   h+='<div class="sync" id="sync-title"><i id="st-dot"></i><span id="sync-label">多设备同步</span></div><div class="sync-body" id="sync-body"><input id="gist-id" placeholder="Gist ID"><input id="gist-token" type="password" placeholder="GitHub Token（只存本机）"><div class="sb-row"><button id="sync-save">保存</button><button id="sync-clear">清除</button></div><div class="st" id="sync-status"></div></div>';
   document.getElementById('side').innerHTML=h;
   document.getElementById('org').onclick=function(){this.classList.toggle('open')};
+  document.getElementById('org2').onclick=function(){this.classList.toggle('open')};
   document.querySelectorAll('.crs[data-prog]').forEach(function(el){el.onclick=function(){S.prog=el.dataset.prog;S.level=null;S.unit=null;S.view='grid';S.q='';render()}});
-  document.querySelectorAll('.crs[data-view]').forEach(function(el){el.onclick=function(){S.view=el.dataset.view;S.level=null;S.unit=null;S.topic='all';S.q='';render()}});
+  document.querySelectorAll('.crs[data-view]').forEach(function(el){el.onclick=function(){S.view=el.dataset.view;S.level=null;S.unit=null;S.topic='all';S.q='';if(el.dataset.disc){S.disc=el.dataset.disc;S.ltype='all'}render()}});
   document.querySelectorAll('.lv').forEach(function(el){el.onclick=function(e){e.stopPropagation();S.level=+el.dataset.lv;S.unit=null;S.view='grid';S.q='';render();var r=document.getElementById('lv'+S.level);if(r)r.scrollIntoView({behavior:'smooth',block:'center'})}});
   bindSync();
 }
@@ -481,7 +487,8 @@ function bookCard(name,chs){
 }
 function library(){
   var all=sources();
-  var h=head('<a data-go="back">FOGG</a><span>›</span><span>大脑库</span>','大脑库','Brain Library',null);
+  var dsel=S.disc!=='all'?LIB.disciplines.filter(function(d){return d.id===S.disc})[0]:null;
+  var h=head(dsel?'<a data-disc-go="all">大脑库</a><span>›</span><span>'+esc(dsel.name)+'</span>':'<span>大脑库</span>',dsel?dsel.name:'大脑库','Brain Library',null);
   h+='<div class="lib-bar"><button class="pill big'+(S.lpanel==='quiz'?' on':'')+'" data-lpanel="quiz">考我</button><button class="pill big'+(S.lpanel==='review'?' on':'')+'" data-lpanel="review">今日复习</button></div>';
   h+='<div id="lib-panel">'+(S.lpanel==='quiz'?quizPanel():S.lpanel==='review'?reviewPanel():'')+'</div>';
   var pill=function(attr,val,cur,label){return '<button class="pill'+(cur===val?' on':'')+'" data-'+attr+'="'+esc(val)+'">'+esc(label)+'</button>'};
@@ -499,7 +506,7 @@ function library(){
 }
 function bindLib(m){
   m.querySelectorAll('[data-lpanel]').forEach(function(b){b.onclick=function(){S.lpanel=S.lpanel===b.dataset.lpanel?null:b.dataset.lpanel;if(S.lpanel==='quiz'&&!QZ.cur)quizNext();renderMain()}});
-  m.querySelectorAll('.pill[data-disc]').forEach(function(b){b.onclick=function(){S.disc=b.dataset.disc;renderMain()}});
+  m.querySelectorAll('.pill[data-disc],[data-disc-go]').forEach(function(b){b.onclick=function(){S.disc=b.dataset.disc||b.dataset.discGo;render()}});
   m.querySelectorAll('.pill[data-ltype]').forEach(function(b){b.onclick=function(){S.ltype=b.dataset.ltype;renderMain()}});
   var pn=document.getElementById('lib-panel');if(!pn)return;
   pn.onclick=function(e){
