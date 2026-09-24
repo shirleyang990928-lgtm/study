@@ -100,12 +100,14 @@ for cj in sorted(glob.glob('courses/*/*/*/class.json')):
 # ---------- 页面 ----------
 pages = []
 keys = {}
-files = sorted(glob.glob('courses/*/*/*/wk*.html')) + sorted(glob.glob('talks/*/*.html')) + sorted(glob.glob('internal/*/*.html'))
+files = sorted(glob.glob('courses/*/*/*/wk*.html')) + sorted(glob.glob('talks/*/*.html')) + sorted(glob.glob('internal/*/*.html')) + sorted(glob.glob('library/*/*.html'))
+LIB = json.loads(read('_build/library.json'))
+LIB_DISCS = {d['id']: d for d in LIB['disciplines']}
 for p in files:
     p = p.replace('\\', '/')
     if os.path.basename(p) == 'index.html':
         continue
-    kind = 'lesson' if p.startswith('courses/') else ('talk' if p.startswith('talks/') else 'internal')
+    kind = 'lesson' if p.startswith('courses/') else ('talk' if p.startswith('talks/') else ('source' if p.startswith('library/') else 'internal'))
     depth = p.count('/')
     root = '../' * depth
     src = read(p)
@@ -163,6 +165,25 @@ for p in files:
         meta.setdefault('length', c.get('length', ''))
         meta['tagText'] = f"{programs[prog]['code']} L{c['level']} · Wk{meta.get('week')}"
         c['lessons'].append(meta)
+    elif kind == 'source':
+        _, disc, fn = p.split('/')
+        for k in ('type', 'discipline', 'author', 'source', 'length', 'en', 'desc'):
+            if not meta.get(k):
+                err(f'{p}: page-meta 缺少 {k}')
+        if meta.get('discipline') and meta['discipline'] not in LIB_DISCS:
+            err(f"{p}: discipline {meta['discipline']} 不在 _build/library.json 里")
+        if meta.get('type') and meta['type'] not in LIB['types']:
+            err(f"{p}: type {meta['type']} 不在 _build/library.json 里")
+        if meta.get('discipline') and meta['discipline'] != disc:
+            err(f"{p}: 文件夹 {disc} 与 page-meta.discipline={meta['discipline']} 不一致")
+        if not re.match(r'^lib-[a-z]+-[a-z0-9-]+$', key):
+            err(f'{p}: key 应为 lib-<type>-<slug> 格式')
+        if 'href="../../index.html#library"' not in src:
+            err(f'{p}: 缺少大脑库总览链接 href="../../index.html#library"')
+        meta.setdefault('accent', LIB_DISCS.get(disc, {}).get('accent', ''))
+        meta['tagText'] = LIB['types'].get(meta.get('type'), '')
+        meta.setdefault('quiz', [])
+        meta.setdefault('level', '')
     else:
         for k in ('type', 'teacher', 'accent'):
             if not meta.get(k):
@@ -217,6 +238,7 @@ catalog = {
     } for pid in PROGRAM_ORDER for pr in [programs[pid]]],
     'classes': [slim_class(c) for c in classes.values()],
     'pages': [{k: v for k, v in m.items() if not k.startswith('_')} for m in pages],
+    'library': {'disciplines': LIB['disciplines'], 'types': LIB['types']},
 }
 write('catalog.js',
       '// 自动生成,不要手改。运行 python _build/build_site.py\n'

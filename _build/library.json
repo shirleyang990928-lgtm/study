@@ -1,0 +1,10 @@
+{"disciplines":[
+  {"id":"learning","name":"教育与学习科学","accent":"#6A4BA8"},
+  {"id":"writing","name":"写作与文学","accent":"#C0603A"},
+  {"id":"language","name":"语言与英语","accent":"#2E5A66"},
+  {"id":"mind","name":"心理与认知","accent":"#B0741E"},
+  {"id":"science","name":"科学与自然","accent":"#3B7A57"},
+  {"id":"society","name":"历史与社会","accent":"#7A4B3B"},
+  {"id":"business","name":"商业与沟通","accent":"#4B6A8A"},
+  {"id":"other","name":"其他","accent":"#6B8480"}],
+ "types":{"teded":"TED-Ed","video":"视频课","paper":"期刊论文","book":"书","article":"文章","podcast":"播客"}}

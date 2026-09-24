@@ -906,5 +906,22 @@ async function reloadFromStore(){
   mm.querySelectorAll('button,a').forEach(function(b){ b.addEventListener('click',function(){ setTimeout(function(){mm.classList.remove('on')},50); }); });
 })();
 
+// ---- 大脑库来源页:自测题展开 + 「我的输出」自动保存(课页没有这些元素时静默) ----
+(function(){
+  const OUT_KEY=KEYBASE+'-output';
+  document.addEventListener('click',e=>{const qt=e.target.closest('.quiz .qt');if(qt&&qt.parentNode)qt.parentNode.classList.toggle('open')});
+  const ta=document.getElementById('my-output');
+  if(!ta)return;
+  let outTimer=null;
+  async function restore(){try{const v=await store.get(OUT_KEY);if(v!=null&&ta.value!==v)ta.value=v}catch(e){}}
+  ta.addEventListener('input',()=>{
+    setState('保存中…');try{localStorage.setItem(LAST_READ_KEY,Date.now())}catch(e){}
+    clearTimeout(outTimer);
+    outTimer=setTimeout(async()=>{try{await store.set(OUT_KEY,ta.value);setState(cloudOn?'✓ 已保存（同步中…）':'✓ 已保存 '+nowT())}catch(e){setState('⚠ 保存失败')}},700);
+  });
+  const _load=load;
+  load=async function(){await _load.apply(this,arguments);await restore()};
+})();
+
 load();
 })();

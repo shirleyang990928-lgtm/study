@@ -146,6 +146,32 @@ a.card:hover{border-color:var(--teal);box-shadow:0 8px 24px rgba(22,51,59,.08)}
 .nothing{color:#A8B8B4;font-size:13px;padding:30px 0;text-align:center}
 .foot{text-align:center;font-size:12px;color:var(--dim);margin-top:44px}
 @media(max-width:780px){.layout{flex-direction:column;padding:16px 12px 50px}.side{width:100%;position:static}.head{flex-direction:column;align-items:stretch}.search{width:100%}.gh,.row{grid-template-columns:76px repeat(var(--n),1fr)}.wk{grid-template-columns:44px 1fr 60px}.wk .d{display:none}.tc-h{flex-wrap:wrap}.tc-h .sty{flex-basis:100%;margin:0}}
+
+/* 大脑库 */
+.lib-bar{display:flex;gap:8px;align-items:center;margin:0 0 14px;flex-wrap:wrap}
+.lib-bar .pill.big{padding:6px 16px;font-size:13px;font-weight:600}
+.lib-panel{background:var(--mist);border-radius:14px;padding:14px 18px;margin:0 0 18px;font-size:14px;line-height:1.7}
+.lib-panel .hd{font-size:12px;color:var(--dim);margin-bottom:6px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.lib-panel .hd b{color:var(--teal)}
+.lib-panel .qq{font-weight:600;font-size:15px;color:var(--ink-deep);margin:4px 0 10px}
+.lib-panel .aa{background:#fff;border-left:4px solid var(--teal);padding:8px 12px;border-radius:0 8px 8px 0;margin:8px 0 10px;color:var(--txt2)}
+.lib-panel .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.lib-panel .row a{font-size:12.5px;color:var(--teal);margin-left:auto}
+.lib-panel .rv{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}
+.lib-panel .rv:last-child{border-bottom:none}
+.lib-panel .rv a{color:var(--ink-deep);font-weight:600}
+.lib-panel .rv small{color:var(--dim);margin-left:8px;font-weight:400}
+.lib-panel .sub{font-size:12px;color:var(--dim);margin:12px 0 4px;letter-spacing:.08em}
+.lib-panel .words a{display:inline-block;margin:6px 6px 0 0;padding:2px 10px;border-radius:8px;background:#fff;border:1px solid var(--line);color:var(--ink-deep);font-size:13px}
+.lib-panel .words a small{color:var(--dim);margin-left:6px}
+.lib-panel .none{color:#A8B8B4;font-size:13px;padding:8px 0}
+.card.book{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:12px;position:relative;overflow:hidden}
+.card.book::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--acc,var(--teal))}
+.card.book ul{margin:8px 0 0;padding:0;list-style:none}
+.card.book li{padding:4px 0;border-top:1px dashed var(--line);font-size:13.5px}
+.card.book li a{color:var(--ink-deep)}
+.card.book li a:hover{color:var(--gold-deep)}
+.card.book li .ch{color:var(--dim);font-size:12px;margin-right:8px}
 </style>
 </head>
 <body>
@@ -156,7 +182,7 @@ a.card:hover{border-color:var(--teal);box-shadow:0 8px 24px rgba(22,51,59,.08)}
 <script src="catalog.js"></script>
 <script>
 (function(){
-var C=window.CATALOG, S={prog:'fogg-cw',level:null,unit:null,view:'grid',year:'all',topic:'all',q:'',t:'',y:'',s:'',o:'new',_back:null};
+var C=window.CATALOG, S={prog:'fogg-cw',level:null,unit:null,view:'grid',year:'all',topic:'all',q:'',t:'',y:'',s:'',o:'new',_back:null,disc:'all',ltype:'all',lpanel:null};
 var CUR=C.programs.filter(function(p){return p.id.indexOf('fogg-')===0});
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function prog(id){return C.programs.filter(function(p){return p.id===id})[0]||CUR[0]}
@@ -193,6 +219,7 @@ function readHash(){
   S.q='';S.unit=null;S.level=null;
   if(seg[0]==='talks'){S.view='talk';return}
   if(seg[0]==='internal'){S.view='internal';return}
+  if(seg[0]==='library'){S.view='library';S.disc=seg[1]||'all';return}
   if(prog(seg[0])&&C.programs.some(function(p){return p.id===seg[0]})){S.prog=seg[0];S.view='grid'}
   if(seg[1]){var m=seg[1].match(/^l(\d+)$/);if(m)S.level=+m[1]}
   if(seg[2])S.unit=seg[2];
@@ -204,6 +231,7 @@ function writeHash(){
     h='#?'+ps.filter(function(kv){return kv[1]&&!(kv[0]==='o'&&kv[1]==='new')}).map(function(kv){return kv[0]+'='+encodeURIComponent(kv[1])}).join('&');
   }else if(S.view==='talk')h='#talks';
   else if(S.view==='internal')h='#internal';
+  else if(S.view==='library')h='#library'+(S.disc&&S.disc!=='all'?'/'+S.disc:'');
   else{h='#'+S.prog;if(S.level!=null){h+='/l'+S.level;if(S.unit)h+='/'+S.unit}}
   if(location.hash!==h){try{history.replaceState(null,'',h)}catch(e){location.hash=h}}
 }
@@ -273,7 +301,7 @@ function searchPage(){
   h+='<div class="count">共 '+list.length+' 页</div>';
   if(!list.length)h+='<div class="nothing">没有找到相关内容</div>';
   list.forEach(function(r){var x=r.x,ag=ago(x.key);
-    var meta=[];if(x.teacher)meta.push(x.teacher);else if(x.speaker)meta.push(x.speaker);if(x.unitTitle)meta.push(x.unitTitle);if(x.kind==='lesson'&&x.week)meta.push('Wk '+x.week);
+    var meta=[];if(x.teacher)meta.push(x.teacher);else if(x.speaker)meta.push(x.speaker);else if(x.author)meta.push(x.author);if(x.kind==='source')meta.push(libDiscName(x.discipline));if(x.unitTitle)meta.push(x.unitTitle);if(x.kind==='lesson'&&x.week)meta.push('Wk '+x.week);
     var sn=r.b?snippet(r.b):(x.desc?hl(x.desc):'');
     h+='<a class="card" href="'+esc(x.file)+'" style="--acc:'+esc(x.accent||'')+'"><span class="date">'+esc(x.date)+'</span><span class="tag">'+esc(x.tagText||'')+'</span>'+(x.status?'<span class="s '+esc(x.status)+'">'+statusText(x.status)+'</span>':'')+(ag?'<span class="last">'+ag+'</span>':'')+'<h2>'+hl(x.title)+'</h2><div class="en">'+hl(x.en||'')+'</div>'+(meta.length?'<div class="meta">'+esc(meta.join(' · '))+'</div>':'')+(sn?'<div class="snip">'+sn+'</div>':'')+'</a>';
   });
@@ -285,12 +313,13 @@ function side(){
   var h='<div class="side-title">目录</div>';
   h+='<div class="org open" id="org">FOGG<span class="arw">▶</span></div><div class="org-body">';
   CUR.forEach(function(p){
-    var on=S.view!=='talk'&&S.view!=='internal'&&S.prog===p.id;
+    var on=S.view!=='talk'&&S.view!=='internal'&&S.view!=='library'&&S.prog===p.id;
     h+='<div class="crs'+(on?' on':'')+'" data-prog="'+p.id+'" style="--acc:'+p.accent+'">'+esc(p.name)+'<span class="cnt">'+progCount(p)+'</span></div>';
     h+='<div class="lvs">'+p.levels.map(function(l){var n=levelCount(p,l.level);return '<div class="lv'+(n?'':' none')+(on&&S.level===l.level?' on':'')+'" data-lv="'+l.level+'">L'+l.level+'</div>'}).join('')+'</div>';
   });
   h+='<div class="crs'+(S.view==='talk'?' on':'')+'" data-view="talk" style="--acc:#B0741E">讲座<span class="cnt">'+pagesOf(function(x){return x.kind==='talk'}).length+'</span></div>';
   h+='<div class="crs'+(S.view==='internal'?' on':'')+'" data-view="internal" style="--acc:#6B8480">内部教研<span class="cnt">'+pagesOf(function(x){return x.kind==='internal'}).length+'</span></div>';
+  h+='<div class="crs'+(S.view==='library'?' on':'')+'" data-view="library" style="--acc:#6A4BA8">大脑库<span class="cnt">'+pagesOf(function(x){return x.kind==='source'}).length+'</span></div>';
   h+='</div><div class="side-sep"></div>';
   h+='<div class="sync" id="sync-title"><i id="st-dot"></i><span id="sync-label">多设备同步</span></div><div class="sync-body" id="sync-body"><input id="gist-id" placeholder="Gist ID"><input id="gist-token" type="password" placeholder="GitHub Token（只存本机）"><div class="sb-row"><button id="sync-save">保存</button><button id="sync-clear">清除</button></div><div class="st" id="sync-status"></div></div>';
   document.getElementById('side').innerHTML=h;
@@ -435,9 +464,117 @@ function list(kind){
   return h;
 }
 
+/* ---------- 大脑库 ---------- */
+var LIB=C.library||{disciplines:[],types:{}};
+function libDiscName(id){var d=LIB.disciplines.filter(function(x){return x.id===id})[0];return d?d.name:(id||'')}
+function libDisc(id){return LIB.disciplines.filter(function(x){return x.id===id})[0]||null}
+function sources(){return pagesOf(function(x){return x.kind==='source'})}
+function libCard(x){
+  var ag=ago(x.key),meta=[];if(x.author)meta.push(x.author);meta.push(libDiscName(x.discipline));if(x.length)meta.push(x.length);
+  return '<a class="card" href="'+esc(x.file)+'" style="--acc:'+esc(x.accent||'')+'"><span class="date">'+esc(x.date)+'</span><span class="tag">'+esc(x.tagText||'')+'</span>'+(ag?'<span class="last">'+ag+'</span>':'')+'<h2>'+esc(x.title)+'</h2><div class="en">'+esc(x.en||'')+'</div><div class="meta">'+esc(meta.join(' · '))+'</div>'+(x.desc?'<div class="snip">'+esc(x.desc)+'</div>':'')+'</a>';
+}
+function bookCard(name,chs){
+  chs=chs.slice().sort(function(a,b){return (a.chapter||0)-(b.chapter||0)});
+  var f=chs[0],ds=libDisc(f.discipline);
+  var meta=[];if(f.author)meta.push(f.author);meta.push(libDiscName(f.discipline));meta.push(chs.length+' 章');
+  return '<div class="card book" style="--acc:'+esc((ds&&ds.accent)||'')+'"><span class="date">'+esc(name)+'</span><span class="tag">'+esc(LIB.types.book||'书')+'</span><div class="meta">'+esc(meta.join(' · '))+'</div><ul>'+chs.map(function(c){var ag=ago(c.key);return '<li>'+(c.chapter!=null?'<span class="ch">第 '+esc(c.chapter)+' 章</span>':'')+'<a href="'+esc(c.file)+'">'+esc(c.title)+'</a>'+(ag?'<span class="last">'+ag+'</span>':'')+'</li>'}).join('')+'</ul></div>';
+}
+function library(){
+  var all=sources();
+  var h=head('<a data-go="back">FOGG</a><span>›</span><span>大脑库</span>','大脑库','Brain Library',null);
+  h+='<div class="lib-bar"><button class="pill big'+(S.lpanel==='quiz'?' on':'')+'" data-lpanel="quiz">考我</button><button class="pill big'+(S.lpanel==='review'?' on':'')+'" data-lpanel="review">今日复习</button></div>';
+  h+='<div id="lib-panel">'+(S.lpanel==='quiz'?quizPanel():S.lpanel==='review'?reviewPanel():'')+'</div>';
+  var pill=function(attr,val,cur,label){return '<button class="pill'+(cur===val?' on':'')+'" data-'+attr+'="'+esc(val)+'">'+esc(label)+'</button>'};
+  var typesUsed={};all.forEach(function(x){typesUsed[x.type]=1});
+  h+='<div class="filt"><span class="lab">学科</span>'+pill('disc','all',S.disc,'全部')+LIB.disciplines.map(function(d){var n=all.filter(function(x){return x.discipline===d.id}).length;return n?pill('disc',d.id,S.disc,d.name+' '+n):''}).join('');
+  h+='<span class="lab">类型</span>'+pill('ltype','all',S.ltype,'全部')+Object.keys(LIB.types).filter(function(t){return typesUsed[t]}).map(function(t){return pill('ltype',t,S.ltype,LIB.types[t])}).join('')+'</div>';
+  var list=all.filter(function(x){return (S.disc==='all'||x.discipline===S.disc)&&(S.ltype==='all'||x.type===S.ltype)});
+  list.sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:0});
+  h+='<div class="count">共 '+list.length+' 页</div>';
+  if(!list.length)h+='<div class="nothing">还没有内容,把 TED-Ed / 论文 / 书丢给 Claude 就会出现在这里</div>';
+  var books={},order=[];
+  list.forEach(function(x){if(x.book){if(!books[x.book]){books[x.book]=[];order.push({book:x.book,date:x.date})}books[x.book].push(x)}else order.push({page:x})});
+  order.forEach(function(o){h+=o.page?libCard(o.page):bookCard(o.book,books[o.book])});
+  return h;
+}
+function bindLib(m){
+  m.querySelectorAll('[data-lpanel]').forEach(function(b){b.onclick=function(){S.lpanel=S.lpanel===b.dataset.lpanel?null:b.dataset.lpanel;if(S.lpanel==='quiz'&&!QZ.cur)quizNext();renderMain()}});
+  m.querySelectorAll('.pill[data-disc]').forEach(function(b){b.onclick=function(){S.disc=b.dataset.disc;renderMain()}});
+  m.querySelectorAll('.pill[data-ltype]').forEach(function(b){b.onclick=function(){S.ltype=b.dataset.ltype;renderMain()}});
+  var pn=document.getElementById('lib-panel');if(!pn)return;
+  pn.onclick=function(e){
+    var t=e.target.closest('[data-qa],[data-rev]');if(!t)return;
+    if(t.dataset.qa==='show'){QZ.show=true}
+    else if(t.dataset.qa==='ok'||t.dataset.qa==='no'){quizLog(t.dataset.qa==='ok');quizNext()}
+    else if(t.dataset.qa==='skip'){quizNext()}
+    else if(t.dataset.rev){var k=t.dataset.rev;lsSet('__rev_'+k,(parseInt(ls('__rev_'+k))||0)+1);lsSet('__last_read_'+k,Date.now())}
+    pn.innerHTML=S.lpanel==='quiz'?quizPanel():reviewPanel();
+  };
+}
+/* 考我 */
+var QZ={cur:null,show:false};
+var QLOG_KEY='__quiz_log';
+function quizLogAll(){try{var v=JSON.parse(ls(QLOG_KEY)||'[]');return Array.isArray(v)?v:[]}catch(e){return []}}
+function quizLog(ok){
+  if(!QZ.cur)return;var l=quizLogAll();l.push({key:QZ.cur.key,i:QZ.cur.i,ok:!!ok,t:Date.now()});
+  if(l.length>500)l=l.slice(l.length-500);lsSet(QLOG_KEY,JSON.stringify(l));
+}
+function quizPool(){
+  var pool=[];sources().forEach(function(x){(x.quiz||[]).forEach(function(q,i){if(q&&q.q&&q.a)pool.push({key:x.key,i:i,q:q.q,a:q.a,title:x.title,file:x.file})})});
+  return pool;
+}
+function quizNext(){
+  QZ.show=false;var pool=quizPool();if(!pool.length){QZ.cur=null;return}
+  var last={};quizLogAll().forEach(function(e){last[e.key+'#'+e.i]=e.ok});
+  var ws=pool.map(function(p){var k=p.key+'#'+p.i;var w=!(k in last)?2:last[k]?1:3;if(QZ.cur&&QZ.cur.key===p.key&&QZ.cur.i===p.i&&pool.length>1)w=0;return w});
+  var sum=ws.reduce(function(a,b){return a+b},0),r=Math.random()*sum,acc=0,pick=pool[0];
+  for(var i=0;i<pool.length;i++){acc+=ws[i];if(r<acc){pick=pool[i];break}}
+  QZ.cur=pick;
+}
+function quizPanel(){
+  var l=quizLogAll(),n=l.length,m=l.filter(function(e){return e.ok}).length;
+  var h='<div class="lib-panel"><div class="hd"><span>考我 · 从所有大脑库页面的自测题里随机抽一题,答错的会更常出现</span><span>已答 <b>'+n+'</b> · 正确 <b>'+m+'</b></span></div>';
+  if(!QZ.cur)quizNext();
+  if(!QZ.cur)return h+'<div class="none">还没有自测题。大脑库页面的 page-meta.quiz 里有题就会出现在这里。</div></div>';
+  var c=QZ.cur;
+  h+='<div class="qq">'+esc(c.q)+'</div>';
+  if(QZ.show){
+    h+='<div class="aa">'+esc(c.a)+'</div><div class="row"><button class="pill on" data-qa="ok">记住了</button><button class="pill" data-qa="no">没记住</button><a href="'+esc(c.file)+'">去看这页 · '+esc(c.title)+' →</a></div>';
+  }else{
+    h+='<div class="row"><button class="pill on" data-qa="show">看答案</button><button class="pill" data-qa="skip">换一题</button><a href="'+esc(c.file)+'">来自 · '+esc(c.title)+'</a></div>';
+  }
+  return h+'</div>';
+}
+/* 今日复习 */
+var REV_INT=[1,3,7,14,30];
+function reviewDue(){
+  var now=Date.now(),due=[];
+  C.pages.forEach(function(x){var last=lastRead(x.key);if(!last)return;var n=parseInt(ls('__rev_'+x.key))||0;var days=(now-last)/86400000;if(days>=REV_INT[Math.min(n,4)])due.push({x:x,n:n,days:Math.floor(days)})});
+  due.sort(function(a,b){return b.days-a.days});return due;
+}
+function reviewWords(){
+  var ws=[];
+  C.pages.forEach(function(x){var v;try{v=JSON.parse(ls(x.key+'-vocab')||'[]')}catch(e){v=[]}
+    if(Array.isArray(v))v.forEach(function(w){if(w&&w.word&&w.known===false)ws.push({word:w.word,zh:w.zh||'',file:x.file,title:x.title,own:!w.preset})});
+  });
+  for(var i=ws.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=ws[i];ws[i]=ws[j];ws[j]=t}
+  ws.sort(function(a,b){return (b.own?1:0)-(a.own?1:0)});
+  return ws.slice(0,8);
+}
+function reviewPanel(){
+  var due=reviewDue(),ws=reviewWords();
+  var h='<div class="lib-panel"><div class="hd"><span>今日复习 · 间隔 1 / 3 / 7 / 14 / 30 天,学过的课页和大脑库页都算</span><span>到期 <b>'+due.length+'</b> 页</span></div>';
+  if(!due.length)h+='<div class="none">今天没有到期的页面。学过的页面会按间隔在这里出现。</div>';
+  due.forEach(function(d){var x=d.x;h+='<div class="rv"><span><a href="'+esc(x.file)+'">'+esc(x.title)+'</a><small>'+esc(x.tagText||'')+' · '+ago(x.key)+' · 第 '+(d.n+1)+' 次复习</small></span><button class="pill" data-rev="'+esc(x.key)+'">已复习</button></div>'});
+  h+='<div class="sub">生词抽查 · 8 个还没掌握的词</div>';
+  if(!ws.length)h+='<div class="none">还没有生词。在页面里点词加入生词本后会出现在这里。</div>';
+  else h+='<div class="words">'+ws.map(function(w){return '<a href="'+esc(w.file)+'" title="'+esc(w.title)+'">'+esc(w.word)+(w.zh?'<small>'+esc(w.zh)+'</small>':'')+'</a>'}).join('')+'</div>';
+  return h+'</div>';
+}
+
 function renderMain(){
   var m=document.getElementById('main');
-  m.innerHTML=S.view==='search'?searchPage():(S.view==='talk'||S.view==='internal')?list(S.view):S.unit?unitPage():grid();
+  m.innerHTML=S.view==='search'?searchPage():S.view==='library'?library():(S.view==='talk'||S.view==='internal')?list(S.view):S.unit?unitPage():grid();
   m.innerHTML+='<div class="foot">共 '+C.pages.length+' 页 · 生成于 '+esc(C.generated||'')+'</div>';
   bindHead();
   m.querySelectorAll('.u[data-unit],.facts a[data-unit]').forEach(function(el){el.onclick=function(){S.unit=el.dataset.unit;var lv=S.unit.match(/^l(\d+)/);if(lv)S.level=+lv[1];S.q='';render();window.scrollTo(0,0)}});
@@ -445,6 +582,7 @@ function renderMain(){
     if(el.dataset.go==='back'){goBack();render();return}
     S.unit=null;S.view='grid';S.q='';if(el.dataset.go==='level')S.level=+el.dataset.lv;else S.level=null;render()}});
   m.querySelectorAll('.tc-h').forEach(function(el){el.onclick=function(){el.parentNode.classList.toggle('open')}});
+  if(S.view==='library')bindLib(m);
   writeHash();
 }
 function render(){side();renderMain()}

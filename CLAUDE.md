@@ -170,3 +170,13 @@ W1 观察与推理 deduce → W2 玩弄读者怀疑(一级/二级、frame 嫁祸
 - 她要一次做对,不要来回挤牙膏。不确定就先问,别自作主张。
 - 做错了直接承认并修,不要过度道歉。
 - 每做完一堂:报告章节数/句对数/测试结果,给出线上链接,等她验收。
+
+## 大脑学习库(library/,2026-09-24 起)
+
+Shirley 自己学的外部来源(TED-Ed / 视频课 / 论文 / 书 / 文章 / 播客)做成学习笔记页,总目录左栏「大脑库」入口(`#library`,`#library/<学科>`)。**仓库 Public:页面是中文为主的学习笔记(概括 + ≤5 句短英文原句 + 术语),绝不放转录或字幕全文。**
+
+- 目录:`library/<discipline>/<slug>.html`(深度 2,资源路径 `../../app.css`、`../../app.js`,回目录 `../../index.html`)。学科/类型表在 `_build/library.json`(learning/writing/language/mind/science/society/business/other;teded/video/paper/book/article/podcast),新学科先加进去。
+- page-meta:`{key,kind:"source",type,discipline,author,source,length,date,title,en,desc,accent,tags[],status,book?,chapter?,quiz:[{q,a}]}`;key 格式 `lib-<type>-<slug>`,与 PAGE_CONFIG.key 一致。同一本书各章 `book` 写同名、`chapter` 写数字,目录里会合成一张书卡。
+- 9 节骨架(模板 `_build/templates/source.html`,样板 `library/learning/practice-effectively.html`):1 来源卡 `.src-card` → 2 一句话核心(费曼法)`.keypoints` → 3 论证脉络 3–6 段 `.narr` → 4 关键概念术语 `.explain` ul(与 preset 一致)→ 5 中英原句精选 3–5 条 `.quote`(每句 ≤25 词)→ 6 追问与反例 → 7 知识连线(`<ul>`,相对路径链到本库课页 + 外部)→ 8 自测题 `.quiz #quiz`(题目同时写进 meta.quiz,供总目录「考我」抽题)→ 9 我的输出 `.my-output textarea#my-output`(自动保存)。
+- 流水线:`yt-dlp --write-auto-sub --skip-download` 拿字幕到 scratchpad(不进仓库)→ agent 读完写 body/nav/preset/meta 四个中间文件(放 scratchpad)→ `python _build/assemble_source.py meta.json nav.html body.html preset.json` → `python _build/build_site.py` → `node _build/testwkX.js library/<disc>/<slug>.html`(要求 句对 ≥3、键 OK、乱码 0、侧栏底部 2)。
+- 总目录「考我 / 今日复习」的 localStorage 键:`__quiz_log`(`[{key,i,ok,t}]`,最多 500 条)、`__rev_<key>`(复习次数)、`__last_read_<key>`(最近打开,课页和来源页共用)、`<key>-vocab`(生词本,抽 `known:false` 的词)、`<key>-output`(我的输出)。复习间隔 1/3/7/14/30 天。

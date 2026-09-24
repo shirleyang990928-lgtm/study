@@ -302,3 +302,20 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
 .narr{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;font-style:italic;font-size:13.5px;line-height:1.9;color:#6B8580;margin:0 0 18px;padding:2px 0 2px 14px;border-left:2px solid #D5E2DE}
 .narr b{color:var(--teal);font-style:normal}
 .narr+.para,.narr+.quote,.narr+.keypoints,.narr+.explain{margin-top:20px}
+/* 大脑库来源页 */
+.src-card{background:var(--mist);border-radius:12px;padding:16px 20px;margin:0 0 18px;font-size:14px}
+.src-card dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;margin:0}
+.src-card dt{color:#6B8580;font-size:13px}
+.src-card dd{margin:0;color:var(--ink-deep)}
+.src-card dd a{color:var(--teal)}
+.src-card .stars{color:var(--gold-deep);letter-spacing:.1em}
+.quiz .q{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:10px 0;box-shadow:0 2px 8px rgba(36,80,91,.06)}
+.quiz .qt{cursor:pointer;display:flex;gap:10px;align-items:flex-start;font-weight:600;color:var(--ink-deep);line-height:1.6}
+.quiz .qt::before{content:"Q";flex:none;width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;font-size:12px;display:inline-flex;align-items:center;justify-content:center;font-weight:600;margin-top:2px}
+.quiz .qt:hover{color:var(--teal)}
+.quiz .a{display:none;margin-top:10px;padding:10px 14px;background:#EAF3F0;border-left:4px solid var(--teal);border-radius:0 8px 8px 0;font-size:13.5px;line-height:1.8;color:#33534F}
+.quiz .q.open .a{display:block}
+.my-output{margin:0 0 18px}
+.my-output .note-label{font-size:12px;color:#6B8580;margin-bottom:6px}
+.my-output textarea{width:100%;min-height:140px;border:1.5px dashed #B9CBC7;border-radius:10px;padding:10px 12px;font-size:14px;line-height:1.8;font-family:-apple-system,'PingFang SC',sans-serif;background:#FFFDF4;color:#4A4632;resize:vertical}
+.my-output textarea:focus{outline:none;border-color:var(--gold-deep);border-style:solid}
