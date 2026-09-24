@@ -129,9 +129,9 @@ for p in files:
     keys[key] = p
     if 'PAGE_CONFIG' in src and not re.search(r'''["']?key["']?\s*:\s*['"]''' + re.escape(key) + r'''['"]''', src):
         err(f'{p}: PAGE_CONFIG.key 与 page-meta.key 不一致 ({key})')
-    if 'app.css' in src and f'href="{root}app.css"' not in src:
+    if 'app.css' in src and not re.search('href="'+re.escape(root)+r'app\.css(\?v=[\w.]+)?"', src):
         err(f'{p}: app.css 路径应为 {root}app.css')
-    if 'app.js' in src and f'src="{root}app.js"' not in src:
+    if 'app.js' in src and not re.search('src="'+re.escape(root)+r'app\.js(\?v=[\w.]+)?"', src):
         err(f'{p}: app.js 路径应为 {root}app.js')
     if f'href="{root}index.html"' not in src:
         err(f'{p}: 缺少回到目录链接 href="{root}index.html"')

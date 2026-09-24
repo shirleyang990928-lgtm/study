@@ -151,7 +151,7 @@ node _build/testwkX.js courses/<program>/<unit>/<class>/wkNN-YYYY-MM-DD.html   #
 - 跑 python 前一定 `export PYTHONIOENCODING=utf-8`,否则中文输出乱码。
 - 中文标点/引号混入 JS 单引号字符串会破坏页面 → 改完跑 build_site.py + testwkX.js。
 - Alex 的教学脉络以 VTT 为准,不要靠周次标题猜内容(Week 3 实际讲的是"开头五种方式",不只是角色)。
-- 改了 app.css/app.js 要一起 push,否则页面样式不生效。
+- 改了 app.css/app.js 要一起 push,否则页面样式不生效。**改完先跑 `python _build/bump_assets.py`**(给全站页面的 app.css/app.js 链接换新的 `?v=时间戳`,否则浏览器用旧缓存,Shirley 刷新看不到改动),再 build_site + push。
 - 不要手改 catalog.js、search/*.js、courses/*/*/index.html,它们是生成物。
 
 ## 侦探单元 9 周脉络(Alex · CW Level 8 · 2026 S2 · 周一)
