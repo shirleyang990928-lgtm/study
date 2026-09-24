@@ -181,7 +181,7 @@ document.querySelectorAll('.para,.quote').forEach(p=>{
 
 // zh toggles
 const zhBtn=document.getElementById('zh-toggle');
-if(zhBtn){zhBtn.onclick=()=>{document.body.classList.toggle('show-zh');zhBtn.textContent=document.body.classList.contains('show-zh')?'隐藏全部中文':'显示全部中文';zhBtn.classList.toggle('primary')};}
+if(zhBtn){zhBtn.onclick=()=>{document.body.classList.toggle('show-zh');zhBtn.textContent=document.body.classList.contains('show-zh')?'隐藏中文':'显示中文';zhBtn.classList.toggle('on')};}
 // per-section: dblclick on section title toggles that section
 sections.forEach(s=>{const h=s.querySelector('h2');h.style.cursor='pointer';h.title='点击：切换本节中文';h.onclick=()=>s.classList.toggle('show-zh')});
 

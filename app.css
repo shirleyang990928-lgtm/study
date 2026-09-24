@@ -334,7 +334,7 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
 .links i{font-family:Georgia,serif}
 .links br{display:none}
 /* ===== 大脑库 v2 · 提取练习(挖空/先想再读/对照原版/提示问题/自评/版式) ===== */
-#btn-cloze.on,#btn-review.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+#btn-cloze.on,#btn-review.on,#zh-toggle.on{background:var(--teal);color:#fff;border-color:var(--teal)}
 body.cloze .cz{color:transparent;background:#EEF3F1;border-bottom:1.5px dashed #7FA39C;border-radius:4px;cursor:pointer;user-select:none;padding:0 .12em;margin:0 .04em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 body.cloze .cz *{color:transparent}
 body.cloze .cz.big{background:#E3ECE9;border-bottom:1.5px solid var(--ink-deep)}

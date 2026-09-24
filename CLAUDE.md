@@ -63,7 +63,7 @@ _build/                    构建脚本与样板(见流水线)
 
 - 每页 = 内容 HTML + `<link rel="stylesheet" href="../../../../app.css">` + `window.PAGE_CONFIG={key,title,exportTitle,preset}` + `<script src="../../../../app.js"></script>`
 - **工具栏/菜单/弹窗的 HTML 写在每页里(由 `_build/templates/lesson.html` 提供),app.js 按元素 id 绑定行为。** 改功能只改 app.js/app.css + 模板一处;老页面要同步改就用脚本批量替换。
-- 左侧栏底部固定「回到目录」「本单元总览」两个按钮;「更多」里只留 显示全部中文 + 导出笔记。不要加 emoji。
+- 左侧栏底部固定「回到目录」「本单元总览」两个按钮;「显示中文」按钮直接在工具栏(朗读右边,开着时 `.on` 墨绿);「更多」里只留 导出笔记。不要加 emoji。
 - 对白段必须用 `<div class="para dialog">`(app.css 里 `.para.dialog .sent{display:block}`)。
 - 云同步靠 Gist(用户浏览器 localStorage 里存 id/token,不进仓库),存储键来自 PAGE_CONFIG.key,**同一课的 key 不能变,且必须与 page-meta.key 一致**(否则用户笔记丢失)。
 - PAGE_CONFIG.key 格式:`cls-YYYYMMDD-<type>-<teacher>-l<level>-wk<week>`,例 `cls-20260706-cw-alex-l8-wk2`(老页面沿用旧 key,不改)。
