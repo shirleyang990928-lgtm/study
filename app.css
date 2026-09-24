@@ -319,3 +319,12 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
 .my-output .note-label{font-size:12px;color:#6B8580;margin-bottom:6px}
 .my-output textarea{width:100%;min-height:140px;border:1.5px dashed #B9CBC7;border-radius:10px;padding:10px 12px;font-size:14px;line-height:1.8;font-family:-apple-system,'PingFang SC',sans-serif;background:#FFFDF4;color:#4A4632;resize:vertical}
 .my-output textarea:focus{outline:none;border-color:var(--gold-deep);border-style:solid}
+/* 大脑库 · 知识连线列表 */
+.links{list-style:none;padding:0;margin:0 0 18px}
+.links li{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 16px 11px 18px;margin:8px 0;font-size:14px;line-height:1.75;color:#33534F;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;box-shadow:0 2px 8px rgba(36,80,91,.05)}
+.links li::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:2px;background:var(--teal)}
+.links li.ext::before{background:var(--gold-deep)}
+.links a{color:var(--teal);text-decoration:none;font-weight:600;border-bottom:1px solid #B9CBC7}
+.links a:hover{border-bottom-color:var(--teal)}
+.links .lk-tag{display:inline-block;font-size:11px;color:#6B8580;background:var(--mist);border-radius:6px;padding:1px 7px;margin-right:6px;vertical-align:1px}
+.links i{font-family:Georgia,serif}
