@@ -146,12 +146,28 @@ document.addEventListener('input',e=>{
 document.querySelectorAll('.para,.quote').forEach(p=>{
   const szs=[...p.querySelectorAll('.sz')];
   if(!szs.length)return;
-  const normal=szs.filter(s=>!s.classList.contains('comment')).map(s=>s.textContent).join('');
-  const comment=szs.filter(s=>s.classList.contains('comment')).map(s=>s.textContent).join('');
+  // 给同一句里中英对应的挖空标号,合并到 zh-block 后仍能配对揭开
+  [...p.querySelectorAll('.sent')].forEach((st,k)=>{
+    const a=st.querySelectorAll('.se .cz'),b=st.querySelectorAll('.sz .cz');
+    for(let i=0;i<Math.max(a.length,b.length);i++){if(a[i])a[i].setAttribute('data-cp',k+'-'+i);if(b[i])b[i].setAttribute('data-cp',k+'-'+i)}
+  });
   const d=document.createElement('div');d.className='zh-block';
-  d.textContent=normal;
+  szs.filter(s=>!s.classList.contains('comment')).forEach(s=>{[...s.childNodes].forEach(n=>d.appendChild(n.cloneNode(true)))});
+  const comment=szs.filter(s=>s.classList.contains('comment')).map(s=>s.textContent).join('');
   if(comment){const c=document.createElement('span');c.className='comment-line';c.textContent=comment;d.appendChild(c)}
   p.appendChild(d);
+});
+
+// 知识连线卡片:把「标签+标题 <br> 说明」拆成头/说明两块
+document.querySelectorAll('.links li').forEach(li=>{
+  if(li.querySelector('.lk-head'))return;
+  const br=li.querySelector('br');
+  const head=document.createElement('div');head.className='lk-head';
+  const desc=document.createElement('div');desc.className='lk-desc';
+  let afterBr=false;
+  [...li.childNodes].forEach(n=>{if(n===br){afterBr=true;return}(afterBr?desc:head).appendChild(n)});
+  if(br)br.remove();
+  li.appendChild(head);if(desc.childNodes.length)li.appendChild(desc);
 });
 
 // per-paragraph 中文 toggle buttons
@@ -717,11 +733,11 @@ async function reloadFromStore(){
 
 // ---- 字体大小调节 ----
 (function(){
-  const FS_KEY='__fs_level';
-  const LEVELS=[14,15.5,16.5,18.5,21];           // 5 档字号(px)
-  const NAMES=['小','较小','标准','较大','大'];
+  const FS_KEY='__fs_level2';
+  const LEVELS=[12,13,14,15,16.5,18,19.5,21.5,24];   // 9 档字号(px)
+  const NAMES=['最小','很小','小','较小','标准','较大','大','很大','最大'];
   let idx=parseInt(localStorage.getItem(FS_KEY));
-  if(isNaN(idx)||idx<0||idx>4)idx=2;
+  if(isNaN(idx)||idx<0||idx>=LEVELS.length)idx=4;
   function apply(){
     document.documentElement.style.setProperty('--fs',LEVELS[idx]+'px');
     const c=document.getElementById('fs-cur');if(c)c.textContent=NAMES[idx];
@@ -730,7 +746,7 @@ async function reloadFromStore(){
   }
   const minus=document.getElementById('fs-minus'),plus=document.getElementById('fs-plus');
   if(minus)minus.onclick=()=>{if(idx>0){idx--;apply()}};
-  if(plus)plus.onclick=()=>{if(idx<4){idx++;apply()}};
+  if(plus)plus.onclick=()=>{if(idx<LEVELS.length-1){idx++;apply()}};
   apply();
 })();
 
@@ -931,17 +947,14 @@ async function reloadFromStore(){
 
   // 2) 挖空复述(每次都取活元素:句子 DOM 会被重建,不能缓存)
   const Q=()=>[...document.querySelectorAll('main .cz')];
-  const isUnit=c=>!c.closest('.sz');            // 计数按概念:中英一对算一个
+  const isUnit=c=>!c.closest('.sz,.zh-block');            // 计数按概念:中英一对算一个
   const bCz=document.getElementById('btn-cloze');
   let bar=null;
   function czCount(){if(!bar)return;const u=Q().filter(isUnit);const n=u.filter(c=>c.classList.contains('open')).length;bar.querySelector('.cb-n').textContent='已揭开 '+n+'/'+u.length}
-  function czPair(c){ // 同一句里中英对应的那个空
-    const st=c.closest('.sent');if(!st)return[c];
-    const side=c.closest('.se')?'.se':(c.closest('.sz')?'.sz':null);if(!side)return[c];
-    const other=side==='.se'?'.sz':'.se';
-    const i=[...st.querySelectorAll(side+' .cz')].indexOf(c);
-    const o=st.querySelectorAll(other+' .cz')[i];
-    return o?[c,o]:[c];
+  function czPair(c){ // 同一句里中英对应的那个空(zh-block 里是克隆,靠 data-cp 配对)
+    const cp=c.getAttribute('data-cp');const p=c.closest('.para,.quote');
+    if(!cp||!p)return[c];
+    return[...p.querySelectorAll('.cz[data-cp="'+cp+'"]')];
   }
   function setCloze(on){
     document.body.classList.toggle('cloze',on);

@@ -320,24 +320,30 @@ footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-si
 .my-output textarea{width:100%;min-height:140px;border:1.5px dashed #B9CBC7;border-radius:10px;padding:10px 12px;font-size:14px;line-height:1.8;font-family:-apple-system,'PingFang SC',sans-serif;background:#FFFDF4;color:#4A4632;resize:vertical}
 .my-output textarea:focus{outline:none;border-color:var(--gold-deep);border-style:solid}
 /* 大脑库 · 知识连线列表 */
-.links{list-style:none;padding:0;margin:0 0 18px}
-.links li{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 16px 11px 18px;margin:8px 0;font-size:14px;line-height:1.75;color:#33534F;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;box-shadow:0 2px 8px rgba(36,80,91,.05)}
-.links li::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:2px;background:var(--teal)}
-.links li.ext::before{background:var(--gold-deep)}
-.links a{color:var(--teal);text-decoration:none;font-weight:600;border-bottom:1px solid #B9CBC7}
-.links a:hover{border-bottom-color:var(--teal)}
-.links .lk-tag{display:inline-block;font-size:11px;color:#6B8580;background:var(--mist);border-radius:6px;padding:1px 7px;margin-right:6px;vertical-align:1px}
+.links{list-style:none;padding:0;margin:0 0 18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.links li{background:#fff;border:1px solid #E1E9E6;border-radius:14px;padding:14px 16px 13px;margin:0;font-size:14px;line-height:1.7;color:#33534F;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;box-shadow:0 1px 3px rgba(36,80,91,.04);transition:box-shadow .15s,transform .15s;display:flex;flex-direction:column;gap:6px}
+.links li:hover{box-shadow:0 6px 18px rgba(36,80,91,.10);transform:translateY(-1px)}
+.links .lk-head{display:block}
+.links .lk-tag{display:inline-block;font-size:11px;letter-spacing:.04em;color:var(--teal);background:#E8F1EE;border-radius:999px;padding:2px 9px;margin:0 0 7px;font-weight:600}
+.links li.ext .lk-tag{color:var(--gold-deep);background:#FBF3DC}
+.links .lk-head a,.links .lk-head{font-size:15px;font-weight:600;color:var(--ink-deep);line-height:1.5}
+.links a{color:var(--ink-deep);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s}
+.links a:hover{color:var(--teal);border-bottom-color:var(--teal)}
+.links .lk-desc{font-size:13.5px;color:#6B8580;line-height:1.7;font-weight:400}
+.links .lk-desc a{font-weight:500}
 .links i{font-family:Georgia,serif}
+.links br{display:none}
 /* ===== 大脑库 v2 · 提取练习(挖空/先想再读/对照原版/提示问题/自评/版式) ===== */
 #btn-cloze.on,#btn-review.on{background:var(--teal);color:#fff;border-color:var(--teal)}
-body.cloze .cz{color:transparent;border:1.5px dashed var(--teal);border-radius:999px;min-width:2.4em;display:inline-block;cursor:pointer;background:#fff;padding:0 .35em;line-height:1.35;vertical-align:baseline;user-select:none}
+body.cloze .cz{color:transparent;background:#EEF3F1;border-bottom:1.5px dashed #7FA39C;border-radius:4px;cursor:pointer;user-select:none;padding:0 .12em;margin:0 .04em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 body.cloze .cz *{color:transparent}
-body.cloze .cz.big{border:2px dashed var(--ink-deep);background:var(--mist);padding:.12em .5em}
+body.cloze .cz.big{background:#E3ECE9;border-bottom:1.5px solid var(--ink-deep)}
+body.cloze .cz:hover{background:#E4EDEA}
 body.cloze .cz.open,body.cloze .cz.open *{color:inherit}
-body.cloze .cz.open{border:1.5px solid var(--gold-deep);background:#FFFDF4}
-body.cloze .sent{display:block;margin-bottom:8px}
-body.cloze .sz{display:block;color:#4E6964;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif}
-body.cloze .zh-block,body.cloze .zh-btn{display:none!important}
+body.cloze .cz.open{background:#FFF6D6;border-bottom:1.5px solid var(--gold-deep)}
+body.cloze .sz{display:none}
+body.cloze .zh-block .cz{color:transparent}
+body.cloze .zh-block .cz.open{color:inherit}
 #cloze-bar{display:none;position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:120;background:#fff;border:1px solid var(--line);border-radius:999px;box-shadow:0 6px 20px rgba(22,51,59,.14);padding:6px 10px;gap:6px;align-items:center;font-size:13px;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;color:var(--ink-deep)}
 body.cloze #cloze-bar{display:flex}
 #cloze-bar button{border:1px solid var(--line);background:#fff;color:var(--teal);border-radius:999px;padding:4px 12px;font-size:12.5px;cursor:pointer;font-family:inherit}
@@ -377,4 +383,5 @@ body.src-page main section{max-width:none}
 body.src-page .para .en,body.src-page .narr{font-size:calc(var(--fs) + .5px);line-height:1.7}
 body.src-page .narr{font-style:normal;color:#4E6964}
 body.src-page .sz,body.src-page .zh-block{color:#4E6964}
-body.src-page .keypoints,body.src-page .explain,body.src-page .links li{font-size:16px;line-height:1.7}
+body.src-page .keypoints,body.src-page .explain{font-size:16px;line-height:1.7}
+body.src-page .links .lk-desc{font-size:14.5px}
