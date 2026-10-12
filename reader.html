@@ -44,6 +44,7 @@ body.hide-zh .pg:hover .zh{display:block}
     <button class="rd-btn on" id="tgZh">显示中文</button>
     <button class="rd-btn" id="fsDn">A−</button><button class="rd-btn" id="fsUp">A+</button>
     <button class="rd-btn" id="speak">朗读全文</button>
+    <button class="rd-btn" id="retr">重新翻译</button>
     <button class="rd-btn" id="del">删除这篇</button>
   </div>
   <div class="rd-tip" translate="no">
@@ -65,7 +66,24 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;
 function split(t){
   t=t.replace(/\r/g,'').replace(/^﻿/,'');
   var parts=/\n\s*\n/.test(t)?t.split(/\n\s*\n/):t.split(/\n/);
-  return parts.map(function(p){return p.replace(/\s*\n\s*/g,' ').trim()}).filter(Boolean);
+  parts=parts.map(function(p){return p.replace(/\(\s*page\s*\d+\s*\)/gi,' ').replace(/\s*\n\s*/g,' ').replace(/ {2,}/g,' ').trim()})
+    .filter(function(p){return p&&!/^\d{1,4}$/.test(p)});
+  var out=[];
+  parts.forEach(function(p){
+    var prev=out[out.length-1];
+    if(prev&&(!/[.!?'"\u2019\u201d:;)\u2014-]$/.test(prev)||/^[a-z]/.test(p)))out[out.length-1]=prev+' '+p;
+    else out.push(p);
+  });
+  return out;
+}
+var VER=2;
+function migrate(){
+  var d=load(),ch=false;
+  Object.keys(d).forEach(function(k){var x=d[k];if(x.v===VER)return;
+    var np=split(x.p.join('\n'));
+    if(np.length!==x.p.length){x.m={};x.n={}}
+    x.p=np;x.z={};x.v=VER;ch=true;});
+  if(ch)save(d);
 }
 function renderList(){
   var d=load(),h='';
@@ -101,7 +119,17 @@ function render(){
   });
 }
 var busy=false;
+function latin(z){var a=(z.match(/[A-Za-z]/g)||[]).length,c=(z.match(/[\u4e00-\u9fff]/g)||[]).length;return a>c*0.6}
+function prep(t){return t.replace(/(^|[\s(\u2014-])'/g,'$1"').replace(/'(?=[\s,.!?;:)\u2014-]|$)/g,'"')}
 function tr1(t){
+  t=prep(t);
+  return tr0(t).then(function(z){
+    if(!latin(z))return z;
+    var ss=t.match(/[^.!?]+[.!?]+["']?\s*|[^.!?]+$/g)||[t];
+    return Promise.all(ss.map(tr0)).then(function(a){return a.join('')});
+  });
+}
+function tr0(t){
   return fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q='+encodeURIComponent(t))
     .then(function(r){if(!r.ok)throw r.status;return r.json()})
     .then(function(j){return (j[0]||[]).map(function(s){return s[0]||''}).join('')});
@@ -129,7 +157,7 @@ function translateAll(){
 function say(t){if(!window.speechSynthesis)return;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.9;speechSynthesis.speak(u)}
 document.getElementById('file').onchange=function(){
   [].slice.call(this.files).forEach(function(f){var r=new FileReader();r.onload=function(){
-    var d=load(),k=f.name.replace(/\.txt$/i,'');d[k]={p:split(r.result),t:Date.now(),m:{},n:{}};save(d);setCur(k);render();
+    var d=load(),k=f.name.replace(/\.txt$/i,'');d[k]={p:split(r.result),t:Date.now(),m:{},n:{},v:VER};save(d);setCur(k);render();
   };r.readAsText(f,'utf-8')});
   this.value='';
 };
@@ -144,8 +172,9 @@ document.getElementById('speak').onclick=function(){
   if(window.speechSynthesis&&speechSynthesis.speaking){speechSynthesis.cancel();return}
   var d=load();if(cur&&d[cur])say(d[cur].p.join('\n\n'));
 };
+document.getElementById('retr').onclick=function(){var d=load();if(cur&&d[cur]&&!busy){d[cur].z={};save(d);render()}};
 document.getElementById('del').onclick=function(){var d=load();if(cur&&d[cur]&&confirm('删除「'+cur+'」?(只删这台电脑上的)')){delete d[cur];save(d);setCur(null);render()}};
-setFs();render();
+setFs();migrate();render();
 })();
 </script>
 </body>
