@@ -178,6 +178,7 @@ a.card:hover{border-color:var(--teal);box-shadow:0 8px 24px rgba(22,51,59,.08)}
 .card.book li{padding:4px 0;border-top:1px dashed var(--line);font-size:13.5px}
 .card.book li a{color:var(--ink-deep)}
 .card.book li a:hover{color:var(--gold-deep)}
+.card.book li .rd{float:right;font-size:11.5px;color:var(--dim);margin-left:10px}
 .card.book li .ch{color:var(--dim);font-size:12px;margin-right:8px}
 </style>
 </head>
@@ -227,6 +228,7 @@ function readHash(){
   if(seg[0]==='talks'){S.view='talk';return}
   if(seg[0]==='internal'){S.view='internal';return}
   if(seg[0]==='library'){S.view='library';S.disc=seg[1]||'all';return}
+  if(seg[0]==='books'){S.view='books';return}
   if(prog(seg[0])&&C.programs.some(function(p){return p.id===seg[0]})){S.prog=seg[0];S.view='grid'}
   if(seg[1]){var m=seg[1].match(/^l(\d+)$/);if(m)S.level=+m[1]}
   if(seg[2])S.unit=seg[2];
@@ -238,6 +240,7 @@ function writeHash(){
     h='#?'+ps.filter(function(kv){return kv[1]&&!(kv[0]==='o'&&kv[1]==='new')}).map(function(kv){return kv[0]+'='+encodeURIComponent(kv[1])}).join('&');
   }else if(S.view==='talk')h='#talks';
   else if(S.view==='internal')h='#internal';
+  else if(S.view==='books')h='#books';
   else if(S.view==='library')h='#library'+(S.disc&&S.disc!=='all'?'/'+S.disc:'');
   else{h='#'+S.prog;if(S.level!=null){h+='/l'+S.level;if(S.unit)h+='/'+S.unit}}
   if(location.hash!==h){try{history.replaceState(null,'',h)}catch(e){location.hash=h}}
@@ -320,7 +323,7 @@ function side(){
   var h='<div class="side-title">目录</div>';
   h+='<div class="org open" id="org">FOGG<span class="arw">▶</span></div><div class="org-body">';
   CUR.forEach(function(p){
-    var on=S.view!=='talk'&&S.view!=='internal'&&S.view!=='library'&&S.prog===p.id;
+    var on=S.view!=='talk'&&S.view!=='internal'&&S.view!=='library'&&S.view!=='books'&&S.prog===p.id;
     h+='<div class="crs'+(on?' on':'')+'" data-prog="'+p.id+'" style="--acc:'+p.accent+'">'+esc(p.name)+'<span class="cnt">'+progCount(p)+'</span></div>';
     h+='<div class="lvs">'+p.levels.map(function(l){var n=levelCount(p,l.level);return '<div class="lv'+(n?'':' none')+(on&&S.level===l.level?' on':'')+'" data-lv="'+l.level+'">L'+l.level+'</div>'}).join('')+'</div>';
   });
@@ -331,11 +334,16 @@ function side(){
   h+='<div class="org open" id="org2" style="margin-top:6px">大脑库<span class="arw">▶</span></div><div class="org-body">';
   h+='<div class="crs'+(lib&&S.disc==='all'?' on':'')+'" data-view="library" data-disc="all" style="--acc:#6A4BA8">全部<span class="cnt">'+src.length+'</span></div>';
   LIB.disciplines.forEach(function(d){var c=src.filter(function(x){return x.discipline===d.id}).length;h+='<div class="crs'+(lib&&S.disc===d.id?' on':'')+(c?'':' none')+'" data-view="library" data-disc="'+d.id+'" style="--acc:'+d.accent+'">'+esc(d.name)+'<span class="cnt">'+c+'</span></div>'});
+  h+='</div>';
+  var bk=pagesOf(function(x){return x.kind==='source'&&x.type==='book'}),bn={};bk.forEach(function(x){bn[x.book||x.title]=1});
+  h+='<div class="org open" id="org3" style="margin-top:6px">书<span class="arw">▶</span></div><div class="org-body">';
+  h+='<div class="crs'+(S.view==='books'?' on':'')+'" data-view="books" style="--acc:#7A4B3B">阅读记录<span class="cnt">'+Object.keys(bn).length+'</span></div>';
   h+='</div><div class="side-sep"></div>';
   h+='<div class="sync" id="sync-title"><i id="st-dot"></i><span id="sync-label">多设备同步</span></div><div class="sync-body" id="sync-body"><input id="gist-id" placeholder="Gist ID"><input id="gist-token" type="password" placeholder="GitHub Token（只存本机）"><div class="sb-row"><button id="sync-save">保存</button><button id="sync-clear">清除</button></div><div class="st" id="sync-status"></div></div>';
   document.getElementById('side').innerHTML=h;
   document.getElementById('org').onclick=function(){this.classList.toggle('open')};
   document.getElementById('org2').onclick=function(){this.classList.toggle('open')};
+  document.getElementById('org3').onclick=function(){this.classList.toggle('open')};
   document.querySelectorAll('.crs[data-prog]').forEach(function(el){el.onclick=function(){S.prog=el.dataset.prog;S.level=null;S.unit=null;S.view='grid';S.q='';render()}});
   document.querySelectorAll('.crs[data-view]').forEach(function(el){el.onclick=function(){S.view=el.dataset.view;S.level=null;S.unit=null;S.topic='all';S.q='';if(el.dataset.disc){S.disc=el.dataset.disc;S.ltype='all'}render()}});
   document.querySelectorAll('.lv').forEach(function(el){el.onclick=function(e){e.stopPropagation();S.level=+el.dataset.lv;S.unit=null;S.view='grid';S.q='';render();var r=document.getElementById('lv'+S.level);if(r)r.scrollIntoView({behavior:'smooth',block:'center'})}});
@@ -485,11 +493,11 @@ function libCard(x){
   var ag=ago(x.key),meta=[];if(x.author)meta.push(x.author);meta.push(libDiscName(x.discipline));if(x.length)meta.push(x.length);
   return '<a class="card" href="'+esc(x.file)+'" style="--acc:'+esc(x.accent||'')+'"><span class="date">'+esc(x.date)+'</span><span class="tag">'+esc(x.tagText||'')+'</span>'+(ag?'<span class="last">'+ag+'</span>':'')+'<h2>'+esc(x.title)+'</h2><div class="en">'+esc(x.en||'')+'</div><div class="meta">'+esc(meta.join(' · '))+'</div>'+(x.desc?'<div class="snip">'+esc(x.desc)+'</div>':'')+'</a>';
 }
-function bookCard(name,chs){
+function bookCard(name,chs,dates){
   chs=chs.slice().sort(function(a,b){return (a.chapter||0)-(b.chapter||0)});
   var f=chs[0],ds=libDisc(f.discipline);
   var meta=[];if(f.author)meta.push(f.author);meta.push(libDiscName(f.discipline));meta.push(chs.length+' 章');
-  return '<div class="card book" style="--acc:'+esc((ds&&ds.accent)||'')+'"><span class="date">'+esc(name)+'</span><span class="tag">'+esc(LIB.types.book||'书')+'</span><div class="meta">'+esc(meta.join(' · '))+'</div><ul>'+chs.map(function(c){var ag=ago(c.key);return '<li>'+(c.chapter!=null?'<span class="ch">第 '+esc(c.chapter)+' 章</span>':'')+'<a href="'+esc(c.file)+'">'+esc(c.title)+'</a>'+(ag?'<span class="last">'+ag+'</span>':'')+'</li>'}).join('')+'</ul></div>';
+  return '<div class="card book" style="--acc:'+esc((ds&&ds.accent)||'')+'"><span class="date">'+esc(name)+'</span><span class="tag">'+esc(LIB.types.book||'书')+'</span><div class="meta">'+esc(meta.join(' · '))+'</div><ul>'+chs.map(function(c){var ag=ago(c.key);return '<li>'+(c.chapter!=null?'<span class="ch">第 '+esc(c.chapter)+' 章</span>':'')+'<a href="'+esc(c.file)+'">'+esc(c.title)+'</a>'+(dates?'<span class="rd">读于 '+esc(c.date)+'</span>':'')+(ag?'<span class="last">'+ag+'</span>':'')+'</li>'}).join('')+'</ul></div>';
 }
 function library(){
   var all=sources();
@@ -508,6 +516,18 @@ function library(){
   var books={},order=[];
   list.forEach(function(x){if(x.book){if(!books[x.book]){books[x.book]=[];order.push({book:x.book,date:x.date})}books[x.book].push(x)}else order.push({page:x})});
   order.forEach(function(o){h+=o.page?libCard(o.page):bookCard(o.book,books[o.book])});
+  return h;
+}
+function booksPage(){
+  var all=pagesOf(function(x){return x.kind==='source'&&x.type==='book'});
+  var h=head('<span>书</span>','阅读记录','Reading Record',null);
+  var books={},order=[];
+  all.forEach(function(x){var b=x.book||x.title;if(!books[b]){books[b]=[];order.push(b)}books[b].push(x)});
+  var last=function(b){return books[b].reduce(function(m,x){return x.date>m?x.date:m},'')};
+  order.sort(function(a,b){return last(a)<last(b)?1:last(a)>last(b)?-1:0});
+  h+='<div class="count">读过 '+order.length+' 本书 · 做了 '+all.length+' 章笔记 · 最近读的在最前</div>';
+  if(!order.length)h+='<div class="nothing">还没有读书记录。把读过的章节丢给 Claude,就会出现在这里</div>';
+  order.forEach(function(b){h+=bookCard(b,books[b],true)});
   return h;
 }
 function bindLib(m){
@@ -640,7 +660,7 @@ function homeReview(){
 
 function renderMain(){
   var m=document.getElementById('main');
-  m.innerHTML=S.view==='search'?searchPage():S.view==='library'?library():(S.view==='talk'||S.view==='internal')?list(S.view):S.unit?unitPage():grid();
+  m.innerHTML=S.view==='search'?searchPage():S.view==='library'?library():S.view==='books'?booksPage():(S.view==='talk'||S.view==='internal')?list(S.view):S.unit?unitPage():grid();
   m.innerHTML+='<div class="foot">共 '+C.pages.length+' 页 · 生成于 '+esc(C.generated||'')+'</div>';
   bindHead();
   m.querySelectorAll('.u[data-unit],.facts a[data-unit]').forEach(function(el){el.onclick=function(){S.unit=el.dataset.unit;var lv=S.unit.match(/^l(\d+)/);if(lv)S.level=+lv[1];S.q='';render();window.scrollTo(0,0)}});
