@@ -29,6 +29,8 @@ body.hide-zh .pg:hover .zh{display:block}
 .pg .ops{position:absolute;right:0;top:-6px;display:none;gap:4px}
 .pg:hover .ops{display:flex}
 .pg .ops button{border:none;background:var(--mist);color:var(--ink);font-size:12px;border-radius:6px;padding:2px 8px;cursor:pointer}
+.pg .zh.wait{color:#b5c2bf;font-style:italic}
+.rd-prog{font-size:13px;color:var(--zh);margin:-8px 0 16px}
 .empty{color:#8a9b98;text-align:center;padding:60px 0;font-size:15px}
 @media(max-width:900px){.pg .n{position:static;display:block}.pg .ops{display:flex;position:static;margin-bottom:4px}}
 </style>
@@ -45,10 +47,11 @@ body.hide-zh .pg:hover .zh{display:block}
     <button class="rd-btn" id="del">删除这篇</button>
   </div>
   <div class="rd-tip" translate="no">
-    <b>用法:</b>点「载入 txt」选你的章节文件 → 在页面空白处右键「翻译成中文」(Chrome / Edge)。只有每段下面那份会变中文,英文原文不动,于是就是一段英文一段中文。<br>
+    <b>用法:</b>点「载入 txt」选你的章节文件,页面会自动把每段翻成中文(机器翻译,翻好存在本机,下次不用再翻),一段英文一段中文。<br>
     文字只存在<b>这台电脑的浏览器</b>里,不上传、不进仓库;下次打开自动还在。鼠标移到段落上可以「划重点」「笔记」「朗读」。关掉「显示中文」后,鼠标移到哪段才显示哪段中文,适合先自己读。
   </div>
   <div class="rd-list" id="list" translate="no"></div>
+  <div class="rd-prog" id="prog" translate="no"></div>
   <div id="doc"></div>
 </div>
 <script>
@@ -82,10 +85,10 @@ function render(){
     var m=(x.m||{})[i],n=(x.n||{})[i]||'';
     h+='<div class="pg'+(m?' mark':'')+(n?' has-note':'')+'" data-i="'+i+'"><span class="n" translate="no">'+(i+1)+'</span>'+
       '<div class="ops" translate="no"><button data-a="mark">划重点</button><button data-a="note">笔记</button><button data-a="say">朗读</button></div>'+
-      '<p class="en" translate="no">'+esc(p)+'</p><p class="zh">'+esc(p)+'</p>'+
+      '<p class="en" translate="no">'+esc(p)+'</p>'+((x.z||{})[i]?'<p class="zh" translate="no">'+esc(x.z[i])+'</p>':'<p class="zh wait" translate="no">翻译中…</p>')+
       '<textarea class="note" translate="no" placeholder="这段的笔记 / 生词…">'+esc(n)+'</textarea></div>';
   });
-  doc.innerHTML=h;document.title=cur+' · 对照阅读';
+  doc.innerHTML=h;document.title=cur+' · 对照阅读';translateAll();
   doc.querySelectorAll('.pg').forEach(function(el){
     var i=el.dataset.i;
     el.querySelector('.ops').onclick=function(e){
@@ -96,6 +99,32 @@ function render(){
     };
     el.querySelector('.note').oninput=function(){var d=load(),x=d[cur];x.n=x.n||{};x.n[i]=this.value;save(d);el.classList.toggle('has-note',!!this.value)};
   });
+}
+var busy=false;
+function tr1(t){
+  return fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q='+encodeURIComponent(t))
+    .then(function(r){if(!r.ok)throw r.status;return r.json()})
+    .then(function(j){return (j[0]||[]).map(function(s){return s[0]||''}).join('')});
+}
+function translateAll(){
+  if(busy)return;var d=load(),k=cur,x=d[k];if(!x)return;
+  var todo=[];x.p.forEach(function(p,i){if(!(x.z||{})[i])todo.push(i)});
+  var prog=document.getElementById('prog');
+  if(!todo.length){prog.textContent='';return}
+  busy=true;var done=0,fail=0,pos=0;
+  function show(){prog.textContent='正在翻译 '+done+' / '+todo.length+(fail?'(失败 '+fail+' 段,稍后刷新页面会重试)':'')}
+  show();
+  function next(){
+    if(pos>=todo.length)return Promise.resolve();
+    var i=todo[pos++];
+    return tr1(x.p[i]).then(function(z){
+      var d=load();if(!d[k])return;d[k].z=d[k].z||{};d[k].z[i]=z;save(d);done++;
+      if(k===cur){var el=document.querySelector('.pg[data-i="'+i+'"] .zh');if(el){el.textContent=z;el.classList.remove('wait')}}
+    },function(){fail++;
+      if(k===cur){var el=document.querySelector('.pg[data-i="'+i+'"] .zh');if(el)el.textContent='(这段没翻成功,刷新页面重试)'}
+    }).then(function(){show();return next()});
+  }
+  Promise.all([next(),next(),next()]).then(function(){busy=false;if(!fail)prog.textContent='';if(k!==cur)translateAll()});
 }
 function say(t){if(!window.speechSynthesis)return;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.9;speechSynthesis.speak(u)}
 document.getElementById('file').onchange=function(){
