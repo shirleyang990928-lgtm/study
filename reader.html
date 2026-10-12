@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>对照阅读</title>
+<link rel="stylesheet" href="app.css">
+<style>
+body{background:var(--paper)}
+.rd-wrap{max-width:820px;margin:0 auto;padding:32px 20px 120px}
+.rd-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px}
+.rd-top h1{font-size:22px;color:var(--ink-deep);margin-right:auto}
+.rd-btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;text-decoration:none}
+.rd-btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.rd-tip{font-size:13.5px;color:var(--zh);background:var(--mist);border-radius:10px;padding:12px 16px;margin-bottom:22px;line-height:1.7}
+.rd-tip b{color:var(--ink-deep)}
+.rd-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.rd-list .rd-btn small{color:#8a9b98;margin-left:4px}
+.rd-list .rd-btn.on small{color:#cfe0dc}
+.pg{margin:0 0 22px;padding:0 0 18px;border-bottom:1px dashed var(--line);position:relative}
+.pg .n{position:absolute;left:-34px;top:4px;font-size:11px;color:#a3b2af;font-family:sans-serif}
+.pg .en{font-family:Georgia,'Times New Roman',serif;font-size:var(--fs,18px);line-height:1.8;color:var(--ink-deep)}
+.pg .zh{font-size:calc(var(--fs,18px) - 1px);line-height:1.85;color:var(--zh);margin-top:8px}
+.pg.mark{background:#FFF7DA;border-radius:8px}
+body.hide-zh .pg .zh{display:none}
+body.hide-zh .pg:hover .zh{display:block}
+.pg .note{display:none;width:100%;margin-top:8px;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:14px;min-height:56px}
+.pg.has-note .note,.pg.open-note .note{display:block}
+.pg .ops{position:absolute;right:0;top:-6px;display:none;gap:4px}
+.pg:hover .ops{display:flex}
+.pg .ops button{border:none;background:var(--mist);color:var(--ink);font-size:12px;border-radius:6px;padding:2px 8px;cursor:pointer}
+.empty{color:#8a9b98;text-align:center;padding:60px 0;font-size:15px}
+@media(max-width:900px){.pg .n{position:static;display:block}.pg .ops{display:flex;position:static;margin-bottom:4px}}
+</style>
+</head>
+<body class="ui">
+<div class="rd-wrap">
+  <div class="rd-top" translate="no">
+    <h1>对照阅读 · Reader</h1>
+    <a class="rd-btn" href="index.html#books">回到阅读记录</a>
+    <label class="rd-btn">载入 txt<input type="file" id="file" accept=".txt,text/plain" hidden multiple></label>
+    <button class="rd-btn on" id="tgZh">显示中文</button>
+    <button class="rd-btn" id="fsDn">A−</button><button class="rd-btn" id="fsUp">A+</button>
+    <button class="rd-btn" id="speak">朗读全文</button>
+    <button class="rd-btn" id="del">删除这篇</button>
+  </div>
+  <div class="rd-tip" translate="no">
+    <b>用法:</b>点「载入 txt」选你的章节文件 → 在页面空白处右键「翻译成中文」(Chrome / Edge)。只有每段下面那份会变中文,英文原文不动,于是就是一段英文一段中文。<br>
+    文字只存在<b>这台电脑的浏览器</b>里,不上传、不进仓库;下次打开自动还在。鼠标移到段落上可以「划重点」「笔记」「朗读」。关掉「显示中文」后,鼠标移到哪段才显示哪段中文,适合先自己读。
+  </div>
+  <div class="rd-list" id="list" translate="no"></div>
+  <div id="doc"></div>
+</div>
+<script>
+(function(){
+var LS='__reader_docs',cur=null;
+try{cur=localStorage.getItem('__reader_cur')}catch(e){}
+function load(){try{return JSON.parse(localStorage.getItem(LS))||{}}catch(e){return {}}}
+function save(d){try{localStorage.setItem(LS,JSON.stringify(d))}catch(e){alert('保存失败:浏览器存储满了或被禁用')}}
+function setCur(k){cur=k;try{k?localStorage.setItem('__reader_cur',k):localStorage.removeItem('__reader_cur')}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function split(t){
+  t=t.replace(/\r/g,'').replace(/^﻿/,'');
+  var parts=/\n\s*\n/.test(t)?t.split(/\n\s*\n/):t.split(/\n/);
+  return parts.map(function(p){return p.replace(/\s*\n\s*/g,' ').trim()}).filter(Boolean);
+}
+function renderList(){
+  var d=load(),h='';
+  Object.keys(d).sort(function(a,b){return (d[b].t||0)-(d[a].t||0)}).forEach(function(k){
+    h+='<button class="rd-btn'+(k===cur?' on':'')+'" data-k="'+esc(k)+'">'+esc(k)+'<small>'+d[k].p.length+' 段</small></button>';
+  });
+  var L=document.getElementById('list');L.innerHTML=h;
+  L.querySelectorAll('button').forEach(function(b){b.onclick=function(){setCur(b.dataset.k);render();scrollTo(0,0)}});
+}
+function render(){
+  var d=load(),doc=document.getElementById('doc');
+  if(!cur||!d[cur]){setCur(Object.keys(d)[0]||null)}
+  renderList();
+  if(!cur){doc.innerHTML='<div class="empty" translate="no">还没有载入文章。点上面「载入 txt」。</div>';return}
+  var x=d[cur],h='';
+  x.p.forEach(function(p,i){
+    var m=(x.m||{})[i],n=(x.n||{})[i]||'';
+    h+='<div class="pg'+(m?' mark':'')+(n?' has-note':'')+'" data-i="'+i+'"><span class="n" translate="no">'+(i+1)+'</span>'+
+      '<div class="ops" translate="no"><button data-a="mark">划重点</button><button data-a="note">笔记</button><button data-a="say">朗读</button></div>'+
+      '<p class="en" translate="no">'+esc(p)+'</p><p class="zh">'+esc(p)+'</p>'+
+      '<textarea class="note" translate="no" placeholder="这段的笔记 / 生词…">'+esc(n)+'</textarea></div>';
+  });
+  doc.innerHTML=h;document.title=cur+' · 对照阅读';
+  doc.querySelectorAll('.pg').forEach(function(el){
+    var i=el.dataset.i;
+    el.querySelector('.ops').onclick=function(e){
+      var a=e.target.dataset.a;if(!a)return;var d=load(),x=d[cur];
+      if(a==='mark'){x.m=x.m||{};x.m[i]=!x.m[i];el.classList.toggle('mark',!!x.m[i]);save(d)}
+      if(a==='note'){el.classList.toggle('open-note');el.querySelector('.note').focus()}
+      if(a==='say'){say(x.p[i])}
+    };
+    el.querySelector('.note').oninput=function(){var d=load(),x=d[cur];x.n=x.n||{};x.n[i]=this.value;save(d);el.classList.toggle('has-note',!!this.value)};
+  });
+}
+function say(t){if(!window.speechSynthesis)return;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.9;speechSynthesis.speak(u)}
+document.getElementById('file').onchange=function(){
+  [].slice.call(this.files).forEach(function(f){var r=new FileReader();r.onload=function(){
+    var d=load(),k=f.name.replace(/\.txt$/i,'');d[k]={p:split(r.result),t:Date.now(),m:{},n:{}};save(d);setCur(k);render();
+  };r.readAsText(f,'utf-8')});
+  this.value='';
+};
+var fs=18;try{fs=+localStorage.getItem('__reader_fs')||18}catch(e){}
+function setFs(){document.body.style.setProperty('--fs',fs+'px');try{localStorage.setItem('__reader_fs',fs)}catch(e){}}
+document.getElementById('fsUp').onclick=function(){fs=Math.min(28,fs+1);setFs()};
+document.getElementById('fsDn').onclick=function(){fs=Math.max(14,fs-1);setFs()};
+var tg=document.getElementById('tgZh'),hz=false;try{hz=localStorage.getItem('__reader_hidezh')==='1'}catch(e){}
+if(hz){document.body.classList.add('hide-zh');tg.classList.remove('on')}
+tg.onclick=function(){var h=document.body.classList.toggle('hide-zh');tg.classList.toggle('on',!h);try{localStorage.setItem('__reader_hidezh',h?'1':'0')}catch(e){}};
+document.getElementById('speak').onclick=function(){
+  if(window.speechSynthesis&&speechSynthesis.speaking){speechSynthesis.cancel();return}
+  var d=load();if(cur&&d[cur])say(d[cur].p.join('\n\n'));
+};
+document.getElementById('del').onclick=function(){var d=load();if(cur&&d[cur]&&confirm('删除「'+cur+'」?(只删这台电脑上的)')){delete d[cur];save(d);setCur(null);render()}};
+setFs();render();
+})();
+</script>
+</body>
+</html>
