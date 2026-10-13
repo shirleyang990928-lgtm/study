@@ -596,6 +596,8 @@ function vocabPool(){
   C.pages.forEach(function(x){var v=readJ(x.key+'-vocab',[]);
     if(Array.isArray(v))v.forEach(function(w){if(w&&w.word&&w.known===false&&(w.zh||w.def))ws.push({kind:'vocab',key:x.key,word:w.word,zh:w.zh||'',def:w.def||'',title:x.title,file:x.file,disc:x.discipline||x.program||''})});
   });
+  var rv=readJ('__reader-vocab',[]);
+  if(Array.isArray(rv))rv.forEach(function(w){if(w&&w.word&&w.known===false&&(w.zh||w.def))ws.push({kind:'vocab',key:'__reader',word:w.word,zh:w.zh||'',def:w.def||'',title:'对照阅读'+(w.sec?' · '+w.sec:''),file:'reader.html',disc:'language'})});
   return ws;
 }
 function quizNext(){

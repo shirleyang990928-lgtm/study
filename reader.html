@@ -17,22 +17,43 @@ body{background:var(--paper)}
 .rd-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
 .rd-list .rd-btn small{color:#8a9b98;margin-left:4px}
 .rd-list .rd-btn.on small{color:#cfe0dc}
-.pg{margin:0 0 22px;padding:0 0 18px;border-bottom:1px dashed var(--line);position:relative}
+.pg{margin:0 0 22px;padding:0 0 12px;border-bottom:1px dashed var(--line);position:relative}
 .pg .n{position:absolute;left:-34px;top:4px;font-size:11px;color:#a3b2af;font-family:sans-serif}
 .pg .en{font-family:Georgia,'Times New Roman',serif;font-size:var(--fs,18px);line-height:1.8;color:var(--ink-deep)}
+.pg .en mark{background:#FFE89A;color:inherit;border-radius:3px;padding:0 1px;cursor:pointer}
 .pg .zh{font-size:calc(var(--fs,18px) - 1px);line-height:1.85;color:var(--zh);margin-top:8px}
 .pg.mark{background:#FFF7DA;border-radius:8px}
 body.hide-zh .pg .zh{display:none}
 body.hide-zh .pg:hover .zh{display:block}
-.pg .note{display:none;width:100%;margin-top:8px;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:14px;min-height:56px}
+.pg .note{display:none;width:100%;margin-top:8px;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:14px;min-height:56px;box-sizing:border-box}
 .pg.has-note .note,.pg.open-note .note{display:block}
-.pg .ops{position:absolute;right:0;top:-6px;display:none;gap:4px}
-.pg:hover .ops{display:flex}
+.pg .ops{display:flex;gap:4px;justify-content:flex-end;margin-top:6px;opacity:.3;transition:opacity .15s}
+.pg:hover .ops{opacity:1}
 .pg .ops button{border:none;background:var(--mist);color:var(--ink);font-size:12px;border-radius:6px;padding:2px 8px;cursor:pointer}
+.pg .ops button.on{background:var(--ink);color:#fff}
 .pg .zh.wait{color:#b5c2bf;font-style:italic}
 .rd-prog{font-size:13px;color:var(--zh);margin:-8px 0 16px}
 .empty{color:#8a9b98;text-align:center;padding:60px 0;font-size:15px}
-@media(max-width:900px){.pg .n{position:static;display:block}.pg .ops{display:flex;position:static;margin-bottom:4px}}
+.rd-panel{display:none;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:20px}
+.rd-panel.open{display:block}
+.rd-panel h3{font-size:15px;margin:0 0 10px;color:var(--ink-deep)}
+.rd-panel textarea{width:100%;box-sizing:border-box;min-height:180px;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:14px}
+.rd-panel input{border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:14px;width:260px;max-width:100%}
+.vrow{display:flex;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.vrow:last-child{border-bottom:none}
+.vrow .w{font-family:Georgia,serif;font-size:16px;color:var(--ink-deep);min-width:110px}
+.vrow .z{color:var(--zh);flex:1}
+.vrow .c{display:block;color:#8a9b98;font-size:12.5px;margin-top:2px}
+.vrow.known{opacity:.45}
+.vrow button{border:none;background:var(--mist);color:var(--ink);font-size:12px;border-radius:6px;padding:2px 8px;cursor:pointer;white-space:nowrap}
+#pop{position:fixed;z-index:50;display:none;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.14);padding:12px 14px;width:300px;max-width:calc(100vw - 32px);font-size:14px}
+#pop .pw{font-family:Georgia,serif;font-size:18px;color:var(--ink-deep);word-break:break-word}
+#pop .pz{color:var(--ink);margin-top:6px;font-size:15px}
+#pop .pd{color:var(--zh);margin-top:4px;font-size:13px;line-height:1.6}
+#pop .pb{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+#pop .pb button{border:1px solid var(--line);background:var(--mist);color:var(--ink);font-size:12.5px;border-radius:6px;padding:3px 9px;cursor:pointer}
+#pop .pb button.done{background:var(--ink);color:#fff;border-color:var(--ink)}
+@media(max-width:900px){.pg .n{position:static;display:block}.pg .ops{opacity:1}}
 </style>
 </head>
 <body class="ui">
@@ -40,7 +61,9 @@ body.hide-zh .pg:hover .zh{display:block}
   <div class="rd-top" translate="no">
     <h1>对照阅读 · Reader</h1>
     <a class="rd-btn" href="index.html#books">回到阅读记录</a>
-    <label class="rd-btn">载入 txt<input type="file" id="file" accept=".txt,text/plain" hidden multiple></label>
+    <label class="rd-btn">载入文件<input type="file" id="file" accept=".txt,.pdf,.docx,.epub,text/plain,application/pdf,image/*" hidden multiple></label>
+    <button class="rd-btn" id="paste">粘贴文字</button>
+    <button class="rd-btn" id="vocabBtn">生词本</button>
     <button class="rd-btn on" id="tgZh">显示中文</button>
     <button class="rd-btn" id="fsDn">A−</button><button class="rd-btn" id="fsUp">A+</button>
     <button class="rd-btn" id="speak">朗读全文</button>
@@ -48,30 +71,40 @@ body.hide-zh .pg:hover .zh{display:block}
     <button class="rd-btn" id="del">删除这篇</button>
   </div>
   <div class="rd-tip" translate="no">
-    <b>用法:</b>点「载入 txt」选你的章节文件,页面会自动把每段翻成中文(机器翻译,翻好存在本机,下次不用再翻),一段英文一段中文。<br>
-    文字只存在<b>这台电脑的浏览器</b>里,不上传、不进仓库;下次打开自动还在。鼠标移到段落上可以「划重点」「笔记」「朗读」。关掉「显示中文」后,鼠标移到哪段才显示哪段中文,适合先自己读。
+    <b>载入:</b>「载入文件」支持 txt、PDF、Word(docx)、epub、图片。扫描版 PDF 和照片会在浏览器里自动做文字识别(OCR),比较慢,可能有错字。也可以「粘贴文字」。所有文件都在这台电脑上处理,不上传、不进仓库。<br>
+    <b>读:</b>每段自动翻成中文(机器翻译,存在本机)。<b>用鼠标选中一个词或短语</b>,马上显示中文和词典释义,可以「存入生词本」(会进总目录的「今日复习」)、「划线」、「记到笔记」。点黄色划线可以取消。每段下方有「整段重点」「笔记」「朗读」。关掉「显示中文」后,鼠标移到哪段才显示哪段中文。
   </div>
+  <div class="rd-panel" id="pastePanel" translate="no">
+    <h3>粘贴文字</h3>
+    <p style="margin:0 0 8px"><input id="pasteName" placeholder="给这篇起个名字"></p>
+    <textarea id="pasteText" placeholder="把英文贴在这里,段与段之间空一行最好"></textarea>
+    <p style="margin:8px 0 0"><button class="rd-btn on" id="pasteOk">载入</button> <button class="rd-btn" id="pasteNo">取消</button></p>
+  </div>
+  <div class="rd-panel" id="vocabPanel" translate="no"></div>
   <div class="rd-list" id="list" translate="no"></div>
   <div class="rd-prog" id="prog" translate="no"></div>
   <div id="doc"></div>
 </div>
+<div id="pop" translate="no"></div>
 <script>
 (function(){
-var LS='__reader_docs',cur=null;
+var LS='__reader_docs',VK='__reader-vocab',cur=null;
 try{cur=localStorage.getItem('__reader_cur')}catch(e){}
 function load(){try{return JSON.parse(localStorage.getItem(LS))||{}}catch(e){return {}}}
 function save(d){try{localStorage.setItem(LS,JSON.stringify(d))}catch(e){alert('保存失败:浏览器存储满了或被禁用')}}
 function setCur(k){cur=k;try{k?localStorage.setItem('__reader_cur',k):localStorage.removeItem('__reader_cur')}catch(e){}}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function $(id){return document.getElementById(id)}
+function prog(t){$('prog').textContent=t||''}
 function split(t){
-  t=t.replace(/\r/g,'').replace(/^﻿/,'');
+  t=t.replace(/\r/g,'').replace(/^﻿/,'').replace(/([A-Za-z])-\n\s*([a-z])/g,'$1$2');
   var parts=/\n\s*\n/.test(t)?t.split(/\n\s*\n/):t.split(/\n/);
   parts=parts.map(function(p){return p.replace(/\(\s*page\s*\d+\s*\)/gi,' ').replace(/\s*\n\s*/g,' ').replace(/ {2,}/g,' ').trim()})
     .filter(function(p){return p&&!/^\d{1,4}$/.test(p)});
   var out=[];
   parts.forEach(function(p){
     var prev=out[out.length-1];
-    if(prev&&(!/[.!?'"\u2019\u201d:;)\u2014-]$/.test(prev)||/^[a-z]/.test(p)))out[out.length-1]=prev+' '+p;
+    if(prev&&(!/[.!?'"’”:;)—-]$/.test(prev)||/^[a-z]/.test(p)))out[out.length-1]=prev+' '+p;
     else out.push(p);
   });
   return out;
@@ -85,42 +118,58 @@ function migrate(){
     x.p=np;x.z={};x.v=VER;ch=true;});
   if(ch)save(d);
 }
+function addDoc(k,text){
+  var p=split(text);
+  if(!p.length){alert('「'+k+'」里没读到文字');return}
+  var d=load();d[k]={p:p,t:Date.now(),m:{},n:{},h:{},v:VER};save(d);setCur(k);render();scrollTo(0,0);
+}
 function renderList(){
   var d=load(),h='';
   Object.keys(d).sort(function(a,b){return (d[b].t||0)-(d[a].t||0)}).forEach(function(k){
     h+='<button class="rd-btn'+(k===cur?' on':'')+'" data-k="'+esc(k)+'">'+esc(k)+'<small>'+d[k].p.length+' 段</small></button>';
   });
-  var L=document.getElementById('list');L.innerHTML=h;
+  var L=$('list');L.innerHTML=h;
   L.querySelectorAll('button').forEach(function(b){b.onclick=function(){setCur(b.dataset.k);render();scrollTo(0,0)}});
 }
+function enHtml(p,hs){
+  var h=esc(p);
+  (hs||[]).forEach(function(s){var e=esc(s);if(e&&h.indexOf(e)>=0)h=h.split(e).join('<mark data-h="'+e+'">'+e+'</mark>')});
+  return h;
+}
 function render(){
-  var d=load(),doc=document.getElementById('doc');
+  var d=load(),doc=$('doc');
   if(!cur||!d[cur]){setCur(Object.keys(d)[0]||null)}
   renderList();
-  if(!cur){doc.innerHTML='<div class="empty" translate="no">还没有载入文章。点上面「载入 txt」。</div>';return}
+  if(!cur){doc.innerHTML='<div class="empty" translate="no">还没有载入文章。点上面「载入文件」或「粘贴文字」。</div>';return}
   var x=d[cur],h='';
   x.p.forEach(function(p,i){
     var m=(x.m||{})[i],n=(x.n||{})[i]||'';
     h+='<div class="pg'+(m?' mark':'')+(n?' has-note':'')+'" data-i="'+i+'"><span class="n" translate="no">'+(i+1)+'</span>'+
-      '<div class="ops" translate="no"><button data-a="mark">划重点</button><button data-a="note">笔记</button><button data-a="say">朗读</button></div>'+
-      '<p class="en" translate="no">'+esc(p)+'</p>'+((x.z||{})[i]?'<p class="zh" translate="no">'+esc(x.z[i])+'</p>':'<p class="zh wait" translate="no">翻译中…</p>')+
-      '<textarea class="note" translate="no" placeholder="这段的笔记 / 生词…">'+esc(n)+'</textarea></div>';
+      '<p class="en" translate="no">'+enHtml(p,(x.h||{})[i])+'</p>'+((x.z||{})[i]?'<p class="zh" translate="no">'+esc(x.z[i])+'</p>':'<p class="zh wait" translate="no">翻译中…</p>')+
+      '<textarea class="note" translate="no" placeholder="这段的笔记 / 生词…">'+esc(n)+'</textarea>'+
+      '<div class="ops" translate="no"><button data-a="mark"'+(m?' class="on"':'')+'>整段重点</button><button data-a="note">笔记</button><button data-a="say">朗读</button></div></div>';
   });
   doc.innerHTML=h;document.title=cur+' · 对照阅读';translateAll();
   doc.querySelectorAll('.pg').forEach(function(el){
     var i=el.dataset.i;
     el.querySelector('.ops').onclick=function(e){
       var a=e.target.dataset.a;if(!a)return;var d=load(),x=d[cur];
-      if(a==='mark'){x.m=x.m||{};x.m[i]=!x.m[i];el.classList.toggle('mark',!!x.m[i]);save(d)}
+      if(a==='mark'){x.m=x.m||{};x.m[i]=!x.m[i];el.classList.toggle('mark',!!x.m[i]);e.target.classList.toggle('on',!!x.m[i]);save(d)}
       if(a==='note'){el.classList.toggle('open-note');el.querySelector('.note').focus()}
       if(a==='say'){say(x.p[i])}
     };
     el.querySelector('.note').oninput=function(){var d=load(),x=d[cur];x.n=x.n||{};x.n[i]=this.value;save(d);el.classList.toggle('has-note',!!this.value)};
+    el.querySelector('.en').onclick=function(e){
+      var mk=e.target.closest('mark');if(!mk||String(getSelection()).trim())return;
+      var d=load(),x=d[cur],a=(x.h||{})[i]||[],t=mk.textContent;
+      x.h[i]=a.filter(function(s){return s!==t});save(d);
+      this.innerHTML=enHtml(x.p[i],x.h[i]);
+    };
   });
 }
 var busy=false;
-function latin(z){var a=(z.match(/[A-Za-z]/g)||[]).length,c=(z.match(/[\u4e00-\u9fff]/g)||[]).length;return a>c*0.6}
-function prep(t){return t.replace(/(^|[\s(\u2014-])'/g,'$1"').replace(/'(?=[\s,.!?;:)\u2014-]|$)/g,'"')}
+function latin(z){var a=(z.match(/[A-Za-z]/g)||[]).length,c=(z.match(/[一-鿿]/g)||[]).length;return a>c*0.6}
+function prep(t){return t.replace(/(^|[\s(—-])'/g,'$1"').replace(/'(?=[\s,.!?;:)—-]|$)/g,'"')}
 function tr1(t){
   t=prep(t);
   return tr0(t).then(function(z){
@@ -129,18 +178,18 @@ function tr1(t){
     return Promise.all(ss.map(tr0)).then(function(a){return a.join('')});
   });
 }
+var GTX='https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&hl=zh-CN';
 function tr0(t){
-  return fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q='+encodeURIComponent(t))
+  return fetch(GTX+'&dt=t&q='+encodeURIComponent(t))
     .then(function(r){if(!r.ok)throw r.status;return r.json()})
     .then(function(j){return (j[0]||[]).map(function(s){return s[0]||''}).join('')});
 }
 function translateAll(){
   if(busy)return;var d=load(),k=cur,x=d[k];if(!x)return;
   var todo=[];x.p.forEach(function(p,i){if(!(x.z||{})[i])todo.push(i)});
-  var prog=document.getElementById('prog');
-  if(!todo.length){prog.textContent='';return}
+  if(!todo.length){prog('');return}
   busy=true;var done=0,fail=0,pos=0;
-  function show(){prog.textContent='正在翻译 '+done+' / '+todo.length+(fail?'(失败 '+fail+' 段,稍后刷新页面会重试)':'')}
+  function show(){prog('正在翻译 '+done+' / '+todo.length+(fail?'(失败 '+fail+' 段,稍后刷新页面会重试)':''))}
   show();
   function next(){
     if(pos>=todo.length)return Promise.resolve();
@@ -152,29 +201,221 @@ function translateAll(){
       if(k===cur){var el=document.querySelector('.pg[data-i="'+i+'"] .zh');if(el)el.textContent='(这段没翻成功,刷新页面重试)'}
     }).then(function(){show();return next()});
   }
-  Promise.all([next(),next(),next()]).then(function(){busy=false;if(!fail)prog.textContent='';if(k!==cur)translateAll()});
+  Promise.all([next(),next(),next()]).then(function(){busy=false;if(!fail)prog('');if(k!==cur)translateAll()});
 }
 function say(t){if(!window.speechSynthesis)return;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.9;speechSynthesis.speak(u)}
-document.getElementById('file').onchange=function(){
-  [].slice.call(this.files).forEach(function(f){var r=new FileReader();r.onload=function(){
-    var d=load(),k=f.name.replace(/\.txt$/i,'');d[k]={p:split(r.result),t:Date.now(),m:{},n:{},v:VER};save(d);setCur(k);render();
-  };r.readAsText(f,'utf-8')});
-  this.value='';
+
+/* ---------- 选词:翻译 + 生词本 + 划线 ---------- */
+function vload(){try{var v=JSON.parse(localStorage.getItem(VK));return Array.isArray(v)?v:[]}catch(e){return []}}
+function vsave(v){try{localStorage.setItem(VK,JSON.stringify(v))}catch(e){alert('保存失败')}vcount()}
+function vcount(){var n=vload().filter(function(w){return !w.known}).length;$('vocabBtn').textContent='生词本'+(n?' ('+n+')':'')}
+var pop=$('pop'),sel=null;
+function hidePop(){pop.style.display='none';sel=null}
+function sentenceOf(p,w){
+  var ss=p.match(/[^.!?]+[.!?]+["'’”]?\s*|[^.!?]+$/g)||[p];
+  for(var k=0;k<ss.length;k++)if(ss[k].indexOf(w)>=0)return ss[k].trim();
+  return '';
+}
+function lookup(w){
+  return fetch(GTX+'&dt=t&dt=bd&q='+encodeURIComponent(w)).then(function(r){if(!r.ok)throw r.status;return r.json()}).then(function(j){
+    var zh=(j[0]||[]).map(function(s){return s[0]||''}).join('');
+    var def=(j[1]||[]).map(function(b){return b[0]+' '+(b[1]||[]).slice(0,4).join('; ')}).join(' / ');
+    return {zh:zh,def:def};
+  });
+}
+function showPop(){
+  var s=getSelection();if(!s.rangeCount)return;
+  var t=String(s).replace(/\s+/g,' ').trim().replace(/^[^A-Za-z]+|[^A-Za-z]+$/g,'');
+  if(!t||t.length>80||t.split(' ').length>8){hidePop();return}
+  var r=s.getRangeAt(0),en=(r.commonAncestorContainer.nodeType===1?r.commonAncestorContainer:r.commonAncestorContainer.parentNode).closest('.en');
+  if(!en){hidePop();return}
+  var pg=en.closest('.pg'),i=pg.dataset.i,d=load(),x=d[cur];
+  var word=t.split(' ').length===1?t.toLowerCase():t;
+  if(/^[A-Z][a-z]/.test(t)&&t.split(' ').length===1)word=t;
+  sel={w:t,word:word,i:i,ctx:sentenceOf(x.p[i],t),zh:'',def:''};
+  var have=vload().some(function(v){return v.word.toLowerCase()===word.toLowerCase()});
+  pop.innerHTML='<div class="pw">'+esc(t)+'</div><div class="pz">查询中…</div><div class="pd"></div>'+
+    '<div class="pb"><button data-a="say">朗读</button><button data-a="vocab"'+(have?' class="done"':'')+'>'+(have?'已在生词本':'存入生词本')+'</button>'+
+    '<button data-a="hl">划线</button><button data-a="note">记到笔记</button></div>';
+  var rc=r.getBoundingClientRect();pop.style.display='block';
+  var pw=pop.offsetWidth,ph=pop.offsetHeight;
+  var left=Math.max(16,Math.min(rc.left,innerWidth-pw-16));
+  var top=rc.bottom+8;if(top+ph>innerHeight-8)top=Math.max(8,rc.top-ph-8);
+  pop.style.left=left+'px';pop.style.top=top+'px';
+  var me=sel;
+  lookup(t).then(function(o){if(sel!==me)return;me.zh=o.zh;me.def=o.def;
+    pop.querySelector('.pz').textContent=o.zh||'';pop.querySelector('.pd').textContent=o.def||'';
+  },function(){if(sel===me)pop.querySelector('.pz').textContent='(查询失败,检查网络)'});
+}
+document.addEventListener('mouseup',function(e){if(pop.contains(e.target))return;setTimeout(showPop,10)});
+document.addEventListener('touchend',function(e){if(pop.contains(e.target))return;setTimeout(showPop,300)});
+document.addEventListener('mousedown',function(e){if(!pop.contains(e.target))hidePop()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')hidePop()});
+addEventListener('scroll',function(){if(pop.style.display==='block')hidePop()},{passive:true});
+pop.onclick=function(e){
+  var b=e.target.closest('button');if(!b||!sel)return;var a=b.dataset.a;
+  if(a==='say')say(sel.w);
+  if(a==='vocab'){
+    var v=vload(),lw=sel.word.toLowerCase(),ex=v.filter(function(w){return w.word.toLowerCase()===lw})[0];
+    if(ex){ex.known=false}
+    else v.unshift({word:sel.word,phonetic:'',zh:sel.zh,def:sel.def,known:false,sec:cur,ctx:sel.ctx,ts:Date.now()});
+    vsave(v);b.textContent='已在生词本';b.classList.add('done');renderVocab();
+  }
+  if(a==='hl'){
+    var d=load(),x=d[cur];x.h=x.h||{};var arr=x.h[sel.i]=x.h[sel.i]||[];
+    if(arr.indexOf(sel.w)<0)arr.push(sel.w);save(d);
+    var en=document.querySelector('.pg[data-i="'+sel.i+'"] .en');if(en)en.innerHTML=enHtml(x.p[sel.i],arr);
+    getSelection().removeAllRanges();hidePop();
+  }
+  if(a==='note'){
+    var d=load(),x=d[cur];x.n=x.n||{};var line=sel.w+(sel.zh?' — '+sel.zh:'');
+    x.n[sel.i]=(x.n[sel.i]?x.n[sel.i]+'\n':'')+line;save(d);
+    var el=document.querySelector('.pg[data-i="'+sel.i+'"]');
+    if(el){var ta=el.querySelector('.note');ta.value=x.n[sel.i];el.classList.add('has-note')}
+    getSelection().removeAllRanges();hidePop();
+  }
 };
+function renderVocab(){
+  var P=$('vocabPanel');if(!P.classList.contains('open'))return;
+  var v=vload(),h='<h3>生词本 · '+v.filter(function(w){return !w.known}).length+' 个在学</h3>';
+  if(!v.length)h+='<div style="color:#8a9b98;font-size:14px">还没有生词。在正文里选中一个词,点「存入生词本」。</div>';
+  v.forEach(function(w,k){
+    h+='<div class="vrow'+(w.known?' known':'')+'" data-k="'+k+'"><span class="w">'+esc(w.word)+'</span><span class="z">'+esc(w.zh||'')+
+      (w.def?' <span style="color:#8a9b98">'+esc(w.def)+'</span>':'')+(w.ctx?'<span class="c">'+esc(w.ctx)+(w.sec?' — '+esc(w.sec):'')+'</span>':'')+'</span>'+
+      '<button data-a="say">朗读</button><button data-a="known">'+(w.known?'重新学':'已掌握')+'</button><button data-a="rm">删除</button></div>';
+  });
+  h+='<p style="margin:10px 0 0;font-size:12.5px;color:#8a9b98">「在学」的词会出现在总目录大脑库的「今日复习」里(中文面朝上,回想英文)。</p>';
+  P.innerHTML=h;
+}
+$('vocabPanel').onclick=function(e){
+  var b=e.target.closest('button');if(!b)return;var k=+b.closest('.vrow').dataset.k,v=vload(),w=v[k];if(!w)return;
+  if(b.dataset.a==='say')return say(w.word);
+  if(b.dataset.a==='known')w.known=!w.known;
+  if(b.dataset.a==='rm'){if(!confirm('删除「'+w.word+'」?'))return;v.splice(k,1)}
+  vsave(v);renderVocab();
+};
+$('vocabBtn').onclick=function(){var P=$('vocabPanel');P.classList.toggle('open');this.classList.toggle('on',P.classList.contains('open'));renderVocab()};
+
+/* ---------- 载入文件:txt / pdf / docx / epub / 图片(OCR) ---------- */
+var libs={};
+function lib(u){return libs[u]||(libs[u]=new Promise(function(ok,no){var s=document.createElement('script');s.src=u;s.onload=ok;s.onerror=function(){delete libs[u];no('组件载入失败,检查网络')};document.head.appendChild(s)}))}
+var PDFJS='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
+    PDFW='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js',
+    TESS='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js',
+    MAMMOTH='https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js',
+    JSZIP='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+function readAs(f,how){return new Promise(function(ok,no){var r=new FileReader();r.onload=function(){ok(r.result)};r.onerror=no;r[how](f,how==='readAsText'?'utf-8':undefined)})}
+var ocrW=null;
+function ocr(src,label){
+  return lib(TESS).then(function(){
+    if(!ocrW)ocrW=Tesseract.createWorker('eng',1,{logger:function(m){if(m.status==='recognizing text')prog(label+' · 识别中 '+Math.round(m.progress*100)+'%')}});
+    return ocrW;
+  }).then(function(w){prog(label+' · 识别中…');return w.recognize(src)}).then(function(r){return r.data.text});
+}
+function pdfText(buf,name){
+  return lib(PDFJS).then(function(){
+    pdfjsLib.GlobalWorkerOptions.workerSrc=PDFW;
+    return pdfjsLib.getDocument({data:buf}).promise;
+  }).then(function(pdf){
+    var pages=[],n=pdf.numPages,chars=0;
+    function textPage(k){
+      if(k>n)return Promise.resolve();
+      prog('「'+name+'」读取第 '+k+' / '+n+' 页');
+      return pdf.getPage(k).then(function(pg){return pg.getTextContent()}).then(function(tc){
+        var lines=[],last=null;
+        tc.items.forEach(function(it){
+          if(!('str' in it))return;var y=Math.round(it.transform[5]),hgt=Math.abs(it.transform[3])||10;
+          if(!last||Math.abs(y-last.y)>hgt*0.5){last={y:y,h:hgt,t:''};lines.push(last)}
+          last.t+=it.str;
+        });
+        var gaps=[];for(var q=1;q<lines.length;q++)gaps.push(lines[q-1].y-lines[q].y);
+        var med=gaps.slice().filter(function(g){return g>0}).sort(function(a,b){return a-b})[Math.floor(gaps.length/2)]||12;
+        var out='';
+        lines.forEach(function(l,q){if(q&&gaps[q-1]>med*1.5)out+='\n';out+=l.t+'\n'});
+        chars+=out.replace(/\s/g,'').length;pages.push(out);
+        return textPage(k+1);
+      });
+    }
+    return textPage(1).then(function(){
+      if(chars>=n*30)return pages.join('\n\n');
+      if(!confirm('「'+name+'」看起来是扫描版(没有文字层),要用文字识别(OCR)吗?共 '+n+' 页,每页大约 5–20 秒。'))return '';
+      var txt=[];
+      function ocrPage(k){
+        if(k>n)return Promise.resolve();
+        return pdf.getPage(k).then(function(pg){
+          var vp=pg.getViewport({scale:2}),c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;
+          return pg.render({canvasContext:c.getContext('2d'),viewport:vp}).promise.then(function(){return ocr(c,'「'+name+'」第 '+k+' / '+n+' 页')});
+        }).then(function(t){txt.push(t);return ocrPage(k+1)});
+      }
+      return ocrPage(1).then(function(){return txt.join('\n\n')});
+    });
+  });
+}
+function docxText(buf){return lib(MAMMOTH).then(function(){return mammoth.extractRawText({arrayBuffer:buf})}).then(function(r){return r.value})}
+function epubText(buf){
+  return lib(JSZIP).then(function(){return JSZip.loadAsync(buf)}).then(function(z){
+    var dp=new DOMParser();
+    return z.file('META-INF/container.xml').async('string').then(function(c){
+      var opf=dp.parseFromString(c,'application/xml').querySelector('rootfile').getAttribute('full-path'),base=opf.replace(/[^\/]*$/,'');
+      return z.file(opf).async('string').then(function(o){
+        var x=dp.parseFromString(o,'application/xml'),man={};
+        [].forEach.call(x.getElementsByTagName('item'),function(it){man[it.getAttribute('id')]=it.getAttribute('href')});
+        var hrefs=[].map.call(x.getElementsByTagName('itemref'),function(r){return man[r.getAttribute('idref')]}).filter(Boolean);
+        return Promise.all(hrefs.map(function(h){var f=z.file(base+decodeURIComponent(h.split('#')[0]));return f?f.async('string'):''}));
+      });
+    }).then(function(htmls){
+      return htmls.map(function(h){
+        var doc=dp.parseFromString(h,'text/html'),bs=doc.querySelectorAll('p,h1,h2,h3,h4,h5,li,blockquote');
+        if(!bs.length)return (doc.body&&doc.body.textContent)||'';
+        return [].map.call(bs,function(b){return b.textContent.replace(/\s+/g,' ').trim()}).filter(Boolean).join('\n\n');
+      }).join('\n\n');
+    });
+  });
+}
+function base(n){return n.replace(/\.(txt|pdf|docx|epub|png|jpe?g|gif|webp|bmp|tiff?|heic)$/i,'')}
+$('file').onchange=function(){
+  var files=[].slice.call(this.files);this.value='';
+  var imgs=files.filter(function(f){return /^image\//.test(f.type)}).sort(function(a,b){return a.name.localeCompare(b.name,undefined,{numeric:true})});
+  var rest=files.filter(function(f){return !/^image\//.test(f.type)});
+  var chain=Promise.resolve();
+  rest.forEach(function(f){chain=chain.then(function(){
+    var n=f.name,k=base(n);
+    if(/\.pdf$/i.test(n))return readAs(f,'readAsArrayBuffer').then(function(b){return pdfText(b,n)}).then(function(t){if(t)addDoc(k,t)});
+    if(/\.docx$/i.test(n))return readAs(f,'readAsArrayBuffer').then(docxText).then(function(t){addDoc(k,t)});
+    if(/\.epub$/i.test(n)){prog('「'+n+'」读取中…');return readAs(f,'readAsArrayBuffer').then(epubText).then(function(t){addDoc(k,t)})}
+    if(/\.doc$/i.test(n)){alert('旧版 .doc 读不了,请在 Word 里另存为 .docx');return}
+    return readAs(f,'readAsText').then(function(t){addDoc(k,t)});
+  }).catch(function(e){alert('「'+f.name+'」载入失败:'+(e&&e.message||e))})});
+  if(imgs.length)chain=chain.then(function(){
+    var txt=[],q=0;
+    function one(){if(q>=imgs.length)return Promise.resolve();var f=imgs[q++];
+      return ocr(f,'图片 '+q+' / '+imgs.length).then(function(t){txt.push(t);return one()})}
+    return one().then(function(){addDoc(base(imgs[0].name)+(imgs.length>1?' 等 '+imgs.length+' 张':''),txt.join('\n\n'))});
+  }).catch(function(e){alert('图片识别失败:'+(e&&e.message||e))});
+  chain.then(function(){if(!busy)prog('')});
+};
+$('paste').onclick=function(){$('pastePanel').classList.add('open');$('pasteText').focus()};
+$('pasteNo').onclick=function(){$('pastePanel').classList.remove('open')};
+$('pasteOk').onclick=function(){
+  var t=$('pasteText').value.trim();if(!t)return;
+  var k=$('pasteName').value.trim()||('粘贴 '+new Date().toLocaleDateString('zh-CN'));
+  $('pastePanel').classList.remove('open');$('pasteText').value='';$('pasteName').value='';addDoc(k,t);
+};
+
 var fs=18;try{fs=+localStorage.getItem('__reader_fs')||18}catch(e){}
 function setFs(){document.body.style.setProperty('--fs',fs+'px');try{localStorage.setItem('__reader_fs',fs)}catch(e){}}
-document.getElementById('fsUp').onclick=function(){fs=Math.min(28,fs+1);setFs()};
-document.getElementById('fsDn').onclick=function(){fs=Math.max(14,fs-1);setFs()};
-var tg=document.getElementById('tgZh'),hz=false;try{hz=localStorage.getItem('__reader_hidezh')==='1'}catch(e){}
+$('fsUp').onclick=function(){fs=Math.min(28,fs+1);setFs()};
+$('fsDn').onclick=function(){fs=Math.max(14,fs-1);setFs()};
+var tg=$('tgZh'),hz=false;try{hz=localStorage.getItem('__reader_hidezh')==='1'}catch(e){}
 if(hz){document.body.classList.add('hide-zh');tg.classList.remove('on')}
 tg.onclick=function(){var h=document.body.classList.toggle('hide-zh');tg.classList.toggle('on',!h);try{localStorage.setItem('__reader_hidezh',h?'1':'0')}catch(e){}};
-document.getElementById('speak').onclick=function(){
+$('speak').onclick=function(){
   if(window.speechSynthesis&&speechSynthesis.speaking){speechSynthesis.cancel();return}
   var d=load();if(cur&&d[cur])say(d[cur].p.join('\n\n'));
 };
-document.getElementById('retr').onclick=function(){var d=load();if(cur&&d[cur]&&!busy){d[cur].z={};save(d);render()}};
-document.getElementById('del').onclick=function(){var d=load();if(cur&&d[cur]&&confirm('删除「'+cur+'」?(只删这台电脑上的)')){delete d[cur];save(d);setCur(null);render()}};
-setFs();migrate();render();
+$('retr').onclick=function(){var d=load();if(cur&&d[cur]&&!busy){d[cur].z={};save(d);render()}};
+$('del').onclick=function(){var d=load();if(cur&&d[cur]&&confirm('删除「'+cur+'」?(只删这台电脑上的)')){delete d[cur];save(d);setCur(null);render()}};
+setFs();migrate();vcount();render();
 })();
 </script>
 </body>
