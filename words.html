@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>生词库</title>
+<link rel="stylesheet" href="app.css">
+<style>
+body{background:var(--paper)}
+.wd-wrap{max-width:860px;margin:0 auto;padding:32px 20px 100px}
+.wd-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.wd-top h1{font-size:22px;color:var(--ink-deep);margin:0 auto 0 0}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;text-decoration:none}
+.btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.hint{font-size:13px;color:var(--zh);line-height:1.7;margin:0 0 16px}
+.bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:18px}
+.bar input{flex:1;min-width:160px;border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:14px;background:var(--card)}
+.grp{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px 18px 10px;margin-bottom:16px}
+.grp h2{font-size:16px;color:var(--ink-deep);margin:10px 0 4px;display:flex;align-items:baseline;gap:10px}
+.grp h2 small{font-size:12.5px;color:var(--zh);font-weight:normal}
+.grp h2 a{margin-left:auto;font-size:12.5px;color:var(--ink);font-weight:normal}
+.it{display:grid;grid-template-columns:minmax(120px,190px) 1fr;gap:4px 16px;padding:12px 0;border-top:1px dashed var(--line)}
+.it .w{font-family:Georgia,serif;font-size:18px;color:var(--ink-deep)}
+.it .z{color:var(--ink)}
+.it .d{color:#8a9b98;font-size:12.5px;margin-top:2px}
+.it .c{color:#6f817d;font-size:13.5px;line-height:1.65;margin-top:5px;font-family:Georgia,serif}
+.it .c b{color:var(--ink-deep);background:#E3EEFB;font-weight:normal}
+.it .b{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.it .b button{border:none;background:var(--mist);color:var(--ink);font-size:12px;border-radius:6px;padding:3px 9px;cursor:pointer}
+.it.known .w,.it.known .z{color:#8a9b98}
+.it .tag{display:inline-block;font-size:11px;border-radius:5px;padding:0 6px;margin-left:6px;vertical-align:middle;font-family:sans-serif}
+.it .tag.l{background:#E3EEFB;color:#2f639c}
+.it .tag.k{background:var(--mist);color:var(--zh)}
+.none{color:#a3b2af;padding:30px 0;text-align:center}
+@media(max-width:600px){.it{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="ui">
+<div class="wd-wrap" translate="no">
+  <div class="wd-top">
+    <h1>生词库</h1>
+    <a class="btn" href="reader.html">对照阅读</a>
+    <a class="btn" href="index.html#books">回到阅读记录</a>
+  </div>
+  <p class="hint">所有在「对照阅读」里存过的生词,按文章分组。删除文章不会删生词。「在学」的词会进总目录的「今日复习」;记住了点「已掌握」,词还会留在这里。数据只存在这台电脑的浏览器里。</p>
+  <div class="bar">
+    <button class="btn" data-f="learn">在学</button>
+    <button class="btn" data-f="known">已掌握</button>
+    <button class="btn" data-f="all">全部</button>
+    <input id="q" placeholder="搜索单词或中文">
+  </div>
+  <div id="out"></div>
+</div>
+<script>
+var VK='__reader-vocab',F='learn';
+try{F=localStorage.getItem('__words_f')||'learn'}catch(e){}
+function $(i){return document.getElementById(i)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function reEsc(t){return t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+function vload(){try{var v=JSON.parse(localStorage.getItem(VK)||'[]');return Array.isArray(v)?v:[]}catch(e){return []}}
+function vsave(v){try{localStorage.setItem(VK,JSON.stringify(v))}catch(e){alert('保存失败')}}
+function say(t){if(!window.speechSynthesis)return;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.9;speechSynthesis.speak(u)}
+function sentenceOf(p,w){
+  p=String(p||'').replace(/\s+/g,' ');var lw=String(w||'').toLowerCase();
+  var ss=p.match(/[^.!?]+[.!?]+["'’”]?\s*|[^.!?]+$/g)||[p],s='';
+  for(var k=0;k<ss.length;k++)if(ss[k].toLowerCase().indexOf(lw)>=0){s=ss[k].trim();break}
+  if(!s)return '';
+  if(s.length>200){
+    var at=s.toLowerCase().indexOf(lw),a=Math.max(0,at-90),b=Math.min(s.length,at+lw.length+100);
+    while(a>0&&s[a-1]!==' '&&at-a<110)a--;while(b<s.length&&s[b]!==' ')b++;
+    s=(a>0?'…':'')+s.slice(a,b).trim()+(b<s.length?'…':'');
+  }
+  return s;
+}
+function hiCtx(c,w){c=esc(c);var e=esc(w);if(!e)return c;return c.replace(new RegExp('\\b('+reEsc(e)+')\\b','i'),'<b>$1</b>')}
+function render(){
+  document.querySelectorAll('[data-f]').forEach(function(b){b.classList.toggle('on',b.dataset.f===F)});
+  var all=vload(),q=$('q').value.trim().toLowerCase();
+  var nl=all.filter(function(w){return !w.known}).length,nk=all.length-nl;
+  document.querySelector('[data-f=learn]').textContent='在学 '+nl;
+  document.querySelector('[data-f=known]').textContent='已掌握 '+nk;
+  document.querySelector('[data-f=all]').textContent='全部 '+all.length;
+  var v=all.filter(function(w){
+    if(F==='learn'&&w.known)return false;if(F==='known'&&!w.known)return false;
+    return !q||(w.word||'').toLowerCase().indexOf(q)>=0||(w.zh||'').indexOf(q)>=0;
+  });
+  if(!v.length){$('out').innerHTML='<div class="none">'+(all.length?'这里没有符合的词。':'还没有生词。在「对照阅读」里选中一个词,点「存入生词本」。')+'</div>';return}
+  var g={},order=[];
+  v.forEach(function(w){var k=w.sec||'未分类';if(!g[k]){g[k]=[];order.push(k)}g[k].push(w)});
+  var h='';
+  order.forEach(function(k){
+    var ws=g[k],l=ws.filter(function(w){return !w.known}).length;
+    h+='<div class="grp"><h2>'+esc(k)+'<small>'+ws.length+' 个'+(F==='all'?' · 在学 '+l:'')+'</small>'+(k!=='未分类'?'<a href="reader.html" data-open="'+esc(k)+'">打开这篇</a>':'')+'</h2>';
+    ws.forEach(function(w){
+      var c=sentenceOf(w.ctx,w.word);
+      h+='<div class="it'+(w.known?' known':'')+'" data-w="'+esc((w.word||'').toLowerCase())+'"><div><span class="w">'+esc(w.word)+'</span>'+
+        (F==='all'?'<span class="tag '+(w.known?'k">已掌握':'l">在学')+'</span>':'')+
+        '<div class="b"><button data-a="say">朗读</button><button data-a="known">'+(w.known?'重新学':'已掌握')+'</button><button data-a="rm">删除</button></div></div>'+
+        '<div>'+(w.zh?'<div class="z">'+esc(w.zh)+'</div>':'')+(w.def?'<div class="d">'+esc(w.def)+'</div>':'')+(c?'<div class="c">'+hiCtx(c,w.word)+'</div>':'')+'</div></div>';
+    });
+    h+='</div>';
+  });
+  $('out').innerHTML=h;
+}
+document.querySelector('.bar').onclick=function(e){var b=e.target.closest('[data-f]');if(!b)return;F=b.dataset.f;try{localStorage.setItem('__words_f',F)}catch(x){}render()};
+$('q').oninput=render;
+$('out').onclick=function(e){
+  var o=e.target.closest('[data-open]');if(o){try{localStorage.setItem('__reader_cur',o.dataset.open)}catch(x){}return}
+  var b=e.target.closest('button'),it=e.target.closest('.it');if(!b||!it)return;
+  var v=vload(),k=-1;v.forEach(function(w,j){if(k<0&&(w.word||'').toLowerCase()===it.dataset.w)k=j});if(k<0)return;
+  if(b.dataset.a==='say')return say(v[k].word);
+  if(b.dataset.a==='known')v[k].known=!v[k].known;
+  if(b.dataset.a==='rm'){if(!confirm('删除「'+v[k].word+'」?'))return;v.splice(k,1)}
+  vsave(v);render();
+};
+addEventListener('storage',render);
+render();
+</script>
+</body>
+</html>
